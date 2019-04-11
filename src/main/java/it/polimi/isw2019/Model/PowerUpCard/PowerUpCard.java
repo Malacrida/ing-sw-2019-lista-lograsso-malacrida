@@ -1,4 +1,7 @@
-package it.polimi.isw2019.Model;
+package it.polimi.isw2019.Model.PowerUpCard;
+
+import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.StateCard;
 
 public interface PowerUpCard {
 
@@ -10,7 +13,7 @@ public interface PowerUpCard {
 
     public ColorCube getColor();
 
-    public boolean checkState();
+    public StateCard checkState();
 
     public boolean isAllowed();
 }

@@ -1,4 +1,7 @@
-package it.polimi.isw2019.Model;
+package it.polimi.isw2019.Model.WeaponCard;
+
+import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.StateCard;
 
 public interface WeaponCard {
     public String getName();
@@ -11,7 +14,7 @@ public interface WeaponCard {
 
     public ColorCube getColor();
 
-    public boolean checkState();
+    public StateCard checkState();
 
     public boolean isAllowed();
 
