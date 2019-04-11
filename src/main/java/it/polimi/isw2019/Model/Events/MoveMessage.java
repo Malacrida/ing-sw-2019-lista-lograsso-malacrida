@@ -16,7 +16,8 @@ public class MoveMessage {
         return this.player.getPlayer();
     }
 
+    /*
     public GameBoard getGameBoard(){
-        return this.gameboard.getGameBoard();
-    }
+       restituisce l'immagine della gameboard
+    }*/
 }
