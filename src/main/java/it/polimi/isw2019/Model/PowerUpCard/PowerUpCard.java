@@ -7,13 +7,11 @@ public interface PowerUpCard {
 
     public String getName();
 
-    public String getEffect();
+    public String getInfoEffect();
 
     public int getId();
 
     public ColorCube getColor();
 
-    public StateCard checkState();
-
-    public boolean isAllowed();
+    public StateCard getCheckState();
 }
