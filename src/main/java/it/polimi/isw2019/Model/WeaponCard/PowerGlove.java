@@ -50,4 +50,5 @@ public class PowerGlove extends AbstractWeaponCard {
     public StateCard checkState() {
         return null;
     }
+
 }

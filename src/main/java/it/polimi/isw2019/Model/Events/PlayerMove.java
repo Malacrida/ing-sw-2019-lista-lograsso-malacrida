@@ -14,7 +14,7 @@ public class PlayerMove {
         this.player = player;
         this.idAction = idAction;
         this.actionDate = actionDate;
-        this.idAction = idAction;
+
     }
 
     public Player getPlayer(){
