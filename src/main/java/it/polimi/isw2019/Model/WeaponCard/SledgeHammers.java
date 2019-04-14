@@ -2,18 +2,21 @@ package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
 import it.polimi.isw2019.Model.StateCard;
-
 import java.util.ArrayList;
 
-public class LockRifle extends AbstractWeaponCard {
+public class SledgeHammers extends AbstractWeaponCard {
 
-    public LockRifle() {
-        this.name = "Lock Rifle";
-        this.color = ColorCube.BLUE;
+    public SledgeHammers(){
+        this.name = "Sledgehammers";
         this.infoEffect = new ArrayList<String>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
-        this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
+        this.color = ColorCube.YELLOW;
+        this.infoEffect.add("Deal 2 damage to 1 target on your square.");
+        this.infoEffect.add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.");
+        this.infoEffect.add("NOTES: Remember that moves go through" +
+                "doors, but not walls.");
     }
+
+
 
 
     @Override

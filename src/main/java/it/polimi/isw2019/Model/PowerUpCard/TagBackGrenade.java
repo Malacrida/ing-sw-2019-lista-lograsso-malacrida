@@ -1,21 +1,17 @@
 package it.polimi.isw2019.Model.PowerUpCard;
 
+import it.polimi.isw2019.Model.ColorCube;
 import it.polimi.isw2019.Model.PowerUpCard.AbstractPowerUpCard;
 import it.polimi.isw2019.Model.StateCard;
 
 public class TagBackGrenade extends AbstractPowerUpCard {
 
-    private String name = "Tag Back Grenade";
-
-    private StateCard stateCard = StateCard.DECK;
-
-    @Override
-    public String getEffect() {
-        return null;
+    public TagBackGrenade(){
+        this.name = "Tag Back Grenade";
+        this.infoEffect = " You may play this card\n" +
+                "  when you receive damage\n" +
+                "  from a player you can see.\n" +
+                "  Give that player 1 mark.\n";
     }
 
-    @Override
-    public boolean isAllowed() {
-        return false;
-    }
 }

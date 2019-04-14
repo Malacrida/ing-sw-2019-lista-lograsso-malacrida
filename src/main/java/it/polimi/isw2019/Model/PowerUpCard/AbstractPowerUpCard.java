@@ -5,31 +5,34 @@ import it.polimi.isw2019.Model.StateCard;
 
 public abstract class AbstractPowerUpCard implements PowerUpCard {
 
-    private int id;
-    private String name;
-    private ColorCube color;
-    private StateCard stateCard;
+    /* Attributes */
+
+    protected int id;
+    protected String name;
+    protected ColorCube color;
+    protected String infoEffect;
+    protected StateCard checkState;
 
 
-    //Methods
-    public String getName() {
-        return name;
-    }
-
-    public void doEffect() {
-
-    }
-
+    /* Methods */
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ColorCube getColor() {
         return color;
     }
 
-    public StateCard checkState() {
-        return stateCard;
+    public String getInfoEffect(){
+        return infoEffect;
+    }
+
+    public StateCard getCheckState() {
+        return checkState;
     }
 
 }

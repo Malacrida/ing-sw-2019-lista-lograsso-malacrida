@@ -3,12 +3,15 @@ package it.polimi.isw2019.Model.WeaponCard;
 import it.polimi.isw2019.Model.ColorCube;
 import it.polimi.isw2019.Model.StateCard;
 
+import java.util.ArrayList;
+
 public abstract class AbstractWeaponCard implements WeaponCard {
-    private int id;
-    private String name;
-    private ColorCube color;
-    private ColorCube[] rechargeCube;
-    private StateCard stateCard;
+    protected int id;
+    protected String name;
+    protected ColorCube color;
+    protected ArrayList<String> infoEffect;
+    protected ArrayList<ColorCube> rechargeCube;
+    protected StateCard stateCard;
 
     //Methods
     public int getId() {
@@ -31,5 +34,6 @@ public abstract class AbstractWeaponCard implements WeaponCard {
         return stateCard;
     }
 
+    //public abstract void getInfoEffect(ArrayList<String> infoEffect);
     //aggiungere metodo is allowed
 }

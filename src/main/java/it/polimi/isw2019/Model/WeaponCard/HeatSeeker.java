@@ -5,15 +5,17 @@ import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
 
-public class LockRifle extends AbstractWeaponCard {
-
-    public LockRifle() {
-        this.name = "Lock Rifle";
-        this.color = ColorCube.BLUE;
+public class HeatSeeker extends AbstractWeaponCard {
+    public HeatSeeker(){
+        this.name = "HeatSeeker";
         this.infoEffect = new ArrayList<String>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
-        this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
+        this.color= ColorCube.RED;
+        this.infoEffect.add("EFFECT: Choose 1 target you cannot see and deal 3 damage " +
+                "to it.");
+        this.infoEffect.add("NOTE : Yes, this can only hit targets you cannot see. ");
     }
+
+
 
 
     @Override
