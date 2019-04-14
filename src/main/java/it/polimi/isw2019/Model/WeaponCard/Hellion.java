@@ -5,14 +5,19 @@ import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
 
-public class LockRifle extends AbstractWeaponCard {
+public class Hellion extends AbstractWeaponCard {
 
-    public LockRifle() {
-        this.name = "Lock Rifle";
-        this.color = ColorCube.BLUE;
+
+    public Hellion() {
+        this.name = "Hellion";
+        this.color = ColorCube.RED;
         this.infoEffect = new ArrayList<String>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
-        this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
+        this.infoEffect.add("BASIC MODE: Deal 1 damage to 1 target you can see at least\n" +
+                "1 move away. Then give 1 mark to that target and everyone\n" +
+                "else on that square.\n");
+        this.infoEffect.add("IN NANO-TRACER MODE: Deal 1 damage to 1 target you can\n" +
+                "see at least 1 move away. Then give 2 marks to that target\n" +
+                "and everyone else on that square.\n");
     }
 
 
@@ -45,5 +50,6 @@ public class LockRifle extends AbstractWeaponCard {
     @Override
     public StateCard checkState() {
         return null;
+
     }
 }

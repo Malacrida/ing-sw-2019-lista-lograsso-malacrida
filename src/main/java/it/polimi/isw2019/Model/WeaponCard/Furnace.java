@@ -5,14 +5,17 @@ import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
 
-public class LockRifle extends AbstractWeaponCard {
+public class Furnace extends AbstractWeaponCard {
 
-    public LockRifle() {
-        this.name = "Lock Rifle";
-        this.color = ColorCube.BLUE;
+    public Furnace() {
+        this.name = "Furnace";
+        this.color = ColorCube.RED;
         this.infoEffect = new ArrayList<String>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
-        this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
+        this.infoEffect.add("BASIC EFFECT: Choose a room you can see, but not the room\n" +
+                "you are in. Deal 1 damage to everyone in that room.\n");
+        this.infoEffect.add("IN COZY FIRE MODE: Choose a square exactly one move\n" +
+                "away. Deal 1 damage and 1 mark to everyone on that\n" +
+                "square.\n");
     }
 
 
@@ -45,5 +48,6 @@ public class LockRifle extends AbstractWeaponCard {
     @Override
     public StateCard checkState() {
         return null;
+
     }
 }
