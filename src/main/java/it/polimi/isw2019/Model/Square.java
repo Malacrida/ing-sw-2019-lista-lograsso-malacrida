@@ -3,25 +3,14 @@ package it.polimi.isw2019.Model;
 import java.util.ArrayList;
 
 public abstract class Square {
-    private boolean sideN;
-    private boolean sideE;
-    private boolean sideS;
-    private boolean sideO;
-    private int squareN;
-    private int squareE;
-    private int squareS;
-    private int squareO;
-    private int squareID;
+    private Square squareN;
+    private Square squareE;
+    private Square squareS;
+    private Square squareO;
     private boolean spownpoint;
     private ArrayList<Player> players;
 
-    Square (int squareID, int squareN, int squareE, int squareO, int squareS, boolean sideN,
-            boolean sideE, boolean sideO, boolean sideS, boolean spownpoint){
-        this.squareID= squareID;
-        this.sideN=sideN;
-        this.sideE=sideE;
-        this.sideS=sideS;
-        this.sideO=sideO;
+    Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spownpoint){
         this.squareN=squareN;
         this.squareE=squareE;
         this.squareO=squareO;
@@ -33,24 +22,21 @@ public abstract class Square {
         return players;
     }
 
-    public int[] squaresAvailable (){
-        int i=0;
-        int [] squareAvailable = new int[4];
-        if (sideN){
-            squareAvailable[i]= squareN;
-            i++;
+    public ArrayList<Square> squaresAvailable (){
+        ArrayList<Square> squareAvailable = new ArrayList<Square>();
+        if (squareN!=null){
+            squareAvailable.add(squareN);
         }
-        if (sideO){
-            squareAvailable[i]= squareO;
-            i++;
+        if (squareE!=null){
+            squareAvailable.add(squareE);
         }
-        if (sideE){
-            squareAvailable[i]= squareE;
-            i++;
+        if (squareS!=null){
+            squareAvailable.add(squareS);
         }
-        if (sideS){
-            squareAvailable[i]= squareS;
+        if (squareO!=null){
+            squareAvailable.add(squareO);
         }
+
         return squareAvailable;
     }
 
@@ -70,9 +56,6 @@ public abstract class Square {
     public void removePlayers (Player player){
         players.remove(player);
     }
-
-
-
 
 
 

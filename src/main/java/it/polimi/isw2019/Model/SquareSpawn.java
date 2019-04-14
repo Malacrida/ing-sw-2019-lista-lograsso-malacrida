@@ -1,23 +1,37 @@
 package it.polimi.isw2019.Model;
 
+import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
+
+import java.util.ArrayList;
+
 public class SquareSpawn extends Square {
 
-    // Array weapons
+    private ArrayList<AbstractWeaponCard> weaponCards;
 
-    SquareSpawn(int squareID, int squareN, int squareE, int squareO, int squareS, boolean sideN, boolean sideE, boolean sideO, boolean sideS) {
-        super(squareID, squareN, squareE, squareO, squareS, sideN, sideE, sideO, sideS, true);
+    SquareSpawn(Square squareN, Square squareE, Square squareS, Square squareO) {
+        super(squareN, squareE, squareO, squareS, true);
     }
 
     public void spawnPlayer (Player player){
 
     }
 
-    public boolean takeWeapon (/*da mettere le carte*/ ){
-        //da sistemare
-        return false;
+    public boolean containsWeapon (AbstractWeaponCard weaponCard){
+        if (weaponCards.contains(weaponCard)) return true;
+        else return false;
     }
 
-    public void putNewWeponCard(){
+    public void takeWeapon (AbstractWeaponCard weaponCard){
+        if (weaponCards.contains(weaponCard)){
+            weaponCards.remove(weaponCard);
+            //Cambiare lo stato della carta
+        }
+    }
+
+    public void putNewWeponCard(AbstractWeaponCard weaponCard){
+        if (weaponCards.size()<3){
+            weaponCards.add(weaponCard);
+        }
 
     }
 }
