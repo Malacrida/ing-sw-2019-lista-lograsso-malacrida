@@ -18,6 +18,6 @@ public interface WeaponCard {
 
     public StateCard checkState();
 
-    public boolean isAllowed();
+    //public boolean isAllowed();
 
 }

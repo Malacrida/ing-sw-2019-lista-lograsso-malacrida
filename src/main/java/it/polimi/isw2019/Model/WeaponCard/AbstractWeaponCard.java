@@ -9,7 +9,7 @@ public abstract class AbstractWeaponCard implements WeaponCard {
     protected int id;
     protected String name;
     protected ColorCube color;
-    protected ArrayList<String> effect;
+    protected ArrayList<String> infoEffect;
     protected ArrayList<ColorCube> rechargeCube;
     protected StateCard stateCard;
 
@@ -34,5 +34,6 @@ public abstract class AbstractWeaponCard implements WeaponCard {
         return stateCard;
     }
 
+    //public abstract void getInfoEffect(ArrayList<String> infoEffect);
     //aggiungere metodo is allowed
 }
