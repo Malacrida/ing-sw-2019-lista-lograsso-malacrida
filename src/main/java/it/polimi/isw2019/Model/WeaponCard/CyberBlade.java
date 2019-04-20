@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class CyberBlade extends AbstractWeaponCard {
 
-    public CyberBlade(){
-        this.name = "CyberBlade";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.YELLOW;
+    public CyberBlade(int id, String name, ColorCube color){
+        super(16, "Cyber Blade", ColorCube.YELLOW);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : Deal 2 damage to 1 target on your square.\n");
         this.infoEffect.add("WITH SHADOWSTEP: move 1 square before or after the basic effect");
         this.infoEffect.add("WITH SLICE AND DICE : to a different target on your square the shadowstep may be used before or after this effect.");
@@ -24,7 +23,7 @@ public class CyberBlade extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override

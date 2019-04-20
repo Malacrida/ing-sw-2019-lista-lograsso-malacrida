@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class Electroscythe extends AbstractWeaponCard {
 
-    public Electroscythe() {
-        this.name = "Electroscythe";
-        this.color = ColorCube.BLUE;
-        this.infoEffect = new ArrayList<String>();
+    public Electroscythe(int id, String name, ColorCube color) {
+        super(6, "Electroscythe", ColorCube.BLUE);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage and to every other player on your square.\n");
         this.infoEffect.add("IN REAPER MODE: Deal 2 damage to every other player on your square. You have to pay a BLUE cube and a RED cube.\n");
     }

@@ -6,10 +6,10 @@ import it.polimi.isw2019.Model.StateCard;
 import java.util.ArrayList;
 
 public class VortexCannon extends AbstractWeaponCard {
-    public VortexCannon(){
-        this.name = "VortexCannon";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.RED;
+
+    public VortexCannon(int id, String name, ColorCube color) {
+        super(8, "Vortex Cannon", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: basic effect: Choose a square you can see, but not your" +
                 "square. Call it the vortex. Choose a target on the vortex" +
                 "or 1 move away from it. Move it onto the vortex and give it" +
@@ -22,9 +22,6 @@ public class VortexCannon extends AbstractWeaponCard {
                 "your square, on the vortex, or even on squares you can't" +
                 "see. They all end up on the vortex. ");
     }
-
-
-
 
     @Override
     public int getID() {

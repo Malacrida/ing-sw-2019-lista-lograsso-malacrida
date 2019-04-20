@@ -1,16 +1,14 @@
 package it.polimi.isw2019.Model;
 
-import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
+import it.polimi.isw2019.Model.PowerUpCard.PowerUpCardInterface;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
 
 import java.util.ArrayList;
 
 public class GameBoard {
 
-    private ArrayList<WeaponCard> weaponCards;
-    private ArrayList<PowerUpCard> powerUpCards;
+    private ArrayList<AbstractWeaponCard> weaponCards;
+    private ArrayList<PowerUpCardInterface> powerUpCards;
     private Arena gameArena;
     private GameBoard instance;
 
@@ -29,14 +27,14 @@ public class GameBoard {
         gameArena.instanceArena(num);
     }
 
-    public WeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, SquareSpawn squareSpawn){
-        if (squareSpawn.containsWeapon(weaponCard)){
-            squareSpawn.takeWeapon(weaponCard);
+    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCards, SquareSpawn squareSpawn){
+        if (squareSpawn.containsWeapon(weaponCards)){
+            squareSpawn.takeWeapon(weaponCards);
         }
-        return weaponCard;
+        return weaponCards;
     }
 
-    public PowerUpCard takePowerUpCard (PowerUpCard powerUpCard){
+    public PowerUpCardInterface takePowerUpCard (PowerUpCardInterface powerUpCard){
         powerUpCards.remove(powerUpCard);
         return powerUpCard;
     }

@@ -1,19 +1,48 @@
 package it.polimi.isw2019.Model.AmmoTile;
 
-import it.polimi.isw2019.Model.Cube;
-
 import it.polimi.isw2019.Model.StateCard;
 
-import java.util.ArrayList;
+public class AmmoTile implements AmmoTIleInterface {
 
-public interface AmmoTile {
+    private int id;
 
-    public int getId();
+    private String firstElement;
 
-    public ArrayList<Cube> getCubes();
+    private String secondElement;
 
-    public int getIdPowerUpCard();
+    private String thirdElement;
 
-    public StateCard getCheckState();
+    private StateCard checkState = StateCard.DECK;
+
+    public AmmoTile(int id, String firstElement, String secondElement, String thirdElement){
+
+        this.id = id;
+        this.firstElement = firstElement;
+        this.secondElement = secondElement;
+        this.thirdElement = thirdElement;
+
+    }
+
+
+    /* Methods */
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstElement() {
+        return firstElement;
+    }
+
+    public String getSecondElement() {
+        return secondElement;
+    }
+
+    public String getThirdElement() {
+        return thirdElement;
+    }
+
+    public StateCard getCheckState(){
+        return checkState;
+    }
 
 }

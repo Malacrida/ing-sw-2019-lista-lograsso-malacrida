@@ -6,10 +6,10 @@ import it.polimi.isw2019.Model.StateCard;
 import java.util.ArrayList;
 
 public class HeatSeeker extends AbstractWeaponCard {
-    public HeatSeeker(){
-        this.name = "HeatSeeker";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.RED;
+
+    public HeatSeeker(int id, String name, ColorCube color) {
+        super(10, "HeatSeeker", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("EFFECT: Choose 1 target you cannot see and deal 3 damage " +
                 "to it.");
         this.infoEffect.add("NOTE : Yes, this can only hit targets you cannot see. ");

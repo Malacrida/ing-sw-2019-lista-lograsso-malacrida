@@ -6,10 +6,10 @@ import it.polimi.isw2019.Model.StateCard;
 import java.util.ArrayList;
 
 public class RailGun extends AbstractWeaponCard {
-    public RailGun(){
-        this.name = "RailGun";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.YELLOW;
+
+    public RailGun(int id, String name, ColorCube color) {
+        super(15, "Rail Gun", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE : Choose a cardinal direction and 1 target in that direction deal 3 damage to it");
         this.infoEffect.add("IN PIERCING MODE:Choose a cardinal direction and 1 or 2 targets in that direction deal 2 damage to each");
         this.infoEffect.add(" NOTE : Basically, you're shooting in a straight line and ignoring walls." +
@@ -20,9 +20,6 @@ public class RailGun extends AbstractWeaponCard {
                 "direction (including yours) is a valid target. In piercing mode," +
                 "the 2 targets can be on the same square or on different squares. ");
     }
-
-
-
 
     @Override
     public int getID() {

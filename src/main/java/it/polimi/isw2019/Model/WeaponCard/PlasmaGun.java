@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class PlasmaGun extends AbstractWeaponCard{
 
-    public PlasmaGun (){
-        this.name = "Plasma Gun";
-        this.color = ColorCube.BLUE;
-        this.infoEffect = new ArrayList<String>();
+    public PlasmaGun(int id, String name, ColorCube color) {
+        super(4, "Plasma Gun", ColorCube.BLUE);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 2 damage to 1 target you can see.\n");
         this.infoEffect.add("WITH WITH PHASE GLIDE: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n");
         this.infoEffect.add("WITH CHARGED SHOT: Deal 1 additional damage to 1 additional damage to your target. You have to pay a BLUE cube.\n");
@@ -19,8 +18,8 @@ public class PlasmaGun extends AbstractWeaponCard{
                 "For example, you can move 2 squares and shoot a target" +
                 "you now see. You cannot use 1 move before shooting and " +
                 "1 move after.");
-
     }
+
 
     @Override
     public int getID() {

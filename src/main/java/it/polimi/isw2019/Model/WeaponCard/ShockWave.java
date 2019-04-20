@@ -7,16 +7,12 @@ import java.util.ArrayList;
 
 public class ShockWave extends AbstractWeaponCard {
 
-    public ShockWave(){
-        this.name = "ShockWave";
-        this.color= ColorCube.YELLOW;
-        this.infoEffect = new ArrayList<String>();
+    public ShockWave(int id, String name, ColorCube color) {
+        super(20, "Shock Wave", ColorCube.YELLOW);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : choose up to 3 targets on different squares, each exactly 1 move away deal 1 damage to each target.");
         this.infoEffect.add("TSUNAMI MODE : Deal 1 damage to all targets that are exactly 1 move away\n");
     }
-
-
-
 
     @Override
     public int getID() {

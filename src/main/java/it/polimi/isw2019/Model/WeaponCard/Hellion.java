@@ -7,11 +7,9 @@ import java.util.ArrayList;
 
 public class Hellion extends AbstractWeaponCard {
 
-
-    public Hellion() {
-        this.name = "Hellion";
-        this.color = ColorCube.RED;
-        this.infoEffect = new ArrayList<String>();
+    public Hellion(int id, String name, ColorCube color) {
+        super(11, "Hellion", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE: Deal 1 damage to 1 target you can see at least\n" +
                 "1 move away. Then give 1 mark to that target and everyone\n" +
                 "else on that square.\n");

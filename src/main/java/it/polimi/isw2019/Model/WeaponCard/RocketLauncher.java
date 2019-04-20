@@ -6,10 +6,10 @@ import it.polimi.isw2019.Model.StateCard;
 import java.util.ArrayList;
 
 public class RocketLauncher extends  AbstractWeaponCard {
-    public RocketLauncher(){
-        this.name = "RocketLauncher";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.RED;
+
+    public RocketLauncher(int id, String name, ColorCube color) {
+        super(14, "Rocket Launcher", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : basic effect: Deal 2 damage to 1 target you can see that is not on your" +
                 "square. Then you may move the target 1 square.");
         this.infoEffect.add("WITH ROCKET JUMP:Move 1 or 2 squares. This effect can be used either" +
@@ -23,9 +23,6 @@ public class RocketLauncher extends  AbstractWeaponCard {
                 "fragmenting warhead, you deal damage to everyone on the target's" +
                 "square before you move the target – your target will take 3 damage total. ");
     }
-
-
-
 
     @Override
     public int getID() {

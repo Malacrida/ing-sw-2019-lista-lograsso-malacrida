@@ -1,0 +1,366 @@
+{
+  "ammotile": [
+    {
+      "id": 1,
+      "firstElement": "YELLOW",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 2,
+      "firstElement": "YELLOW",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 3,
+      "firstElement": "YELLOW",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 4,
+      "firstElement": "RED",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 5,
+      "firstElement": "RED",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 6,
+      "firstElement": "RED",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 7,
+      "firstElement": "BLUE",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 8,
+      "firstElement": "BLUE",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 9,
+      "firstElement": "BLUE",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 10,
+      "firstElement": "RED",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 11,
+      "firstElement": "RED",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 12,
+      "firstElement": "RED",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 13,
+      "firstElement": "BLUE",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 14,
+      "firstElement": "BLUE",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 15,
+      "firstElement": "BLUE",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 16,
+      "firstElement": "YELLOW",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 17,
+      "firstElement": "YELLOW",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 18,
+      "firstElement": "YELLOW",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 19,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 20,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 21,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 22,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "YELLOW"
+    },
+    {
+      "id": 23,
+      "firstElement": "powerup",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 24,
+      "firstElement": "powerup",
+      "secondElement": "BLUE",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 25,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 26,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 27,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 28,
+      "firstElement": "powerup",
+      "secondElement": "RED",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 29,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 30,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 31,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 32,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "BLUE"
+    },
+    {
+      "id": 33,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 34,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 35,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "RED"
+    },
+    {
+      "id": 36,
+      "firstElement": "powerup",
+      "secondElement": "YELLOW",
+      "thirdElement": "RED"
+    }
+  ],
+  "powerup": [
+    {
+      "id": 1,
+      "name": "Targeting Scope",
+      "color": "RED",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 2,
+      "name": "Targeting Scope",
+      "color": "RED",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 3,
+      "name": "Targeting Scope",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 4,
+      "name": "Targeting Scope",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 5,
+      "name": "Targeting Scope",
+      "color": "BLUE",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 6,
+      "name": "Targeting Scope",
+      "color": "BLUE",
+      "infoEffect": "You may play this card when you are dealing damage to one or more targers. Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannote use this to do 1 damage to a target that is receiving only marks"
+    },
+    {
+      "id": 7,
+      "name": "Newton",
+      "color": "RED",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+     },
+    {
+      "id": 8,
+      "name": "Newton",
+      "color": "RED",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+    },
+    {
+      "id": 9,
+      "name": "Newton",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+    },
+    {
+      "id": 10,
+      "name": "Newton",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+    },
+    {
+      "id": 11,
+      "name": "Newton",
+      "color": "BLUE",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+    },
+    {
+      "id": 12,
+      "name": "Newton",
+      "color": "BLUE",
+      "infoEffect": "You may play this card on your turn before or after any action. Choose any other player's figure and move it 1 or 2 squares in one direction. (You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)"
+    },
+    {
+      "id": 13,
+      "name": "Tagback Grenade",
+      "color": "RED",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 14,
+      "name": "Tagback Grenade",
+      "color": "RED",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 15,
+      "name": "Tagback Grenade",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 16,
+      "name": "Tagback Grenade",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 17,
+      "name": "Tagback Grenade",
+      "color": "BLUE",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 18,
+      "name": "Tagback Grenade",
+      "color": "BLUE",
+      "infoEffect": "You may play this card when you receive damage from a player you can see. Give that player 1 mark."
+    },
+    {
+      "id": 19,
+      "name": "Teleporter",
+      "color": "RED",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    },
+    {
+      "id": 20,
+      "name": "Teleporter",
+      "color": "RED",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    },
+    {
+      "id": 21,
+      "name": "Teleporter",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    },
+    {
+      "id": 22,
+      "name": "Teleporter",
+      "color": "YELLOW",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    },
+    {
+      "id": 23,
+      "name": "Teleporter",
+      "color": "BLUE",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    },
+    {
+      "id": 24,
+      "name": "Teleporter",
+      "color": "BLUE",
+      "infoEffect": "You may play this card on your turn before or after any action. Pick up your figure and set it down on any square of the board. (You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)"
+    }
+  ]
+}

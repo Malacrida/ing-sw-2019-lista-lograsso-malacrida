@@ -8,10 +8,9 @@ import java.util.ArrayList;
 public class Flamethrower extends AbstractWeaponCard {
 
 
-    public Flamethrower() {
-        this.name = "Flamethrower";
-        this.color = ColorCube.RED;
-        this.infoEffect = new ArrayList<String>();
+    public Flamethrower(int id, String name, ColorCube color) {
+        super(12, "Flamethrower", ColorCube.RED);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE: Choose a square 1 move away and possibly a second square\n" +
                 "1 more move away in the same direction. On each square, you may\n" +
                 "choose 1 target and give it 1 damage.\n");

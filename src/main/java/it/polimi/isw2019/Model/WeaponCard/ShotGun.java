@@ -6,10 +6,10 @@ import it.polimi.isw2019.Model.StateCard;
 import java.util.ArrayList;
 
 public class ShotGun extends AbstractWeaponCard {
-    public ShotGun(){
-        this.name = "ShotGun";
-        this.infoEffect = new ArrayList<String>();
-        this.color= ColorCube.YELLOW;
+
+    public ShotGun(int id, String name, ColorCube color) {
+        super(18, "Shot Gun", ColorCube.YELLOW);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE : Deal 3 damage to 1 target on" +
                 "your square. If you want, you may then move" +
                 "the target 1 square.");
@@ -17,9 +17,6 @@ public class ShotGun extends AbstractWeaponCard {
                 "1 target on any square exactly one move" +
                 "away.");
     }
-
-
-
 
     @Override
     public int getID() {

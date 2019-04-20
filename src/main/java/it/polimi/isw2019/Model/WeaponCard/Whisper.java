@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class Whisper extends AbstractWeaponCard {
 
-    public Whisper() {
-        this.name = "Whisper";
-        this.color = ColorCube.BLUE;
-        this.infoEffect = new ArrayList<String>();
+    public Whisper(int id, String name, ColorCube color) {
+        super(5, "Whisper", ColorCube.BLUE);
+        this.infoEffect = new ArrayList<>();
         this.infoEffect.add("EFFECT: Deal 3 damage and 1 mark to 1 target you can see.\n" +
                 "Your target must be at least 2 moves away from you.\n");
         this.infoEffect.add("NOTES: Notes: For example, in the 2-by-2 room, you cannot shoot\n" +
@@ -19,7 +18,6 @@ public class Whisper extends AbstractWeaponCard {
                 "a target on the other side of the door, but you can shoot\n" +
                 "a target on a different square of that room.\n");
     }
-
 
     @Override
     public int getID() {
