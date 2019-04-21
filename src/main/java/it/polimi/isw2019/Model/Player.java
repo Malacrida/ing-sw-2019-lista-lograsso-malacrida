@@ -1,17 +1,16 @@
 package it.polimi.isw2019.Model;
 
 import java.util.ArrayList;
+import it.polimi.isw2019.Model.Position;
+import it.polimi.isw2019.Model.WeaponCard.*;
+import it.polimi.isw2019.Model.PlayerBoard;
 
 public class Player {
    private String name;
    private ColorPlayer color;
-   private ArrayList position;
-   private  boolean selected;// a cosa serve ??
-   private  boolean useFigure;
    private PlayerBoard playerBoard;
    private Position position;
    private ArrayList<WeaponCard> weaponCards;
-   private PlayerBoard playerBoard;
 
    //la figura può essere sostituita dal colore
    public Player(String name, ColorPlayer color, PlayerBoard playerBoard) {
@@ -41,31 +40,21 @@ public class Player {
       return this.color;
    }
 
-   public boolean getSelected() {
-      return this.selected;
-   }
+   public Position  getPosition() {
 
-   public boolean getUseFigure() {
-      return this.useFigure;
-   }
-
-   public ArrayList getPosition() {
       return this.position;
    }
-}
-   public Position getPosition() {
-      return position;
-   }
+
 
    //nel model un metodo che unisce questo del player e quello con la gameboard
    //Ricordarsi il cambio di stato
    public void takeWeaponCards(WeaponCard insertWeaponCard, WeaponCard removeWeaponCard) {
-      if (weaponCards.size()<3) {
+      if (weaponCards.size() < 3) {
          weaponCards.add(insertWeaponCard);
-      }
-      else{
+      } else {
          weaponCards.remove(removeWeaponCard);
          weaponCards.add(insertWeaponCard);
       }
+   }
    }
 
