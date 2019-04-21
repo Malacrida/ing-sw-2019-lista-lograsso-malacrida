@@ -9,7 +9,9 @@ public class PlayerMove {
     private int idAction;
     private View view;
     private ArrayList<Object> actionDate;
+    public PlayerMove(){
 
+    }
     public PlayerMove(Player player, int idAction, ArrayList<Object> actionDate, View view) {
         this.player = player;
         this.idAction = idAction;

@@ -13,7 +13,17 @@ public class Model extends Observable implements Visitable{
     private int turn;
     private GameBoard gameBoard;
     private ArrayList<Player> players;
+    private ArrayList<Player> players ;
+    private ArrayList<PlayerBoard> playerBoardsAvailable;
 
+    Model (){
+
+        playerBoardsAvailable= new ArrayList<>();
+    }
+
+    public void gameSetting (){
+        playerBoardsAvailable= SetUpGame.setPlayerBoard();
+    }
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view

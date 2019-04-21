@@ -9,17 +9,23 @@ public class Player {
    private  boolean selected;// a cosa serve ??
    private  boolean useFigure;
    private PlayerBoard playerBoard;
+   private Position position;
+   private ArrayList<WeaponCard> weaponCards;
+   private PlayerBoard playerBoard;
 
    //la figura può essere sostituita dal colore
-
    public Player(String name, ColorPlayer color, PlayerBoard playerBoard) {
       this.name = name;
-      //il colore deve essere tolto dagli altri possibili colori
       this.color = color;
-      this.playerBoard = playerBoard;
+      //il colore deve essere tolto dagli altri possibili colori
+      weaponCards = new ArrayList<>();
       //dovrebbe avere una dimensione fissa. La prima indica la riga la seconda indica la colonna
-      position = new ArrayList(2);
+      position= new Position(-1, -1,null); // valori fuori dal range accettabile della mappa
+      this.playerBoard = playerBoard;
    }
+
+
+
 
    //assumerei un metodo del model che assegna al player la sua figura, actionTile, playerBoard in base al COLORE che ha scelto.
    //la scelta dei colori deve essere SINCRONIZED : due persone NON possono scegliere lo stesso colore
@@ -47,3 +53,19 @@ public class Player {
       return this.position;
    }
 }
+   public Position getPosition() {
+      return position;
+   }
+
+   //nel model un metodo che unisce questo del player e quello con la gameboard
+   //Ricordarsi il cambio di stato
+   public void takeWeaponCards(WeaponCard insertWeaponCard, WeaponCard removeWeaponCard) {
+      if (weaponCards.size()<3) {
+         weaponCards.add(insertWeaponCard);
+      }
+      else{
+         weaponCards.remove(removeWeaponCard);
+         weaponCards.add(insertWeaponCard);
+      }
+   }
+
