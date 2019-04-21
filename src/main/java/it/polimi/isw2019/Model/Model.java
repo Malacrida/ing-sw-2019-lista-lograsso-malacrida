@@ -1,28 +1,22 @@
 package it.polimi.isw2019.Model;
 
-import it.polimi.isw2019.Controller.VisitorAction;
+
+//import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
 import it.polimi.isw2019.Model.Events.PlayerMove;
+import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
 
 import java.util.ArrayList;
 import it.polimi.isw2019.Utilities.Observable;
 
-public class Model extends Observable implements Visitable{
+public class Model extends Observable {
     private Player currentPlayer;
     private int turn;
     private GameBoard gameBoard;
-    private ArrayList<Player> players;
-    private ArrayList<PlayerBoard> playerBoardsAvailable;
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
 
-    Model (){
-
-        playerBoardsAvailable= new ArrayList<>();
-    }
-
-    public void gameSetting (){
-       // playerBoardsAvailable= SetUpGame.setPlayerBoard();
-    }
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
@@ -73,9 +67,10 @@ public class Model extends Observable implements Visitable{
         //scelto in modo randomico
     }
 
-    public  void accept(VisitorAction visitorAction, PlayerMove playerMove){
+    /*public  void accept(VisitorAction visitorAction, PlayerMove playerMove){
         visitorAction.visitModel(this, playerMove);
-    }
+    } -> problemi con git
+    */
 
     public void run(Player player, ArrayList movement){
 
@@ -130,6 +125,38 @@ public class Model extends Observable implements Visitable{
 
     }
 
+    public void gameSetting (){
+        playerBoardsAvailable= SetUpGame.setPlayerBoard();
+    }
 
+    public boolean containsColor (ColorPlayer color) throws ColorNotAvailable {
+        for (int i = 0; i < playerBoardsAvailable.size(); i++) {
+            if (playerBoardsAvailable.get(i).getColor() == color) return true;
+        }
+        throw new ColorNotAvailable();
+    }
+
+
+    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailable{
+        for (int i=0; i<playerBoardsAvailable.size(); i++){
+            if (playerBoardsAvailable.get(i).getColor()==color) return i;
+        }
+        throw new ColorNotAvailable();
+    }
+
+    public void setPlayer (String name, ColorPlayer colorPlayer) throws ColorNotAvailable {
+        try {
+            if (containsColor(colorPlayer)){
+                Player player= new Player(name,colorPlayer,playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
+                players.add(player);
+                playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
+            }
+        }
+        catch (ColorNotAvailable e){
+            throw new ColorNotAvailable();
+            //Manda un messaggio di scelta sbagliata -> Update!!
+            // al posto di rilanciare l'eccezione
+        }
+    }
 
 }

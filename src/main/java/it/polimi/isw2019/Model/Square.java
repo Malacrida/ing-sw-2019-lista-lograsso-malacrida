@@ -1,14 +1,18 @@
 package it.polimi.isw2019.Model;
 
+import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
+import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
+
 import java.util.ArrayList;
 
-public abstract class Square {
+public abstract class Square{
     private Square squareN;
     private Square squareE;
     private Square squareS;
     private Square squareO;
     private boolean spownpoint;
-    private ArrayList<Player> players;
+    protected ArrayList<Player> players= new ArrayList<>();
+    protected ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
 
     Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spownpoint){
         this.squareN=squareN;
@@ -18,12 +22,13 @@ public abstract class Square {
         this.spownpoint=spownpoint;
     }
 
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
     public ArrayList<Square> squaresAvailable (){
-        ArrayList<Square> squareAvailable = new ArrayList<Square>();
+        ArrayList<Square> squareAvailable = new ArrayList<>();
         if (squareN!=null){
             squareAvailable.add(squareN);
         }
@@ -41,13 +46,15 @@ public abstract class Square {
     }
 
     public boolean findPlayer (Player player){
-        if (players.contains(player)) return true;
-        else return false;
+        return players.contains(player);
+
     }
 
     public int numPlayers (){
         return players.size();
     }
+
+
 
     public void insertPlayers (Player player){
         players.add(player);
@@ -57,6 +64,12 @@ public abstract class Square {
         players.remove(player);
     }
 
+    public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards){}
+    public void putNewWeaponCard(AbstractWeaponCard weaponCard){}
+    public void takeWeapon (AbstractWeaponCard weaponCard){}
+    public boolean containsWeapon (AbstractWeaponCard weaponCard){
+        return false;
+    }
 
 
 
