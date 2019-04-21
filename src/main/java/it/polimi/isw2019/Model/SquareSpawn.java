@@ -6,14 +6,17 @@ import java.util.ArrayList;
 
 public class SquareSpawn extends Square {
 
-    private ArrayList<AbstractWeaponCard> weaponCards;
 
     SquareSpawn(Square squareN, Square squareE, Square squareS, Square squareO) {
         super(squareN, squareE, squareO, squareS, true);
+
     }
 
-    public void spawnPlayer (Player player){
-
+    public void spawnPlayer (Player player) throws NullPointerException{
+        if (player!= null) {
+            players.add(player);
+        }
+        else throw new NullPointerException();
     }
 
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
@@ -28,7 +31,20 @@ public class SquareSpawn extends Square {
         }
     }
 
-    public void putNewWeponCard(AbstractWeaponCard weaponCard){
+
+
+    public int numOfWeaponCards(){
+        return weaponCards.size();
+    }
+
+
+    @Override
+    public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards) {
+        this.weaponCards=weaponCards;
+    }
+
+    @Override
+    public void putNewWeaponCard(AbstractWeaponCard weaponCard) {
         if (weaponCards.size()<3){
             weaponCards.add(weaponCard);
         }
