@@ -13,6 +13,7 @@ public class View extends Observable implements Observer {
     }
     
     public void insertDate(String nickname){
+
         this.nickname=nickname;
     }
 

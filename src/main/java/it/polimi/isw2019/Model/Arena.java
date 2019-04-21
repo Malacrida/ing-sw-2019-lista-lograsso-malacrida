@@ -6,7 +6,7 @@ import static it.polimi.isw2019.Model.ColorRoom.*;
 
 public class Arena {
 
-    private static Arena istance;
+    private static Arena instance;
    // private int numOfRoom;
     private Square[][] squares;
     private ArrayList<Room> rooms;
@@ -16,9 +16,9 @@ public class Arena {
     }
 
     public Arena instanceArena (int numArena){
-        if (istance==null) istance= new Arena();
+        if (instance==null) instance= new Arena();
         chooseArena(numArena);
-        return istance;
+        return instance;
     }
 
     private void chooseArena (int numArena){
@@ -63,6 +63,7 @@ public class Arena {
     }
 
     private void setRooms1 (){
+
         Room bluRooms = new Room(BLUE);
         bluRooms.addSquere(squares[0][0]);
         bluRooms.addSquere(squares[0][1]);
@@ -94,6 +95,7 @@ public class Arena {
 
 
     private void setMap2 (){
+
         squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
         squares[0][1]= new SquareAmmo(null, squares[0][2], squares[1][1], squares[0][0]);
         squares[0][2]= new SquareSpawn(null, null, squares[1][2], squares[0][1]);
@@ -112,6 +114,7 @@ public class Arena {
     }
 
     private void setRooms2 (){
+
         Room bluRooms = new Room(BLUE);
         bluRooms.addSquere(squares[0][1]);
         bluRooms.addSquere(squares[0][2]);
@@ -142,6 +145,7 @@ public class Arena {
 
 
     private void setMap3 (){
+
         squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
         squares[0][1]= new SquareAmmo(null, squares[0][2], null, squares[0][0]);
         squares[0][2]= new SquareSpawn(null, null, squares[1][2], squares[0][1]);
@@ -160,6 +164,7 @@ public class Arena {
     }
 
     private void setRooms3 (){
+
         Room bluRooms = new Room(BLUE);
         bluRooms.addSquere(squares[0][0]);
         bluRooms.addSquere(squares[0][1]);
@@ -182,9 +187,11 @@ public class Arena {
         rooms.add(redRooms);
         rooms.add(greyRoom);
         rooms.add(yellowRoom);
+
     }
 
     private void setMap4 (){
+
         squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
         squares[0][1]= new SquareAmmo(null, squares[0][2], squares[1][1], squares[0][0]);
         squares[0][2]= new SquareSpawn(null, squares[0][3], squares[1][2], squares[0][1]);
@@ -203,6 +210,7 @@ public class Arena {
     }
 
     private void setRooms4 (){
+
         Room bluRooms = new Room(BLUE);
         bluRooms.addSquere(squares[0][1]);
         bluRooms.addSquere(squares[0][2]);
@@ -233,6 +241,7 @@ public class Arena {
         rooms.add(violetRooms);
         rooms.add(greyRoom);
         rooms.add(yellowRoom);
+
     }
 
 

@@ -32,5 +32,9 @@ public class PlayerMove {
     public View getView() {
         return view;
     }
+
+    public PlayerMove getMessage(){
+        return this;
+    }
 }
 
