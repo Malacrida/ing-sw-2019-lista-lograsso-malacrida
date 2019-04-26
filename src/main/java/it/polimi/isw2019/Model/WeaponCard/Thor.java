@@ -21,7 +21,7 @@ public class Thor extends AbstractWeaponCard{
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -30,23 +30,51 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public String getEffect() {
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
+    }
+
+    @Override
+    public ArrayList<ColorCube> getRechargeCube() {
         return null;
     }
 
 
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
     }
+
+    @Override
+    public boolean firstEffect() {
+        for(int i = 0; i < 2; i ++){
+            doOneDamage();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        doOneDamage(); //a un giocatore che il primo player a cui hai sparato può vedere
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        for(int i = 0; i < 2 ; i ++){
+            doOneDamage(); //a un player che il secondo player a cui hai sparato può vedere (reazione a catena)
+        }
+        return false;
+    }
+
 }

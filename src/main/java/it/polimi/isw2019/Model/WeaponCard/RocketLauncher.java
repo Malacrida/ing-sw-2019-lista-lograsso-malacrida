@@ -26,7 +26,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -35,23 +35,45 @@ public class RocketLauncher extends  AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
+    }
+
+    @Override
+    public boolean firstEffect() {
+        for(int i = 0; i < 2; i++){
+            doOneDamage();
+        }
+        moveOneSquare();
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        for(int i = 0; i < 2; i++){
+            moveOneSquare();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        doOneDamage();
+        return false;
     }
 }

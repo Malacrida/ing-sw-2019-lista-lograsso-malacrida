@@ -17,7 +17,7 @@ public class Electroscythe extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -26,24 +26,41 @@ public class Electroscythe extends AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
+    }
 
+    @Override
+    public boolean firstEffect() {
+        doOneDamage(); //ad ogni giocatore dentro una stanza, quindi serve magari una lista giocatori prenseti in quella stanza e fare un for each player
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        for (int i = 0; i < 2; i++){ //anche qui ad ogni giocatore dentro una stanza
+            doOneDamage();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        return false;
     }
 }

@@ -20,29 +20,38 @@ public abstract class AbstractWeaponCard{
     }
 
     //Methods
-    public int getId() {
-        return id;
-    }
+
 
     public abstract int getID();
 
-    public String getName(){
-        return name;
+    public abstract String getName();
+
+    public abstract ArrayList<ColorCube> getRechargecube();
+
+    public abstract ColorCube getColor();
+
+    public abstract ArrayList<String> getInfoEffect();
+
+    public abstract StateCard checkState();
+
+    public abstract boolean firstEffect();
+
+    public abstract boolean secondEffect();
+
+    public abstract boolean thirdEffect();
+
+
+    public static void doOneDamage(){ //prende in ingresso 1 giocatore
+        //Inserire il fai 1 danno
     }
 
-    public abstract String getEffect();
-
-    public abstract ColorCube getRechargecube();
-
-    public ColorCube getColor(){
-        return color;
+    public static void moveOneSquare(){
+        //inserire il movimento
     }
 
-    public ArrayList<String> getInfoEffect() {return infoEffect; }
-
-    public ArrayList<ColorCube> getRechargeCube() {return rechargeCube; }
-
-    public StateCard checkState(){
-        return this.stateCard;
+    public static void putOneMark(){
+        //mettere un marchio
     }
+
+
 }

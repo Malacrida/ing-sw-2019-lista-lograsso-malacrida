@@ -17,7 +17,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -26,23 +26,43 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
+    }
+
+    @Override
+    public boolean firstEffect() {
+        moveOneSquare(); //muovi un giocatore al più 2 volte
+        doOneDamage();
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        moveOneSquare(); //muovi un giocatore al più 2 volte
+        for(int i = 0; i < 3; i++){
+            doOneDamage();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        return false;
     }
 }

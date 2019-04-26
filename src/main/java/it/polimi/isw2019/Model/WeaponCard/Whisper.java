@@ -21,7 +21,7 @@ public class Whisper extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -30,24 +30,42 @@ public class Whisper extends AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
+    }
+
+    @Override
+    public boolean firstEffect() {
+        for (int i = 0; i < 3; i++){
+            doOneDamage();
+        }
+        putOneMark();
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        return false;
     }
 
 }

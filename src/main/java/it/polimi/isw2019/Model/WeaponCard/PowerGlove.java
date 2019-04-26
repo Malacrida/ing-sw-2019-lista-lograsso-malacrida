@@ -20,7 +20,7 @@ public class PowerGlove extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -29,24 +29,48 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
     }
 
+    @Override
+    public boolean firstEffect() {
+        moveOneSquare();
+        doOneDamage();
+        for (int i = 0; i < 2; i++){
+            putOneMark();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        for (int i = 0; i < 2; i++){
+            moveOneSquare();
+            for (int j = 0; j < 2; j++){
+                doOneDamage();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        return false;
+    }
 }

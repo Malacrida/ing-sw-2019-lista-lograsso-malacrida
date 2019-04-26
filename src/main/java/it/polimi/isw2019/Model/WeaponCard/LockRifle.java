@@ -16,7 +16,7 @@ public class LockRifle extends AbstractWeaponCard {
 
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
 
     @Override
@@ -25,23 +25,44 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public String getEffect() {
-        return null;
+    public ArrayList<String> getInfoEffect() {
+        return infoEffect;
     }
 
-
     @Override
-    public ColorCube getRechargecube() {
-        return null;
+    public ArrayList<ColorCube> getRechargecube() {
+        return rechargeCube;
     }
 
     @Override
     public ColorCube getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public StateCard checkState() {
-        return null;
+        return stateCard;
+    }
+
+    @Override
+    public boolean firstEffect() {
+        //fai due danni e un marchio
+        for(int i = 0; i < 2; i++){
+            doOneDamage();
+        }
+        putOneMark();
+        return false;
+    }
+
+    @Override
+    public boolean secondEffect() {
+        this.firstEffect();
+        putOneMark(); //giocatore differente
+        return false;
+    }
+
+    @Override
+    public boolean thirdEffect() {
+        return false;
     }
 }
