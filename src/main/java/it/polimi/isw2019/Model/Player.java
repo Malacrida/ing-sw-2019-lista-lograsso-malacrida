@@ -1,6 +1,6 @@
 package it.polimi.isw2019.Model;
 
-import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
+import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class Player {
    private String name;
    private ColorPlayer color;
    private Position position;
-   private ArrayList<WeaponCard> weaponCards = new ArrayList<>();
+   private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
    private PlayerBoard playerBoard;
 
 
@@ -38,7 +38,7 @@ public class Player {
 
     //nel model un metodo che unisce questo del player e quello con la gameboard
     //Ricordarsi il cambio di stato
-    public void takeWeaponCards(WeaponCard insertWeaponCard, WeaponCard removeWeaponCard) {
+    public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
         }

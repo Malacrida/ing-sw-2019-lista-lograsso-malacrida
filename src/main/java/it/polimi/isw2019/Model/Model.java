@@ -2,13 +2,11 @@ package it.polimi.isw2019.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.Model.Events.PlayerMove;
 import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
-import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
+import it.polimi.isw2019.Utilities.Observable;
 
 import java.util.ArrayList;
-import it.polimi.isw2019.Utilities.Observable;
 
 public class Model extends Observable {
     private Player currentPlayer;

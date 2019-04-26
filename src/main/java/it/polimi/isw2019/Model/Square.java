@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
+
 
 import java.util.ArrayList;
 

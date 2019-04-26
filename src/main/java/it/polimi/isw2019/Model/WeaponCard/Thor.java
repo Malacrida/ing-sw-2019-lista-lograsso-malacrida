@@ -35,12 +35,6 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public ArrayList<ColorCube> getRechargeCube() {
-        return null;
-    }
-
-
-    @Override
     public ArrayList<ColorCube> getRechargecube() {
         return rechargeCube;
     }

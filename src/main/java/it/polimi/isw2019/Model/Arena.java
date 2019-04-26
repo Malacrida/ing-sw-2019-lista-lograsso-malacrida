@@ -2,11 +2,8 @@ package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-import it.polimi.isw2019.Model.WeaponCard.WeaponCard;
 
 import java.util.ArrayList;
-
-import static it.polimi.isw2019.Model.ColorRoom.*;
 
 public class Arena {
 
