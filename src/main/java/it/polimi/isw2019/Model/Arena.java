@@ -2,8 +2,8 @@ package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-
 import java.util.ArrayList;
+import static it.polimi.isw2019.Model.ColorRoom.*;
 
 public class Arena {
 
@@ -41,16 +41,16 @@ public class Arena {
         squares[2][3].setWeaponCards(weaponCardsYellow);
     }
 
-    public void placeAnotherWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, Position position){
-        squares[position.getX()][position.getY()].putNewWeaponCard(weaponCard);
+    public void placeAnotherWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, int x, int y){
+        squares[x][y].putNewWeaponCard(weaponCard);
     }
 
-    public boolean containsWeaponOnSpawnSquare (Position position, AbstractWeaponCard weaponCard){
-        return squares[position.getX()][position.getY()].containsWeapon(weaponCard);
+    public boolean containsWeaponOnSpawnSquare (int x, int y, AbstractWeaponCard weaponCard){
+        return squares[x][y].containsWeapon(weaponCard);
     }
 
-    public void takeWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, Position position){
-        squares[position.getX()][position.getY()].takeWeapon(weaponCard);
+    public void takeWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, int x, int y){
+        squares[x][y].takeWeapon(weaponCard);
     }
 
 

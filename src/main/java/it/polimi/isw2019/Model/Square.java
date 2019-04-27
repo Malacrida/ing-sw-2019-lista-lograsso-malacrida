@@ -2,7 +2,6 @@ package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
-
 import java.util.ArrayList;
 
 public abstract class Square{
@@ -53,8 +52,6 @@ public abstract class Square{
     public int numPlayers (){
         return players.size();
     }
-
-
 
     public void insertPlayers (Player player){
         players.add(player);

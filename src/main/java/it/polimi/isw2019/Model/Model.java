@@ -2,11 +2,14 @@ package it.polimi.isw2019.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
+import it.polimi.isw2019.Model.Events.PlayerMove;
 import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
-import it.polimi.isw2019.Utilities.Observable;
+
 
 import java.util.ArrayList;
+import it.polimi.isw2019.Utilities.Observable;
+
 
 public class Model extends Observable {
     private Player currentPlayer;
@@ -127,6 +130,7 @@ public class Model extends Observable {
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
     }
 
+    //Colore scelto dal giocatore è ancora disponibile
     public boolean containsColor (ColorPlayer color) throws ColorNotAvailable {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
             if (playerBoardsAvailable.get(i).getColor() == color) return true;
@@ -142,6 +146,7 @@ public class Model extends Observable {
         throw new ColorNotAvailable();
     }
 
+    //Set del colore del player
     public void setPlayer (String name, ColorPlayer colorPlayer) throws ColorNotAvailable {
         try {
             if (containsColor(colorPlayer)){

@@ -75,17 +75,17 @@ public class GameBoard {
     }
 
     //rimpiazzare le carte armi pescate dai punti spawn
-    public void placeAnotherWeaponCards (Position position){
-        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(weaponCards.size()), position);
+    public void placeAnotherWeaponCards (int x, int y){
+        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(weaponCards.size()), x,y);
 
     }
 
-    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, Position playerPosition) throws EndWeaponCard {
-        if (gameArena.containsWeaponOnSpawnSquare(playerPosition, weaponCard)){
-            gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, playerPosition);
+    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws EndWeaponCard {
+        if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
+            gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
         }
         if (!weaponCards.isEmpty()) {
-            placeAnotherWeaponCards(playerPosition);
+            placeAnotherWeaponCards(x,y);
         }
         else throw new EndWeaponCard();
         return weaponCard;

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Room {
 
     private ColorRoom colorRoom;
-    private ArrayList<Square> squares;
-    private ArrayList<Player> players;
+    private ArrayList<Square> squares= new ArrayList<>();
+    private ArrayList<Player> players= new ArrayList<>();
 
     public Room(ColorRoom colorRoom){
         this.colorRoom=colorRoom;
@@ -22,6 +22,17 @@ public class Room {
 
     public void addSquere (Square square){
         squares.add(square);
+    }
+
+    public void addPlayer (Player player){
+        players.add(player);
+    }
+
+    public void removePlayer (Player player){
+        if (players.contains(player)){
+            players.remove(player);
+        }
+        //else inconsistenzza del player
     }
 
     public ArrayList<Player> getPlayers() {
