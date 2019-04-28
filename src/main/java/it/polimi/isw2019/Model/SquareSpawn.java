@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class SquareSpawn extends Square {
 
+    private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
+
 
     SquareSpawn(Square squareN, Square squareE, Square squareS, Square squareO) {
         super(squareN, squareE, squareO, squareS, true);

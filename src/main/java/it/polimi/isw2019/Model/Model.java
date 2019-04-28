@@ -2,12 +2,13 @@ package it.polimi.isw2019.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
+import it.polimi.isw2019.Model.Exception.ColorNotAvailableException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
-import it.polimi.isw2019.Utilities.Observable;
-import it.polimi.isw2019.Message.*;
+
 
 import java.util.ArrayList;
+import it.polimi.isw2019.Utilities.Observable;
+
 
 public class Model extends Observable {
     private Player currentPlayer;
@@ -17,7 +18,7 @@ public class Model extends Observable {
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
 
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
-    //aggiungere un attributo che puo essere solo modificato dal model con un identificativo che verra' associato al giocatore
+
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
         return this.gameBoard;
@@ -40,21 +41,15 @@ public class Model extends Observable {
         //resettarla quando si finisce il turno
     }
 
-    //modificare addPlayer con nickname, phrase, id
     public void addPlayer (Player player){
         //verificare che la modalità non sia quella degli spawn
 
-        //try catch per vedere l'aggiunta è andata a buon fine
         if(this.players.size() <5)
-                //create player
                 this.players.add(player);
 
         else
                 // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
                 System.out.println("Cannot be added");
-
-        //creazione di un moveMessage
-        //notify(idPlayer, new ChooseColorMessage(getColorMessageLeft))
     }
 
     public void calculationTemporaryScore(){
@@ -134,34 +129,41 @@ public class Model extends Observable {
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
     }
 
-    public boolean containsColor (ColorPlayer color) throws ColorNotAvailable {
+    //Colore scelto dal giocatore è ancora disponibile
+    public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
             if (playerBoardsAvailable.get(i).getColor() == color) return true;
         }
-        throw new ColorNotAvailable();
+        throw new ColorNotAvailableException();
     }
 
 
-    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailable{
+    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailableException {
         for (int i=0; i<playerBoardsAvailable.size(); i++){
             if (playerBoardsAvailable.get(i).getColor()==color) return i;
         }
-        throw new ColorNotAvailable();
+        throw new ColorNotAvailableException();
     }
 
-    public void setPlayer (String name, ColorPlayer colorPlayer) throws ColorNotAvailable {
+    //Set del colore del player
+    public void setPlayer (String name,  String actionHeroComment, int playerID, ColorPlayer colorPlayer) throws ColorNotAvailableException {
         try {
             if (containsColor(colorPlayer)){
-                Player player= new Player(name,colorPlayer,playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
+                Player player= new Player(name, actionHeroComment, playerID);
                 players.add(player);
                 playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
             }
         }
-        catch (ColorNotAvailable e){
-            throw new ColorNotAvailable();
+        catch (ColorNotAvailableException e){
+            throw new ColorNotAvailableException();
             //Manda un messaggio di scelta sbagliata -> Update!!
             // al posto di rilanciare l'eccezione
         }
     }
+
+
+
+
+
 
 }

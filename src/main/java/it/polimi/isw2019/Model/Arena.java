@@ -1,9 +1,11 @@
 package it.polimi.isw2019.Model;
 
+import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
+import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-
 import java.util.ArrayList;
+import static it.polimi.isw2019.Model.ColorRoom.*;
 
 public class Arena {
 
@@ -41,16 +43,41 @@ public class Arena {
         squares[2][3].setWeaponCards(weaponCardsYellow);
     }
 
-    public void placeAnotherWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, Position position){
-        squares[position.getX()][position.getY()].putNewWeaponCard(weaponCard);
+
+    public void placeAnotherWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, int x, int y){
+        squares[x][y].putNewWeaponCard(weaponCard);
     }
 
-    public boolean containsWeaponOnSpawnSquare (Position position, AbstractWeaponCard weaponCard){
-        return squares[position.getX()][position.getY()].containsWeapon(weaponCard);
+    public boolean containsWeaponOnSpawnSquare (int x, int y, AbstractWeaponCard weaponCard){
+        return squares[x][y].containsWeapon(weaponCard);
     }
 
-    public void takeWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, Position position){
-        squares[position.getX()][position.getY()].takeWeapon(weaponCard);
+    public void takeWeaponCardsOnSquareSpawn (AbstractWeaponCard weaponCard, int x, int y){
+        squares[x][y].takeWeapon(weaponCard);
+    }
+
+    public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles){
+        for (int i=0; i<3; i++){
+            for (int j=0; j<4; j++){
+                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null ){//non capisco perchè mi sbagliata la condizione i!=2
+                    squares[i][j].setAmmoTile(ammoTiles.get(i+j));
+                }
+            }
+
+        }
+    }
+
+    public void placeAnotherAmmoTileOnSquare (AmmoTile ammoTile, int x, int y){
+        squares[x][y].setAmmoTile(ammoTile);
+    }
+
+    public AmmoTile takeAmmoTileOnSquare (int x, int y) throws AmmoTileUseException {
+         try{
+             return squares[x][y].takeAmmoTile();
+         }
+         catch (AmmoTileUseException e){
+             throw new AmmoTileUseException();
+         }
     }
 
 
