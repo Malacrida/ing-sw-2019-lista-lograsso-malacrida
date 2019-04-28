@@ -1,9 +1,9 @@
 package it.polimi.isw2019.Controller;
 
-import it.polimi.isw2019.Model.Events.PlayerMove;
+import it.polimi.isw2019.Message.PlayerMove.PlayerMove;
 import it.polimi.isw2019.Model.Model;
 
-public class RunReloadUseWeaponCard implements VisitorAction {
+public class RunReloadUseWeaponCard implements VisitorModel {
     @Override
     public void visitModel(Model model, PlayerMove playerMove){
 

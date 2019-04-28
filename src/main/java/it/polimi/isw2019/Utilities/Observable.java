@@ -2,6 +2,7 @@ package it.polimi.isw2019.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import it.polimi.isw2019.Message.*;
 
 public abstract class Observable {
 
@@ -10,20 +11,25 @@ public abstract class Observable {
     public Observable(){
         observers=new ArrayList<Observer>();
     }
+
     public void registerObserver(Observer o){
         observers.add(o);
     }
+
     public void unregisterObserver(Observer o){
         this.observers.remove(o);
     }
-    public void notifyObservers(){
+
+    /*public void notifyObservers(){
         for(Observer o: this.observers){
             o.update();
         }
-    }
-    public <C> void notifyObservers(C c){
+    }*/
+
+    //togliere diamont
+    public <T> void notifyObservers(T message){
         for(Observer o: this.observers){
-            o.update(c);
+            o.update(message);
         }
     }
 }

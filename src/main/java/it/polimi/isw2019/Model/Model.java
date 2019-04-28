@@ -5,6 +5,7 @@ package it.polimi.isw2019.Model;
 import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Utilities.Observable;
+import it.polimi.isw2019.Message.*;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class Model extends Observable {
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
 
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
-
+    //aggiungere un attributo che puo essere solo modificato dal model con un identificativo che verra' associato al giocatore
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
         return this.gameBoard;
@@ -39,15 +40,21 @@ public class Model extends Observable {
         //resettarla quando si finisce il turno
     }
 
+    //modificare addPlayer con nickname, phrase, id
     public void addPlayer (Player player){
         //verificare che la modalità non sia quella degli spawn
 
+        //try catch per vedere l'aggiunta è andata a buon fine
         if(this.players.size() <5)
+                //create player
                 this.players.add(player);
 
         else
                 // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
                 System.out.println("Cannot be added");
+
+        //creazione di un moveMessage
+        //notify(idPlayer, new ChooseColorMessage(getColorMessageLeft))
     }
 
     public void calculationTemporaryScore(){

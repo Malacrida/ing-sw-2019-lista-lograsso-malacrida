@@ -1,9 +1,9 @@
 package it.polimi.isw2019.Model;
 
-import it.polimi.isw2019.Controller.VisitorAction;
-import it.polimi.isw2019.Model.Events.PlayerMove;
+import it.polimi.isw2019.Controller.VisitorModel;
+import it.polimi.isw2019.Message.PlayerMove.PlayerMove;
 
 public interface Visitable{
-    public abstract void accept(VisitorAction visitorAction, PlayerMove playerMove);
+    public abstract void accept(VisitorModel visitorAction, PlayerMove playerMove);
     }
 

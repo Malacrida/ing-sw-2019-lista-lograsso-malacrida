@@ -11,7 +11,8 @@ public class Player {
    private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
    private PlayerBoard playerBoard;
 
-
+    //at first set only the name, ohrase
+    //the update the color and set the playerboard
     public Player(String name, ColorPlayer color, PlayerBoard playerBoard) {
         this.name = name;
         this.color = color;
