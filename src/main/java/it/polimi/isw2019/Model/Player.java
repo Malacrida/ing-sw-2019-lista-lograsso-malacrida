@@ -56,6 +56,9 @@ public class Player {
     public int getScore() {
         return score;
     }
+    public int getPlayerID() {
+        return playerID;
+    }
 
     //Nel model un metodo che unisce questo del player e quello con la gameboard
     //Dalla playerMove la carta da scartare
@@ -107,6 +110,18 @@ public class Player {
 
     public void giveMark (ColorPlayer colorPlayer, int numMark) {
         playerBoard.addMark(colorPlayer, numMark);
+    }
+
+    public int DamageDoByAnotherPlayer (ColorPlayer colorPlayer){
+        return playerBoard.numOfDamagesOfOneColor(colorPlayer);
+    }
+
+    public ColorPlayer firstPlayerDoDamage (){
+        return playerBoard.firstBlood();
+    }
+
+    public int getNumberOfSkulls (){
+        return playerBoard.getPlayerSkulls();
     }
 
 

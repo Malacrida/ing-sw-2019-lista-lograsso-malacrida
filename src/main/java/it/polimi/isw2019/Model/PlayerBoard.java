@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class PlayerBoard extends AbstractPlayerBoard{
 
-    private HashMap<Integer, ColorPlayer> damagePlayer= new HashMap<>();
+    //private HashMap<Integer, ColorPlayer> damagePlayer= new HashMap<>();
 
     PlayerBoard(ColorPlayer color) {
         super(color,false);
@@ -16,14 +16,15 @@ public class PlayerBoard extends AbstractPlayerBoard{
         return super.getColor();
     }
 
-    @Override
+    /*@Override
     public void scorePlayer() {
         ArrayList<ColorPlayer> colorDamage = listOfColorDamage();
 
+        //Ordine crescente
         for (int i=0; i<colorDamage.size(); i++){
             damagePlayer.put(numOfDamagesOfOneColor(colorDamage.get(i)), colorDamage.get(i));
         }
-    }
+    }*/
 
 
 

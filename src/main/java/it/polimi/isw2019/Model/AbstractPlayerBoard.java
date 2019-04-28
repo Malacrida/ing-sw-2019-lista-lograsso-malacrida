@@ -41,6 +41,8 @@ public abstract class AbstractPlayerBoard {
                 if (redCubes.size()==3) throw new OutOfBoundsException();
             }
         }
+        throw new OutOfBoundsException();
+
     }
 
     public void addYellowCubes (int num) throws OutOfBoundsException {
@@ -50,6 +52,7 @@ public abstract class AbstractPlayerBoard {
                 if (yellowCubes.size()==3) throw new OutOfBoundsException();
             }
         }
+        throw new OutOfBoundsException();
     }
 
     public void addBlueCubes (int num) throws OutOfBoundsException {
@@ -59,6 +62,7 @@ public abstract class AbstractPlayerBoard {
                 if (blueCubes.size()==3) throw new OutOfBoundsException();
             }
         }
+        throw new OutOfBoundsException();
     }
 
     public int getPlayerSkulls() {
@@ -146,9 +150,9 @@ public abstract class AbstractPlayerBoard {
         damageTokens.clear();
     }
 
-    //crea la mappa con i danni inferti al giocatore e chi li ha inferti
-    public abstract void scorePlayer();
-
+    public ColorPlayer firstBlood(){
+        return damageTokens.get(0);
+    }
 
 
 
