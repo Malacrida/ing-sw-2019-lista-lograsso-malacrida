@@ -2,8 +2,7 @@ package it.polimi.isw2019.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.Model.Events.PlayerMove;
-import it.polimi.isw2019.Model.Exception.ColorNotAvailable;
+import it.polimi.isw2019.Model.Exception.ColorNotAvailableException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 
 
@@ -131,35 +130,40 @@ public class Model extends Observable {
     }
 
     //Colore scelto dal giocatore è ancora disponibile
-    public boolean containsColor (ColorPlayer color) throws ColorNotAvailable {
+    public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
             if (playerBoardsAvailable.get(i).getColor() == color) return true;
         }
-        throw new ColorNotAvailable();
+        throw new ColorNotAvailableException();
     }
 
 
-    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailable{
+    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailableException {
         for (int i=0; i<playerBoardsAvailable.size(); i++){
             if (playerBoardsAvailable.get(i).getColor()==color) return i;
         }
-        throw new ColorNotAvailable();
+        throw new ColorNotAvailableException();
     }
 
     //Set del colore del player
-    public void setPlayer (String name, ColorPlayer colorPlayer) throws ColorNotAvailable {
+    public void setPlayer (String name,  String actionHeroComment, int playerID, ColorPlayer colorPlayer) throws ColorNotAvailableException {
         try {
             if (containsColor(colorPlayer)){
-                Player player= new Player(name,colorPlayer,playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
+                Player player= new Player(name, actionHeroComment, playerID);
                 players.add(player);
                 playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
             }
         }
-        catch (ColorNotAvailable e){
-            throw new ColorNotAvailable();
+        catch (ColorNotAvailableException e){
+            throw new ColorNotAvailableException();
             //Manda un messaggio di scelta sbagliata -> Update!!
             // al posto di rilanciare l'eccezione
         }
     }
+
+
+
+
+
 
 }

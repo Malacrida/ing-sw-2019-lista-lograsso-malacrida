@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Model.Exception.EndWeaponCard;
+import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
+import it.polimi.isw2019.Model.Exception.EndWeaponCardException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
@@ -80,20 +81,37 @@ public class GameBoard {
 
     }
 
-    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws EndWeaponCard {
+    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws EndWeaponCardException {
         if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
             gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
         }
         if (!weaponCards.isEmpty()) {
             placeAnotherWeaponCards(x,y);
         }
-        else throw new EndWeaponCard();
+        else throw new EndWeaponCardException();
         return weaponCard;
     }
 
     public PowerUpCard takePowerUpCard (PowerUpCard powerUpCard){
         powerUpCards.remove(powerUpCard);
         return powerUpCard;
+    }
+
+    public void setUpAmmoTileOnArena (ArrayList<AmmoTile> ammoTileOnArena){
+        gameArena.setAmmoTilesOnSquare(ammoTileOnArena);
+    }
+
+    public void placeAmmoTile (AmmoTile ammoTile, int x, int y){
+        gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
+    }
+
+    public AmmoTile pickUpAmmoTile (int x, int y) throws AmmoTileUseException {
+        try {
+            return gameArena.takeAmmoTileOnSquare(x,y);
+        }
+        catch (AmmoTileUseException e){
+            throw new AmmoTileUseException();
+        }
     }
 
 }

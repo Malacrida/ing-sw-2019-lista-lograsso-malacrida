@@ -2,15 +2,15 @@ package it.polimi.isw2019.Model.Exception;
 
 import it.polimi.isw2019.Model.ColorPlayer;
 
-public class OverKill extends Exception {
+public class OverKillException extends Exception {
 
     private ColorPlayer colorPlayer;
 
-    public OverKill (){
+    public OverKillException(){
 
     }
 
-    public OverKill (ColorPlayer colorPlayer){
+    public OverKillException(ColorPlayer colorPlayer){
         this.colorPlayer=colorPlayer;
     }
 

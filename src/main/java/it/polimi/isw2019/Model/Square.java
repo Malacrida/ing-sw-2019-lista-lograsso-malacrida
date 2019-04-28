@@ -1,5 +1,7 @@
 package it.polimi.isw2019.Model;
 
+import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
+import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public abstract class Square{
     private Square squareO;
     private boolean spownpoint;
     protected ArrayList<Player> players= new ArrayList<>();
-    protected ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
+
 
     Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spownpoint){
         this.squareN=squareN;
@@ -67,6 +69,13 @@ public abstract class Square{
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
         return false;
     }
+
+    public void setAmmoTile (AmmoTile ammoTile){}
+
+    public AmmoTile takeAmmoTile () throws AmmoTileUseException {
+        throw new AmmoTileUseException();
+    }
+
 
 
 
