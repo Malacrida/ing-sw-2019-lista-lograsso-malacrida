@@ -21,8 +21,9 @@ public class ViewCLI extends View {
     public void welcome(){
 
         String enteringGame = null;
+        boolean ok = true;
 
-        while (enteringGame.compareTo("Y") != 1) {
+         do{
             System.out.println("Type Y to enter the game!");
 
             try {
@@ -30,8 +31,10 @@ public class ViewCLI extends View {
             }
             catch (NullPointerException e) {
                 input.nextLine();
+                ok= false;
             }
         }
+        while (!ok);
         //method in which the user insert the data
     }
 
