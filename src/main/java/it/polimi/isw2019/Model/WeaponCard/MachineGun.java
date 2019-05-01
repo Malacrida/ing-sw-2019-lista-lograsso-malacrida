@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -19,50 +20,54 @@ public class MachineGun extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /* Se il primo giocatore da attaccare è nella prima stanza selezionata allora dai un danno */
+
+        if(firstAttackSquare.findPlayer(firstDefender)){
+
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
+
+            if ((secondDefender != null) && (secondAttackSquare.findPlayer(secondDefender))){
+
+                secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            }
+
+            return true;
+        }
+
+        else return false;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
+
+       firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+       return true;
     }
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
 
+    /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public ColorCube getColor() {
-        return color;
-    }
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
+        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public boolean firstEffect() {
-        doOneDamage(); //a 2 players che puoi vedere
-        return false;
-    }
+        if ((thirdDefender != null) && (thirdAttackSquare.findPlayer(thirdDefender))){
 
-    @Override
-    public boolean secondEffect() {
-        doOneDamage(); //al primo player che hai sparato
-        return false;
-    }
+            thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public boolean thirdEffect() {
-        doOneDamage(); //al secondo player che hai sparato e a un terzo player
-        return false;
+            return true;
+
+        }
+
+        else return false;
     }
 }

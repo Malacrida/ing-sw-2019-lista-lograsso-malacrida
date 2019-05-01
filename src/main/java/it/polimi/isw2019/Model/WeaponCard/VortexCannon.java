@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -24,51 +25,30 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        /*MUOVI DI UNO*/
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
+        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        moveOneSquare();
-        doOneDamage();
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        moveOneSquare();
-        doOneDamage();
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
+
+        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+        thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
     }
+
 }

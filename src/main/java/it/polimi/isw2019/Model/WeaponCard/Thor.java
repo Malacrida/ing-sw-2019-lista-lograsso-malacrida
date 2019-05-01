@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -20,54 +21,26 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        for(int i = 0; i < 2; i ++){
-            doOneDamage();
-        }
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        doOneDamage(); //a un giocatore che il primo player a cui hai sparato può vedere
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
-        for(int i = 0; i < 2 ; i ++){
-            doOneDamage(); //a un player che il secondo player a cui hai sparato può vedere (reazione a catena)
-        }
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        thirdDefender.sufferDamage(attacker.getColor(), 2, 0);
+
         return false;
     }
 

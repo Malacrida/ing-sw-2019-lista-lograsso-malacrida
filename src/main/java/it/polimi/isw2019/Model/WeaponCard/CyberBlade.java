@@ -1,13 +1,14 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class CyberBlade extends AbstractWeaponCard {
 
-    public CyberBlade(int id, String name, ColorCube color){
+    public CyberBlade(int id, String name, ColorCube color) {
         super(16, "Cyber Blade", ColorCube.YELLOW);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : Deal 2 damage to 1 target on your square.\n");
@@ -19,57 +20,34 @@ public class CyberBlade extends AbstractWeaponCard {
     }
 
 
-
-
     @Override
-    public int getID() {
-        return id;
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        if ((firstAttackSquare.findPlayer(attacker)) && (firstAttackSquare.findPlayer(firstDefender))) {
+
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            return true;
+        } else return false;
+
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
-        }
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
+        //Aggiungere moveOneSquareAttacker
+
     }
 
     @Override
-    public boolean secondEffect() {
-        moveOneSquare();
-        return false;
-    }
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public boolean thirdEffect() {
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
-        }
-        return false;
+        if ((firstAttackSquare.findPlayer(attacker)) && (firstAttackSquare.findPlayer(firstDefender))) {
+
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+
+            return true;
+
+        } else return false;
     }
 }
+

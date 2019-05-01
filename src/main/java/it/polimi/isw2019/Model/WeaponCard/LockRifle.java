@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -15,54 +16,38 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        //fai due danni e un marchio
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
+        if (firstAttackSquare.findPlayer(firstDefender)){
+            firstDefender.sufferDamage(attacker.getColor(), 2, 1);
+            return true;
         }
-        putOneMark();
-        return false;
+
+        else {
+            return false;
+        }
     }
 
     @Override
-    public boolean secondEffect() {
-        this.firstEffect();
-        putOneMark(); //giocatore differente
-        return false;
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        if (this.firstEffect(attacker, firstAttackSquare, firstDefender, secondAttackSquare, secondDefender, thirdAttackSquare, thirdDefender)) {
+
+            if(secondAttackSquare.findPlayer(secondDefender)){
+                secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        //lancia eccezione perché non esiste questo effetto
+
         return false;
     }
+
+
 }

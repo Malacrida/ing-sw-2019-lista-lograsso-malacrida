@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -19,53 +20,29 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        firstDefender.sufferDamage(attacker.getColor(), 1, 2);
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-
-        doOneDamage();
-        for(int i = 0; i < 2; i++){
-            putOneMark();
-        }
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        putOneMark();
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        firstDefender.sufferDamage(attacker.getColor(), 0, 1);
+
+        secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+
+        thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
+
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
     }
+
+
 }

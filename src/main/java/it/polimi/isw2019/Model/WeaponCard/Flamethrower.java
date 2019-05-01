@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -23,53 +24,75 @@ public class Flamethrower extends AbstractWeaponCard {
                 "blast of flame that can travel 2 squares in a cardinal direction.\n");
     }
 
+    @Override
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public int getID() {
-        return id;
-    }
+        /*AGGIUNGERE CONTROLLO SE PLAYER VISIBILE*/
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-    @Override
-    public boolean firstEffect() {
-        doOneDamage();
-        return false;
-    }
-
-    @Override
-    public boolean secondEffect() {
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
+        if ((!firstAttackSquare.findPlayer(firstDefender)) || (!secondAttackSquare.findPlayer(secondDefender))){
+            return false;
         }
-        doOneDamage();
+
+        /* Se dista uno sull'asse delle X e ha uguale la Y*/
+
+        if (oneDistanceX(attacker, firstDefender)){
+
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            if ((secondDefender != null) && (oneDistanceX(firstDefender, secondDefender))){
+                secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            }
+
+            return true;
+
+        }
+
+        else if (oneDistanceY(attacker, firstDefender)){
+
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            if ((secondDefender != null) && (oneDistanceY(firstDefender, secondDefender))){
+                secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            }
+
+            return true;
+
+        }
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /*AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE*/
+
+        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+
+        for (int i = 0; i < playerList.size(); i++){
+
+            playerList.get(i).sufferDamage(attacker.getColor(), 2, 0);
+
+        }
+
+        /* AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE A firstAttackSquare E DIVERSA DALLA STANZA DI attacker*/
+
+        playerList = secondAttackSquare.getPlayers();
+
+        for (int i = 0; i < playerList.size(); i++){
+
+            playerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+
+        }
+        return true;
+
+    }
+
+    @Override
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /*NON C'È L'EFFETTO */
         return false;
     }
+
+
 }

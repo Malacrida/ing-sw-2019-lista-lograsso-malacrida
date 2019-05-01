@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -20,36 +21,24 @@ public class Whisper extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        firstDefender.sufferDamage(attacker.getColor(), 3, 1);
+        return false;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        return false;
     }
 
     @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        return false;
     }
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
 
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
+    /*@Override
     public boolean firstEffect() {
         for (int i = 0; i < 3; i++){
             doOneDamage();
@@ -66,6 +55,6 @@ public class Whisper extends AbstractWeaponCard {
     @Override
     public boolean thirdEffect() {
         return false;
-    }
+    }*/
 
 }

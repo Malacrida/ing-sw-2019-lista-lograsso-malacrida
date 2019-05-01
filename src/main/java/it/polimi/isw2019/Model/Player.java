@@ -103,6 +103,7 @@ public class Player {
 
     public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark){
         playerBoard.takeDamage(colorPlayer, numDamage);
+
         if (numMark>0){
             playerBoard.addMark(colorPlayer, numMark);
         }

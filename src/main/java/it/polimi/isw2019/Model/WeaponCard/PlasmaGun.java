@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -20,55 +21,24 @@ public class PlasmaGun extends AbstractWeaponCard{
                 "1 move after.");
     }
 
-
     @Override
-    public int getID() {
-        return id;
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
+
+        firstDefender.sufferDamage(attacker.getColor(), 2,0);
+        return true;
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        /* AGGIUNGI MUOVI DI DUE */
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        for (int i = 0; i < 2; i++){
-            doOneDamage();
-        }
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        moveOneSquare();
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        firstDefender.sufferDamage(attacker.getColor(), 1,0);
         return false;
     }
-
-    @Override
-    public boolean thirdEffect() {
-        doOneDamage();
-        return false;
-    }
-
 }
