@@ -56,6 +56,7 @@ public class CyberBlade extends AbstractWeaponCard {
         for(int i = 0; i < 2; i++){
             doOneDamage();
         }
+
         return false;
     }
 

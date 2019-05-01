@@ -11,16 +11,16 @@ public abstract class Square{
     private Square squareE;
     private Square squareS;
     private Square squareO;
-    private boolean spownpoint;
+    private boolean spawnPoint;
     protected ArrayList<Player> players= new ArrayList<>();
 
 
-    Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spownpoint){
+    Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spawnpoint){
         this.squareN=squareN;
         this.squareE=squareE;
         this.squareO=squareO;
         this.squareS=squareS;
-        this.spownpoint=spownpoint;
+        this.spawnPoint = spawnPoint;
     }
 
 
@@ -46,6 +46,7 @@ public abstract class Square{
         return squareAvailable;
     }
 
+
     public boolean findPlayer (Player player){
         return players.contains(player);
 
@@ -55,12 +56,18 @@ public abstract class Square{
         return players.size();
     }
 
-    public void insertPlayers (Player player){
-        players.add(player);
+    public void addPlayer (Player player) throws NullPointerException{
+        if (player!= null) {
+            players.add(player);
+        }
+        else throw new NullPointerException();
     }
 
-    public void removePlayers (Player player){
-        players.remove(player);
+    public void removePlayers (Player player)throws NullPointerException{
+        if (players.contains(player)){
+            players.remove(player);
+        }
+        throw new NullPointerException();
     }
 
     public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards){}
