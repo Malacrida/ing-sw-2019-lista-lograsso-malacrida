@@ -80,5 +80,36 @@ public class Arena {
          }
     }
 
+    //Controllo sul colore scelto dal giocatore dove spownare
+    public void spawnPlayer (ColorRoom colorRoomToSpawn, Player player){
+        switch (colorRoomToSpawn){
+            case RED:
+                squares[0][2].addPlayer(player);
+
+                break;
+            case BLUE:
+                squares[1][0].addPlayer(player);
+                break;
+            case YELLOW:
+                squares[2][3].addPlayer(player);
+                break;
+        }
+
+    }
+
+    //per spostare di posizione il giocaotre
+    public void movePlayer (Player player, int x, int y){
+        ArrayList<Square> squaresAviable = squares[player.getX()][player.getY()].squaresAvailable();
+        if (squaresAviable.contains(squares[x][y])){
+            squares[player.getX()][player.getY()].removePlayers(player);
+            squares[x][y].addPlayer(player);
+
+
+        }
+        //else errore di scelta
+    }
+
+
+
 
 }

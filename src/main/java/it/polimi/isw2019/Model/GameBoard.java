@@ -114,4 +114,12 @@ public class GameBoard {
         }
     }
 
+    public void insertPlayer (Player player, ColorRoom colorRoom){
+        gameArena.spawnPlayer(colorRoom, player);
+    }
+
+    public void changePositionPlayer (Player player, int x, int y){
+        gameArena.movePlayer(player,x,y);
+    }
+
 }
