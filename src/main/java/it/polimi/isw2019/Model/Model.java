@@ -164,6 +164,7 @@ public class Model extends Observable {
         }
     }
 
+
     public void setDamageRanking (Player playerDeath) {
         damageRanking= new int [players.size()][2];
 

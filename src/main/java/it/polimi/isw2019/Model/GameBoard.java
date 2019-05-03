@@ -33,6 +33,7 @@ public class GameBoard {
         return instance;
     }
 
+
     public void chooseArena (int num) throws OutOfRangeException{
         gameArena.instanceArena();
         try {

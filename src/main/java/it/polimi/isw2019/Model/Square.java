@@ -15,14 +15,17 @@ public abstract class Square{
     protected ArrayList<Player> players= new ArrayList<>();
 
 
-    Square ( Square squareN, Square squareE, Square squareO, Square squareS, boolean spawnpoint){
+    Square ( boolean spawnPoint){
+        this.spawnPoint = spawnPoint;
+    }
+
+    public void setSquareAdjacent (Square squareN, Square squareE, Square squareO, Square squareS){
         this.squareN=squareN;
         this.squareE=squareE;
         this.squareO=squareO;
         this.squareS=squareS;
-        this.spawnPoint = spawnPoint;
-    }
 
+    }
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -67,7 +70,7 @@ public abstract class Square{
         if (players.contains(player)){
             players.remove(player);
         }
-        throw new NullPointerException();
+        else throw new NullPointerException();
     }
 
     public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards){}
