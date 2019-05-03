@@ -7,6 +7,8 @@ import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import it.polimi.isw2019.Utilities.Observable;
 
 
@@ -16,6 +18,7 @@ public class Model extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
+    private int [][] damageRanking;
 
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
@@ -102,7 +105,7 @@ public class Model extends Observable {
     }
 
     //mancherebbe la carta
-    public void reload(Player player,ArrayList<Cube> cube){
+    public void reload(Player player,ArrayList<ColorCube> cube){
 
         //cubi vengono spostati dalle munizioni all'ammo box
 
@@ -162,7 +165,26 @@ public class Model extends Observable {
         }
     }
 
+    public void setDamageRanking (Player playerDeath) {
+        damageRanking= new int [players.size()][2];
 
+        //Matrice in ordine decrescente
+        for (int i=0; i<players.size(); i++){
+
+
+        }
+    }
+
+    public void addScoreAfterDeath (Player playerDeath){
+        //Give a point for first blood
+        for (int i=0; i<players.size(); i++){
+            if (players.get(i).getColor()==playerDeath.firstPlayerDoDamage()){
+                players.get(i).addScore(1);
+            }
+        }
+        //switch con i numero dei teschi
+
+    }
 
 
 

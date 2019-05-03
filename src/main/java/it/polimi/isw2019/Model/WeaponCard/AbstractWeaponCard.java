@@ -1,6 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
@@ -22,36 +24,78 @@ public abstract class AbstractWeaponCard{
     //Methods
 
 
-    public abstract int getID();
-
-    public abstract String getName();
-
-    public abstract ArrayList<ColorCube> getRechargecube();
-
-    public abstract ColorCube getColor();
-
-    public abstract ArrayList<String> getInfoEffect();
-
-    public abstract StateCard checkState();
-
-    public abstract boolean firstEffect();
-
-    public abstract boolean secondEffect();
-
-    public abstract boolean thirdEffect();
-
-
-    public static void doOneDamage(){ //prende in ingresso 1 giocatore
-        //Inserire il fai 1 danno
+    public int getID(){
+        return id;
     }
 
-    public static void moveOneSquare(){
-        //inserire il movimento
+    public String getName(){
+        return name;
     }
 
-    public static void putOneMark(){
-        //mettere un marchio
+    public ArrayList<ColorCube> getRechargecube(){
+        return rechargeCube;
+    }
+
+    public ColorCube getColor(){
+        return color;
+    }
+
+    public ArrayList<String> getInfoEffect(){
+        return infoEffect;
+    }
+
+    public StateCard checkState(){
+        return stateCard;
+    }
+
+    public void changeState( StateCard newStateCard) {
+        this.stateCard = newStateCard;
+    }
+
+    //AGGIUNGERE METODO playerIsVisible
+
+
+    /* I due giocatori distano di 1 sull'asse delle X e hanno la stessa Y*/
+
+    public boolean oneDistanceY (Player firstPlayer, Player secondPlayer){
+
+        if (firstPlayer.getX() == secondPlayer.getX()){
+
+            if ((firstPlayer.getY() - secondPlayer.getY()) == 1){
+                return true;
+            }
+
+            else return false;
+        }
+
+        else return false;
     }
 
 
+    /* I due giocatori distano di 1 sull'asse delle X e hanno la stessa Y*/
+
+    public boolean oneDistanceX (Player firstPlayer, Player secondPlayer){
+
+        if (firstPlayer.getY() == secondPlayer.getY()){
+
+            if ((firstPlayer.getX() - secondPlayer.getX()) == 1){
+                return true;
+            }
+
+            else return false;
+        }
+
+        else return false;
+    }
+
+    /*
+    * attackSquare -> square in cui vuole attaccare
+    * attacker -> Player attaccante
+    * defender -> Player colpito
+    */
+    public abstract boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
+
+    public abstract boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
+
+    public abstract boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
 }

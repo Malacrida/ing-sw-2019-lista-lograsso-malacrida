@@ -6,8 +6,4 @@ public class PlayerBoardFrenzy extends AbstractPlayerBoard{
         super(color, true);
     }
 
-    @Override
-    public void scorePlayer() {
-
-    }
 }

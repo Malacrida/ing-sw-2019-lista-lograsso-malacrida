@@ -34,32 +34,56 @@ public abstract class AbstractPlayerBoard {
         return color;
     }
 
-    public void addRedCubes (int num) throws OutOfBoundsException {
+    public void addRedCubes () throws OutOfBoundsException {
         if (redCubes.size()<3){
-            for (int i=0; i<num;i++){
-                redCubes.add(ColorCube.RED);
-                if (redCubes.size()==3) throw new OutOfBoundsException();
-            }
+            redCubes.add(ColorCube.RED);
         }
+        throw new OutOfBoundsException("Non puoi aggiungere più cubi rossi");
     }
 
-    public void addYellowCubes (int num) throws OutOfBoundsException {
+    public void addYellowCubes () throws OutOfBoundsException {
         if (yellowCubes.size()<3){
-            for (int i=0; i<num;i++){
-                yellowCubes.add(ColorCube.RED);
-                if (yellowCubes.size()==3) throw new OutOfBoundsException();
-            }
+            yellowCubes.add(ColorCube.RED);
+
         }
+        throw new OutOfBoundsException();
     }
 
-    public void addBlueCubes (int num) throws OutOfBoundsException {
+    public void addBlueCubes () throws OutOfBoundsException {
         if (blueCubes.size()<3){
-            for (int i=0; i<num;i++){
                 blueCubes.add(ColorCube.RED);
-                if (blueCubes.size()==3) throw new OutOfBoundsException();
+        }
+        throw new OutOfBoundsException();
+    }
+
+    public void removeRedCubes (int num) throws OutOfBoundsException {
+        if (redCubes.size()-num<=0){
+            for (int i=0; i<num;i++){
+                redCubes.remove(ColorCube.RED);
             }
         }
+        throw new OutOfBoundsException("Non hai abbastanza cubi rossi");
     }
+
+    public void removeYellowCubes (int num) throws OutOfBoundsException {
+        if (yellowCubes.size()-num<=0){
+            for (int i=0; i<num;i++){
+                yellowCubes.remove(ColorCube.RED);
+            }
+        }
+        throw new OutOfBoundsException();
+    }
+
+    public void removeBlueCubes (int num) throws OutOfBoundsException {
+        if (blueCubes.size()-num<=0){
+            for (int i=0; i<num;i++){
+                blueCubes.remove(ColorCube.RED);
+            }
+        }
+        throw new OutOfBoundsException();
+    }
+
+
 
     public int getPlayerSkulls() {
         return playerSkulls;
@@ -146,9 +170,9 @@ public abstract class AbstractPlayerBoard {
         damageTokens.clear();
     }
 
-    //crea la mappa con i danni inferti al giocatore e chi li ha inferti
-    public abstract void scorePlayer();
-
+    public ColorPlayer firstBlood(){
+        return damageTokens.get(0);
+    }
 
 
 

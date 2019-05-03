@@ -1,5 +1,6 @@
 package it.polimi.isw2019.Model;
 
+import it.polimi.isw2019.Model.Exception.OutOfBoundsException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
@@ -10,7 +11,7 @@ public class Player {
     private String actionHeroComment; //frase effetto
     private int playerID;
     private ColorPlayer color;
-    private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
+    private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>(); // cariche?
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
     private AbstractPlayerBoard playerBoard;
     private int score; // punteggio del giocatore
@@ -56,6 +57,9 @@ public class Player {
     public int getScore() {
         return score;
     }
+    public int getPlayerID() {
+        return playerID;
+    }
 
     //Nel model un metodo che unisce questo del player e quello con la gameboard
     //Dalla playerMove la carta da scartare
@@ -92,6 +96,51 @@ public class Player {
         powerUpCards.remove(powerUpCard);
     }
 
+    public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
+        int [] price = new int[3];
+        //price = weaponCard.getPrice ();
+        for (int i=0; i<3; i++){
+            if (i==0){
+                playerBoard.removeRedCubes(price[0]);
+            }
+            if (i==1){
+                playerBoard.removeYellowCubes(price[1]);
+            }
+            if (i==2){
+                playerBoard.removeBlueCubes(price[2]);
+            }
+        }
+    }
+
+    public void payEffect (int costRed, int costYellow, int costBlue ) throws OutOfBoundsException {
+        try {
+            if (costRed > 0) {
+                playerBoard.removeRedCubes(costRed);
+            }
+        }
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException(e.getInfo());
+        }
+        try {
+
+            if (costYellow == 1) {
+                playerBoard.removeYellowCubes(costYellow);
+            }
+        }
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException(e.getInfo());
+        }
+        try {
+            if (costBlue==2){
+                playerBoard.removeBlueCubes(costBlue);
+            }
+        }
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException(e.getInfo());
+        }
+
+    }
+
 
 
     public void addScore (int point){
@@ -99,7 +148,9 @@ public class Player {
     }
 
     public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark){
-        playerBoard.takeDamage(colorPlayer, numDamage);
+        if (numDamage>0){
+            playerBoard.takeDamage(colorPlayer, numDamage);
+        }
         if (numMark>0){
             playerBoard.addMark(colorPlayer, numMark);
         }
@@ -108,6 +159,25 @@ public class Player {
     public void giveMark (ColorPlayer colorPlayer, int numMark) {
         playerBoard.addMark(colorPlayer, numMark);
     }
+
+    public int DamageDoByAnotherPlayer (ColorPlayer colorPlayer){
+        return playerBoard.numOfDamagesOfOneColor(colorPlayer);
+    }
+
+    public ColorPlayer firstPlayerDoDamage (){
+        return playerBoard.firstBlood();
+    }
+
+    public int getNumberOfSkulls (){
+        return playerBoard.getPlayerSkulls();
+    }
+
+    public void changePosition (int x, int y, ColorRoom colorRoom){
+        this.x=x;
+        this.y=y;
+        this.colorRoom=colorRoom;
+    }
+
 
 
 

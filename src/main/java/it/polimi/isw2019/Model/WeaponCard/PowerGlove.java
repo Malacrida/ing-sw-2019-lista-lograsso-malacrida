@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -17,60 +18,35 @@ public class PowerGlove extends AbstractWeaponCard {
         this.infoEffect.add("NOTE : In rocket fist mode, you're flying squares in a straight line, punching person per square ");
     }
 
-
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
+        /* AGGIUNGI UN MOVIMENTO */
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        moveOneSquare();
-        doOneDamage();
-        for (int i = 0; i < 2; i++){
-            putOneMark();
-        }
+        firstDefender.sufferDamage(attacker.getColor(), 1, 2);
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        for (int i = 0; i < 2; i++){
-            moveOneSquare();
-            for (int j = 0; j < 2; j++){
-                doOneDamage();
-            }
-        }
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
+
+        /* AGGIUNGI UN MOVIMENTO */
+
+        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+        secondDefender.sufferDamage(attacker.getColor(), 2, 0);
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
     }
+
+
+
+
 }

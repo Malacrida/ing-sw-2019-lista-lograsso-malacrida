@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -18,55 +19,40 @@ public class Hellion extends AbstractWeaponCard {
                 "and everyone else on that square.\n");
     }
 
-
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        /* AGGIUNGERE CONTROLLO STANZA DISTANTE ALMENO UNO*/
+        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
+        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        doOneDamage();
-        putOneMark();
-        return false;
-    }
-
-    @Override
-    public boolean secondEffect() {
-        doOneDamage();
-        for (int i = 0; i < 2; i++){
-            putOneMark();
+        for(int i = 0; i < playerList.size(); i++){
+            playerList.get(i).sufferDamage(attacker.getColor(), 0, 1);
         }
-        return false;
+
+        return true;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        /* AGGIUNGERE CONTROLLO STANZA DISTANTE ALMENO UNO*/
+        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+
+        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+        for(int i = 0; i < playerList.size(); i++){
+            playerList.get(i).sufferDamage(attacker.getColor(), 0, 2);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
     }
+
+
 }
