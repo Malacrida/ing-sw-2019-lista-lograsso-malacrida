@@ -50,6 +50,7 @@ public class Model extends Observable {
         else
                 // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
                 System.out.println("Cannot be added");
+        //notifyObservers(new SetUpMessage("Choose color", currentPlayer.getIdPlayer(),  //colorAvailable ));
     }
 
     public void calculationTemporaryScore(){

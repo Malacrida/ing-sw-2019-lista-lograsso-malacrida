@@ -9,6 +9,7 @@ public abstract class View extends Observable implements Observer<MoveMessage> {
     protected String phrase;
     protected String color;
     protected int idPlayer;
+    protected String playerStatus;
     public abstract void welcome();
     
     public abstract void insertDate();

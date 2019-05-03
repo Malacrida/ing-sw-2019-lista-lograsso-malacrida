@@ -36,6 +36,7 @@ public class SquareSpawn extends Square {
 
 
     public int numOfWeaponCards(){
+
         return weaponCards.size();
     }
 

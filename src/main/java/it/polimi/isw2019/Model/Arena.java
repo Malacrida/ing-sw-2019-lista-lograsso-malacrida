@@ -59,7 +59,7 @@ public class Arena {
     public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles){
         for (int i=0; i<3; i++){
             for (int j=0; j<4; j++){
-                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null ){//non capisco perchè mi sbagliata la condizione i!=2
+                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null){//non capisco perchè mi sbagliata la condizione i!=2
                     squares[i][j].setAmmoTile(ammoTiles.get(i+j));
                 }
             }
