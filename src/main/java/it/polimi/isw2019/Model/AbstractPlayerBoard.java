@@ -143,6 +143,7 @@ public abstract class AbstractPlayerBoard {
 
     //Aggiungere i danni al giocatore
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage){
+
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
         }

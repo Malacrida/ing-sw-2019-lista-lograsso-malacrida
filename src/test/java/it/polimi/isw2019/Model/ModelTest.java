@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ModelTest {
-    PlayerBoard playerBoard1, playerBoard2;
+    PlayerBoard playerBoard2;
     Player player1, player2;
     ColorPlayer colorPlayer1, colorPlayer2;
     Model model;
@@ -26,15 +26,20 @@ public class ModelTest {
 
     }
 
+
+
     //riesco a prendere quella playerboard. NON FUNZIONA
     @Test
     public void testContainsColor() {
         try{
-            model.setPlayer("Alba", "ehi",1,ColorPlayer.BLUE);
-            assertEquals(model.containsColor(ColorPlayer.BLUE), false);
-            fail();
-        }catch(ColorNotAvailableException e){
 
+            model.setPlayer("Alba", "ehi",1,ColorPlayer.BLUE);
+            PlayerBoard playerBoard1 = new PlayerBoard(ColorPlayer.BLUE);
+
+            assertEquals(model.containsColor(ColorPlayer.BLUE), false);
+
+        }catch(ColorNotAvailableException e){
+            fail();
         }
         try{
             //non mi dovrebbe creare il player
