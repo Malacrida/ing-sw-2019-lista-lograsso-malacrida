@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -15,48 +16,52 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        /*CONTROLLI SU STANZE 1, 2, 3 */
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
+        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
+        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
+        thirdDefender.sufferDamage(attacker.getColor(),1,0);
 
-    @Override
-    public boolean firstEffect() {
-        doOneDamage();
+
         return false;
     }
 
     @Override
-    public boolean secondEffect() {
-        doOneDamage();
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+
+        ArrayList<Player> firstPlayerList = firstAttackSquare.getPlayers();
+        ArrayList<Player> secondPlayerList = secondAttackSquare.getPlayers();
+        ArrayList<Player> thirdPlayerList = thirdAttackSquare.getPlayers();
+
+        for(int i = 0; i < firstPlayerList.size(); i++){
+
+            firstPlayerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+
+        }
+
+        for(int i = 0; i < secondPlayerList.size(); i++){
+
+            secondPlayerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+
+        }
+
+        for(int i = 0; i < thirdPlayerList.size(); i++){
+
+            thirdPlayerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+
+        }
+
         return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
         return false;
     }
+
+
 }

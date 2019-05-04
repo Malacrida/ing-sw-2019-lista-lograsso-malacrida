@@ -2,7 +2,6 @@ package it.polimi.isw2019.Model.PowerUpCard;
 
 import it.polimi.isw2019.Model.ColorCube;
 import it.polimi.isw2019.Model.StateCard;
-import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
 public class PowerUpCard implements PowerUpCardInterface {
 
@@ -83,7 +82,7 @@ public class PowerUpCard implements PowerUpCardInterface {
         }
     }
 
-    public void effect(String name){
+    /*public void effect(String name){
         switch (name) {
             case "Targeting Scope":
                 AbstractWeaponCard.doOneDamage();
@@ -104,6 +103,6 @@ public class PowerUpCard implements PowerUpCardInterface {
             default:
                 //lancia eccezione
         }
-    }
+    }*/
 
 }

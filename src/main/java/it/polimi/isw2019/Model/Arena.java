@@ -5,7 +5,7 @@ import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 import java.util.ArrayList;
-
+import static it.polimi.isw2019.Model.ColorRoom.*;
 
 public class Arena {
 
@@ -25,11 +25,10 @@ public class Arena {
         return instance;
     }
 
-
     public void chooseArena (int numArena) throws OutOfRangeException{
         try {
             squares= CreateArena.chooseMap(numArena);
-            rooms = CreateArena.chooseRoom(numArena);
+            rooms= CreateArena.chooseRoom(numArena);
         }
         catch (OutOfRangeException e){
             throw new OutOfRangeException();
@@ -90,6 +89,7 @@ public class Arena {
         switch (colorRoomToSpawn){
             case RED:
                 squares[0][2].addPlayer(player);
+
                 break;
             case BLUE:
                 squares[1][0].addPlayer(player);
@@ -105,7 +105,6 @@ public class Arena {
     public void movePlayer (Player player, int x, int y){
         ArrayList<Square> squaresAviable = squares[player.getX()][player.getY()].squaresAvailable();
         if (squaresAviable.contains(squares[x][y])){
-
             squares[player.getX()][player.getY()].removePlayers(player);
             squares[x][y].addPlayer(player);
 

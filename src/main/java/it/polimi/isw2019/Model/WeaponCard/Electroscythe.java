@@ -1,7 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
@@ -14,53 +15,55 @@ public class Electroscythe extends AbstractWeaponCard {
         this.infoEffect.add("IN REAPER MODE: Deal 2 damage to every other player on your square. You have to pay a BLUE cube and a RED cube.\n");
     }
 
-
     @Override
-    public int getID() {
-        return id;
-    }
+    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        ArrayList<Player> playersList = firstAttackSquare.getPlayers();
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
+        /* Se l'attaccante è nella stanza selezionata allora passa tutti gli elementi dell'array e fai un danno*/
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
+        if (firstAttackSquare.findPlayer(attacker)){
 
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
+            for (int i = 0; i < playersList.size(); i++){
 
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
+                playersList.get(i).sufferDamage(attacker.getColor(), 1, 0);
 
-    @Override
-    public boolean firstEffect() {
-        doOneDamage(); //ad ogni giocatore dentro una stanza, quindi serve magari una lista giocatori prenseti in quella stanza e fare un for each player
-        return false;
-    }
+            }
 
-    @Override
-    public boolean secondEffect() {
-        for (int i = 0; i < 2; i++){ //anche qui ad ogni giocatore dentro una stanza
-            doOneDamage();
+            return true;
         }
-        return false;
+
+        else return false;
     }
 
     @Override
-    public boolean thirdEffect() {
+    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
+
+        ArrayList<Player> playersList = firstAttackSquare.getPlayers();
+
+        /* Se l'attaccante è nella stanza selezionata allora passa tutti gli elementi dell'array e fai un danno*/
+
+        if (firstAttackSquare.findPlayer(attacker)){
+
+            for (int i = 0; i < playersList.size(); i++){
+
+                playersList.get(i).sufferDamage(attacker.getColor(), 2, 0);
+
+            }
+
+            return true;
+        }
+
+        else return false;
+    }
+
+    @Override
+    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+        /*NON ESISTE IL QUESTO EFFETTO*/
+
         return false;
     }
+
+
 }
