@@ -114,15 +114,14 @@ public class Arena {
     }
 
     //per spostare di posizione il giocaotre
-    public void movePlayer (Player player, int x, int y){
-        ArrayList<Square> squaresAviable = squares[player.getX()][player.getY()].squaresAvailable();
-        if (squaresAviable.contains(squares[x][y])){
+    public boolean movePlayer (Player player, int x, int y){
+        ArrayList<Square> squaresAvailable = squares[player.getX()][player.getY()].squaresAvailable();
+        if (squaresAvailable.contains(squares[x][y])){
             squares[player.getX()][player.getY()].removePlayers(player);
             squares[x][y].addPlayer(player);
-
-
+            return true;
         }
-        //else errore di scelta
+        else return false;
     }
 
     //metodo dove dato uno squere ritorno il colore della stanza dov'è

@@ -37,7 +37,7 @@ public class GameBoard {
 
     public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException{
         try {
-            gameArena.instanceArena();
+            gameArena = Arena.instanceArena();
         }
         catch (InstanceArenaException e){
             throw new InstanceArenaException();
@@ -129,8 +129,8 @@ public class GameBoard {
         gameArena.spawnPlayer(colorRoom, player);
     }
 
-    public void changePositionPlayer (Player player, int x, int y){
-        gameArena.movePlayer(player,x,y);
+    public boolean changePositionPlayer (Player player, int x, int y){
+        return gameArena.movePlayer(player,x,y);
     }
 
 }

@@ -35,7 +35,9 @@ public class Controller implements Observer<PlayerMove> {
 
     }
 
-    public void performAction(Action actionMove) {
+
+
+    public void performAction(/*Action actionMove*/) {
 
         //switch case in base allo status del player
         //passato il controllo alla corretta classe del pattern STRATEGY
@@ -44,7 +46,7 @@ public class Controller implements Observer<PlayerMove> {
 
     }
 
-    public void performNormalAction(Action actionMove){
+    public void performNormalAction(/*Action actionMove*/){
         //switch case in base all'id dell'azione
 
         //se l'azione e' run,viene invocato il metodo RUN se le caselle sono adiacenti (metodo nel model, //se NON sono adiacenti , viene generato un mex di errore)
@@ -84,7 +86,7 @@ public class Controller implements Observer<PlayerMove> {
                 updateColorPlayer(playerMove);
                 break;
             case "ACTION":
-                performAction((Action)(playerMove));
+                //performAction((Action)(playerMove));
                 break;
 
             case "POWERUP CARD" :

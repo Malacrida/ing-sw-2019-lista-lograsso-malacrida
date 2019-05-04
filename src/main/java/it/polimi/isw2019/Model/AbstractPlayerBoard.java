@@ -34,6 +34,18 @@ public abstract class AbstractPlayerBoard {
         return color;
     }
 
+    public int numOfRedCubes (){
+        return redCubes.size();
+    }
+
+    public int numOfBlueCubes (){
+        return blueCubes.size();
+    }
+
+    public int numOfYellowCubes (){
+        return yellowCubes.size();
+    }
+
     public void addRedCubes () throws OutOfBoundsException {
         if (redCubes.size()<3){
             redCubes.add(ColorCube.RED);
