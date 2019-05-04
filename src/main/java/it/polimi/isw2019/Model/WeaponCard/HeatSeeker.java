@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class HeatSeeker extends AbstractWeaponCard {
 
-    public HeatSeeker() {
-        super(10, "HeatSeeker", ColorCube.RED, 1);
+    public HeatSeeker(int id, String name, ColorCube color) {
+        super(10, "HeatSeeker", ColorCube.RED);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("EFFECT: Choose 1 target you cannot see and deal 3 damage " +
                 "to it.");

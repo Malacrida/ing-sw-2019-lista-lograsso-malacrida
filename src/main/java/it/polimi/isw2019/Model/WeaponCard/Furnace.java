@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class Furnace extends AbstractWeaponCard {
 
-    public Furnace() {
-        super(9, "Furnace", ColorCube.RED, 1);
+    public Furnace(int id, String name, ColorCube color) {
+        super(9, "Furnace", ColorCube.RED);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Choose a room you can see, but not the room\n" +
                 "you are in. Deal 1 damage to everyone in that room.\n");

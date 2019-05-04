@@ -96,6 +96,7 @@ public class Player {
         powerUpCards.remove(powerUpCard);
     }
 
+    //non fare test
     public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
         int [] price = new int[3];
         //price = weaponCard.getPrice ();
@@ -112,6 +113,7 @@ public class Player {
         }
     }
 
+    //non fare test
     public void payEffect (int costRed, int costYellow, int costBlue ) throws OutOfBoundsException {
         try {
             if (costRed > 0) {
@@ -123,7 +125,7 @@ public class Player {
         }
         try {
 
-            if (costYellow == 1) {
+            if (costYellow > 0) {
                 playerBoard.removeYellowCubes(costYellow);
             }
         }
@@ -147,6 +149,8 @@ public class Player {
         score= score+point;
     }
 
+
+    //Dargli un nuovo nome (giveDamareOrMark)
     public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark){
         if (numDamage>0){
             playerBoard.takeDamage(colorPlayer, numDamage);
@@ -156,9 +160,7 @@ public class Player {
         }
     }
 
-    public void giveMark (ColorPlayer colorPlayer, int numMark) {
-        playerBoard.addMark(colorPlayer, numMark);
-    }
+
 
     public int DamageDoByAnotherPlayer (ColorPlayer colorPlayer){
         return playerBoard.numOfDamagesOfOneColor(colorPlayer);

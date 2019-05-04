@@ -10,9 +10,13 @@ public class SquareAmmo extends Square {
     private AmmoTile ammoTile;
     private boolean useAmmo;
 
-    SquareAmmo( Square squareN, Square squareE, Square squareS, Square squareO) {
-        super( squareN, squareE, squareO, squareS, false);
+    SquareAmmo() {
+        super( false);
         useAmmo= false;
+    }
+
+    public AmmoTile getAmmoTile() {
+        return ammoTile;
     }
 
     public boolean isUseAmmo (){

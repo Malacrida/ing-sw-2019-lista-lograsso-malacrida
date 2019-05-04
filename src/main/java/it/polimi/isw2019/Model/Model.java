@@ -53,6 +53,7 @@ public class Model extends Observable {
         else
                 // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
                 System.out.println("Cannot be added");
+        //notifyObservers(new SetUpMessage("Choose color", currentPlayer.getIdPlayer(),  //colorAvailable ));
     }
 
     public void calculationTemporaryScore(){
@@ -141,7 +142,7 @@ public class Model extends Observable {
     }
 
 
-    public int positionPlayerBoardAviable (ColorPlayer color) throws ColorNotAvailableException {
+    public int positionPlayerBoardAvailable (ColorPlayer color) throws ColorNotAvailableException {
         for (int i=0; i<playerBoardsAvailable.size(); i++){
             if (playerBoardsAvailable.get(i).getColor()==color) return i;
         }
@@ -149,28 +150,31 @@ public class Model extends Observable {
     }
 
     //Set del colore del player
-    public void setPlayer (String name,  String actionHeroComment, int playerID, ColorPlayer colorPlayer) throws ColorNotAvailableException {
+    public void setPlayer (String name,  String actionHeroComment, int playerID) {
+        Player player= new Player(name, actionHeroComment, playerID);
+        players.add(player);
+
+    }
+
+    public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
         try {
-            if (containsColor(colorPlayer)){
-                Player player= new Player(name, actionHeroComment, playerID);
-                players.add(player);
-                playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAviable(colorPlayer)));
-            }
+            player.setPlayerBoardAndColor(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)), colorPlayer);
+            playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)));
         }
         catch (ColorNotAvailableException e){
             throw new ColorNotAvailableException();
             //Manda un messaggio di scelta sbagliata -> Update!!
             // al posto di rilanciare l'eccezione
         }
+
     }
+
 
     public void setDamageRanking (Player playerDeath) {
         damageRanking= new int [players.size()][2];
 
         //Matrice in ordine decrescente
         for (int i=0; i<players.size(); i++){
-
-
         }
     }
 

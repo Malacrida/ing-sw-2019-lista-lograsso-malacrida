@@ -13,6 +13,10 @@ public class PlayerBoard extends AbstractPlayerBoard {
         return super.getColor();
     }
 
+    public PlayerBoard getPlayerBoard(){
+        return this;
+    }
+
     /*@Override
     public void scorePlayer() {
         ArrayList<ColorPlayer> colorDamage = listOfColorDamage();

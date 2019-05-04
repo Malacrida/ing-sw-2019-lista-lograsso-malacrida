@@ -34,11 +34,23 @@ public abstract class AbstractPlayerBoard {
         return color;
     }
 
+    public int numOfRedCubes (){
+        return redCubes.size();
+    }
+
+    public int numOfBlueCubes (){
+        return blueCubes.size();
+    }
+
+    public int numOfYellowCubes (){
+        return yellowCubes.size();
+    }
+
     public void addRedCubes () throws OutOfBoundsException {
         if (redCubes.size()<3){
             redCubes.add(ColorCube.RED);
         }
-        throw new OutOfBoundsException("Non puoi aggiungere più cubi rossi");
+        else throw new OutOfBoundsException("Non puoi aggiungere più cubi rossi");
     }
 
     public void addYellowCubes () throws OutOfBoundsException {
@@ -46,41 +58,41 @@ public abstract class AbstractPlayerBoard {
             yellowCubes.add(ColorCube.RED);
 
         }
-        throw new OutOfBoundsException();
+        else throw new OutOfBoundsException("Non puoi aggiungere più cubi gialli");
     }
 
     public void addBlueCubes () throws OutOfBoundsException {
         if (blueCubes.size()<3){
                 blueCubes.add(ColorCube.RED);
         }
-        throw new OutOfBoundsException();
+        else throw new OutOfBoundsException("Non puoi aggiungere più cubi blu");
     }
 
     public void removeRedCubes (int num) throws OutOfBoundsException {
-        if (redCubes.size()-num<=0){
-            for (int i=0; i<num;i++){
+        if (redCubes.size()-num>=0){
+            for (int i=redCubes.size(); i>0;i--){
                 redCubes.remove(ColorCube.RED);
             }
         }
-        throw new OutOfBoundsException("Non hai abbastanza cubi rossi");
+        else throw new OutOfBoundsException("Non hai abbastanza cubi rossi");
     }
 
     public void removeYellowCubes (int num) throws OutOfBoundsException {
-        if (yellowCubes.size()-num<=0){
-            for (int i=0; i<num;i++){
+        if (yellowCubes.size()-num>=0){
+            for (int i=yellowCubes.size(); i>0;i--){
                 yellowCubes.remove(ColorCube.RED);
             }
         }
-        throw new OutOfBoundsException();
+        else throw new OutOfBoundsException("Non hai abbastanza cubi gialli");
     }
 
     public void removeBlueCubes (int num) throws OutOfBoundsException {
-        if (blueCubes.size()-num<=0){
-            for (int i=0; i<num;i++){
+        if (blueCubes.size()-num>=0){
+            for (int i=blueCubes.size(); i>0;i--){
                 blueCubes.remove(ColorCube.RED);
             }
         }
-        throw new OutOfBoundsException();
+        else throw new OutOfBoundsException("Non hai abbastanza cubi blu!");
     }
 
 

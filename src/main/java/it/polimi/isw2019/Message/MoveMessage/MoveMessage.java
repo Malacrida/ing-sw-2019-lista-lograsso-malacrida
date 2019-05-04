@@ -2,17 +2,19 @@ package it.polimi.isw2019.Message.MoveMessage;
 
 import java.util.ArrayList;
 
-public class MoveMessage {
+public abstract class MoveMessage {
 
     private String idMoveMessage;
-    private ArrayList<String> colorAvailable;
     private int idPlayer;
 
 
-    public MoveMessage(String idMoveMessage, int idPlayer ,ArrayList<String> colorAvailable){
+    public MoveMessage(String idMoveMessage){
+        this.idMoveMessage = idMoveMessage;
+    }
+
+    public MoveMessage(String idMoveMessage, int idPlayer){
         this.idMoveMessage = idMoveMessage;
         this.idPlayer = idPlayer;
-        this.colorAvailable = colorAvailable;
     }
 
 
@@ -23,10 +25,6 @@ public class MoveMessage {
 
     public int getIdPlayer(){
         return idPlayer;
-    }
-
-    public ArrayList<String > getColor(){
-        return colorAvailable;
     }
 
 

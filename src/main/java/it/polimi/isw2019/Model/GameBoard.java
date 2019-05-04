@@ -3,6 +3,7 @@ package it.polimi.isw2019.Model;
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Model.Exception.EndWeaponCardException;
+import it.polimi.isw2019.Model.Exception.InstanceArenaException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
@@ -33,8 +34,14 @@ public class GameBoard {
         return instance;
     }
 
-    public void chooseArena (int num) throws OutOfRangeException{
-        gameArena.instanceArena();
+
+    public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException{
+        try {
+            gameArena = Arena.instanceArena();
+        }
+        catch (InstanceArenaException e){
+            throw new InstanceArenaException();
+        }
         try {
             gameArena.chooseArena(num);
         }
@@ -114,12 +121,16 @@ public class GameBoard {
         }
     }
 
+    public ArrayList<Player> playersInOneSquare (int x, int y, Player player){
+        return gameArena.playersInOneSquareOnArena(x,y,player);
+    }
+
     public void insertPlayer (Player player, ColorRoom colorRoom){
         gameArena.spawnPlayer(colorRoom, player);
     }
 
-    public void changePositionPlayer (Player player, int x, int y){
-        gameArena.movePlayer(player,x,y);
+    public boolean changePositionPlayer (Player player, int x, int y){
+        return gameArena.movePlayer(player,x,y);
     }
 
 }

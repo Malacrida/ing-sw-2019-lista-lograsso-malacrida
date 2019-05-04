@@ -6,7 +6,7 @@ import it.polimi.isw2019.Model.Player;
 
 import java.util.ArrayList;
 
-public class CyberBlade extends AbstractWeaponCard {
+/*public class CyberBlade extends AbstractWeaponCard {
 
     public CyberBlade(){
         super(16, "Cyber Blade", ColorCube.YELLOW, 3);
@@ -63,3 +63,4 @@ public class CyberBlade extends AbstractWeaponCard {
     }
 
 }
+*/
