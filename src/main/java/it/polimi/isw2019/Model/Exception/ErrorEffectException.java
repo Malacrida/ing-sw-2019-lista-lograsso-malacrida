@@ -1,8 +1,8 @@
 package it.polimi.isw2019.Model.Exception;
 
-public class ErrorEffect extends Exception {
+public class ErrorEffectException extends Exception {
 
-    public ErrorEffect() {
+    public ErrorEffectException() {
         super("ERROR!");
     }
 }

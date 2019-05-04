@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Player;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if (firstDefender != null) {
 
@@ -30,12 +30,12 @@ public class Thor extends AbstractWeaponCard{
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
         }
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         if (this.firstIsValid){
 
@@ -44,13 +44,13 @@ public class Thor extends AbstractWeaponCard{
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if(this.secondIsValid) {
 
@@ -58,7 +58,7 @@ public class Thor extends AbstractWeaponCard{
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }

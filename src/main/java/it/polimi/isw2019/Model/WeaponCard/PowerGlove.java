@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
 
@@ -20,7 +20,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
             /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
             /* AGGIUNGI UN MOVIMENTO */
@@ -32,13 +32,13 @@ public class PowerGlove extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
             /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
             /* AGGIUNGI UN MOVIMENTO */
@@ -54,7 +54,7 @@ public class PowerGlove extends AbstractWeaponCard {
                 }
             } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
 

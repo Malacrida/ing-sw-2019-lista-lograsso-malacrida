@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
 
@@ -24,7 +24,7 @@ public class RailGun extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
         /* controllo in una direzione */
 
         char direction = sameDirection(attacker, firstDefender);
@@ -35,14 +35,14 @@ public class RailGun extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
 
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         char firstDirection = sameDirection(attacker, firstDefender);
         char secondDirection = sameDirection(attacker, firstDefender);
@@ -55,7 +55,7 @@ public class RailGun extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }

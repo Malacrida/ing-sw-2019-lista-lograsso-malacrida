@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
 
@@ -9,15 +9,15 @@ import java.util.ArrayList;
 
 public class Electroscythe extends AbstractWeaponCard {
 
-    public Electroscythe(int id, String name, ColorCube color) {
-        super(6, "Electroscythe", ColorCube.BLUE);
+    public Electroscythe() {
+        super(6, "Electroscythe", ColorCube.BLUE, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage and to every other player on your square.\n");
         this.infoEffect.add("IN REAPER MODE: Deal 2 damage to every other player on your square. You have to pay a BLUE cube and a RED cube.\n");
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /*Square square = new SquareAmmo(); //chiedere a Sara
 
@@ -34,12 +34,12 @@ public class Electroscythe extends AbstractWeaponCard {
         }
         else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
         }*/
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
         //ArrayList<Player> playersList = square[x1][y1].getPlayers();
 
@@ -57,8 +57,8 @@ public class Electroscythe extends AbstractWeaponCard {
 
             }
 
-        } catch (ErrorEffect) {
-            throw new ErrorEffect();
+        } catch (ErrorEffectException) {
+            throw new ErrorEffectException();
         }*/
 
     }

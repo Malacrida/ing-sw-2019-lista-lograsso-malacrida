@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
 
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class GrenadeLauncher extends AbstractWeaponCard {
 
-    public GrenadeLauncher(int id, String name, ColorCube color) {
-        super(13, "Grenade Launcher", ColorCube.RED);
+    public GrenadeLauncher() {
+        super(13, "Grenade Launcher", ColorCube.RED, 2);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage to 1 target you can see. Then you may move\n" +
                 "the target 1 square.\n");
@@ -25,7 +25,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
 
         if (firstDefender != null){
@@ -36,14 +36,14 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
 
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
 /*        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
@@ -56,9 +56,9 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
             }
 
-        } catch (ErrorEffect) {
+        } catch (ErrorEffectException) {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }*/
 

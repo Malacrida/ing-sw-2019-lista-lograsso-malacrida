@@ -1,9 +1,6 @@
 package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
-//import it.polimi.isw2019.Model.WeaponCard.CyberBlade;
-import it.polimi.isw2019.Model.WeaponCard.Electroscythe;
-import it.polimi.isw2019.Model.WeaponCard.Flamethrower;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +8,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+
+//import it.polimi.isw2019.Model.WeaponCard.CyberBlade;
 
 public class SquareSpawnTest {
 
@@ -36,7 +35,7 @@ public class SquareSpawnTest {
         squareSpawn5= new SquareSpawn();
         //weaponCard1= new CyberBlade(0,null,null);
        // weaponCard2= new Electroscythe(1,null,null);
-        weaponCard3= new Flamethrower(2,null,null);
+        //weaponCard3= new Flamethrower(2,null,null);
         weaponCards.add(weaponCard1);
         weaponCards.add(weaponCard2);
         weaponCards.add(weaponCard3);

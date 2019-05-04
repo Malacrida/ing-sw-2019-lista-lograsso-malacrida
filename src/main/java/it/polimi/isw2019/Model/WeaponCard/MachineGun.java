@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Player;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MachineGun extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /*Verificare se lo vede*/
         if (firstDefender != null){
@@ -37,14 +37,14 @@ public class MachineGun extends AbstractWeaponCard {
         }
         else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
 
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
@@ -54,7 +54,7 @@ public class MachineGun extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }
@@ -63,7 +63,7 @@ public class MachineGun extends AbstractWeaponCard {
 
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if (firstIsValid){
 
@@ -77,7 +77,7 @@ public class MachineGun extends AbstractWeaponCard {
 
         } else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }

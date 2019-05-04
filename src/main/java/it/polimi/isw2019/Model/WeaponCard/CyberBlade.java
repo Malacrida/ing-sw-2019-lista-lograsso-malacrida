@@ -1,12 +1,12 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Player;
 
 import java.util.ArrayList;
 
-/*public class CyberBlade extends AbstractWeaponCard {
+public class CyberBlade extends AbstractWeaponCard {
 
     public CyberBlade(){
         super(16, "Cyber Blade", ColorCube.YELLOW, 3);
@@ -20,7 +20,7 @@ import java.util.ArrayList;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if (sameSquare(attacker, firstDefender)){
 
@@ -30,26 +30,26 @@ import java.util.ArrayList;
 
         else {
 
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
 
         }
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
-        if (firstDefender != null){
-                System.out.println("DEVO INSERIRE QUALCOSA ALTRIMETNI MI DA ERRORE, È SOLO LO SCHELETRO DEL METODO");
-                /*MUOVI DI UNO*/
+        if (firstDefender != null) {
+            System.out.println("DEVO INSERIRE QUALCOSA ALTRIMETNI MI DA ERRORE, È SOLO LO SCHELETRO DEL METODO");
+            /*MUOVI DI UNO*/
 
         }
         else {
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
         }
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         if (sameSquare(attacker, secondDefender)){
 
@@ -58,9 +58,8 @@ import java.util.ArrayList;
         }
 
         else {
-            throw new ErrorEffect();
+            throw new ErrorEffectException();
         }
     }
 
 }
-*/
