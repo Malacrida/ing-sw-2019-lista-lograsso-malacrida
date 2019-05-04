@@ -6,6 +6,7 @@ public abstract class ViewCLIAction {
     private char status;
     private int [][] matrix;
     private int maxMovement;
+
     public ViewCLIAction(String idPlayerMove, String idAction){
         this.idPlayerMove = idPlayerMove;
 

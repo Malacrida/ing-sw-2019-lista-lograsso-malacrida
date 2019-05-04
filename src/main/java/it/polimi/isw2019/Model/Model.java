@@ -165,13 +165,12 @@ public class Model extends Observable {
         }
     }
 
+
     public void setDamageRanking (Player playerDeath) {
         damageRanking= new int [players.size()][2];
 
         //Matrice in ordine decrescente
         for (int i=0; i<players.size(); i++){
-
-
         }
     }
 

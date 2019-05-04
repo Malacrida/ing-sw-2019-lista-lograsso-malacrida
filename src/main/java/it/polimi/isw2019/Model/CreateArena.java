@@ -13,6 +13,7 @@ public class CreateArena {
     private static ArrayList<Room> rooms= new ArrayList<>();
 
     public static Square[][] chooseMap (int numArena) throws OutOfRangeException {
+        setSquares();
         switch (numArena){
             case 1:
                 setMap1();
@@ -52,21 +53,39 @@ public class CreateArena {
         return rooms;
     }
 
+    private static void setSquares(){
+        squares[0][0]= new SquareAmmo();
+        squares[0][1]= new SquareAmmo();
+        squares[0][2]= new SquareSpawn();
+        squares[0][3]= new SquareAmmo();
+
+        squares[1][0]= new SquareSpawn();
+        squares[1][1]= new SquareAmmo();
+        squares[1][2]= new SquareAmmo();
+        squares[1][3]= new SquareAmmo();
+
+        squares[2][0]= new SquareAmmo();
+        squares[2][1]= new SquareAmmo();
+        squares[2][2]= new SquareAmmo();
+        squares[2][3]= new SquareSpawn();
+
+    }
+
     private static void setMap1 (){
-        squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
-        squares[0][1]= new SquareAmmo(null, squares[0][2], null, squares[0][0]);
-        squares[0][2]= new SquareSpawn(null, squares[0][3], squares[1][2], squares[0][1]);
-        squares[0][3]= new SquareAmmo(null,null,squares[1][3], squares[0][2]);
+        squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
+        squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
+        squares[0][2].setSquareAdjacent(null, squares[0][3], squares[1][2], squares[0][1]);
+        squares[0][3].setSquareAdjacent(null,null,squares[1][3], squares[0][2]);
 
-        squares[1][0]= new SquareSpawn(squares[0][0], squares[1][1], null,null);
-        squares[1][1]= new SquareAmmo(null, null, squares[2][1], squares[1][0]);
-        squares[1][2]= new SquareAmmo(squares[0][2], squares[1][3], squares[2][2], null);
-        squares[1][3]= new SquareAmmo(squares[0][3],null,squares[2][3], squares[1][2]);
+        squares[1][0].setSquareAdjacent(squares[0][0], squares[1][1], null,null);
+        squares[1][1].setSquareAdjacent(null, null, squares[2][1], squares[1][0]);
+        squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], squares[2][2], null);
+        squares[1][3].setSquareAdjacent(squares[0][3],null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= new SquareAmmo(null, null, null,null); //stanza non disponibile
-        squares[2][1]= new SquareAmmo(squares[1][1], squares[2][2], null, null);
-        squares[2][2]= new SquareAmmo(squares[1][2], squares[2][3], null, squares[2][1]);
-        squares[2][3]= new SquareSpawn(squares[1][3],null,null, squares[2][2]);
+        squares[2][0].setSquareAdjacent(null, null, null,null); //stanza non disponibile
+        squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
+        squares[2][2].setSquareAdjacent(squares[1][2], squares[2][3], null, squares[2][1]);
+        squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
 
@@ -100,20 +119,20 @@ public class CreateArena {
     }
 
     private static void setMap2 (){
-        squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
-        squares[0][1]= new SquareAmmo(null, squares[0][2], squares[1][1], squares[0][0]);
-        squares[0][2]= new SquareSpawn(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]= new SquareAmmo(null,null,null, null);//stanza non disponibile
+        squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
+        squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
+        squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
+        squares[0][3].setSquareAdjacent(null,null,null, null);//stanza non disponibile
 
-        squares[1][0]= new SquareSpawn(squares[0][0], null, squares[0][1],null);
-        squares[1][1]= new SquareAmmo(squares[0][1], squares[1][2], squares[2][1], null);
-        squares[1][2]= new SquareAmmo(squares[0][2], squares[1][3], null, squares[1][1]);
-        squares[1][3]= new SquareAmmo(null,null,squares[2][3], squares[1][2]);
+        squares[1][0].setSquareAdjacent(squares[0][0], null, squares[0][1],null);
+        squares[1][1].setSquareAdjacent(squares[0][1], squares[1][2], squares[2][1], null);
+        squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], null, squares[1][1]);
+        squares[1][3].setSquareAdjacent(null,null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= new SquareAmmo(squares[1][0], squares[2][1], null,null);
-        squares[2][1]= new SquareAmmo(squares[1][1], squares[2][2], null, squares[2][0]);
-        squares[2][2]= new SquareAmmo(null, squares[2][3], null, squares[2][1]);
-        squares[2][3]= new SquareSpawn(squares[1][3],null,null, squares[2][2]);
+        squares[2][0].setSquareAdjacent(squares[1][0], squares[2][1], null,null);
+        squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, squares[2][0]);
+        squares[2][2].setSquareAdjacent(null, squares[2][3], null, squares[2][1]);
+        squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
 
@@ -147,20 +166,20 @@ public class CreateArena {
     }
 
     private static void setMap3 (){
-        squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
-        squares[0][1]= new SquareAmmo(null, squares[0][2], null, squares[0][0]);
-        squares[0][2]= new SquareSpawn(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]= new SquareAmmo(null,null,null, null); // stanza non disponibile
+        squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
+        squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
+        squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
+        squares[0][3].setSquareAdjacent(null,null,null, null); // stanza non disponibile
 
-        squares[1][0]= new SquareSpawn(squares[0][0], squares[1][1], null,null);
-        squares[1][1]= new SquareAmmo(null, squares[1][2], squares[2][1], squares[1][0]);
-        squares[1][2]= new SquareAmmo(squares[0][2], squares[1][3], null, squares[1][1]);
-        squares[1][3]= new SquareAmmo(null,null,squares[2][3], squares[1][2]);
+        squares[1][0].setSquareAdjacent(squares[0][0], squares[1][1], null,null);
+        squares[1][1].setSquareAdjacent(null, squares[1][2], squares[2][1], squares[1][0]);
+        squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], null, squares[1][1]);
+        squares[1][3].setSquareAdjacent(null,null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= new SquareAmmo(null, null, null,null); // stanza non disponibile
-        squares[2][1]= new SquareAmmo(squares[1][1], squares[2][2], null, null);
-        squares[2][2]= new SquareAmmo(null, squares[2][3], null, squares[2][1]);
-        squares[2][3]= new SquareSpawn(squares[1][3],null,null, squares[2][2]);
+        squares[2][0].setSquareAdjacent(null, null, null,null); // stanza non disponibile
+        squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
+        squares[2][2].setSquareAdjacent(null, squares[2][3], null, squares[2][1]);
+        squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
 
@@ -190,20 +209,20 @@ public class CreateArena {
     }
 
     private static void setMap4 (){
-        squares[0][0]= new SquareAmmo(null, squares[0][1], squares[1][0],null);
-        squares[0][1]= new SquareAmmo(null, squares[0][2], squares[1][1], squares[0][0]);
-        squares[0][2]= new SquareSpawn(null, squares[0][3], squares[1][2], squares[0][1]);
-        squares[0][3]= new SquareAmmo(null,null,squares[1][3], squares[0][2]);
+        squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0], null);
+        squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
+        squares[0][2].setSquareAdjacent(null, squares[0][3], squares[1][2], squares[0][1]);
+        squares[0][3].setSquareAdjacent(null,null,squares[1][3], squares[0][2]);
 
-        squares[1][0]= new SquareSpawn(squares[0][0], null, squares[2][0],null);
-        squares[1][1]= new SquareAmmo(squares[0][1], null, squares[2][1], null);
-        squares[1][2]= new SquareAmmo(squares[0][2], squares[1][3], squares[2][2], null);
-        squares[1][3]= new SquareAmmo(squares[0][3],null,squares[2][3], squares[1][2]);
+        squares[1][0].setSquareAdjacent(squares[0][0], null, squares[2][0],null);
+        squares[1][1].setSquareAdjacent(squares[0][1], null, squares[2][1], null);
+        squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], squares[2][2], null);
+        squares[1][3].setSquareAdjacent(squares[0][3],null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= new SquareAmmo(squares[1][0], squares[1][1], null,null);
-        squares[2][1]= new SquareAmmo(squares[1][1], squares[2][2], null, squares[2][0]);
-        squares[2][2]= new SquareAmmo(squares[1][2], squares[2][3], null, squares[2][1]);
-        squares[2][3]= new SquareSpawn(squares[1][3],null,null, squares[2][2]);
+        squares[2][0].setSquareAdjacent(squares[1][0], squares[1][1], null,null);
+        squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, squares[2][0]);
+        squares[2][2].setSquareAdjacent(squares[1][2], squares[2][3], null, squares[2][1]);
+        squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
 

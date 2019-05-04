@@ -2,6 +2,7 @@ package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
+import it.polimi.isw2019.Model.Exception.InstanceArenaException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 import java.util.ArrayList;
@@ -14,15 +15,16 @@ public class Arena {
 
     private ArrayList<Room> rooms= new ArrayList<>();
 
-    Arena(){
+    private Arena(){
 
     }
 
-    public static Arena instanceArena (){
+    public static Arena instanceArena () throws InstanceArenaException {
         if (instance==null) {
             instance = new Arena();
+            return instance;
         }
-        return instance;
+        else throw new InstanceArenaException ();
     }
 
     public void chooseArena (int numArena) throws OutOfRangeException{
@@ -59,8 +61,12 @@ public class Arena {
     public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles){
         for (int i=0; i<3; i++){
             for (int j=0; j<4; j++){
-                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null){//non capisco perchè mi sbagliata la condizione i!=2
-                    squares[i][j].setAmmoTile(ammoTiles.get(i+j));
+                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null ){
+                    //non capisco perchè mi sbagliata la condizione i!=2
+                    // fare un metodo che contiene la condizione
+                    squares[i][j].setAmmoTile(ammoTiles.get(0));
+                    ammoTiles.remove(0);
+                    //cambio di stato
                 }
             }
 
@@ -79,6 +85,16 @@ public class Arena {
              throw new AmmoTileUseException();
          }
     }
+
+    public ArrayList<Player> playersInOneSquareOnArena (int x, int y,Player player){
+        ArrayList<Player> players = squares[x][y].getPlayers();
+        if(players.contains(player)){
+            players.remove(player);
+        }
+        return players;
+    }
+
+
 
     //Controllo sul colore scelto dal giocatore dove spownare
     public void spawnPlayer (ColorRoom colorRoomToSpawn, Player player){
@@ -108,6 +124,8 @@ public class Arena {
         }
         //else errore di scelta
     }
+
+    //metodo dove dato uno squere ritorno il colore della stanza dov'è
 
 
 
