@@ -37,7 +37,7 @@ public class GameBoard {
 
     public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException{
         try {
-            gameArena.instanceArena();
+            gameArena = Arena.instanceArena();
         }
         catch (InstanceArenaException e){
             throw new InstanceArenaException();

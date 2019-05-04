@@ -25,13 +25,13 @@ public class ArenaTest {
     @Test
     public void testInstanceArena(){
         try {
-            instArena1.instanceArena();
+            instArena1 = Arena.instanceArena();
         }
         catch (InstanceArenaException e){
             fail();
         }
         try {
-            instArena2.instanceArena();
+            instArena2 = Arena.instanceArena();
             fail();
         }
         catch (InstanceArenaException e){
