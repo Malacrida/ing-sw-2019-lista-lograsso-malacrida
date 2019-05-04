@@ -5,7 +5,7 @@ import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
 
-public class CyberBlade extends AbstractWeaponCard {
+/*public class CyberBlade extends AbstractWeaponCard {
 
     public CyberBlade(int id, String name, ColorCube color){
         super(16, "Cyber Blade", ColorCube.YELLOW);
@@ -74,3 +74,4 @@ public class CyberBlade extends AbstractWeaponCard {
         return false;
     }
 }
+*/

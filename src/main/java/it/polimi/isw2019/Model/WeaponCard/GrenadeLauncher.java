@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class GrenadeLauncher extends AbstractWeaponCard {
 
-    public GrenadeLauncher(int id, String name, ColorCube color) {
+    public GrenadeLauncher(/*int id, String name, ColorCube color*/) {
         super(13, "Grenade Launcher", ColorCube.RED);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage to 1 target you can see. Then you may move\n" +

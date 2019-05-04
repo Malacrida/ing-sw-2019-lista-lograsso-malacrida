@@ -66,6 +66,7 @@ public class Player {
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
     public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
+        //NULL
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
         }
@@ -79,6 +80,7 @@ public class Player {
     //Dalla playerMove la carta da scartare
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
+
     public void takePowerUpCard (PowerUpCard insertPowerUpCard, PowerUpCard removePowerUpCard){
         if (powerUpCards.size()<3){
             powerUpCards.add(insertPowerUpCard);
@@ -98,7 +100,7 @@ public class Player {
 
     public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
         int [] price = new int[3];
-        //price = weaponCard.getPrice ();
+        //price = weaponCard.getPrice();
         for (int i=0; i<3; i++){
             if (i==0){
                 playerBoard.removeRedCubes(price[0]);
@@ -147,7 +149,9 @@ public class Player {
         score= score+point;
     }
 
+
     public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark){
+
         if (numDamage>0){
             playerBoard.takeDamage(colorPlayer, numDamage);
         }
@@ -176,6 +180,10 @@ public class Player {
         this.x=x;
         this.y=y;
         this.colorRoom=colorRoom;
+    }
+
+    public PlayerBoard getPlayerPlayerBoard(){
+        return ((PlayerBoard)(playerBoard)).getPlayerBoard();
     }
 
 

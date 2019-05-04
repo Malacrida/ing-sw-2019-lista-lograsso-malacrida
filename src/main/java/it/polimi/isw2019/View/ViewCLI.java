@@ -11,6 +11,7 @@ public class ViewCLI extends View {
     PlayerMove playerMove;
     boolean fromTheirToYourTurn;
     char statusPlayer;
+    int idPlayer;
 
     public ViewCLI(){
         //register as observable of model
@@ -42,8 +43,8 @@ public class ViewCLI extends View {
     @Override
     public void insertDate(){
 
-            String nickname = null;
-            String phrase = null;
+            this.nickname = null;
+            this.phrase = null;
 
             System.out.println("Insert nickname : ");
             nickname = input.nextLine();
@@ -99,19 +100,21 @@ public class ViewCLI extends View {
 
         //displayGamePlay
         //actionYouCanDo
-        //choose to : do action, reload weapon, use powerup card
+        //choose to : do action, use powerup card
 
 
     }
 
     public void actionYouCanDo(String statusGame){
+        int [][] matrix;
         //displayActionYouCanDo
         //grande if che prendera come
         int idAction ;
         idAction = input.nextInt();
         //in base all idAction, ci sara' uno switch case che istanziera la playerMove
         //caso della RUN
-        notifyObservers((new RunActionView("ACTION","RUN",statusPlayer)).handleAction(this));
+        notifyObservers((new RunActionView("ACTION","RUN")).handleAction(this));
+        //caso RUN,GRAB
         //caso d
     }
 

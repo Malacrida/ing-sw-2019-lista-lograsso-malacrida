@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Electroscythe extends AbstractWeaponCard {
 
-    public Electroscythe(int id, String name, ColorCube color) {
+    public Electroscythe(/*int id, String name, ColorCube color*/) {
         super(6, "Electroscythe", ColorCube.BLUE);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage and to every other player on your square.\n");

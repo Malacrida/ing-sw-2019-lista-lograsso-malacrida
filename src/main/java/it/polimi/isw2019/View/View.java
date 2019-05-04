@@ -15,10 +15,11 @@ public abstract class View extends Observable implements Observer<MoveMessage> {
     public abstract void insertDate();
 
     public void setNickname(String nickname){
+
         this.nickname = nickname;
     }
 
-    public void setPhrase(String phrase){
+    public void setPhrase(String phrase) {
         this.phrase = phrase;
     }
 
@@ -46,7 +47,8 @@ public abstract class View extends Observable implements Observer<MoveMessage> {
 
     @Override
     public void update(MoveMessage moveMessage) {
-            updateView(moveMessage);
+
+        updateView(moveMessage);
     }
 
 
