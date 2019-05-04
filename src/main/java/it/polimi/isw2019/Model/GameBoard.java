@@ -129,8 +129,8 @@ public class GameBoard {
         gameArena.spawnPlayer(colorRoom, player);
     }
 
-    public void changePositionPlayer (Player player, int x, int y){
-        gameArena.movePlayer(player,x,y);
+    public boolean changePositionPlayer (Player player, int x, int y){
+        return gameArena.movePlayer(player,x,y);
     }
 
 }
