@@ -1,8 +1,9 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 import it.polimi.isw2019.Model.StateCard;
 
 import java.util.ArrayList;
@@ -14,11 +15,15 @@ public abstract class AbstractWeaponCard{
     protected ArrayList<String> infoEffect;
     protected ArrayList<ColorCube> rechargeCube;
     protected StateCard stateCard = StateCard.DECK;
+    protected int maxPossibleEffects;
+    protected boolean firstIsValid = false;
+    protected boolean secondIsValid = false;
 
-    public AbstractWeaponCard(int id, String name, ColorCube color) {
+    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.maxPossibleEffects = maxPossibleEffects;
     }
 
     //Methods
@@ -88,14 +93,82 @@ public abstract class AbstractWeaponCard{
         else return false;
     }
 
+    public boolean sameSquare (Player firstPlayer, Player secondPlayer){
+
+        int x1 = firstPlayer.getX();
+        int y1 = firstPlayer.getY();
+        int x2 = secondPlayer.getX();
+        int y2 = secondPlayer.getY();
+
+        if ((x1 == x2) && (y1 == y2)){
+
+            return true;
+
+        }
+
+        else return false;
+
+    }
+
+    public boolean oneDistance(Player firstPlayer, Player secondPlayer) {
+
+        if ((oneDistanceX(firstPlayer, secondPlayer)) && (!oneDistanceY(firstPlayer, secondPlayer))){
+
+            return true;
+
+        }
+
+        else if ((!oneDistanceX(firstPlayer, secondPlayer)) && (oneDistanceY(firstPlayer, secondPlayer))){
+
+            return true;
+
+        }
+
+        else return false;
+    }
+
+    public char sameDirection (Player firstPlayer, Player secondPlayer) {
+
+        int x1 = firstPlayer.getX();
+        int y1 = firstPlayer.getY();
+        int x2 = secondPlayer.getX();
+        int y2 = secondPlayer.getY();
+        char direction;
+
+        if (x1 == x2){
+
+            direction = 'x';
+
+            return direction;
+
+        }
+
+        else if (y1 == y2) {
+
+            direction = 'y';
+
+            return direction;
+
+        }
+
+        else {
+
+            direction = 'n';
+
+            return direction;
+
+        }
+
+    }
+
     /*
     * attackSquare -> square in cui vuole attaccare
     * attacker -> Player attaccante
     * defender -> Player colpito
     */
-    public abstract boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
+    public abstract void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffect;
 
-    public abstract boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
+    public abstract void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffect;
 
-    public abstract boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender);
+    public abstract void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffect;
 }

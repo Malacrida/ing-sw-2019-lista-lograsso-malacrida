@@ -1,52 +1,57 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class LockRifle extends AbstractWeaponCard {
 
-    public LockRifle(int id, String name, ColorCube color) {
-        super(1, "Lock Rifle", ColorCube.BLUE);
+    public LockRifle() {
+        super(1, "Lock Rifle", ColorCube.BLUE, 2);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
         this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
 
-        if (firstAttackSquare.findPlayer(firstDefender)){
+        if (firstDefender != null){
+
             firstDefender.sufferDamage(attacker.getColor(), 2, 1);
-            return true;
-        }
 
-        else {
-            return false;
+        } else {
+
+            throw new ErrorEffect();
+
         }
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
 
-        if (this.firstEffect(attacker, firstAttackSquare, firstDefender, secondAttackSquare, secondDefender, thirdAttackSquare, thirdDefender)) {
+        if (secondDefender != null){
 
-            if(secondAttackSquare.findPlayer(secondDefender)){
-                secondDefender.sufferDamage(attacker.getColor(), 0, 1);
-                return true;
-            }
-            else return false;
+            secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+
+        } else {
+
+            throw new ErrorEffect();
+
         }
-        else return false;
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+
         //lancia eccezione perché non esiste questo effetto
 
-        return false;
+        throw new NoEffectException();
+
     }
 
 

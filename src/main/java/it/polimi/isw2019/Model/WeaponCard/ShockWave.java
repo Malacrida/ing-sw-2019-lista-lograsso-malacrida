@@ -1,39 +1,44 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class ShockWave extends AbstractWeaponCard {
 
-    public ShockWave(int id, String name, ColorCube color) {
-        super(20, "Shock Wave", ColorCube.YELLOW);
+    public ShockWave() {
+        super(20, "Shock Wave", ColorCube.YELLOW, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : choose up to 3 targets on different squares, each exactly 1 move away deal 1 damage to each target.");
         this.infoEffect.add("TSUNAMI MODE : Deal 1 damage to all targets that are exactly 1 move away\n");
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
 
-        /*CONTROLLI SU STANZE 1, 2, 3 */
+        if(firstDefender != null){
 
-        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            /*Mettere controlli su stanze first, second, third*/
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            thirdDefender.sufferDamage(attacker.getColor(),1,0);
 
-        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+        } else {
 
-        thirdDefender.sufferDamage(attacker.getColor(),1,0);
+            throw new ErrorEffect();
 
-
-        return false;
+        }
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
 
-        ArrayList<Player> firstPlayerList = firstAttackSquare.getPlayers();
+
+
+        /*ArrayList<Player> firstPlayerList = firstAttackSquare.getPlayers();
         ArrayList<Player> secondPlayerList = secondAttackSquare.getPlayers();
         ArrayList<Player> thirdPlayerList = thirdAttackSquare.getPlayers();
 
@@ -53,14 +58,14 @@ public class ShockWave extends AbstractWeaponCard {
 
             thirdPlayerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
 
-        }
-
-        return false;
+        }*/
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+
+        throw new NoEffectException();
+
     }
 
 

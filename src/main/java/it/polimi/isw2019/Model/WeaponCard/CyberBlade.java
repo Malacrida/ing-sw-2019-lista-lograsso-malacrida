@@ -1,14 +1,15 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.StateCard;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Player;
 
 import java.util.ArrayList;
 
 public class CyberBlade extends AbstractWeaponCard {
 
-    public CyberBlade(int id, String name, ColorCube color){
-        super(16, "Cyber Blade", ColorCube.YELLOW);
+    public CyberBlade(){
+        super(16, "Cyber Blade", ColorCube.YELLOW, 3);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : Deal 2 damage to 1 target on your square.\n");
         this.infoEffect.add("WITH SHADOWSTEP: move 1 square before or after the basic effect");
@@ -18,59 +19,47 @@ public class CyberBlade extends AbstractWeaponCard {
                 "or whack 2 people and then move.   ");
     }
 
-
-
-
     @Override
-    public int getID() {
-        return id;
-    }
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
 
-    @Override
-    public String getName() {
-        return name;
-    }
+        if (sameSquare(attacker, firstDefender)){
 
-    @Override
-    public ArrayList<String> getInfoEffect() {
-        return infoEffect;
-    }
+           firstDefender.sufferDamage(attacker.getColor(),2,0);
 
-    @Override
-    public ArrayList<ColorCube> getRechargecube() {
-        return rechargeCube;
-    }
-
-    @Override
-    public ColorCube getColor() {
-        return color;
-    }
-
-    @Override
-    public StateCard checkState() {
-        return stateCard;
-    }
-
-    @Override
-    public boolean firstEffect() {
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
         }
 
-        return false;
-    }
+        else {
 
-    @Override
-    public boolean secondEffect() {
-        moveOneSquare();
-        return false;
-    }
+            throw new ErrorEffect();
 
-    @Override
-    public boolean thirdEffect() {
-        for(int i = 0; i < 2; i++){
-            doOneDamage();
         }
-        return false;
     }
+
+    @Override
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
+
+        if (firstDefender != null){
+                System.out.println("DEVO INSERIRE QUALCOSA ALTRIMETNI MI DA ERRORE, È SOLO LO SCHELETRO DEL METODO");
+                /*MUOVI DI UNO*/
+
+        }
+        else {
+            throw new ErrorEffect();
+        }
+    }
+
+    @Override
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect{
+
+        if (sameSquare(attacker, secondDefender)){
+
+            secondDefender.sufferDamage(attacker.getColor(),2,0);
+
+        }
+
+        else {
+            throw new ErrorEffect();
+        }
+    }
+
 }

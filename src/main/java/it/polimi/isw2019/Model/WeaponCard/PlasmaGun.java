@@ -1,15 +1,15 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class PlasmaGun extends AbstractWeaponCard{
 
-    public PlasmaGun(int id, String name, ColorCube color) {
-        super(4, "Plasma Gun", ColorCube.BLUE);
+    public PlasmaGun() {
+        super(4, "Plasma Gun", ColorCube.BLUE, 3);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 2 damage to 1 target you can see.\n");
         this.infoEffect.add("WITH WITH PHASE GLIDE: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n");
@@ -22,23 +22,37 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
         /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
+        if (firstDefender != null){
 
-        firstDefender.sufferDamage(attacker.getColor(), 2,0);
-        return true;
+            firstDefender.sufferDamage(attacker.getColor(), 2,0);
+
+            firstIsValid = true;
+
+        } else {
+
+            throw new ErrorEffect();
+
+        }
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
         /* AGGIUNGI MUOVI DI DUE */
-
-        return false;
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        firstDefender.sufferDamage(attacker.getColor(), 1,0);
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
+
+        if(firstIsValid){
+
+            firstDefender.sufferDamage(attacker.getColor(), 1,0);
+
+        } else {
+
+            throw new ErrorEffect();
+
+        }
     }
 }

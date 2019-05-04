@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffect;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class RailGun extends AbstractWeaponCard {
 
-    public RailGun(int id, String name, ColorCube color) {
-        super(15, "Rail Gun", ColorCube.RED);
+    public RailGun() {
+        super(15, "Rail Gun", ColorCube.YELLOW, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE : Choose a cardinal direction and 1 target in that direction deal 3 damage to it");
         this.infoEffect.add("IN PIERCING MODE:Choose a cardinal direction and 1 or 2 targets in that direction deal 2 damage to each");
@@ -23,25 +24,47 @@ public class RailGun extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
         /* controllo in una direzione */
-        firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
-        return false;
+        char direction = sameDirection(attacker, firstDefender);
+
+       if(direction != 'n'){
+
+                firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+
+        } else {
+
+            throw new ErrorEffect();
+
+        }
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffect {
 
-        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
-        secondDefender.sufferDamage(attacker.getColor(), 2, 0);
-        return false;
+        char firstDirection = sameDirection(attacker, firstDefender);
+        char secondDirection = sameDirection(attacker, firstDefender);
+
+        if ((firstDirection != 'n') && (firstDirection == secondDirection)){
+
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            secondDefender.sufferDamage(attacker.getColor(), 2, 0);
+
+
+        } else {
+
+            throw new ErrorEffect();
+
+        }
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
-    }
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
+        throw new NoEffectException();
+
+    }
 
 }
