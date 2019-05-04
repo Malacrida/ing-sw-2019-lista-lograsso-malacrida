@@ -2,6 +2,7 @@ package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
+import it.polimi.isw2019.Model.Exception.InstanceArenaException;
 import it.polimi.isw2019.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 import java.util.ArrayList;
@@ -14,15 +15,16 @@ public class Arena {
 
     private ArrayList<Room> rooms= new ArrayList<>();
 
-    Arena(){
+    private Arena(){
 
     }
 
-    public static Arena instanceArena (){
+    public static Arena instanceArena () throws InstanceArenaException {
         if (instance==null) {
             instance = new Arena();
+            return instance;
         }
-        return instance;
+        else throw new InstanceArenaException ();
     }
 
     public void chooseArena (int numArena) throws OutOfRangeException{
@@ -83,6 +85,16 @@ public class Arena {
              throw new AmmoTileUseException();
          }
     }
+
+    public ArrayList<Player> playersInOneSquareOnArena (int x, int y,Player player){
+        ArrayList<Player> players = squares[x][y].getPlayers();
+        if(players.contains(player)){
+            players.remove(player);
+        }
+        return players;
+    }
+
+
 
     //Controllo sul colore scelto dal giocatore dove spownare
     public void spawnPlayer (ColorRoom colorRoomToSpawn, Player player){
