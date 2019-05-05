@@ -126,8 +126,8 @@ public abstract class AbstractPlayerBoard {
     // numero danni di quel colore
     public int numOfDamagesOfOneColor (ColorPlayer colorPlayer){
         int cont=0;
-        for (int i=0; i<markTokens.size(); i++){
-            if (markTokens.get(i)==colorPlayer){
+        for (int i=0; i<damageTokens.size(); i++){
+            if (damageTokens.get(i)==colorPlayer){
                 cont++;
             }
         }
@@ -159,14 +159,10 @@ public abstract class AbstractPlayerBoard {
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
         }
-
-        int tmp = numOfMarkOfOneColor(colorPlayer);
-
-        if (tmp >0){
-            for (int i=0; i<tmp; i++)
-                damageTokens.add(colorPlayer);
-
+        for (int i=0; i<numOfMarkOfOneColor(colorPlayer); i++) {
+            damageTokens.add(colorPlayer);
             removeMarkOfOneColor(colorPlayer);
+
         }
     }
 

@@ -132,34 +132,25 @@ public class GameBoard {
     public void setUpAmmoTileOnArena (int numOfArena)throws OutOfBoundsException{
         ArrayList<AmmoTile> ammoTilesOnArena = new ArrayList<>();
 
-        switch (numOfArena){
-            case 1:
-                for (int i=0; i<8; i++){
-                    ammoTilesOnArena.add(ammoTiles.get(0));
-                    ammoTiles.remove(0);
-                }
-                break;
-            case 2:
-                for (int i=0; i<8; i++){
-                    ammoTilesOnArena.add(ammoTiles.get(0));
-                    ammoTiles.remove(0);
-                }
-                break;
-            case 3:
-                for (int i=0; i<7; i++){
-                    ammoTilesOnArena.add(ammoTiles.get(0));
-                    ammoTiles.remove(0);
-                }
-                break;
-            case 4:
-                for (int i=0; i<9; i++){
-                    ammoTilesOnArena.add(ammoTiles.get(0));
-                    ammoTiles.remove(0);
-                }
-                break;
-            default:
-                throw new OutOfBoundsException();
+        if (numOfArena==1 ||numOfArena==2){
+            for (int i=0; i<8; i++){
+                ammoTilesOnArena.add(ammoTiles.get(0));
+                ammoTiles.remove(0);
+            }
         }
+        else if(numOfArena==3){
+            for (int i=0; i<7; i++){
+                ammoTilesOnArena.add(ammoTiles.get(0));
+                ammoTiles.remove(0);
+            }
+        }
+        else if(numOfArena==4){
+            for (int i=0; i<9; i++){
+                ammoTilesOnArena.add(ammoTiles.get(0));
+                ammoTiles.remove(0);
+            }
+        }
+        else throw new OutOfBoundsException();
 
         gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }

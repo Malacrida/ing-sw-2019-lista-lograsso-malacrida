@@ -1,20 +1,18 @@
-package it.polimi.isw2019.Model.WeaponCard;
+package it.polimi.isw2019.Server.Model.WeaponCard;
 
-import it.polimi.isw2019.Model.ColorPlayer;
-import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.PlayerBoard;
+import it.polimi.isw2019.Server.Model.ColorPlayer;
+import it.polimi.isw2019.Server.Model.Player;
+import it.polimi.isw2019.Server.Model.PlayerBoard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class WhisperTest {
-
+public class ShotGunTest {
     private Player attacker, firstDefender, secondDefender, thirdDefender;
     private int x1, y1, x2, y2;
     private PlayerBoard pba, pb1, pb2, pb3;
-
 
     @Before
     public void setUp() throws Exception {
@@ -52,6 +50,13 @@ public class WhisperTest {
 
     @Test
     public void secondEffect() {
+
+        try {
+            assertEquals(2, pb1.numOfDamanges());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Test
