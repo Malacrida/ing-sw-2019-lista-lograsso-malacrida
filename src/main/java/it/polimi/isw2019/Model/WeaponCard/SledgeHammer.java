@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class SledgeHammer extends AbstractWeaponCard {
 
-    public SledgeHammer(int id, String name, ColorCube color) {
-        super(21, "SledgeHammer", ColorCube.YELLOW);
+    public SledgeHammer() {
+        super(21, "SledgeHammer", ColorCube.YELLOW, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("Deal 2 damage to 1 target on your square.");
         this.infoEffect.add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.");
@@ -18,30 +19,40 @@ public class SledgeHammer extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /*CONTORLLO NELLA CHE I DUE GIOCATORI SONO NELLA STESSA STANZA*/
+        if (sameSquare(attacker, firstDefender)){
 
-        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
-        return false;
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
-        /*CONTORLLO NELLA CHE I DUE GIOCATORI SONO NELLA STESSA STANZA*/
+        if (sameSquare(attacker, firstDefender)){
 
-        firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+            firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
-        /*MUOVI DI DUE */
+            /* MUOVI DI 2 */
 
-        return false;
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+        throw new NoEffectException();
+
     }
 
 }

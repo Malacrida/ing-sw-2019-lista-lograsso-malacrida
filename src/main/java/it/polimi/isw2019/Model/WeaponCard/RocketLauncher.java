@@ -1,15 +1,15 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class RocketLauncher extends  AbstractWeaponCard {
 
-    public RocketLauncher(int id, String name, ColorCube color) {
-        super(14, "Rocket Launcher", ColorCube.RED);
+    public RocketLauncher() {
+        super(14, "Rocket Launcher", ColorCube.RED, 3);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : basic effect: Deal 2 damage to 1 target you can see that is not on your" +
                 "square. Then you may move the target 1 square.");
@@ -26,31 +26,37 @@ public class RocketLauncher extends  AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+        if (firstDefender != null){
 
-        return false;
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
 
         /*MUOVI DI 2*/
-        return false;
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
 
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+        /*ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
         for(int i = 0; i < playerList.size(); i++){
 
             playerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
 
         }
-        return false;
+        return false;*/
     }
-
 }

@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class HeatSeeker extends AbstractWeaponCard {
 
-    public HeatSeeker(/*int id, String name, ColorCube color*/) {
-        super(10, "HeatSeeker", ColorCube.RED);
+    public HeatSeeker() {
+        super(10, "HeatSeeker", ColorCube.RED, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("EFFECT: Choose 1 target you cannot see and deal 3 damage " +
                 "to it.");
@@ -17,25 +18,31 @@ public class HeatSeeker extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* AGGIUNGERE CONTROLLO BERSAGLIO NON VISIBILE*/
+        if (firstDefender != null){
 
-        firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+            firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
-        return false;
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
         /* NON ESISTE L'EFFETTO */
-        return false;
+        throw new NoEffectException();
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
         /* NON ESISTE L'EFFETTO */
-        return false;
+        throw new NoEffectException();
     }
 
 }

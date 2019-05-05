@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class Hellion extends AbstractWeaponCard {
 
-    public Hellion(int id, String name, ColorCube color) {
-        super(11, "Hellion", ColorCube.RED);
+    public Hellion() {
+        super(11, "Hellion", ColorCube.RED, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC MODE: Deal 1 damage to 1 target you can see at least\n" +
                 "1 move away. Then give 1 mark to that target and everyone\n" +
@@ -20,38 +21,57 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         /* AGGIUNGERE CONTROLLO STANZA DISTANTE ALMENO UNO*/
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+        /*ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+        try {
 
-        for(int i = 0; i < playerList.size(); i++){
-            playerList.get(i).sufferDamage(attacker.getColor(), 0, 1);
-        }
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-        return true;
+            for(int i = 0; i < playerList.size(); i++){
+
+                playerList.get(i).sufferDamage(attacker.getColor(), 0, 1);
+
+            }
+
+        } catch (ErrorEffectException) {
+
+            throw new ErrorEffectException();
+
+        }*/
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         /* AGGIUNGERE CONTROLLO STANZA DISTANTE ALMENO UNO*/
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+        /*ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        for(int i = 0; i < playerList.size(); i++){
-            playerList.get(i).sufferDamage(attacker.getColor(), 0, 2);
-        }
+        try {
 
-        return true;
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            for (Player aPlayerList : playerList) {
+                aPlayerList.sufferDamage(attacker.getColor(), 0, 2);
+            }
+
+        } catch (ErrorEffectException) {
+
+            throw new ErrorEffectException();
+
+        }*/
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
+
+        throw new NoEffectException();
+
     }
 
 

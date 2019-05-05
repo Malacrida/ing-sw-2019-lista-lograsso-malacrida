@@ -1,15 +1,15 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class Furnace extends AbstractWeaponCard {
 
-    public Furnace(/*int id, String name, ColorCube color*/) {
-        super(9, "Furnace", ColorCube.RED);
+    public Furnace() {
+        super(9, "Furnace", ColorCube.RED,1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Choose a room you can see, but not the room\n" +
                 "you are in. Deal 1 damage to everyone in that room.\n");
@@ -19,37 +19,71 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        /*AGGIUNGERE CONTROLLO SE LA STANZA È VISTA DALL'ATTACCANTE*/
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
 
+
+        /*AGGIUNGERE CONTROLLO SE LA STANZA È VISTA DALL'ATTACCANTE*/
+/*
         ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        for (int i = 0; i < playerList.size(); i++){
+        try {
 
-            playerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+            for (int i = 0; i < playerList.size(); i++){
 
-        }
-        return true;
+                playerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+
+            }
+
+        } catch (ErrorEffectException) { // se la stanza è vuota allora errore
+
+            throw new ErrorEffectException();
+
+        }*/
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
 
         /*AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE*/
-
+/*
         ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        for (int i = 0; i < playerList.size(); i++){
+        try {
 
-            playerList.get(i).sufferDamage(attacker.getColor(), 1, 1);
+            if (oneDistanceX(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse X
 
-        }
-        return true;
+                for (Player aPlayerList : playerList) {
+
+                    aPlayerList.sufferDamage(attacker.getColor(), 1, 0);
+
+                }
+
+            }
+
+            else if (oneDistanceY(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse Y
+
+                for (Player aPlayerList : playerList) {
+
+                    aPlayerList.sufferDamage(attacker.getColor(), 1, 0);
+
+                }
+
+            }
+
+        } catch (ErrorEffectException) {
+
+            throw new ErrorEffectException();
+
+        }*/
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return true;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+
+        /* NON ESISTE L'EFFETTO */
+
+        throw new NoEffectException();
     }
 
 

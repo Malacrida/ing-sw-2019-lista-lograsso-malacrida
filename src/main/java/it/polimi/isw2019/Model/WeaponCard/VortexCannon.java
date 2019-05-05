@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class VortexCannon extends AbstractWeaponCard {
 
-    public VortexCannon(int id, String name, ColorCube color) {
-        super(8, "Vortex Cannon", ColorCube.RED);
+    public VortexCannon() {
+        super(8, "Vortex Cannon", ColorCube.RED, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: basic effect: Choose a square you can see, but not your" +
                 "square. Call it the vortex. Choose a target on the vortex" +
@@ -25,30 +26,39 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /*MUOVI DI UNO*/
+        if(firstDefender != null){
+            /*MUOVI DI UNO*/
+            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
-        firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+        } else {
 
-        return false;
+            throw new ErrorEffectException();
+        }
+
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
+        if(secondDefender != null){
 
-        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
+            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-        thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+        } else {
 
-        return false;
+            throw new ErrorEffectException();
+        }
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws  NoEffectException {
+        throw new NoEffectException();
+
     }
 
 }

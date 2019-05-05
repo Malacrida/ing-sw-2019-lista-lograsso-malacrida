@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class ZX_2 extends AbstractWeaponCard {
 
-    public ZX_2(int id, String name, ColorCube color) {
-        super(17, "ZX_2", ColorCube.YELLOW);
+    public ZX_2() {
+        super(17, "ZX_2", ColorCube.YELLOW, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT :Deal 1 damage and 2 marks to\n" +
                 "1 target you can see");
@@ -20,29 +21,44 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        firstDefender.sufferDamage(attacker.getColor(), 1, 2);
+        if(firstDefender != null){
 
-        return false;
+            firstDefender.sufferDamage(attacker.getColor(), 1, 2);
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
-        firstDefender.sufferDamage(attacker.getColor(), 0, 1);
+        if(firstDefender != null){
 
-        secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+            firstDefender.sufferDamage(attacker.getColor(), 0, 1);
 
-        thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
+            secondDefender.sufferDamage(attacker.getColor(), 0, 1);
 
-        return false;
+            thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
+
+        } else {
+
+            throw new ErrorEffectException();
+        }
+
+
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+        throw new NoEffectException();
+
     }
-
-
 }

@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class Whisper extends AbstractWeaponCard {
 
-    public Whisper(int id, String name, ColorCube color) {
-        super(5, "Whisper", ColorCube.BLUE);
+    public Whisper() {
+        super(5, "Whisper", ColorCube.BLUE, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("EFFECT: Deal 3 damage and 1 mark to 1 target you can see.\n" +
                 "Your target must be at least 2 moves away from you.\n");
@@ -21,40 +22,29 @@ public class Whisper extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        firstDefender.sufferDamage(attacker.getColor(), 3, 1);
-        return false;
-    }
+        if(firstDefender != null){
 
-    @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
-    }
+            firstDefender.sufferDamage(attacker.getColor(), 3, 1);
 
-    @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
-    }
+        } else {
 
+            throw new ErrorEffectException();
 
-    /*@Override
-    public boolean firstEffect() {
-        for (int i = 0; i < 3; i++){
-            doOneDamage();
         }
-        putOneMark();
-        return false;
+
     }
 
     @Override
-    public boolean secondEffect() {
-        return false;
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+        throw new NoEffectException();
+
     }
 
     @Override
-    public boolean thirdEffect() {
-        return false;
-    }*/
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
+        throw new NoEffectException();
 
+    }
 }

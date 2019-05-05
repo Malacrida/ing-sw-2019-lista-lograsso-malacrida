@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class GrenadeLauncher extends AbstractWeaponCard {
 
-    public GrenadeLauncher(/*int id, String name, ColorCube color*/) {
-        super(13, "Grenade Launcher", ColorCube.RED);
+    public GrenadeLauncher() {
+        super(13, "Grenade Launcher", ColorCube.RED, 2);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 1 damage to 1 target you can see. Then you may move\n" +
                 "the target 1 square.\n");
@@ -24,39 +25,50 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        if (firstAttackSquare.findPlayer(firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+        if (firstDefender != null){
 
-            /* AGGIUNGERE MUOVI DI UNO IL DIFENSORE */
+                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+                /* AGGIUNGERE MUOVI DI UNO IL DIFENSORE */
+
+        } else {
+
+            throw new ErrorEffectException();
 
         }
-        return true;
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
+/*        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+        try {
 
-        for (int i = 0; i < playerList.size(); i++){
+            for (Player aPlayerList : playerList) {
 
-            playerList.get(i).sufferDamage(attacker.getColor(), 1, 1);
+                aPlayerList.sufferDamage(attacker.getColor(), 1, 1);
 
-        }
+            }
 
-        return true;
+        } catch (ErrorEffectException) {
+
+            throw new ErrorEffectException();
+
+        }*/
+
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /* NON ESISTE QUESTO EFFETTO*/
-        return false;
+        throw new NoEffectException();
     }
 
 }

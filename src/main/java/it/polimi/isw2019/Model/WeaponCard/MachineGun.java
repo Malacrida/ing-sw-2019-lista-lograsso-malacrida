@@ -1,15 +1,15 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class MachineGun extends AbstractWeaponCard {
 
-    public MachineGun(int id, String name, ColorCube color) {
-        super(2, "Machine Gun", ColorCube.BLUE);
+    public MachineGun() {
+        super(2, "Machine Gun", ColorCube.BLUE, 3);
         this.infoEffect = new ArrayList<>();
         infoEffect.add("BASIC EFFECT: Choose 1 or 2 targets you can see and deal 1 damage to each.\n");
         infoEffect.add("WITH FOCUS SHOT: Deal 1 additional damage to one of those targets. You have to pay a YELLOW cube.");
@@ -20,54 +20,65 @@ public class MachineGun extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /* Se il primo giocatore da attaccare è nella prima stanza selezionata allora dai un danno */
-
-        if(firstAttackSquare.findPlayer(firstDefender)){
+        /*Verificare se lo vede*/
+        if (firstDefender != null){
 
             firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-
             /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
 
-            if ((secondDefender != null) && (secondAttackSquare.findPlayer(secondDefender))){
+            if (secondDefender != null){
 
                 secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
+                firstIsValid = true;
             }
+        }
+        else {
 
-            return true;
+            throw new ErrorEffectException();
+
         }
 
-        else return false;
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
-       firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+        if (firstIsValid){
 
-       return true;
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
     }
 
 
 
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+        if (firstIsValid){
 
-        if ((thirdDefender != null) && (thirdAttackSquare.findPlayer(thirdDefender))){
+            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-            thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+            if (thirdDefender != null){
 
-            return true;
+                thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+            }
+
+        } else {
+
+            throw new ErrorEffectException();
 
         }
-
-        else return false;
     }
 }

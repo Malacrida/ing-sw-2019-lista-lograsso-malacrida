@@ -1,15 +1,16 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.Player;
-import it.polimi.isw2019.Model.Square;
 
 import java.util.ArrayList;
 
 public class TractorBeam extends AbstractWeaponCard {
 
-    public TractorBeam(int id, String name, ColorCube color) {
-        super(7, "Tractor Beam", ColorCube.BLUE);
+    public TractorBeam() {
+        super(7, "Tractor Beam", ColorCube.BLUE, 1);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Move a target 0,1 or 2 squares to a square you can see, and give it 1 damage.\n");
         this.infoEffect.add("IN PUNISHER MODE: Choose a target 0,1 or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n");
@@ -17,28 +18,42 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     @Override
-    public boolean firstEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /*MUOVI DI DUE*/
 
-        firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+        if(firstDefender != null){
 
-        return false;
+            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
     }
 
     @Override
-    public boolean secondEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
+    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /*MUOVI DI DUE*/
 
-        secondDefender.sufferDamage(attacker.getColor(), 3, 0);
+        if(secondDefender != null){
 
-        return false;
+            secondDefender.sufferDamage(attacker.getColor(), 3, 0);
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
     }
 
     @Override
-    public boolean thirdEffect(Player attacker, Square firstAttackSquare, Player firstDefender, Square secondAttackSquare, Player secondDefender, Square thirdAttackSquare, Player thirdDefender) {
-        return false;
+    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+        throw new NoEffectException();
+
     }
 
 }
