@@ -133,10 +133,12 @@ public class AbstractPlayerBoardTest {
 
     @Test
     public void testTakeDamage() {
-       /* playerBoard1.addMark(ColorPlayer.BLUE,2);
-        assertEquals(2,playerBoard1.numOfMarkOfOneColor(ColorPlayer.BLUE));
+        playerBoard1.addMark(ColorPlayer.VIOLET,2);
+        assertEquals(2,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
+        playerBoard1.takeDamage(ColorPlayer.GREEN,2);
+        assertEquals(2,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
         playerBoard1.takeDamage(ColorPlayer.BLUE, 2);
-        assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.BLUE));*/
+        assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.VIOLET));
     }
 
     @Test

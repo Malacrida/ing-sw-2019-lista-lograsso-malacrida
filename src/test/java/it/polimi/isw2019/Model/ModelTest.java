@@ -8,13 +8,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ModelTest {
-    PlayerBoard playerBoard1, playerBoard2;
+    PlayerBoard playerBoard2;
     Player player1, player2;
     ColorPlayer colorPlayer1, colorPlayer2;
     Model model;
     @Before
     public void setUp() throws Exception {
         model = new Model();
+        Player player1 = new Player("Sara", "uau" , 2);
+        Player player2 = new Player("ALBA", "uau" , 3);
+        ColorPlayer colorPlayer1 = ColorPlayer.BLUE;
+        ColorPlayer colorPlayer2 = ColorPlayer.GREEN;
+        model.gameSetting();
     }
 
     @After
@@ -26,38 +31,39 @@ public class ModelTest {
 
     }
 
-    /*
+
+
     //riesco a prendere quella playerboard. NON FUNZIONA
     @Test
     public void testContainsColor() {
         try{
-            model.setPlayer("Alba", "ehi",1,ColorPlayer.BLUE);
-            assertEquals(model.containsColor(ColorPlayer.BLUE), false);
-            fail();
-        }catch(ColorNotAvailableException e){
 
+            assertEquals(model.containsColor(colorPlayer2), true);
+            assertNotEquals(model.containsColor(colorPlayer1), true);
+            model.setPlayerWithPlayerBoard(player1, colorPlayer1);
+
+        }catch(ColorNotAvailableException e){
+            fail();
         }
         try{
-            //non mi dovrebbe creare il player
-            model.setPlayer("Sara", "uau",2, ColorPlayer.BLUE);
+
+            model.setPlayerWithPlayerBoard(player2, colorPlayer1);
             fail();
 
         }catch(ColorNotAvailableException e){
 
         }
-        try{
-            //non mi dovrebbe creare il player
-            model.setPlayer("Davide", "uae",3, ColorPlayer.GREEN);
-            assertEquals(model.containsColor(ColorPlayer.GREY), true);
 
-        }catch(ColorNotAvailableException e){
-            fail();
-        }
-    }*/
-
+    }
 
     @Test
-    public void positionPlayerBoardAviable() {
-
+    public void positionPlayerBoardAvailable() {
+        try{
+            model.setPlayerWithPlayerBoard(player2, colorPlayer2);
+            assertNotEquals(model.positionPlayerBoardAvailable(ColorPlayer.BLUE),2);
+        }catch(ColorNotAvailableException e){
+            //non dovrebbe fallire!!!
+            fail();
+        }
     }
 }

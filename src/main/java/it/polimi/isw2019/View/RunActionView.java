@@ -8,11 +8,13 @@ import java.util.Scanner;
 
 public class RunActionView extends ViewCLIAction{
 
+    //crea un'azione singola di movimento
     public RunActionView(String idPlayerMove,String idAction){
         super(idPlayerMove,idAction);
         setNumberMovement(this);
     }
 
+    //movimenti vengono settati a runTime da questo metodo
     public void setNumberMovement(ViewCLIAction action){
         if(action.getIdPlayerMove().compareTo("RUN") == 0) {
             if (action.getStatus() == 'N') {
@@ -54,6 +56,12 @@ public class RunActionView extends ViewCLIAction{
     public  PlayerMove handleAction(ViewCLI view){
         handleInsertData(view,this);
         return (new RunMessage(getIdPlayerMove(),getIdAction(),getMatrix()));
+    }
+
+    public int[][] handleSingleAction(ViewCLI view, ViewCLIAction action){
+        handleInsertData(view, action);
+        return this.getMatrix();
+
     }
 
 }
