@@ -4,12 +4,9 @@ package it.polimi.isw2019.Model;
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
 import it.polimi.isw2019.Model.Exception.ColorNotAvailableException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
-
+import it.polimi.isw2019.Utilities.Observable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import it.polimi.isw2019.Utilities.Observable;
 
 
 public class Model extends Observable {
@@ -150,7 +147,7 @@ public class Model extends Observable {
     }
 
     //Set del colore del player
-    public void setPlayer (String name,  String actionHeroComment, int playerID) {
+    public void setPlayer(String name, String actionHeroComment, int playerID, ColorPlayer green) {
         Player player= new Player(name, actionHeroComment, playerID);
         players.add(player);
 

@@ -54,13 +54,13 @@ public class SquareSpawnTest {
         assert (squareSpawn1.containsWeapon(weaponCard2)==true);
     }
 
-    @Test
+    /*@Test
     public void takeWeaponTest() {
         squareSpawn1.setWeaponCards(weaponCards);
         squareSpawn1.takeWeapon(weaponCard1);
         assert ((squareSpawn1.containsWeapon(weaponCard1)));
 
-    }
+    }*/
 
     @Test
     public void setWeaponCardsTest() {
