@@ -112,10 +112,12 @@ public class ViewCLI extends View {
         int idAction ;
         idAction = input.nextInt();
         //in base all idAction, ci sara' uno switch case che istanziera la playerMove
-        //caso della RUN
+        //caso RUN
         notifyObservers((new RunActionView("ACTION","RUN")).handleAction(this));
         //caso RUN,GRAB
-        //caso d
+        notifyObservers((new RunGrabActionView("ACTION","RUNGRAB")).handleAction(this));
+
+
     }
 
 

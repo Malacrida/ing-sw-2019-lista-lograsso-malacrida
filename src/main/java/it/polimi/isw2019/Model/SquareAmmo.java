@@ -3,37 +3,39 @@ package it.polimi.isw2019.Model;
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
 
-import java.util.ArrayList;
-
 public class SquareAmmo extends Square {
 
     private AmmoTile ammoTile;
-    private boolean useAmmo;
+    private boolean canUseAmmo;
 
     SquareAmmo() {
         super( false);
-        useAmmo= false;
+        canUseAmmo = true;
     }
 
+    @Override
     public AmmoTile getAmmoTile() {
         return ammoTile;
     }
 
-    public boolean isUseAmmo (){
-        return useAmmo;
+    @Override
+    public boolean isCanUseAmmo(){
+        return canUseAmmo;
     }
 
+    @Override
     public void setAmmoTile (AmmoTile ammoTile){
         this.ammoTile= ammoTile;
-        useAmmo=false;
+        canUseAmmo =true;
     }
 
+    @Override
     public AmmoTile takeAmmoTile () throws AmmoTileUseException {
-        if (!useAmmo){
-            useAmmo=true;
+        if (canUseAmmo){
+            canUseAmmo =false;
             return ammoTile;
         }
-        throw new AmmoTileUseException();
+        else throw new AmmoTileUseException();
     }
 
 

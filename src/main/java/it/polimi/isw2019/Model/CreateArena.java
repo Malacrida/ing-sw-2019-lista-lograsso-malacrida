@@ -82,7 +82,7 @@ public class CreateArena {
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], squares[2][2], null);
         squares[1][3].setSquareAdjacent(squares[0][3],null,squares[2][3], squares[1][2]);
 
-        squares[2][0].setSquareAdjacent(null, null, null,null); //stanza non disponibile
+        squares[2][0]= null; //stanza non disponibile
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(squares[1][2], squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
@@ -91,25 +91,25 @@ public class CreateArena {
 
     private static void setRooms1 (){
         Room bluRooms = new Room(BLUE);
-        bluRooms.addSquere(squares[0][0]);
-        bluRooms.addSquere(squares[0][1]);
-        bluRooms.addSquere(squares[0][2]);
+        bluRooms.addSquare(squares[0][0]);
+        bluRooms.addSquare(squares[0][1]);
+        bluRooms.addSquare(squares[0][2]);
 
         Room greenRooms = new Room(GREEN);
-        greenRooms.addSquere(squares[0][3]);
+        greenRooms.addSquare(squares[0][3]);
 
         Room redRooms = new Room(RED);
-        redRooms.addSquere(squares[1][0]);
-        redRooms.addSquere(squares[1][1]);
+        redRooms.addSquare(squares[1][0]);
+        redRooms.addSquare(squares[1][1]);
 
         Room greyRoom = new Room(GREY);
-        greyRoom.addSquere(squares[2][1]);
+        greyRoom.addSquare(squares[2][1]);
 
         Room yellowRoom = new Room(YELLOW);
-        yellowRoom.addSquere(squares[1][2]);
-        yellowRoom.addSquere(squares[1][3]);
-        yellowRoom.addSquere(squares[2][2]);
-        yellowRoom.addSquere(squares[2][3]);
+        yellowRoom.addSquare(squares[1][2]);
+        yellowRoom.addSquare(squares[1][3]);
+        yellowRoom.addSquare(squares[2][2]);
+        yellowRoom.addSquare(squares[2][3]);
 
         rooms.add(bluRooms);
         rooms.add(greenRooms);
@@ -122,7 +122,7 @@ public class CreateArena {
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3].setSquareAdjacent(null,null,null, null);//stanza non disponibile
+        squares[0][3]= null;//stanza non disponibile
 
         squares[1][0].setSquareAdjacent(squares[0][0], null, squares[0][1],null);
         squares[1][1].setSquareAdjacent(squares[0][1], squares[1][2], squares[2][1], null);
@@ -138,25 +138,25 @@ public class CreateArena {
 
     private static void setRooms2 (){
         Room bluRooms = new Room(BLUE);
-        bluRooms.addSquere(squares[0][1]);
-        bluRooms.addSquere(squares[0][2]);
+        bluRooms.addSquare(squares[0][1]);
+        bluRooms.addSquare(squares[0][2]);
 
         Room redRooms = new Room(RED);
-        redRooms.addSquere(squares[0][0]);
-        redRooms.addSquere(squares[1][0]);
+        redRooms.addSquare(squares[0][0]);
+        redRooms.addSquare(squares[1][0]);
 
         Room violetRooms = new Room(VIOLET);
-        violetRooms.addSquere(squares[1][1]);
-        violetRooms.addSquere(squares[1][2]);
+        violetRooms.addSquare(squares[1][1]);
+        violetRooms.addSquare(squares[1][2]);
 
         Room greyRoom = new Room(GREY);
-        greyRoom.addSquere(squares[2][0]);
-        greyRoom.addSquere(squares[2][1]);
-        greyRoom.addSquere(squares[2][2]);
+        greyRoom.addSquare(squares[2][0]);
+        greyRoom.addSquare(squares[2][1]);
+        greyRoom.addSquare(squares[2][2]);
 
         Room yellowRoom = new Room(YELLOW);
-        yellowRoom.addSquere(squares[1][3]);
-        yellowRoom.addSquere(squares[2][3]);
+        yellowRoom.addSquare(squares[1][3]);
+        yellowRoom.addSquare(squares[2][3]);
 
         rooms.add(bluRooms);
         rooms.add(redRooms);
@@ -169,14 +169,14 @@ public class CreateArena {
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3].setSquareAdjacent(null,null,null, null); // stanza non disponibile
+        squares[0][3]=null; // stanza non disponibile
 
         squares[1][0].setSquareAdjacent(squares[0][0], squares[1][1], null,null);
         squares[1][1].setSquareAdjacent(null, squares[1][2], squares[2][1], squares[1][0]);
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], null, squares[1][1]);
         squares[1][3].setSquareAdjacent(null,null,squares[2][3], squares[1][2]);
 
-        squares[2][0].setSquareAdjacent(null, null, null,null); // stanza non disponibile
+        squares[2][0]=null; // stanza non disponibile
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(null, squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
@@ -185,22 +185,22 @@ public class CreateArena {
 
     private static void setRooms3 (){
         Room bluRooms = new Room(BLUE);
-        bluRooms.addSquere(squares[0][0]);
-        bluRooms.addSquere(squares[0][1]);
-        bluRooms.addSquere(squares[0][2]);
+        bluRooms.addSquare(squares[0][0]);
+        bluRooms.addSquare(squares[0][1]);
+        bluRooms.addSquare(squares[0][2]);
 
         Room redRooms = new Room(RED);
-        redRooms.addSquere(squares[1][0]);
-        redRooms.addSquere(squares[1][1]);
-        redRooms.addSquere(squares[1][2]);
+        redRooms.addSquare(squares[1][0]);
+        redRooms.addSquare(squares[1][1]);
+        redRooms.addSquare(squares[1][2]);
 
         Room greyRoom = new Room(GREY);
-        greyRoom.addSquere(squares[2][1]);
-        greyRoom.addSquere(squares[2][2]);
+        greyRoom.addSquare(squares[2][1]);
+        greyRoom.addSquare(squares[2][2]);
 
         Room yellowRoom = new Room(YELLOW);
-        yellowRoom.addSquere(squares[1][3]);
-        yellowRoom.addSquere(squares[2][3]);
+        yellowRoom.addSquare(squares[1][3]);
+        yellowRoom.addSquare(squares[2][3]);
 
         rooms.add(bluRooms);
         rooms.add(redRooms);
@@ -228,28 +228,28 @@ public class CreateArena {
 
     private static void setRooms4 (){
         Room bluRooms = new Room(BLUE);
-        bluRooms.addSquere(squares[0][1]);
-        bluRooms.addSquere(squares[0][2]);
+        bluRooms.addSquare(squares[0][1]);
+        bluRooms.addSquare(squares[0][2]);
 
         Room greenRooms = new Room(GREEN);
-        greenRooms.addSquere(squares[0][3]);
+        greenRooms.addSquare(squares[0][3]);
 
         Room redRooms = new Room(RED);
-        redRooms.addSquere(squares[0][0]);
-        redRooms.addSquere(squares[1][0]);
+        redRooms.addSquare(squares[0][0]);
+        redRooms.addSquare(squares[1][0]);
 
         Room violetRooms = new Room(VIOLET);
-        violetRooms.addSquere(squares[1][1]);
+        violetRooms.addSquare(squares[1][1]);
 
         Room greyRoom = new Room(GREY);
-        greyRoom.addSquere(squares[2][0]);
-        greyRoom.addSquere(squares[2][1]);
+        greyRoom.addSquare(squares[2][0]);
+        greyRoom.addSquare(squares[2][1]);
 
         Room yellowRoom = new Room(YELLOW);
-        yellowRoom.addSquere(squares[1][2]);
-        yellowRoom.addSquere(squares[1][3]);
-        yellowRoom.addSquere(squares[2][2]);
-        yellowRoom.addSquere(squares[2][3]);
+        yellowRoom.addSquare(squares[1][2]);
+        yellowRoom.addSquare(squares[1][3]);
+        yellowRoom.addSquare(squares[2][2]);
+        yellowRoom.addSquare(squares[2][3]);
 
         rooms.add(bluRooms);
         rooms.add(greenRooms);

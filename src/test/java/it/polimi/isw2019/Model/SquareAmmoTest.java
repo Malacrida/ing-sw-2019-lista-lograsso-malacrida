@@ -47,7 +47,7 @@ public class SquareAmmoTest {
         squareAmmo.setAmmoTile(ammoTile);
         try {
             squareAmmo.takeAmmoTile();
-            assert (squareAmmo.isUseAmmo()==true);
+            assertFalse (squareAmmo.isCanUseAmmo());
         }
         catch (AmmoTileUseException e){
 

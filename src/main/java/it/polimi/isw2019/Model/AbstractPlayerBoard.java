@@ -5,6 +5,7 @@ import it.polimi.isw2019.Model.Exception.OutOfBoundsException;
 import it.polimi.isw2019.Model.Exception.OverKillException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class AbstractPlayerBoard {
 
@@ -155,13 +156,17 @@ public abstract class AbstractPlayerBoard {
 
     //Aggiungere i danni al giocatore
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage){
+
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
         }
-        if (numOfMarkOfOneColor(colorPlayer)>0){
-            for (int i=0; i<numOfMarkOfOneColor(colorPlayer); i++){
+
+        int tmp = numOfMarkOfOneColor(colorPlayer);
+
+        if (tmp >0){
+            for (int i=0; i<tmp; i++)
                 damageTokens.add(colorPlayer);
-            }
+
             removeMarkOfOneColor(colorPlayer);
         }
     }

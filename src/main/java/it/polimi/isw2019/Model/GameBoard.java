@@ -1,10 +1,7 @@
 package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
-import it.polimi.isw2019.Model.Exception.EndWeaponCardException;
-import it.polimi.isw2019.Model.Exception.InstanceArenaException;
-import it.polimi.isw2019.Model.Exception.OutOfRangeException;
+import it.polimi.isw2019.Model.Exception.*;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 
@@ -20,6 +17,7 @@ public class GameBoard {
     private ArrayList<AbstractWeaponCard> weaponCardsBlue= new ArrayList<>();
     private ArrayList<AbstractWeaponCard> weaponCardsYellow= new ArrayList<>();
     private ArrayList<PowerUpCard> powerUpCards;
+    private ArrayList<AmmoTile> ammoTiles;
     private Arena gameArena=null;
     private static GameBoard instance;
 
@@ -27,27 +25,29 @@ public class GameBoard {
 
     }
 
-    public static GameBoard instanceGameBoard (){
+    /*public static GameBoard instanceGameBoard (){
         if (instance==null){
             instance= new GameBoard();
         }
         return instance;
-    }
+    }*/
 
 
     public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException{
-        try {
+        /*try {
             gameArena = Arena.instanceArena();
         }
         catch (InstanceArenaException e){
             throw new InstanceArenaException();
-        }
+        }*/
+        gameArena= new Arena();
         try {
             gameArena.chooseArena(num);
         }
         catch (OutOfRangeException e){
             throw new OutOfRangeException ();
         }
+
 
     }
 
@@ -59,57 +59,114 @@ public class GameBoard {
         this.powerUpCards = powerUpCards;
     }
 
+    public void setAmmoTiles(ArrayList<AmmoTile> ammoTiles) {
+        this.ammoTiles = ammoTiles;
+    }
+
     //settare le carte nei punti spawn
     public void setWeaponCardsOnBoard (){
         //I colori indicano i punti di spawn
         for (int i=0; i<9; i++){
             if (i%3==0){
-                weaponCardsRed.add(weaponCards.get(weaponCards.size()));
+                weaponCardsRed.add(weaponCards.get(0));
                 //cambio di stato
-                weaponCards.remove(weaponCards.size());
+                weaponCards.remove(0);
             }
             if (i%3==1){
-                weaponCardsBlue.add(weaponCards.get(weaponCards.size()));
+                weaponCardsBlue.add(weaponCards.get(0));
                 //cambio di stato
-                weaponCards.remove(weaponCards.size());
+                weaponCards.remove(0);
             }
             if (i%3==2){
-                weaponCardsYellow.add(weaponCards.get(weaponCards.size()));
+                weaponCardsYellow.add(weaponCards.get(0));
                 //cambio di stato
-                weaponCards.remove(weaponCards.size());
+                weaponCards.remove(0);
             }
         }
-        gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsBlue);
+        gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsYellow);
     }
 
     //rimpiazzare le carte armi pescate dai punti spawn
     public void placeAnotherWeaponCards (int x, int y){
-        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(weaponCards.size()), x,y);
+        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(0), x,y);
+        weaponCards.remove(weaponCards.get(0));
 
     }
 
-    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws EndWeaponCardException {
+    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws OutOfBoundsException{
         if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
             gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
         }
+        else throw new OutOfBoundsException("Card not present");
         if (!weaponCards.isEmpty()) {
             placeAnotherWeaponCards(x,y);
         }
-        else throw new EndWeaponCardException();
+        //else throw new EndWeaponCardException();
         return weaponCard;
     }
 
-    public PowerUpCard takePowerUpCard (PowerUpCard powerUpCard){
-        powerUpCards.remove(powerUpCard);
+    public ArrayList<AbstractWeaponCard> weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
+        if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
+            return gameArena.getWeaponCardsOnSquares(x,y);
+        }
+        else throw new OutOfBoundsException("Non hai selezionato una casella di spawn");
+    }
+
+    public int sizeWeaponCards (){
+        return weaponCards.size();
+    }
+
+    public PowerUpCard takePowerUpCard (){
+        PowerUpCard powerUpCard = powerUpCards.get(0);
+        powerUpCards.remove(0);
         return powerUpCard;
     }
 
-    public void setUpAmmoTileOnArena (ArrayList<AmmoTile> ammoTileOnArena){
-        gameArena.setAmmoTilesOnSquare(ammoTileOnArena);
+    public int sizePowerUpCards (){
+        return powerUpCards.size();
+    }
+
+    public void setUpAmmoTileOnArena (int numOfArena)throws OutOfBoundsException{
+        ArrayList<AmmoTile> ammoTilesOnArena = new ArrayList<>();
+
+        switch (numOfArena){
+            case 1:
+                for (int i=0; i<8; i++){
+                    ammoTilesOnArena.add(ammoTiles.get(0));
+                    ammoTiles.remove(0);
+                }
+                break;
+            case 2:
+                for (int i=0; i<8; i++){
+                    ammoTilesOnArena.add(ammoTiles.get(0));
+                    ammoTiles.remove(0);
+                }
+                break;
+            case 3:
+                for (int i=0; i<7; i++){
+                    ammoTilesOnArena.add(ammoTiles.get(0));
+                    ammoTiles.remove(0);
+                }
+                break;
+            case 4:
+                for (int i=0; i<9; i++){
+                    ammoTilesOnArena.add(ammoTiles.get(0));
+                    ammoTiles.remove(0);
+                }
+                break;
+            default:
+                throw new OutOfBoundsException();
+        }
+
+        gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }
 
     public void placeAmmoTile (AmmoTile ammoTile, int x, int y){
         gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
+    }
+
+    public int sizeAmmoTiles (){
+        return ammoTiles.size();
     }
 
     public AmmoTile pickUpAmmoTile (int x, int y) throws AmmoTileUseException {
@@ -119,6 +176,14 @@ public class GameBoard {
         catch (AmmoTileUseException e){
             throw new AmmoTileUseException();
         }
+    }
+
+    public AmmoTile getAmmoTileOnSquare (int x, int y){
+       return gameArena.getAmmoTileOnSquare(x,y);
+    }
+
+    public boolean useAmmoTileOnSquare(int x, int y){
+        return gameArena.useAmmoTileOnSquare(x,y);
     }
 
     public ArrayList<Player> playersInOneSquare (int x, int y, Player player){

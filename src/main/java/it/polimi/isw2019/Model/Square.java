@@ -19,7 +19,7 @@ public abstract class Square{
         this.spawnPoint = spawnPoint;
     }
 
-    public void setSquareAdjacent (Square squareN, Square squareE, Square squareO, Square squareS){
+    public void setSquareAdjacent (Square squareN, Square squareE, Square squareS, Square squareO){
         this.squareN=squareN;
         this.squareE=squareE;
         this.squareO=squareO;
@@ -79,11 +79,18 @@ public abstract class Square{
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
         return false;
     }
+    public ArrayList<AbstractWeaponCard> getWeaponCards(){ return null;}
 
     public void setAmmoTile (AmmoTile ammoTile){}
 
     public AmmoTile takeAmmoTile () throws AmmoTileUseException {
         throw new AmmoTileUseException();
+    }
+    public AmmoTile getAmmoTile(){
+        return null;
+    };
+    public boolean isCanUseAmmo(){
+        return false;
     }
 
 

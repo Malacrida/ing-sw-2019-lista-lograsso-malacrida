@@ -3,6 +3,7 @@ import it.polimi.isw2019.Message.PlayerMove.*;
 public abstract class ViewCLIAction {
     private String idAction;
     private String idPlayerMove;
+    //dato che gli passo un'istanza della view, lo stato del player lo ricavo da li
     private char status;
     private int [][] matrix;
     private int maxMovement;

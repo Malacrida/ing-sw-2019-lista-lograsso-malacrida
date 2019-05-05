@@ -51,6 +51,10 @@ public class Controller implements Observer<PlayerMove> {
 
         //se l'azione e' run,viene invocato il metodo RUN se le caselle sono adiacenti (metodo nel model, //se NON sono adiacenti , viene generato un mex di errore)
 
+        //se l'azione e' run grab, viene invocato il run con la notify a 0 se la matrix e' diversa da NULL
+        //poi viene invocato il grab
+
+
     }
 
     public void startGame(){
