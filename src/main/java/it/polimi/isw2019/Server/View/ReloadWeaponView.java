@@ -1,7 +1,8 @@
-package it.polimi.isw2019.View;
+package it.polimi.isw2019.Server.View;
 
-import it.polimi.isw2019.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Message.PlayerMove.ReloadMove;
+import it.polimi.isw2019.Server.Message.PlayerMove.ReloadMove;
+import it.polimi.isw2019.Server.Message.PlayerMove.*;
+
 
 import java.util.Scanner;
 

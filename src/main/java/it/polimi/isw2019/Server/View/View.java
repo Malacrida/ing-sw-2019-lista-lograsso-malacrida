@@ -1,8 +1,8 @@
-package it.polimi.isw2019.View;
+package it.polimi.isw2019.Server.View;
 
-import it.polimi.isw2019.Utilities.Observable;
-import it.polimi.isw2019.Utilities.Observer;
-import it.polimi.isw2019.Message.MoveMessage.*;
+import it.polimi.isw2019.Server.Utilities.Observable;
+import it.polimi.isw2019.Server.Utilities.Observer;
+import it.polimi.isw2019.Server.Message.MoveMessage.*;
 
 import java.util.ArrayList;
 
