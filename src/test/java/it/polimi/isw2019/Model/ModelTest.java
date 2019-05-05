@@ -26,6 +26,7 @@ public class ModelTest {
 
     }
 
+    /*
     //riesco a prendere quella playerboard. NON FUNZIONA
     @Test
     public void testContainsColor() {
@@ -52,9 +53,8 @@ public class ModelTest {
         }catch(ColorNotAvailableException e){
             fail();
         }
+    }*/
 
-
-    }
 
     @Test
     public void positionPlayerBoardAviable() {

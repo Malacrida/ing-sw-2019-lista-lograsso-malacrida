@@ -17,8 +17,17 @@ public class Room {
     }
 
 
-    public void addSquere (Square square){
+    public void addSquare(Square square){
         squares.add(square);
+    }
+
+
+    public int sizeSquare (){
+        return squares.size();
+    }
+
+    public boolean containsSquare (Square square){
+        return squares.contains(square);
     }
 
     public void addPlayer (Player player){

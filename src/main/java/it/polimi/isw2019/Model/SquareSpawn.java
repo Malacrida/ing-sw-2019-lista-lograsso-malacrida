@@ -22,12 +22,13 @@ public class SquareSpawn extends Square {
 
     @Override
     public void takeWeapon (AbstractWeaponCard weaponCard){
-        if (weaponCards.contains(weaponCard)){
+        if (containsWeapon(weaponCard)){
             weaponCards.remove(weaponCard);
             //Cambiare lo stato della carta
         }
     }
 
+    @Override
     public ArrayList<AbstractWeaponCard> getWeaponCards() {
         return weaponCards;
     }

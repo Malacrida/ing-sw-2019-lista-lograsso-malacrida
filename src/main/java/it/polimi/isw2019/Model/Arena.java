@@ -15,17 +15,18 @@ public class Arena {
 
     private ArrayList<Room> rooms= new ArrayList<>();
 
-    private Arena(){
+     Arena(){
 
     }
 
-    public static Arena instanceArena () throws InstanceArenaException {
+    /*public static Arena instanceArena () throws InstanceArenaException {
         if (instance==null) {
             instance = new Arena();
             return instance;
         }
         else throw new InstanceArenaException ();
     }
+*/
 
     public void chooseArena (int numArena) throws OutOfRangeException{
         try {
@@ -40,9 +41,9 @@ public class Arena {
 
     //I colori indicano i punti di spawn
     public void setWeaponsCardOnSquareSpawn (ArrayList<AbstractWeaponCard> weaponCardsRed, ArrayList<AbstractWeaponCard> weaponCardsBlue, ArrayList<AbstractWeaponCard> weaponCardsYellow){
-        squares[0][2].setWeaponCards(weaponCardsRed);
-        squares[1][0].setWeaponCards(weaponCardsBlue);
-        squares[2][3].setWeaponCards(weaponCardsYellow);
+            squares[1][0].setWeaponCards(weaponCardsRed);
+            squares[0][2].setWeaponCards(weaponCardsBlue);
+            squares[2][3].setWeaponCards(weaponCardsYellow);
     }
 
 
@@ -58,12 +59,14 @@ public class Arena {
         squares[x][y].takeWeapon(weaponCard);
     }
 
+    public ArrayList<AbstractWeaponCard> getWeaponCardsOnSquares (int x, int y){
+        return squares[x][y].getWeaponCards();
+    }
+
     public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles){
         for (int i=0; i<3; i++){
             for (int j=0; j<4; j++){
-                if (((i!=0 && j!=2)|| (i!=1 && j!=3)||(i!=2 && j!=3))&& squares[i][j]!=null ){
-                    //non capisco perchè mi sbagliata la condizione i!=2
-                    // fare un metodo che contiene la condizione
+                if ((!((i==1 && j==0) || (i==0 && j==2)|| (i==2 && j==3)))&& squares[i][j]!=null){
                     squares[i][j].setAmmoTile(ammoTiles.get(0));
                     ammoTiles.remove(0);
                     //cambio di stato
@@ -76,6 +79,9 @@ public class Arena {
     public void placeAnotherAmmoTileOnSquare (AmmoTile ammoTile, int x, int y){
         squares[x][y].setAmmoTile(ammoTile);
     }
+    public AmmoTile getAmmoTileOnSquare (int x, int y){
+        return squares[x][y].getAmmoTile();
+    }
 
     public AmmoTile takeAmmoTileOnSquare (int x, int y) throws AmmoTileUseException {
          try{
@@ -84,6 +90,9 @@ public class Arena {
          catch (AmmoTileUseException e){
              throw new AmmoTileUseException();
          }
+    }
+    public boolean useAmmoTileOnSquare (int x, int y){
+        return squares[x][y].isCanUseAmmo();
     }
 
     public ArrayList<Player> playersInOneSquareOnArena (int x, int y,Player player){
@@ -100,11 +109,11 @@ public class Arena {
     public void spawnPlayer (ColorRoom colorRoomToSpawn, Player player){
         switch (colorRoomToSpawn){
             case RED:
-                squares[0][2].addPlayer(player);
+                squares[1][0].addPlayer(player);
 
                 break;
             case BLUE:
-                squares[1][0].addPlayer(player);
+                squares[0][2].addPlayer(player);
                 break;
             case YELLOW:
                 squares[2][3].addPlayer(player);

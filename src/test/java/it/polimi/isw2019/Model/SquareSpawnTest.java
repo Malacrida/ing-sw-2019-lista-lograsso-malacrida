@@ -58,7 +58,7 @@ public class SquareSpawnTest {
     public void takeWeaponTest() {
         squareSpawn1.setWeaponCards(weaponCards);
         squareSpawn1.takeWeapon(weaponCard1);
-        assert ((!weaponCards.contains(weaponCard1))&& weaponCards.size()==2);
+        assert ((squareSpawn1.containsWeapon(weaponCard1)));
 
     }
 
