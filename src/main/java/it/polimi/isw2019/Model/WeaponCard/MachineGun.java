@@ -32,7 +32,7 @@ public class MachineGun extends AbstractWeaponCard {
 
                 secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
-                firstIsValid = true;
+                this.firstIsValid = true;
             }
         }
         else {

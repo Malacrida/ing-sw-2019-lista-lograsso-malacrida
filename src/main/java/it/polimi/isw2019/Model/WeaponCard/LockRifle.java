@@ -23,6 +23,8 @@ public class LockRifle extends AbstractWeaponCard {
 
             firstDefender.sufferDamage(attacker.getColor(), 2, 1);
 
+            this.firstIsValid = true;
+
         } else {
 
             throw new ErrorEffectException();
