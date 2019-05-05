@@ -40,7 +40,7 @@ public class RunGrabActionView extends ViewCLIAction {
             run = true;
         }
 
-        if(run == true )
+        if(run)
             this.setMatrix((new RunActionView(this.getIdPlayerMove(), this.getIdAction())).getMatrix());
         else
             this.setMatrix(null);
@@ -61,6 +61,7 @@ public class RunGrabActionView extends ViewCLIAction {
         this.cardType = 'A';
 
     }
+
     public void handleInsertWeaponCard(){
 
         //output of all weapon cards

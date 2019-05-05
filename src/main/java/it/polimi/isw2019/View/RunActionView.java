@@ -3,7 +3,7 @@ package it.polimi.isw2019.View;
 import it.polimi.isw2019.Message.PlayerMove.*;
 import it.polimi.isw2019.Message.RunMessage;
 
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class RunActionView extends ViewCLIAction{
