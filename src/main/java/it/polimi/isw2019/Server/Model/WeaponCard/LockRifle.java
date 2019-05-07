@@ -19,17 +19,17 @@ public class LockRifle extends AbstractWeaponCard {
     @Override
     public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        if (firstDefender != null){
+        //if (firstDefender != null){
 
             firstDefender.sufferDamage(attacker.getColor(), 2, 1);
 
             this.firstIsValid = true;
 
-        } else {
+        //} else {
 
-            throw new ErrorEffectException();
+          //  throw new ErrorEffectException();
 
-        }
+        //}
     }
 
     @Override

@@ -4,7 +4,7 @@ public class PlayerBoard extends AbstractPlayerBoard {
 
     //private HashMap<Integer, ColorPlayer> damagePlayer= new HashMap<>();
 
-    PlayerBoard(ColorPlayer color) {
+    public PlayerBoard(ColorPlayer color) {
         super(color, false);
     }
 
