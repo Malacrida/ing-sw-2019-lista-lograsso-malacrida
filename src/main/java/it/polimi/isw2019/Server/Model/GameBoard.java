@@ -28,21 +28,11 @@ public class GameBoard {
 
     }
 
-    /*public static GameBoard instanceGameBoard (){
-        if (instance==null){
-            instance= new GameBoard();
-        }
-        return instance;
-    }*/
+
 
 
     public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException {
-        /*try {
-            gameArena = Arena.instanceArena();
-        }
-        catch (InstanceArenaException e){
-            throw new InstanceArenaException();
-        }*/
+
         gameArena= new Arena();
         try {
             gameArena.chooseArena(num);
@@ -180,16 +170,22 @@ public class GameBoard {
         return gameArena.useAmmoTileOnSquare(x,y);
     }
 
+    //Player who are in one square
     public ArrayList<Player> playersInOneSquare (int x, int y, Player player){
         return gameArena.playersInOneSquareOnArena(x,y,player);
+    }
+
+    //Player who can see on arena by player who attack
+    public ArrayList<Player> playersWhoCanSee (int x, int y, Player player){
+        return gameArena.playerWhoSeeOnArena(x,y,player);
     }
 
     public void insertPlayer (Player player, ColorRoom colorRoom){
         gameArena.spawnPlayer(colorRoom, player);
     }
 
-    public boolean changePositionPlayer (Player player, int x, int y){
-        return gameArena.movePlayer(player,x,y);
+    public boolean changePositionPlayer (Player player, int x, int y, boolean teleporter){
+        return gameArena.movePlayer(player,x,y, teleporter);
     }
 
 }

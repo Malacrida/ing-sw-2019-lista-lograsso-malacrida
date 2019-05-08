@@ -26,7 +26,7 @@ public class PlasmaGun extends AbstractWeaponCard{
         /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
         if (firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2,0);
+            //firstDefender.sufferDamage(attacker.getColor(), 2,0);
 
             firstIsValid = true;
 
@@ -47,7 +47,7 @@ public class PlasmaGun extends AbstractWeaponCard{
 
         if(firstIsValid){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1,0);
+            //firstDefender.sufferDamage(attacker.getColor(), 1,0);
 
         } else {
 

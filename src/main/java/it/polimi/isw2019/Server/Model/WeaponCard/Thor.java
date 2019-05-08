@@ -25,7 +25,7 @@ public class Thor extends AbstractWeaponCard{
 
         if (firstDefender != null) {
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+           // firstDefender.sufferDamage(attacker.getColor(), 2, 0);
             this.firstIsValid = true;
 
         } else {
@@ -39,7 +39,7 @@ public class Thor extends AbstractWeaponCard{
 
         if (this.firstIsValid){
 
-            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+          //  secondDefender.sufferDamage(attacker.getColor(), 1, 0);
             this.secondIsValid = true;
 
         } else {
@@ -54,7 +54,7 @@ public class Thor extends AbstractWeaponCard{
 
         if(this.secondIsValid) {
 
-            thirdDefender.sufferDamage(attacker.getColor(), 2, 0);
+         //   thirdDefender.sufferDamage(attacker.getColor(), 2, 0);
 
         } else {
 

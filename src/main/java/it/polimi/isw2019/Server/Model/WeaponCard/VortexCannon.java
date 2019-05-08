@@ -30,7 +30,7 @@ public class VortexCannon extends AbstractWeaponCard {
 
         if(firstDefender != null){
             /*MUOVI DI UNO*/
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            //firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
         } else {
 
@@ -46,8 +46,8 @@ public class VortexCannon extends AbstractWeaponCard {
         if(secondDefender != null){
 
             /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
-            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
-            thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+            //secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            //thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
 
         } else {
 

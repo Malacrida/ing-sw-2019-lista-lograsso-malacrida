@@ -24,7 +24,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
         if(firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+           // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
         } else {
 
@@ -41,7 +41,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
         if(secondDefender != null){
 
-            secondDefender.sufferDamage(attacker.getColor(), 3, 0);
+            //secondDefender.sufferDamage(attacker.getColor(), 3, 0);
 
         } else {
 

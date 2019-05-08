@@ -23,7 +23,7 @@ public class HeatSeeker extends AbstractWeaponCard {
         /* AGGIUNGERE CONTROLLO BERSAGLIO NON VISIBILE*/
         if (firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+         //   firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
         } else {
 

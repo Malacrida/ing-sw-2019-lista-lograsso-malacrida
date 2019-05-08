@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.ColorPlayer;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.PlayerBoard;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.*;
 import org.junit.After;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player player1, player2 , player3, player4;
-    private PlayerBoard playerBoard1, playerBoard2 , playerBoard3, playerBoard4;
+    private AbstractPlayerBoard playerBoard1, playerBoard2 , playerBoard3, playerBoard4;
     private ColorPlayer colorPlayer1, colorPlayer2,colorPlayer3, colorPlayer4;
     private AbstractWeaponCard weaponCard1,weaponCard2, weaponCard3, weaponCard4;
     private PowerUpCard powerUpCard1, powerUpCard2;
@@ -79,17 +78,89 @@ public class PlayerTest {
     }
 
     @Test
-    public void sufferDamage() {
+    public void sufferDamageWithOverKill() {
+        player1.setPlayerBoardAndColor(playerBoard1,ColorPlayer.GREY);
 
+        try {
+            player1.sufferDamage(ColorPlayer.GREEN, 3, 2);
+
+            assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+            player1.sufferDamage(ColorPlayer.YELLOW, 2, 1);
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+            player1.sufferDamage(ColorPlayer.BLUE,0,2);
+            assertEquals(0,player1.damageDoByAnotherPlayer(ColorPlayer.BLUE));
+            assertEquals(2,player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
+
+            player1.sufferDamage(ColorPlayer.GREEN, 2, 0);
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(0, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+            player1.sufferDamage(ColorPlayer.BLUE,2,3);
+            fail();
+        }
+        catch (OverKillException e){
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(0, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(3, player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
+            assertEquals(3,player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
+            assertEquals(12, player1.playerDamage());
+        }
+        catch (KillShotException e){
+            fail();
+        }
     }
 
-    /*@Test
-    public void damageDoByAnotherPlayer() {
-        //player1.sufferDamage(player2.getColor(),2,1);
-        //player1.sufferDamage(player3.getColor(),2,0);
-        //test sulla playerBoard se dal giocatore NON riesco a risalire ai damage
+    @Test
+    public void sufferDamageWithKillShot() {
+        player1.setPlayerBoardAndColor(playerBoard1,ColorPlayer.BLUE);
 
-    }*/
+        try {
+            player1.sufferDamage(ColorPlayer.GREEN, 3, 2);
+
+            assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+            player1.sufferDamage(ColorPlayer.YELLOW, 2, 1);
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+
+            player1.sufferDamage(ColorPlayer.GREEN, 2, 1);
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+
+            player1.sufferDamage(ColorPlayer.BLUE,2,2);
+            fail();
+        }
+        catch (OverKillException e){
+            fail();
+        }
+        catch (KillShotException e){
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
+            assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
+            assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.BLUE));
+            assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
+            assertEquals(11, player1.playerDamage());
+        }
+    }
+
+
 
     @Test
     public void firstPlayerDoDamage() {

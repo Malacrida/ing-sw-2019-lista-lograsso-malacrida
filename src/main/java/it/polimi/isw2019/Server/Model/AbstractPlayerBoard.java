@@ -106,9 +106,7 @@ public abstract class AbstractPlayerBoard {
     }
 
     //Numero di danni totali subiti dal giocatore e controllo sulla morte
-    public int numOfDamanges () throws KillShotException, OverKillException {
-        if (damageTokens.size()==11) throw new KillShotException();
-        if (damageTokens.size()>=12) throw new OverKillException(damageTokens.get(11));
+    public int numOfDamages(){
         return damageTokens.size();
     }
 
@@ -146,24 +144,33 @@ public abstract class AbstractPlayerBoard {
 
     //rimzione dei marchi di un colore posseduti dal player
     public void removeMarkOfOneColor (ColorPlayer colorPlayer){
-        for (int i=0; i<markTokens.size(); i++){
-            if (markTokens.get(i)==colorPlayer){
-                markTokens.remove(i);
-            }
-        }
+        markTokens.removeIf(markToken -> markToken==colorPlayer);
+
     }
 
     //Aggiungere i danni al giocatore
-    public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage){
-
+    public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws KillShotException,OverKillException{
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
+            if (damageTokens.size()>=12) {
+                removeMarkOfOneColor(colorPlayer);
+                throw new OverKillException(damageTokens.get(11));
+            }
         }
-        for (int i=0; i<numOfMarkOfOneColor(colorPlayer); i++) {
-            damageTokens.add(colorPlayer);
+        if(numOfMarkOfOneColor(colorPlayer)>0){
+            int n= numOfMarkOfOneColor(colorPlayer);
+            for (int i=0; i<n ; i++) {
+                damageTokens.add(colorPlayer);
+                if (damageTokens.size()>=12) {
+                    removeMarkOfOneColor(colorPlayer);
+                    throw new OverKillException(damageTokens.get(11));
+                }
+            }
             removeMarkOfOneColor(colorPlayer);
-
         }
+        if (damageTokens.size()==11) throw new KillShotException();
+
+
     }
 
     //Aggiunge marchi ma nel caso supera i tre marchi dello stesso colore non vengono aggiunti

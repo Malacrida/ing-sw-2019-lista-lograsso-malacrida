@@ -26,7 +26,7 @@ public class ShotGun extends AbstractWeaponCard {
 
         if (sameSquare(attacker, firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+            //firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
 
         } else {
@@ -44,7 +44,7 @@ public class ShotGun extends AbstractWeaponCard {
 
         if (oneDistance(attacker, firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            //firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
         } else {
 

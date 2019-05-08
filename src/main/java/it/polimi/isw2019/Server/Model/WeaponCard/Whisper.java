@@ -26,7 +26,7 @@ public class Whisper extends AbstractWeaponCard {
 
         if(firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 3, 1);
+            //firstDefender.sufferDamage(attacker.getColor(), 3, 1);
 
         } else {
 

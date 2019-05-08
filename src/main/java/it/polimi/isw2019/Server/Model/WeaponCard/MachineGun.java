@@ -25,12 +25,12 @@ public class MachineGun extends AbstractWeaponCard {
         /*Verificare se lo vede*/
         if (firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            //firstDefender.sufferDamage(attacker.getColor(), 1, 0);
             /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
 
             if (secondDefender != null){
 
-                secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+              //  secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 this.firstIsValid = true;
             }
@@ -50,7 +50,7 @@ public class MachineGun extends AbstractWeaponCard {
 
         if (firstIsValid){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+           // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
         } else {
 
@@ -67,11 +67,11 @@ public class MachineGun extends AbstractWeaponCard {
 
         if (firstIsValid){
 
-            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+           // secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
             if (thirdDefender != null){
 
-                thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+              //  thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
 
             }
 
