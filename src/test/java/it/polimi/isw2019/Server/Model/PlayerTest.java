@@ -82,28 +82,28 @@ public class PlayerTest {
         player1.setPlayerBoardAndColor(playerBoard1,ColorPlayer.GREY);
 
         try {
-            player1.sufferDamage(ColorPlayer.GREEN, 3, 2);
+            player1.sufferDamageOrMark(ColorPlayer.GREEN, 3, 2);
 
             assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
-            player1.sufferDamage(ColorPlayer.YELLOW, 2, 1);
+            player1.sufferDamageOrMark(ColorPlayer.YELLOW, 2, 1);
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
-            player1.sufferDamage(ColorPlayer.BLUE,0,2);
+            player1.sufferDamageOrMark(ColorPlayer.BLUE,0,2);
             assertEquals(0,player1.damageDoByAnotherPlayer(ColorPlayer.BLUE));
             assertEquals(2,player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
 
-            player1.sufferDamage(ColorPlayer.GREEN, 2, 0);
+            player1.sufferDamageOrMark(ColorPlayer.GREEN, 2, 0);
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(0, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
-            player1.sufferDamage(ColorPlayer.BLUE,2,3);
+            player1.sufferDamageOrMark(ColorPlayer.BLUE,2,3);
             fail();
         }
         catch (OverKillException e){
@@ -125,25 +125,25 @@ public class PlayerTest {
         player1.setPlayerBoardAndColor(playerBoard1,ColorPlayer.BLUE);
 
         try {
-            player1.sufferDamage(ColorPlayer.GREEN, 3, 2);
+            player1.sufferDamageOrMark(ColorPlayer.GREEN, 3, 2);
 
             assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
-            player1.sufferDamage(ColorPlayer.YELLOW, 2, 1);
+            player1.sufferDamageOrMark(ColorPlayer.YELLOW, 2, 1);
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(3, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
 
-            player1.sufferDamage(ColorPlayer.GREEN, 2, 1);
+            player1.sufferDamageOrMark(ColorPlayer.GREEN, 2, 1);
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
             assertEquals(7, player1.damageDoByAnotherPlayer(ColorPlayer.GREEN));
 
-            player1.sufferDamage(ColorPlayer.BLUE,2,2);
+            player1.sufferDamageOrMark(ColorPlayer.BLUE,2,2);
             fail();
         }
         catch (OverKillException e){

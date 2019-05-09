@@ -222,7 +222,6 @@ public class ArenaTest {
         assertTrue(playersWhoSeePlayer1.contains(player3));
         assertTrue(playersWhoSeePlayer1.contains(player4));
 
-        /*
         ArrayList<Player> playersWhoSeePlayer2 = arena.playerWhoSeeOnArena(player2.getX(), player2.getY(), player2);
 
         assertEquals(2,playersWhoSeePlayer2.size());
@@ -230,7 +229,7 @@ public class ArenaTest {
         assertFalse(playersWhoSeePlayer2.contains(player2));
         assertFalse(playersWhoSeePlayer2.contains(player3));
         assertTrue(playersWhoSeePlayer2.contains(player4));
-
+/*
         ArrayList<Player> playersWhoSeePlayer3 = arena.playerWhoSeeOnArena(player3.getX(), player3.getY(), player3);
 
         assertEquals(2,playersWhoSeePlayer3.size());

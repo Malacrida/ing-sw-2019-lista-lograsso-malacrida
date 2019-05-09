@@ -152,14 +152,14 @@ public class Player {
 
 
     /**
-     *
+     * Give damage token or mark token to the player
      * @param colorPlayer!= null Color of the player who give damage
      * @param numDamage>=0 number of damage
      * @param numMark>=0 number of mark
      * @throws KillShotException if player, who take damage, have 11 damage token
      * @throws OverKillException if player, who take damage, have 12 damage token
      */
-    public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark)throws KillShotException,OverKillException {
+    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws KillShotException,OverKillException {
 
         try {
             if (numDamage>0){
