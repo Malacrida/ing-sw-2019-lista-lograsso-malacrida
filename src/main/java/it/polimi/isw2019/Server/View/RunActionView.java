@@ -1,18 +1,21 @@
 package it.polimi.isw2019.Server.View;
 
 import it.polimi.isw2019.Server.Message.PlayerMove.*;
-import it.polimi.isw2019.Server.Message.PlayerMove.PlayerMove;
 import it.polimi.isw2019.Server.Message.RunMessage;
+import it.polimi.isw2019.Server.View.ViewCLI;
+import it.polimi.isw2019.Server.View.ViewCLIAction;
+
 
 import java.util.Scanner;
 
-public class RunActionView extends ViewCLIAction{
+public class RunActionView extends ViewCLIAction {
 
     //crea un'azione singola di movimento
     public RunActionView(String idPlayerMove,String idAction){
         super(idPlayerMove,idAction);
         setNumberMovement(this);
     }
+
 
     //movimenti vengono settati a runTime da questo metodo
     public void setNumberMovement(ViewCLIAction action){
@@ -53,7 +56,8 @@ public class RunActionView extends ViewCLIAction{
         }
     }
 
-    public PlayerMove handleAction(ViewCLI view){
+    @Override
+    public  PlayerMove handleAction(ViewCLI view){
         handleInsertData(view,this);
         return (new RunMessage(getIdPlayerMove(),getIdAction(),getMatrix()));
     }

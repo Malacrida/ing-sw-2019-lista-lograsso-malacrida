@@ -1,14 +1,12 @@
 package it.polimi.isw2019.Server.View;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 import it.polimi.isw2019.Server.Message.MoveMessage.*;
 import it.polimi.isw2019.Server.Message.PlayerMove.*;
-import it.polimi.isw2019.Server.Message.MoveMessage.MoveMessage;
-import it.polimi.isw2019.Server.Message.MoveMessage.SetUpMessage;
-import it.polimi.isw2019.Server.Message.MoveMessage.TurnMessage;
-import it.polimi.isw2019.Server.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Server.Message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.Server.View.*;
 
 
 public class ViewCLI extends View {
@@ -17,7 +15,12 @@ public class ViewCLI extends View {
     boolean fromTheirToYourTurn;
     char statusPlayer;
     int idPlayer;
-
+    private ArrayList<String> weaponCardRecharged;
+    private ArrayList<String> weaponCardNotRecharged;
+    private ArrayList<String> ammoCubesAvailable;
+    private ArrayList<String> ammoCubesNotAvailable;
+    private ArrayList <Integer> powerUp;
+    private Map<String,Integer> effectOfWeaponCardAvailable;
     public ViewCLI(){
         //register as observable of model
         //register the controller as observable of the view
@@ -121,8 +124,11 @@ public class ViewCLI extends View {
         notifyObservers((new RunActionView("ACTION","RUN")).handleAction(this));
         //caso RUN,GRAB
         notifyObservers((new RunGrabActionView("ACTION","RUNGRAB")).handleAction(this));
-
-
+        //caso useWeaponCard
+        notifyObservers((new UseWeaponCardView("ACTION","USEWEAPONCARD")).handleAction(this));
+        //caso reload
+        notifyObservers((new ReloadWeaponView("ACTION","RELOAD")).handleAction(this));
+        //caso powerUp
     }
 
 
@@ -192,6 +198,31 @@ public class ViewCLI extends View {
 
     public void displayStatus(){
         displayColor();
+    }
+
+    public void displayWeaponCard(){
+        // file json (?)
+        // inseriti dal model durante la fase di settaggio del gioco
+    }
+
+    public void displayWeaponCardAvailable(){
+
+    }
+
+    public void displayWeaponCardOnBoard(){
+
+    }
+
+    public Map<String,Integer> getEffectOfWeaponCardAvailable(){
+        return this.effectOfWeaponCardAvailable;
+    }
+
+    public int getEffect(String weaponCard){
+        return effectOfWeaponCardAvailable.get(weaponCard);
+    }
+
+    public String getNameWeaponCard(int i){
+        return weaponCardRecharged.get(i);
     }
 
     public void updateIdPlayer(SetUpMessage moveMessage){

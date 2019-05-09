@@ -1,9 +1,11 @@
 package it.polimi.isw2019.Server.View;
 
-import it.polimi.isw2019.Server.Message.MoveMessage.MoveMessage;
 import it.polimi.isw2019.Server.Utilities.Observable;
 import it.polimi.isw2019.Server.Utilities.Observer;
 import it.polimi.isw2019.Server.Message.MoveMessage.*;
+
+import java.util.ArrayList;
+
 public abstract class View extends Observable implements Observer<MoveMessage> {
 
     protected String nickname;
@@ -11,6 +13,8 @@ public abstract class View extends Observable implements Observer<MoveMessage> {
     protected String color;
     protected int idPlayer;
     protected String playerStatus;
+
+
     public abstract void welcome();
     
     public abstract void insertDate();
