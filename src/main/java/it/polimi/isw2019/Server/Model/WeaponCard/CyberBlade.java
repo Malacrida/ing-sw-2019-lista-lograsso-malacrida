@@ -24,7 +24,7 @@ public class CyberBlade extends AbstractWeaponCard {
 
         if (sameSquare(attacker, firstDefender)){
 
-           firstDefender.sufferDamage(attacker.getColor(),2,0);
+          // firstDefender.sufferDamage(attacker.getColor(),2,0);
 
         }
 
@@ -53,7 +53,7 @@ public class CyberBlade extends AbstractWeaponCard {
 
         if (sameSquare(attacker, secondDefender)){
 
-            secondDefender.sufferDamage(attacker.getColor(),2,0);
+           // secondDefender.sufferDamage(attacker.getColor(),2,0);
 
         }
 

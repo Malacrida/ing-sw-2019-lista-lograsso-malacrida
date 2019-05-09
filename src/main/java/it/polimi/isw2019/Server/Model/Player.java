@@ -1,6 +1,8 @@
 package it.polimi.isw2019.Server.Model;
 
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 
@@ -31,7 +33,7 @@ public class Player {
         colorRoom= null;
     }
 
-    public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
+    public void setPlayerBoardAndColor (AbstractPlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
     }
@@ -144,27 +146,54 @@ public class Player {
     }
 
 
-
     public void addScore (int point){
         score= score+point;
     }
 
 
-    //Dargli un nuovo nome (giveDamareOrMark)
-    public void sufferDamage (ColorPlayer colorPlayer, int numDamage, int numMark){
-        if (numDamage>0){
-            playerBoard.takeDamage(colorPlayer, numDamage);
+    /**
+     * Give damage token or mark token to the player
+     * @param colorPlayer!= null Color of the player who give damage
+     * @param numDamage>=0 number of damage
+     * @param numMark>=0 number of mark
+     * @throws KillShotException if player, who take damage, have 11 damage token
+     * @throws OverKillException if player, who take damage, have 12 damage token
+     */
+    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws KillShotException,OverKillException {
+
+        try {
+            if (numDamage>0){
+                playerBoard.takeDamage(colorPlayer, numDamage);
+            }
         }
-        if (numMark>0){
-            playerBoard.addMark(colorPlayer, numMark);
+        catch (OverKillException e){
+            throw new OverKillException(colorPlayer);
+        }
+        catch (KillShotException e){
+            throw new KillShotException(colorPlayer);
+        }
+        finally {
+            if (numMark>0){
+                playerBoard.addMark(colorPlayer, numMark);
+            }
         }
     }
 
 
 
-    public int DamageDoByAnotherPlayer (ColorPlayer colorPlayer){
+    public int damageDoByAnotherPlayer(ColorPlayer colorPlayer){
         return playerBoard.numOfDamagesOfOneColor(colorPlayer);
     }
+
+    public int markDoByAnotherPlayer(ColorPlayer colorPlayer){
+        return playerBoard.numOfMarkOfOneColor(colorPlayer);
+    }
+
+    public int playerDamage () {
+        return playerBoard.numOfDamages();
+    }
+
+
 
     public ColorPlayer firstPlayerDoDamage (){
         return playerBoard.firstBlood();

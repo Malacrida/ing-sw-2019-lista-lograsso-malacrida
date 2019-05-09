@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Message.PlayerMove;
+package it.polimi.isw2019.Server.Message.PlayerMove;
 
 
 public class ReloadMove extends Action {

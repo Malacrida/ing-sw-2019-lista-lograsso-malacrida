@@ -30,7 +30,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
         if (firstDefender != null){
 
-                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+               // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 /* AGGIUNGERE MUOVI DI UNO IL DIFENSORE */
 

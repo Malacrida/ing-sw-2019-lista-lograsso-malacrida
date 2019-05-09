@@ -1,10 +1,11 @@
-package it.polimi.isw2019.Model;
+package it.polimi.isw2019.Server.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.Model.Exception.ColorNotAvailableException;
-import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
-import it.polimi.isw2019.Utilities.Observable;
+import it.polimi.isw2019.Server.Model.Exception.ColorNotAvailableException;
+import it.polimi.isw2019.Server.Model.*;
+import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
+import it.polimi.isw2019.Server.Utilities.Observable;
 
 import java.util.ArrayList;
 

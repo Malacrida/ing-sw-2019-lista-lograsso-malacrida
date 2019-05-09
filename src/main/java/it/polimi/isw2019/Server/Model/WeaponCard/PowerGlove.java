@@ -27,7 +27,7 @@ public class PowerGlove extends AbstractWeaponCard {
 
         if (sameSquare(attacker, firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 2);
+            //firstDefender.sufferDamage(attacker.getColor(), 1, 2);
 
 
         } else {
@@ -44,12 +44,12 @@ public class PowerGlove extends AbstractWeaponCard {
             /* AGGIUNGI UN MOVIMENTO */
             if(sameSquare(attacker, firstDefender)){
 
-                firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+                //firstDefender.sufferDamage(attacker.getColor(), 2, 0);
                 /* AGGIUNGI UN MOVIMENTO */
 
                 if (sameSquare(attacker, secondDefender)){
 
-                    secondDefender.sufferDamage(attacker.getColor(), 2, 0);
+                    //secondDefender.sufferDamage(attacker.getColor(), 2, 0);
 
                 }
             } else {

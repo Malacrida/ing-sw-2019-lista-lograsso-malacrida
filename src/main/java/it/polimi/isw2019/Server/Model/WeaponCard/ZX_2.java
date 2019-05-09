@@ -25,7 +25,7 @@ public class ZX_2 extends AbstractWeaponCard {
 
         if(firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 1, 2);
+          //  firstDefender.sufferDamage(attacker.getColor(), 1, 2);
 
         } else {
 
@@ -41,11 +41,11 @@ public class ZX_2 extends AbstractWeaponCard {
 
         if(firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 0, 1);
+         //   firstDefender.sufferDamage(attacker.getColor(), 0, 1);
 
-            secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+          //  secondDefender.sufferDamage(attacker.getColor(), 0, 1);
 
-            thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
+        //    thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
 
         } else {
 

@@ -34,11 +34,11 @@ public class Flamethrower extends AbstractWeaponCard {
 
             if (oneDistanceX(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
 
-                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+              //  firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 if (oneDistanceX(firstDefender, secondDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al secondo player altrimenti chiama l'eccezione
 
-                    secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+                   // secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 }
 
@@ -50,11 +50,11 @@ public class Flamethrower extends AbstractWeaponCard {
 
             else if (oneDistanceY(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
 
-                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+               // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 if (oneDistanceY(firstDefender, secondDefender)){  //Se la distanza di 1 è sull'asse delle Y allora fai un danno al secondo player altrimenti chiama l'eccezione
 
-                    secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+                  //  secondDefender.sufferDamage(attacker.getColor(), 1, 0);
 
                 }
 
@@ -78,12 +78,12 @@ public class Flamethrower extends AbstractWeaponCard {
 
             if (oneDistanceX(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
 
-                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+             //   firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
             }
             else if (oneDistanceY(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
 
-                firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+             //   firstDefender.sufferDamage(attacker.getColor(), 1, 0);
 
             }
             else { //eccezione  perché il giocatore non è sull'asse

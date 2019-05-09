@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Server.Controller;
 
 import it.polimi.isw2019.Server.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Server.Model.Model;
+import it.polimi.isw2019.Server.Model.*;
 
 public class RunUseWeaponCard extends StrategyAction {
     @Override

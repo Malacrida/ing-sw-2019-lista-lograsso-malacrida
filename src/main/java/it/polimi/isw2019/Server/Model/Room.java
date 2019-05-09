@@ -12,6 +12,9 @@ public class Room {
         this.colorRoom=colorRoom;
     }
 
+    public ColorRoom getColorRoom() {
+        return colorRoom;
+    }
 
     public void addSquare(Square square){
         squares.add(square);
@@ -30,12 +33,6 @@ public class Room {
         players.add(player);
     }
 
-    public boolean isSameRoom (Square square1, Square square2){
-        if (squares.contains(square1)&& squares.contains(square2))
-            return true;
-        else return false;
-    }
-
     public void removePlayer (Player player){
         if (players.contains(player)){
             players.remove(player);
@@ -46,6 +43,8 @@ public class Room {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+
 
 
 }

@@ -30,7 +30,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
         if (firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            //firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
         } else {
 

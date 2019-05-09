@@ -22,9 +22,9 @@ public class ShockWave extends AbstractWeaponCard {
         if(firstDefender != null){
 
             /*Mettere controlli su stanze first, second, third*/
-            firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-            secondDefender.sufferDamage(attacker.getColor(), 1, 0);
-            thirdDefender.sufferDamage(attacker.getColor(),1,0);
+         //   firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+         //   secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+        //    thirdDefender.sufferDamage(attacker.getColor(),1,0);
 
         } else {
 
