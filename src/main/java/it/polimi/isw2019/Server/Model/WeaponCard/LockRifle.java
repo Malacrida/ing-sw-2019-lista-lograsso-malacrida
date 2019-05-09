@@ -5,6 +5,7 @@ import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.Player;
 
+
 import java.util.ArrayList;
 
 public class LockRifle extends AbstractWeaponCard {
@@ -21,7 +22,7 @@ public class LockRifle extends AbstractWeaponCard {
 
         //if (firstDefender != null){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 1);
+            //firstDefender.sufferDamage(attacker.getColor(), 2, 1);
 
             this.firstIsValid = true;
 
@@ -37,7 +38,7 @@ public class LockRifle extends AbstractWeaponCard {
 
         if (secondDefender != null){
 
-            secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+            //secondDefender.sufferDamage(attacker.getColor(), 0, 1);
 
         } else {
 

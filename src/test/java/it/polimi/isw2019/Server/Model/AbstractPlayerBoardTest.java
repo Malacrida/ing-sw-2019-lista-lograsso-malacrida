@@ -1,9 +1,8 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.AbstractPlayerBoard;
-import it.polimi.isw2019.Server.Model.ColorPlayer;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.PlayerBoard;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +11,12 @@ import static org.junit.Assert.*;
 
 public class AbstractPlayerBoardTest {
     AbstractPlayerBoard playerBoard1;
+    AbstractPlayerBoard playerBoard2;
 
     @Before
     public void setUp() throws Exception {
-        playerBoard1 = new PlayerBoard(ColorPlayer.BLUE);
+        playerBoard1 = new PlayerBoard(ColorPlayer.YELLOW);
+        playerBoard2= new PlayerBoard(ColorPlayer.GREEN);
     }
 
     @After
@@ -119,10 +120,24 @@ public class AbstractPlayerBoardTest {
 
     @Test
     public void numOfMarkOfOneColor() {
+        playerBoard1.addMark(ColorPlayer.VIOLET,2);
+        assertEquals(2,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
+
     }
 
     @Test
     public void numOfDamagesOfOneColor() {
+        try {
+            playerBoard1.takeDamage(ColorPlayer.GREEN,1);
+            assertEquals(1,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
+        }
+        catch (OverKillException e){
+            fail();
+        }
+        catch (KillShotException e){
+            fail();
+        }
+
 
     }
 
@@ -132,19 +147,99 @@ public class AbstractPlayerBoardTest {
 
     @Test
     public void removeMarkOfOneColor() {
+        playerBoard1.addMark(ColorPlayer.YELLOW,2);
+        assertEquals(2,playerBoard1.numOfMarkOfOneColor(ColorPlayer.YELLOW));
+
+        playerBoard1.removeMarkOfOneColor(ColorPlayer.YELLOW);
+        assertEquals(0,playerBoard1.numOfMarkOfOneColor(ColorPlayer.YELLOW));
+
     }
 
     @Test
-    public void testTakeDamage() {
+    public void testTakeDamageOverKillWithMark() {
         playerBoard1.addMark(ColorPlayer.VIOLET,2);
         assertEquals(2,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
-        playerBoard1.takeDamage(ColorPlayer.GREEN,1);
-        assertEquals(1,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
-        playerBoard1.takeDamage(ColorPlayer.BLUE, 2);
-        assertEquals(2,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.BLUE));
-        playerBoard1.takeDamage(ColorPlayer.GREEN,3);
-        assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
+
+        try {
+            playerBoard1.takeDamage(ColorPlayer.GREEN, 3);
+            assertEquals(3, playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
+
+
+            playerBoard1.addMark(ColorPlayer.GREEN, 2);
+            assertEquals(2, playerBoard1.numOfMarkOfOneColor(ColorPlayer.GREEN));
+
+            playerBoard1.takeDamage(ColorPlayer.BLUE, 2);
+            assertEquals(2, playerBoard1.numOfDamagesOfOneColor(ColorPlayer.BLUE));
+
+            assertEquals(2, playerBoard1.numOfMarkOfOneColor(ColorPlayer.GREEN));
+            playerBoard1.takeDamage(ColorPlayer.GREEN, 1);
+
+            assertEquals(0, playerBoard1.numOfMarkOfOneColor(ColorPlayer.GREEN));
+            assertEquals(6, playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
+            assertEquals(2, playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
+        }
+        catch (OverKillException e){
+            fail();
+        }
+        catch (KillShotException e){
+            fail();
+        }
+
+        try {
+            playerBoard1.takeDamage(ColorPlayer.VIOLET,3);
+
+            fail();
+        }
+        catch (KillShotException e){
+            fail();
+        }
+        catch (OverKillException e){
+            assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.VIOLET));
+            assertEquals(0,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
+            assertEquals(12,playerBoard1.numOfDamages());
+        }
+
     }
+
+   @Test
+   public void testTakeDamageKillShot (){
+        try {
+            playerBoard2.addMark(ColorPlayer.YELLOW,3);
+            playerBoard2.takeDamage(ColorPlayer.YELLOW,2);
+            playerBoard2.takeDamage(ColorPlayer.BLUE,3);
+            playerBoard2.addMark(ColorPlayer.BLUE,1);
+            playerBoard2.takeDamage(ColorPlayer.GREY,3);
+        }
+        catch (OverKillException e){
+            fail();
+        }
+        catch (KillShotException e){
+            assertEquals(1,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
+            assertEquals(11,playerBoard2.numOfDamages());
+
+        }
+   }
+
+    @Test
+    public void testTakeDamageOverKillWithDamage (){
+        try {
+            playerBoard2.addMark(ColorPlayer.YELLOW,3);
+            playerBoard2.takeDamage(ColorPlayer.YELLOW,2);
+            playerBoard2.takeDamage(ColorPlayer.BLUE,2);
+            playerBoard2.takeDamage(ColorPlayer.GREY,3);
+            playerBoard2.addMark(ColorPlayer.BLUE,3);
+            playerBoard2.takeDamage(ColorPlayer.BLUE,3);
+
+        }
+        catch (KillShotException e){
+            fail();
+        }
+        catch (OverKillException e){
+            assertEquals(0,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
+            assertEquals(12,playerBoard2.numOfDamages());
+        }
+    }
+
 
     @Test
     public void testAddMark() {

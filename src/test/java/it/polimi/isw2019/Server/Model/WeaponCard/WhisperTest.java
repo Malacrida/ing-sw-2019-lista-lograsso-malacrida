@@ -42,7 +42,7 @@ public class WhisperTest {
     public void firstEffect() {
 
         try {
-            assertEquals(3, pb1.numOfDamanges());
+            assertEquals(3, pb1.numOfDamages());
             assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
         } catch (Exception e) {
             e.printStackTrace();

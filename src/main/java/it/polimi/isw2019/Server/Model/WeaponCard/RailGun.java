@@ -31,7 +31,7 @@ public class RailGun extends AbstractWeaponCard {
 
        if(direction != 'n'){
 
-                firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+             //   firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
         } else {
 
@@ -49,8 +49,8 @@ public class RailGun extends AbstractWeaponCard {
 
         if ((firstDirection != 'n') && (firstDirection == secondDirection)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
-            secondDefender.sufferDamage(attacker.getColor(), 2, 0);
+          //  firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+         //   secondDefender.sufferDamage(attacker.getColor(), 2, 0);
 
 
         } else {

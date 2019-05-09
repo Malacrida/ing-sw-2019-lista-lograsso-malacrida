@@ -30,6 +30,7 @@ public class LockRifleTest {
 
     private boolean firstIsValid;
 
+
     @Before
     public void setUp() throws Exception {
         attacker = new Player("Davide", "Speriamo che sto test vada", 1);
@@ -38,6 +39,8 @@ public class LockRifleTest {
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
+
+
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
@@ -53,7 +56,7 @@ public class LockRifleTest {
     public void firstEffect() {
 
         try {
-            assertEquals(2, pb1.numOfDamanges());
+            assertEquals(2, pb1.numOfDamages());
             assertTrue(firstIsValid);
         } catch (Exception e) {
             e.printStackTrace();

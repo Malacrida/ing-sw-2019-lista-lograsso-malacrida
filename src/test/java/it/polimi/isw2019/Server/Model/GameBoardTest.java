@@ -46,16 +46,6 @@ public class GameBoardTest {
 
         gameBoard= new GameBoard();
         gameBoard.chooseArena(4);
-        /*try {
-            gameBoard= GameBoard.instanceGameBoard();
-            gameBoard.chooseArena(4);
-        }
-        catch (InstanceArenaException e){
-            fail();
-        }
-        catch (OutOfRangeException e){
-            fail();
-        }*/
 
         weaponCard1= new Electroscythe();
         weaponCard2= new GrenadeLauncher();
@@ -93,21 +83,6 @@ public class GameBoardTest {
 
     @After
     public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void testInstanceGameBoard() {
-       /* try {
-            gameBoard= GameBoard.instanceGameBoard();
-            gameBoard.chooseArena(4);
-            fail();
-        }
-        catch (InstanceArenaException e){
-
-        }
-        catch (OutOfRangeException e){
-
-        }*/
     }
 
     @Test
@@ -289,7 +264,7 @@ public class GameBoardTest {
         player.changePosition(0,2, ColorRoom.BLUE);
         ArrayList <Player> playersInPreviousPosition =  gameBoard.playersInOneSquare(0,2, null);
         assertTrue(playersInPreviousPosition.contains(player));
-        gameBoard.changePositionPlayer(player,0,1);
+        gameBoard.changePositionPlayer(player,0,1,false);
         player.changePosition(0,1,ColorRoom.BLUE);
         ArrayList <Player> playersInOneSquare = gameBoard.playersInOneSquare(0,1, null);
         assertTrue(playersInOneSquare.contains(player));

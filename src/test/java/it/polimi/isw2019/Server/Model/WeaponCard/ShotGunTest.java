@@ -40,7 +40,7 @@ public class ShotGunTest {
     public void firstEffect() {
 
         try {
-            assertEquals(3, pb1.numOfDamanges());
+            assertEquals(3, pb1.numOfDamages());
             assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class ShotGunTest {
     public void secondEffect() {
 
         try {
-            assertEquals(2, pb1.numOfDamanges());
+            assertEquals(2, pb1.numOfDamages());
         } catch (Exception e) {
             e.printStackTrace();
         }

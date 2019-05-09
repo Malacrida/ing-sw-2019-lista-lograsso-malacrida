@@ -88,7 +88,7 @@ public abstract class Square{
     }
     public AmmoTile getAmmoTile(){
         return null;
-    };
+    }
     public boolean isCanUseAmmo(){
         return false;
     }

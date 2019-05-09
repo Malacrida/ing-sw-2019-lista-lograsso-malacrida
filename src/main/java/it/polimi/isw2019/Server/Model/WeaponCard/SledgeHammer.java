@@ -23,7 +23,7 @@ public class SledgeHammer extends AbstractWeaponCard {
 
         if (sameSquare(attacker, firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+          //  firstDefender.sufferDamage(attacker.getColor(), 2, 0);
 
         } else {
 
@@ -37,7 +37,7 @@ public class SledgeHammer extends AbstractWeaponCard {
 
         if (sameSquare(attacker, firstDefender)){
 
-            firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+         //   firstDefender.sufferDamage(attacker.getColor(), 3, 0);
 
             /* MUOVI DI 2 */
 

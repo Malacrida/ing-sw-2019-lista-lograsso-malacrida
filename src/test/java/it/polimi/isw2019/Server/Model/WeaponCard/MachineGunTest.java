@@ -45,8 +45,8 @@ public class MachineGunTest {
     public void firstEffect() {
 
         try {
-            assertEquals(1, pb1.numOfDamanges());
-            assertEquals(1, pb2.numOfDamanges());
+            assertEquals(1, pb1.numOfDamages());
+            assertEquals(1, pb2.numOfDamages());
 
 
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class MachineGunTest {
     public void secondEffect() throws KillShotException, OverKillException {
 
         try {
-            assertEquals(2, pb1.numOfDamanges());
+            assertEquals(2, pb1.numOfDamages());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,8 +72,8 @@ public class MachineGunTest {
     public void thirdEffect() throws KillShotException, OverKillException {
         try {
 
-            assertEquals(2, pb2.numOfDamanges());
-            assertEquals(1, pb3.numOfDamanges());
+            assertEquals(2, pb2.numOfDamages());
+            assertEquals(1, pb3.numOfDamages());
 
         } catch (Exception e) {
             e.printStackTrace();
