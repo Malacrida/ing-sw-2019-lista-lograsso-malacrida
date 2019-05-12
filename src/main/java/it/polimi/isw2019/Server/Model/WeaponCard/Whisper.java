@@ -2,7 +2,10 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -19,14 +22,21 @@ public class Whisper extends AbstractWeaponCard {
                 "on the diagonal. If you are beside a door, you can't shoot\n" +
                 "a target on the other side of the door, but you can shoot\n" +
                 "a target on a different square of that room.\n");
+        this.rechargeCube[0] = 0;
+        this.rechargeCube[1] = 1;
+        this.rechargeCube[2] = 2;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if(firstDefender != null){
 
-            //firstDefender.sufferDamage(attacker.getColor(), 3, 1);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 1);
+            } catch (KillShotException | OverKillException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -37,13 +47,13 @@ public class Whisper extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
         throw new NoEffectException();
 
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
         throw new NoEffectException();
 
     }

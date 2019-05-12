@@ -1,10 +1,10 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
-import it.polimi.isw2019.Server.Model.ColorCube;
+import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.StateCard;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,8 @@ public abstract class AbstractWeaponCard{
     protected String name;
     protected ColorCube color;
     protected ArrayList<String> infoEffect;
-    protected ArrayList<ColorCube> rechargeCube;
+    protected ArrayList<Player> deathPlayers;
+    protected int[] rechargeCube = new int[3]; //LEGENDA [0] -> RED [1] -> YELLOW [2] -> BLUE
     protected StateCard stateCard = StateCard.DECK;
     protected int maxPossibleEffects;
     protected boolean firstIsValid = false;
@@ -37,9 +38,7 @@ public abstract class AbstractWeaponCard{
         return name;
     }
 
-    public ArrayList<ColorCube> getRechargecube(){
-        return rechargeCube;
-    }
+    public int[] getRechargecube(){ return rechargeCube; }
 
     public ColorCube getColor(){
         return color;
@@ -53,7 +52,7 @@ public abstract class AbstractWeaponCard{
         return stateCard;
     }
 
-    public void changeState( StateCard newStateCard) {
+    public void changeState(StateCard newStateCard) {
         this.stateCard = newStateCard;
     }
 
@@ -161,14 +160,29 @@ public abstract class AbstractWeaponCard{
 
     }
 
+    public boolean machineGunAndPlasmaGunEffect(Player attacker, Player firstDefender, boolean firstValid){
+
+        if(firstIsValid){
+
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 1,0);
+            } catch (KillShotException | OverKillException e) {
+                e.printStackTrace();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
     * attackSquare -> square in cui vuole attaccare
     * attacker -> Player attaccante
     * defender -> Player colpito
     */
-    public abstract void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException;
+    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
 
-    public abstract void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException;
+    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
 
-    public abstract void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException;
+    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
 }

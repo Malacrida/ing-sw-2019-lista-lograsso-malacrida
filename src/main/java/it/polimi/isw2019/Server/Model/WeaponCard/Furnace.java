@@ -1,7 +1,11 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
+import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -16,70 +20,78 @@ public class Furnace extends AbstractWeaponCard {
         this.infoEffect.add("IN COZY FIRE MODE: Choose a square exactly one move\n" +
                 "away. Deal 1 damage and 1 mark to everyone on that\n" +
                 "square.\n");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 1;
+    }
+
+    private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
+
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
+
+        for (Player aPlayerList : playerList){
+
+            try {
+
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (OverKillException | KillShotException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
 
         /*AGGIUNGERE CONTROLLO SE LA STANZA È VISTA DALL'ATTACCANTE*/
-/*
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        try {
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-            for (int i = 0; i < playerList.size(); i++){
+        if (playerList != null){
 
-                playerList.get(i).sufferDamage(attacker.getColor(), 1, 0);
+            for (Player aPlayerList : playerList) {
 
+                damageFurnace(gameBoard, attacker, x1, y1);
             }
 
-        } catch (ErrorEffectException) { // se la stanza è vuota allora errore
+        } else { // se la stanza è vuota allora errore
 
             throw new ErrorEffectException();
 
-        }*/
+        }
 
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /*AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE*/
-/*
-        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
 
-        try {
+        if (oneDistanceX(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse X
 
-            if (oneDistanceX(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse X
+            damageFurnace(gameBoard, attacker, x1, y1);
 
-                for (Player aPlayerList : playerList) {
+        }
 
-                    aPlayerList.sufferDamage(attacker.getColor(), 1, 0);
+        else if (oneDistanceY(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse Y
 
-                }
+            damageFurnace(gameBoard, attacker, x1, y1);
 
-            }
+        }
 
-            else if (oneDistanceY(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse Y
-
-                for (Player aPlayerList : playerList) {
-
-                    aPlayerList.sufferDamage(attacker.getColor(), 1, 0);
-
-                }
-
-            }
-
-        } catch (ErrorEffectException) {
+        else {
 
             throw new ErrorEffectException();
 
-        }*/
+        }
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
 

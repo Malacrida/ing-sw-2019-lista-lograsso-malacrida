@@ -2,6 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -17,42 +20,58 @@ public class MachineGun extends AbstractWeaponCard {
         infoEffect.add("NOTES: If you deal both additional points of damage, they must be dealt ot 2 different targhets.\n" +
                 "If you see only 2 targets, you deal 2 to each if you use both optional effects.\n" +
                 "If you use the basic effect on only 1 target, you can still use the turret tripod to give it 1 additional damage");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 1;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /*Verificare se lo vede*/
-        if (firstDefender != null){
+        if (firstDefender != null) {
 
-            //firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-            /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
 
-            if (secondDefender != null){
+            if (visiblePlayers.contains(firstDefender)) {
+                try {
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (OverKillException | KillShotException e) {
+                    e.printStackTrace();
+                }
+                /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
 
-              //  secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+                if (secondDefender != null) {
+                    if (visiblePlayers.contains(secondDefender)) {
 
-                this.firstIsValid = true;
+                        try {
+                            secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                        } catch (KillShotException | OverKillException e) {
+                            e.printStackTrace();
+                        }
+
+                        this.firstIsValid = true;
+                    } else {
+
+                        throw new ErrorEffectException();
+                    }
+
+                }
+
+            } else {
+                throw new ErrorEffectException();
             }
-        }
-        else {
+        } else {
 
             throw new ErrorEffectException();
-
         }
-
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
-        if (firstIsValid){
-
-           // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-
-        } else {
+        if (!machineGunAndPlasmaGunEffect(attacker, firstDefender, firstIsValid)){
 
             throw new ErrorEffectException();
 
@@ -63,15 +82,23 @@ public class MachineGun extends AbstractWeaponCard {
 
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if (firstIsValid){
 
-           // secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+            try {
+                secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (KillShotException | OverKillException e) {
+                e.printStackTrace();
+            }
 
             if (thirdDefender != null){
 
-              //  thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+                try {
+                    thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (KillShotException | OverKillException e) {
+                    e.printStackTrace();
+                }
 
             }
 

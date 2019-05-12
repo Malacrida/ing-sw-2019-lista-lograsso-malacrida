@@ -2,6 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -19,16 +22,33 @@ public class PlasmaGun extends AbstractWeaponCard{
                 "For example, you can move 2 squares and shoot a target" +
                 "you now see. You cannot use 1 move before shooting and " +
                 "1 move after.");
+        this.rechargeCube[0] = 0;
+        this.rechargeCube[1] = 1;
+        this.rechargeCube[2] = 1;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
+
         /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
         if (firstDefender != null){
 
-            //firstDefender.sufferDamage(attacker.getColor(), 2,0);
+            if (visiblePlayers.contains(firstDefender)){
 
-            firstIsValid = true;
+                try {
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 2,0);
+                } catch (KillShotException | OverKillException e) {
+                    e.printStackTrace();
+                }
+                firstIsValid = true;
+            } else {
+
+                throw new ErrorEffectException();
+
+            }
+
 
         } else {
 
@@ -38,18 +58,32 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+
+        if (gameBoard.changePositionPlayer(attacker, x1, y1, false)){
+
+            System.out.println("In attesa di changePosition");
+
+        } else {
+
+            throw new ErrorEffectException();
+
+        }
+
+        if (gameBoard.changePositionPlayer(attacker, x2, y2, false)){
+
+            System.out.println("In attesa di changePosition");
+
+        }
+
+
         /* AGGIUNGI MUOVI DI DUE */
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        if(firstIsValid){
-
-            //firstDefender.sufferDamage(attacker.getColor(), 1,0);
-
-        } else {
+        if (!machineGunAndPlasmaGunEffect(attacker, firstDefender, firstIsValid)){
 
             throw new ErrorEffectException();
 

@@ -2,7 +2,10 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -22,17 +25,29 @@ public class GrenadeLauncher extends AbstractWeaponCard {
                 "then move the main target. Or you can deal 1 to an isolated target and\n" +
                 "1 to everyone on a different square. If you target your own square,\n" +
                 "you will not be moved or damaged.\n");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 0;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
 
         if (firstDefender != null){
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (OverKillException e) {
+                e.printStackTrace();
+            } catch (KillShotException e) {
+                e.printStackTrace();
+            }
 
-               // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            if (gameBoard.changePositionPlayer(firstDefender, x1, y1, false)){
 
-                /* AGGIUNGERE MUOVI DI UNO IL DIFENSORE */
+                    System.out.println("In attesa di changePosition");
+
+                }
 
         } else {
 
@@ -43,29 +58,37 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
-/*        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        try {
+
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
+
+        ArrayList<Player> playerList2 = gameBoard.playersWhoCanSee(x1, y1, attacker);
+
+        if (playerList == playerList2){
 
             for (Player aPlayerList : playerList) {
 
-                aPlayerList.sufferDamage(attacker.getColor(), 1, 1);
+                try {
+
+                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
+
+                }catch (OverKillException | KillShotException e) {
+                    e.printStackTrace();
+                }
 
             }
-
-        } catch (ErrorEffectException) {
-
+        } else {
             throw new ErrorEffectException();
+        }
 
-        }*/
 
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /* NON ESISTE QUESTO EFFETTO*/
         throw new NoEffectException();

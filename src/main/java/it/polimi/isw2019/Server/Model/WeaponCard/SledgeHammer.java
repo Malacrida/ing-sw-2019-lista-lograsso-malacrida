@@ -2,7 +2,10 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -16,14 +19,21 @@ public class SledgeHammer extends AbstractWeaponCard {
         this.infoEffect.add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.");
         this.infoEffect.add("NOTES: Remember that moves go through" +
                 "doors, but not walls.");
+        this.rechargeCube[0] = 0;
+        this.rechargeCube[1] = 1;
+        this.rechargeCube[2] = 0;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
         if (sameSquare(attacker, firstDefender)){
 
-          //  firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+            } catch (KillShotException | OverKillException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -33,13 +43,21 @@ public class SledgeHammer extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         if (sameSquare(attacker, firstDefender)){
 
-         //   firstDefender.sufferDamage(attacker.getColor(), 3, 0);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
+            } catch (KillShotException | OverKillException e) {
+                e.printStackTrace();
+            }
 
-            /* MUOVI DI 2 */
+            if (gameBoard.changePositionPlayer(firstDefender, x1, y1, false)){
+                System.out.print("In attesa di changePosition");
+            } else {
+                throw new ErrorEffectException();
+            }
 
         } else {
 
@@ -50,7 +68,7 @@ public class SledgeHammer extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
         throw new NoEffectException();
 
     }

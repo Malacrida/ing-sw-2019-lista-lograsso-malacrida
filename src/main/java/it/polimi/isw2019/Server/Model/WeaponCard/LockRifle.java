@@ -2,9 +2,11 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.KillShotException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
-
 
 import java.util.ArrayList;
 
@@ -15,31 +17,35 @@ public class LockRifle extends AbstractWeaponCard {
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
         this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
+        this.rechargeCube[0] = 0;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 2;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        //if (firstDefender != null){
+        if (firstDefender != null){
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 1);
+            } catch (OverKillException | KillShotException e) {
+                e.printStackTrace();
+            }
 
-            //firstDefender.sufferDamage(attacker.getColor(), 2, 1);
-
-            this.firstIsValid = true;
-
-        //} else {
-
-          //  throw new ErrorEffectException();
-
-        //}
+        } else {
+            throw new ErrorEffectException();
+        }
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
         if (secondDefender != null){
-
-            //secondDefender.sufferDamage(attacker.getColor(), 0, 1);
-
+            try {
+                secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+            } catch (OverKillException | KillShotException e) {
+                e.printStackTrace();
+            }
         } else {
 
             throw new ErrorEffectException();
@@ -49,7 +55,7 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         //lancia eccezione perché non esiste questo effetto
 

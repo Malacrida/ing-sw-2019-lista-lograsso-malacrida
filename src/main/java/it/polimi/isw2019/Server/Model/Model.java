@@ -3,7 +3,6 @@ package it.polimi.isw2019.Server.Model;
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
 import it.polimi.isw2019.Server.Model.Exception.ColorNotAvailableException;
-import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Utilities.Observable;
 
@@ -46,11 +45,11 @@ public class Model extends Observable {
         //verificare che la modalità non sia quella degli spawn
 
         if(this.players.size() <5)
-                this.players.add(player);
+            this.players.add(player);
 
         else
-                // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
-                System.out.println("Cannot be added");
+            // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
+            System.out.println("Cannot be added");
         //notifyObservers(new SetUpMessage("Choose color", currentPlayer.getIdPlayer(),  //colorAvailable ));
     }
 
