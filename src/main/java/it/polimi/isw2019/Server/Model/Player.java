@@ -13,6 +13,7 @@ public class Player {
     private String actionHeroComment; //frase effetto
     private int playerID;
     private ColorPlayer color;
+    private boolean firstPlayer;
     private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>(); // cariche?
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
     private AbstractPlayerBoard playerBoard;
@@ -36,6 +37,14 @@ public class Player {
     public void setPlayerBoardAndColor (AbstractPlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
+    }
+
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public boolean isFirstPlayer() {
+        return firstPlayer;
     }
 
     public Player getPlayer() {
@@ -199,6 +208,8 @@ public class Player {
         return playerBoard.firstBlood();
     }
 
+    public ColorPlayer lastPlayerDoDamage () { return playerBoard.killShot();}
+
     public int getNumberOfSkulls (){
         return playerBoard.getPlayerSkulls();
     }
@@ -207,6 +218,10 @@ public class Player {
         this.x=x;
         this.y=y;
         this.colorRoom=colorRoom;
+    }
+
+    public void playerDeath (){
+        playerBoard.resetAfterDeath();
     }
 
 

@@ -1,9 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
 import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Server.Model.Exception.*;
 import it.polimi.isw2019.Server.Model.Exception.InstanceArenaException;
-import it.polimi.isw2019.Server.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
@@ -31,14 +29,14 @@ public class GameBoard {
 
 
 
-    public void chooseArena (int num) throws InstanceArenaException, OutOfRangeException {
+    public void chooseArena (int num) throws InstanceArenaException, OutOfBoundsException {
 
         gameArena= new Arena();
         try {
             gameArena.chooseArena(num);
         }
-        catch (OutOfRangeException e){
-            throw new OutOfRangeException ();
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException ();
         }
 
 

@@ -1,14 +1,10 @@
 package it.polimi.isw2019.Server.Model;
 
 import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Server.Model.Arena;
-import it.polimi.isw2019.Server.Model.ColorRoom;
 import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
-import it.polimi.isw2019.Server.Model.Exception.OutOfRangeException;
-import it.polimi.isw2019.Server.Model.Player;
+import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
 import it.polimi.isw2019.Server.Model.WeaponCard.*;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,7 +79,7 @@ public class ArenaTest {
         try {
             arena.chooseArena(1);
         }
-        catch (OutOfRangeException e){
+        catch (OutOfBoundsException e){
             fail();
         }
 
@@ -101,7 +97,7 @@ public class ArenaTest {
             arena.chooseArena(6);
             fail();
         }
-        catch (OutOfRangeException e){
+        catch (OutOfBoundsException e){
 
         }
     }
@@ -185,7 +181,7 @@ public class ArenaTest {
 
     @Test
     public void testPlayerWhoSeeOnArena (){
-
+/*
         arena.spawnPlayer(ColorRoom.BLUE,player1);
         player1.changePosition(0,2,ColorRoom.BLUE);
 

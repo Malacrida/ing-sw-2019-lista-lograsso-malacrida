@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public abstract class AbstractPlayerBoard {
 
     protected ColorPlayer color;
-    private int playerSkulls=0;
+    private int playerSkulls;
     private int playerBoardID; // no caratterizzazione con il colore
     private boolean usePlayerBoard;
     private boolean frenzy;
@@ -184,13 +184,19 @@ public abstract class AbstractPlayerBoard {
         }
     }
 
-    public void deathPlayer (){
+    public void resetAfterDeath (){
         playerSkulls++;
         damageTokens.clear();
     }
 
     public ColorPlayer firstBlood(){
         return damageTokens.get(0);
+    }
+
+    public ColorPlayer killShot (){
+        if (damageTokens.size()>=11)
+        return damageTokens.get(11);
+        else return null;
     }
 
 

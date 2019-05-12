@@ -3,7 +3,6 @@ package it.polimi.isw2019.Server.Model;
 import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 
 import java.util.ArrayList;
@@ -20,13 +19,13 @@ public class Arena {
     }
 
 
-    public void chooseArena (int numArena) throws OutOfRangeException{
+    public void chooseArena (int numArena) throws OutOfBoundsException{
         try {
             squares= CreateArena.chooseMap(numArena);
             rooms= CreateArena.chooseRoom(numArena);
         }
-        catch (OutOfRangeException e){
-            throw new OutOfRangeException();
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException("Number out of possible bounds");
         }
 
     }
