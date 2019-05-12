@@ -114,6 +114,7 @@ public class PlayerTest {
             assertEquals(3, player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
             assertEquals(3,player1.markDoByAnotherPlayer(ColorPlayer.BLUE));
             assertEquals(12, player1.playerDamage());
+            assertEquals(ColorPlayer.BLUE, player1.lastPlayerDoDamage());
         }
         catch (KillShotException e){
             fail();

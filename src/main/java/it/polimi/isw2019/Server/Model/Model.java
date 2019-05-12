@@ -16,7 +16,8 @@ public class Model extends Observable {
     private GameBoard gameBoard;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
-    private int [][] damageRanking;
+    int [][] damageRanking;
+
 
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
@@ -168,23 +169,79 @@ public class Model extends Observable {
     }
 
 
-    public void setDamageRanking (Player playerDeath) {
-        damageRanking= new int [players.size()][2];
+    public int [][] setDamageRanking (Player playerDeath) {
+
+        damageRanking= new int [players.size()-1][2];
+        int idApp, damageApp,n=0;
 
         //Matrice in ordine decrescente
         for (int i=0; i<players.size(); i++){
+            if(players.get(i)!= playerDeath && playerDeath.damageDoByAnotherPlayer(players.get(i).getColor())>0){
+                damageRanking[n][0]= players.get(i).getPlayerID();
+                damageRanking[n][1]= playerDeath.damageDoByAnotherPlayer(players.get(i).getColor());
+                for (int j=n; j>0;j--){
+                    if(damageRanking[j][1]>damageRanking[j-1][1]){
+                        idApp=damageRanking[j][0];
+                        damageApp=damageRanking[j][1];
+                        damageRanking[j][0]=damageRanking[j-1][0];
+                        damageRanking[j][1]=damageRanking[j-1][1];
+                        damageRanking[j-1][0]=idApp;
+                        damageRanking[j-1][1]=damageApp;
+                    }
+
+                }
+                n++;
+            }
         }
+        return damageRanking;
     }
 
+
+
     public void addScoreAfterDeath (Player playerDeath){
+
         //Give a point for first blood
         for (int i=0; i<players.size(); i++){
             if (players.get(i).getColor()==playerDeath.firstPlayerDoDamage()){
                 players.get(i).addScore(1);
             }
         }
-        //switch con i numero dei teschi
 
+        damageRanking=setDamageRanking(playerDeath);
+
+        for (int i=0; i<players.size(); i++){
+            if (damageRanking[0][0]==players.get(i).getPlayerID()){
+                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(8);
+                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(6);
+                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(4);
+                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(2);
+                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
+                if (playerDeath.getNumberOfSkulls()==5)players.get(i).addScore(1);
+            }
+            if (damageRanking[1][0]==players.get(i).getPlayerID()){
+                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(6);
+                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(4);
+                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(2);
+                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
+                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
+
+            }
+            if (players.size()-1>2){
+                if (damageRanking[2][0]==players.get(i).getPlayerID()){
+                    if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(4);
+                    if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(2);
+                    if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
+                    if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
+                }
+                if (players.size()-1>3){
+                    if (damageRanking[3][0]==players.get(i).getPlayerID()){
+                        if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(2);
+                        if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(1);
+                        if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
+                    }
+                }
+            }
+        }
     }
 
 

@@ -197,6 +197,7 @@ public class AbstractPlayerBoardTest {
             assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.VIOLET));
             assertEquals(0,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
             assertEquals(12,playerBoard1.numOfDamages());
+            assertEquals(ColorPlayer.GREEN, playerBoard1.firstBlood());
         }
 
     }
@@ -216,6 +217,7 @@ public class AbstractPlayerBoardTest {
         catch (KillShotException e){
             assertEquals(1,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
             assertEquals(11,playerBoard2.numOfDamages());
+            assertEquals(ColorPlayer.YELLOW, playerBoard2.firstBlood());
 
         }
    }
@@ -237,6 +239,8 @@ public class AbstractPlayerBoardTest {
         catch (OverKillException e){
             assertEquals(0,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
             assertEquals(12,playerBoard2.numOfDamages());
+            assertEquals(ColorPlayer.YELLOW, playerBoard2.firstBlood());
+            assertEquals(ColorPlayer.BLUE, playerBoard2.killShot());
         }
     }
 
@@ -257,7 +261,4 @@ public class AbstractPlayerBoardTest {
     public void deathPlayer() {
     }
 
-    @Test
-    public void firstBlood() {
-    }
 }
