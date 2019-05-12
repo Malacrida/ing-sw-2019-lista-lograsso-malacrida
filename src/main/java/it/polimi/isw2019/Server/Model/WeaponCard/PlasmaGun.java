@@ -30,10 +30,8 @@ public class PlasmaGun extends AbstractWeaponCard{
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
-
-        /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
         if (firstDefender != null){
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
 
             if (visiblePlayers.contains(firstDefender)){
 
@@ -55,6 +53,8 @@ public class PlasmaGun extends AbstractWeaponCard{
             throw new ErrorEffectException();
 
         }
+
+        /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
     }
 
     @Override

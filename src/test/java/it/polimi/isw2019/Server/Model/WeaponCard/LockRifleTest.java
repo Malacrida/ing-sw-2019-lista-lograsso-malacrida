@@ -5,8 +5,6 @@ import it.polimi.isw2019.Server.Model.Player;
 import it.polimi.isw2019.Server.Model.PlayerBoard;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class LockRifleTest {
 
@@ -51,22 +49,22 @@ public class LockRifleTest {
     public void tearDown() throws Exception {
     }
 
-    @Test
+    /*@Test
     public void firstEffect() {
 
-        /*try {
+        try {
             assertEquals(2, pb1.());
             assertTrue(firstIsValid);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
 
     }
 
     @Test
     public void secondEffect() {
-        try {
+       try {
             assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
 
         } catch (Exception e) {
@@ -78,5 +76,5 @@ public class LockRifleTest {
 
     @Test
     public void thirdEffect() {
-    }
+    }*/
 }

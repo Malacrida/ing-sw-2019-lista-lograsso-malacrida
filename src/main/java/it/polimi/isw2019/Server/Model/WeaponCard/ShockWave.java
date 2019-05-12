@@ -70,10 +70,10 @@ public class ShockWave extends AbstractWeaponCard {
 
 
 
-        ArrayList<Player> firstSquare= gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-        ArrayList<Player> secondSquare = gameBoard.playersInOneSquare(secondDefender.getX(), secondDefender.getY(), null);
-        ArrayList<Player> thirdSquare = gameBoard.playersInOneSquare(thirdDefender.getX(), thirdDefender.getY(), null);
         if (firstDefender != null) {
+            ArrayList<Player> firstSquare= gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
+            ArrayList<Player> secondSquare = gameBoard.playersInOneSquare(secondDefender.getX(), secondDefender.getY(), null);
+            ArrayList<Player> thirdSquare = gameBoard.playersInOneSquare(thirdDefender.getX(), thirdDefender.getY(), null);
             for (Player playerInFirstSqaure : firstSquare) {
 
                 try {
