@@ -24,36 +24,27 @@ public class HeatSeeker extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, KillShotException, OverKillException {
 
-        /* AGGIUNGERE CONTROLLO BERSAGLIO NON VISIBILE*/
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-        ArrayList<Player> playerList = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+        if (firstDefender != null) {
+            if (visiblePlayers.contains(firstDefender)) {
 
-        if (firstDefender != null){
-            for (Player aPlayerList:playerList) {
-
-                if (aPlayerList == firstDefender){
-                    throw new ErrorEffectException();
-                }
-
-            }
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
-            } catch (OverKillException | KillShotException e) {
-                e.printStackTrace();
-            }
-        } else {
-
-            throw new ErrorEffectException();
+                throw new ErrorEffectException();
+            } else firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
 
         }
-
+        try {
+            firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
+        } catch (OverKillException | KillShotException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException{
-        /* NON ESISTE L'EFFETTO */
+        // NON ESISTE L'EFFETTO
         throw new NoEffectException();
     }
 

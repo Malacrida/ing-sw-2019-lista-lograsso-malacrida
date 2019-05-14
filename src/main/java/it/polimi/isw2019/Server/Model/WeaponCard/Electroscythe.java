@@ -22,6 +22,21 @@ public class Electroscythe extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     * @throws KillShotException
+     */
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, KillShotException {
 
@@ -46,6 +61,20 @@ public class Electroscythe extends AbstractWeaponCard {
 
     }
 
+
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     */
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
@@ -67,6 +96,20 @@ public class Electroscythe extends AbstractWeaponCard {
         }
 
     }
+
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws NoEffectException
+     */
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {

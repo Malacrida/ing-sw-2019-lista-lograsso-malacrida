@@ -160,6 +160,20 @@ public abstract class AbstractWeaponCard{
 
     }
 
+    public boolean aboveSquare(int x1, int y1, int x2, int y2){
+
+        if ((x1 - x2 == 1) && (y1 - y2 == 0)){
+            return true;
+        }
+
+        else if ((y1 - y2 == 1) && (x1 - x2 == 0)){
+            return true;
+        }
+
+        else return false;
+
+    }
+
     public boolean machineGunAndPlasmaGunEffect(Player attacker, Player firstDefender, boolean firstValid){
 
         if(firstIsValid){
@@ -172,6 +186,19 @@ public abstract class AbstractWeaponCard{
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void giveOneDamageNoMarksInOneSquare(Player attacker, ArrayList<Player> playerList) {
+        for (Player aPlayerList : playerList) {
+
+            try {
+
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+
+            } catch (OverKillException | KillShotException e) {
+                e.printStackTrace();
+            }
         }
     }
 

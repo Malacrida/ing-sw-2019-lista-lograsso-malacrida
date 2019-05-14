@@ -35,17 +35,13 @@ public class Hellion extends AbstractWeaponCard {
         if (playerList != null){
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (OverKillException e) {
-                e.printStackTrace();
-            } catch (KillShotException e) {
+            } catch (OverKillException | KillShotException e) {
                 e.printStackTrace();
             }
             for (Player aPlayerList : playerList) {
                 try {
                     aPlayerList.sufferDamageOrMark(attacker.getColor(), 0, 1);
-                } catch (OverKillException e) {
-                    e.printStackTrace();
-                } catch (KillShotException e) {
+                } catch (OverKillException | KillShotException e) {
                     e.printStackTrace();
                 }
             }

@@ -33,28 +33,29 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
+        ArrayList<Player> visiblePlayers;
 
-        if (firstDefender != null){
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (OverKillException e) {
-                e.printStackTrace();
-            } catch (KillShotException e) {
-                e.printStackTrace();
-            }
+        if (firstDefender != null) {
 
-            if (gameBoard.changePositionPlayer(firstDefender, x1, y1, false)){
+            visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+            if (visiblePlayers.contains(firstDefender)) {
+                try {
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (OverKillException | KillShotException e) {
+                    e.printStackTrace();
+                }
+                if (gameBoard.changePositionPlayer(firstDefender, x1, y1, false)) {
 
                     System.out.println("In attesa di changePosition");
 
                 }
-
+            } else {
+                throw new ErrorEffectException();
+            }
         } else {
-
             throw new ErrorEffectException();
-
         }
-
     }
 
     @Override
@@ -65,21 +66,12 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-        ArrayList<Player> playerList2 = gameBoard.playersWhoCanSee(x1, y1, attacker);
+        ArrayList<Player> playerList2 = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
         if (playerList == playerList2){
 
-            for (Player aPlayerList : playerList) {
+           giveOneDamageNoMarksInOneSquare(attacker, playerList2);
 
-                try {
-
-                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
-
-                }catch (OverKillException | KillShotException e) {
-                    e.printStackTrace();
-                }
-
-            }
         } else {
             throw new ErrorEffectException();
         }

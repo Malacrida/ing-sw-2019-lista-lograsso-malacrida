@@ -25,27 +25,63 @@ public class CyberBlade extends AbstractWeaponCard {
         this.rechargeCube[2] = 0;
     }
 
+    /**
+     * Deal 2 damage to 1 target on attacker's square
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     * @throws KillShotException
+     * @throws OverKillException
+     */
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, KillShotException, OverKillException {
 
-        if (sameSquare(attacker, firstDefender)){
+        if (firstDefender != null){
+            if (sameSquare(attacker, firstDefender)){
 
-            try{
+                try{
 
-                firstDefender.sufferDamageOrMark(attacker.getColor(),2,0);
+                    firstDefender.sufferDamageOrMark(attacker.getColor(),2,0);
 
-            } catch (KillShotException e){
-                throw new KillShotException(firstDefender.getColor());
+                } catch (KillShotException e){
+                    throw new KillShotException(firstDefender.getColor());
+                }
+
             }
 
-        }
+            else {
 
-        else {
+                throw new ErrorEffectException();
 
+            }
+        } else {
             throw new ErrorEffectException();
-
         }
+
+
     }
+
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     */
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
@@ -62,22 +98,38 @@ public class CyberBlade extends AbstractWeaponCard {
         }
     }
 
+
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     */
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
 
+        if (secondDefender != null){
+            if (sameSquare(attacker, secondDefender)){
+                try {
+                    secondDefender.sufferDamageOrMark(attacker.getColor(),2,0);
+                }catch (OverKillException | KillShotException e){
+                    e.printStackTrace();
+                }
 
-        if (sameSquare(attacker, secondDefender)){
-            try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(),2,0);
-            }catch (OverKillException | KillShotException e){
-                e.printStackTrace();
             }
 
-        }
-
-        else {
-            throw new ErrorEffectException();
+            else {
+                throw new ErrorEffectException();
+            }
         }
     }
+
 
 }
