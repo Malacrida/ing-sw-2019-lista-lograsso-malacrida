@@ -1,34 +1,14 @@
 package it.polimi.isw2019.Server.Message.PlayerMove;
 
 
+import it.polimi.isw2019.Server.Controller.MoveController;
+
 public  abstract class PlayerMove {
-
-    private String idPlayerMove;
-
-
-    public PlayerMove(String idPlayerMove){
-        this.idPlayerMove = idPlayerMove;
+    public void visitController(MoveController... moveController){
+        for(MoveController mc : moveController){
+            visit(mc);
+        }
     }
-
-    /*public PlayerMove(String idPlayerMove, int idPlayer,String color){
-        this.idPlayerMove = idPlayerMove;
-        this.idPlayer = idPlayer;
-        this.color = color;
-    }
-*/
-    public String getIdPlayerMove(){
-        return idPlayerMove;
-    }
-
-
-
-   /* public String getColor(){
-        return color;
-    }
-
-    public int getIdPlayer(){
-        return idPlayer;
-    }*/
-    //first message sent
+    public abstract void visit(MoveController singleMoveController);
 }
 

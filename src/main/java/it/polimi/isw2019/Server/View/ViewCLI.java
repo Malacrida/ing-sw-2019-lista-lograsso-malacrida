@@ -89,7 +89,7 @@ public class ViewCLI extends View {
         char gameMood = 'a';
 
         //try catch finche non viene
-        System.out.println("Tapping the first upper caseletter of the name of the game mode " +
+        System.out.println("Tapping the first upper case letter of the name of the game mode " +
                 "to choose one of them : /n 1) N -> Normal ; 2) T -> Terminator ; 3) B ->Boot; ");
         //consume only one char
         gameMood = input.next().charAt(0);
@@ -108,13 +108,43 @@ public class ViewCLI extends View {
 
         //displayGamePlay
         //actionYouCanDo
-        //choose to : do action, use powerup card
+
 
 
     }
 
-    public void actionYouCanDo(String statusGame){
-        int [][] matrix;
+
+    public void handleYourTurn(ActionMessage action){
+
+        //print playerboard
+        //print gameboard
+        //visualizzare le azioni
+        int choiceAction = -1;
+        for(int i=0; i< action.getActionYouCanPerform().size(); i++)
+            System.out.println(" Press "+ i + " for the action" + action.getActionYouCanPerform().get(i).getIdMoveMessage());
+        //index out of bound exception
+        choiceAction = input.nextInt();
+
+        //assume it's right
+        switch (choiceAction){
+            case 0 :
+
+
+                break;
+
+            case 1 :
+                break;
+
+            case 2 :
+
+                break;
+
+
+        }
+
+    }
+
+    public void actionYouCanDo(){
         //displayActionYouCanDo
         //grande if che prendera come
         int idAction ;
@@ -137,7 +167,8 @@ public class ViewCLI extends View {
         System.out.println("Press one to display the game status\n");
         tmp = input.nextInt();
         if(input.nextInt()== 1)
-                displayStatus();
+                    displayStatus();
+
     }
 
 
@@ -146,54 +177,6 @@ public class ViewCLI extends View {
         System.out.println("Your color is :" + color);
     }
 
-    public void displayGamePlay(){
-        //gameboard
-        //playerBoard + weaponCard + ammo
-        //description only of id of weaponcard on gameboard + in the hand of all players
-        //weaponCard
-        //your powerUp
-    }
-
-    public int displayActionBootMode(){
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayActionFrenzyIPMode(){
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayActionTyFrenzyMode(){
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayActionNormalMode(){
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayPoweredActionI(){
-        //displayNormalAction + new
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayPoweredActionII(){
-        //invoke displayPoweredAction I
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public int displayActionTerminatorMode(){
-        int lastAction = -1;
-        return lastAction;
-    }
-
-    public void displayActionYouCanDo(){
-        //richiamati i vari metodi
-    }
 
 
     public void displayStatus(){
@@ -247,6 +230,11 @@ public class ViewCLI extends View {
             case "FirstPlayer" :
                 //fromTheirToYour viene messo ad uno cosicche si stoppa handle their turn e si passa ad handle your turn
                 handleYourTurn();
+
+            case "Action" :
+                //choose action
+                handleYourTurn();
+                break;
         }
     }
 }

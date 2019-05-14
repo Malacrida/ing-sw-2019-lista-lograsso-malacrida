@@ -1,5 +1,6 @@
 package it.polimi.isw2019.Server.View;
 
+import it.polimi.isw2019.Server.Message.MoveMessage.ActionMessage;
 import it.polimi.isw2019.Server.Message.PlayerMove.*;
 import it.polimi.isw2019.Server.Message.RunMessage;
 import it.polimi.isw2019.Server.View.ViewCLI;
@@ -13,24 +14,8 @@ public class RunActionView extends ViewCLIAction {
     //crea un'azione singola di movimento
     public RunActionView(String idPlayerMove,String idAction){
         super(idPlayerMove,idAction);
-        setNumberMovement(this);
     }
 
-
-    //movimenti vengono settati a runTime da questo metodo
-    public void setNumberMovement(ViewCLIAction action){
-        if(action.getIdPlayerMove().compareTo("RUN") == 0) {
-            if (action.getStatus() == 'N') {
-                this.setMaxMovement(3);
-                this.setMatrix(new int[3][2]);
-            }
-        }
-        else if(action.getIdPlayerMove().compareTo("RUNGRAB") == '0'){
-            if (action.getStatus() == 'N')
-                this.setMaxMovement(1);
-                this.setMatrix(new int[1][2]);
-        }
-    }
 
 
     //in handle action ci dovrà essere lo status del player in modo che si possono fare inserire il num corretto di spostamenti che puo fare
@@ -43,6 +28,7 @@ public class RunActionView extends ViewCLIAction {
             //displayGameBoard
             //try catch per gli errori
             System.out.println("Insert raw or -1 to finish the action or -2 to display the gameBoard: ");
+            //display gameboard
             rawValue= input.nextInt();
             if(rawValue!= -1) {
                 System.out.println("Insert column : ");

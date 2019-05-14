@@ -2,6 +2,7 @@ package it.polimi.isw2019.Server.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
+import it.polimi.isw2019.Server.Message.MoveMessage.ActionMessage;
 import it.polimi.isw2019.Server.Model.Exception.ColorNotAvailableException;
 import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
@@ -17,7 +18,6 @@ public class Model extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     private int [][] damageRanking;
-
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
@@ -187,6 +187,28 @@ public class Model extends Observable {
 
     }
 
+        public void fillMoveWithActions(Player player, ActionMessage actionMessage){
+            //richiama un metodo che mi inserisce all'interno dei messaggi le azioni
+            int numPlayerDamage = player.playerDamage();
+            //se NON e' frenzy
+            if(numPlayerDamage >5){
+                    if(numPlayerDamage > 2){
+                        if(numPlayerDamage >= 0){
+                            actionMessage.setNormalAction();
+                        }
+                        actionMessage.setFirstPoweredAction();
+                    }
+                    actionMessage.setSecondPoweredAction();
+            }
+            //se e' frenzy
+            //se e' il firstPlayer
+            actionMessage.setFrenzyFirstPlayerAction();
+            //altrimenti se sono DOPO il first player
+            actionMessage.setFrenzyAction();
+
+
+
+        }
 
 
 
