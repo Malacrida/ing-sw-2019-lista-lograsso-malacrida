@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model.PowerUpCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 import it.polimi.isw2019.Server.Model.StateCard;
@@ -94,7 +93,7 @@ public class PowerUpCard implements PowerUpCardInterface {
                 //payonecube
                 try {
                     defender.sufferDamageOrMark(attacker.getColor(),1,0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -106,14 +105,14 @@ public class PowerUpCard implements PowerUpCardInterface {
             case "Tagback Grenade":
                 try {
                     defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException  e) {
                     e.printStackTrace();
                 }
                 break;
 
             case "Teleporter":
-                if(gameBoard.changePositionPlayer(attacker, x, y, true)){
-
+                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
+//
                     System.out.println("In attesa");
 
                 }

@@ -175,15 +175,19 @@ public class GameBoard {
 
     //Player who can see on arena by player who attack
     public ArrayList<Player> playersWhoCanSee (int x, int y, Player player){
-        return gameArena.playerWhoSeeOnArena(x,y,player);
+        return gameArena.playerWhoSeeOnArena(player);
     }
 
     public void insertPlayer (Player player, ColorRoom colorRoom){
         gameArena.spawnPlayer(colorRoom, player);
     }
 
-    public boolean changePositionPlayer (Player player, int x, int y, boolean teleporter){
-        return gameArena.movePlayer(player,x,y, teleporter);
+    public void changePositionPlayer(Player player, int x, int y){
+        gameArena.movePlayer(player,x,y);
+    }
+
+    public boolean isSquareAvailableOnArena(Player player, int x, int y){
+        return gameArena.isSquaresAvailable(player,x,y);
     }
 
 }

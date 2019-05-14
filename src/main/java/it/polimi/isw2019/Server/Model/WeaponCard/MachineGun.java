@@ -2,8 +2,8 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
@@ -26,7 +26,7 @@ public class MachineGun extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (firstDefender != null) {
 
@@ -35,7 +35,7 @@ public class MachineGun extends AbstractWeaponCard {
             if (visiblePlayers.contains(firstDefender)) {
                 try {
                     firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (OverKillException | KillShotException e) {
+                } catch ( DamageTrackException e) {
                     e.printStackTrace();
                 }
                 /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
@@ -45,7 +45,7 @@ public class MachineGun extends AbstractWeaponCard {
 
                         try {
                             secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                        } catch (KillShotException | OverKillException e) {
+                        } catch (DamageTrackException e) {
                             e.printStackTrace();
                         }
 
@@ -67,7 +67,7 @@ public class MachineGun extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
@@ -82,13 +82,13 @@ public class MachineGun extends AbstractWeaponCard {
 
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (firstIsValid){
 
             try {
                 secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (KillShotException | OverKillException e) {
+            } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
 
@@ -96,7 +96,7 @@ public class MachineGun extends AbstractWeaponCard {
 
                 try {
                     thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
 

@@ -2,9 +2,8 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
@@ -34,11 +33,11 @@ public class Electroscythe extends AbstractWeaponCard {
      * @param x2
      * @param y2
      * @throws ErrorEffectException
-     * @throws KillShotException
+     * @throws DamageTrackException
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, KillShotException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
@@ -48,10 +47,8 @@ public class Electroscythe extends AbstractWeaponCard {
                 for (Player aPlayerList:playersList) {
                     try {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                    }catch (KillShotException e){
-                        throw new KillShotException(aPlayerList.getColor());
-                    } catch (OverKillException e){
-                        e.printStackTrace();
+                    }catch (DamageTrackException e){
+                        throw new DamageTrackException(aPlayerList.getColor());
                     }
                 }
 
@@ -76,7 +73,7 @@ public class Electroscythe extends AbstractWeaponCard {
      * @throws ErrorEffectException
      */
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
@@ -86,7 +83,7 @@ public class Electroscythe extends AbstractWeaponCard {
                 for (Player aPlayerList:playersList) {
                     try {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 2, 0);
-                    }catch (KillShotException | OverKillException e){
+                    }catch (DamageTrackException e){
                         e.printStackTrace();
                     }
                 }
@@ -112,7 +109,7 @@ public class Electroscythe extends AbstractWeaponCard {
      */
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
         /*NON ESISTE IL QUESTO EFFETTO*/
         throw new NoEffectException();
 

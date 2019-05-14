@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorPlayer;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Player;
 import it.polimi.isw2019.Server.Model.PlayerBoard;
 import org.junit.After;
@@ -55,7 +54,7 @@ public class MachineGunTest {
     }
 
     @Test
-    public void secondEffect() throws KillShotException, OverKillException {
+    public void secondEffect() throws DamageTrackException {
 
         try {
             assertEquals(2, pb1.numOfDamages());
@@ -69,7 +68,7 @@ public class MachineGunTest {
     }
 
     @Test
-    public void thirdEffect() throws KillShotException, OverKillException {
+    public void thirdEffect() throws DamageTrackException {
         try {
 
             assertEquals(2, pb2.numOfDamages());

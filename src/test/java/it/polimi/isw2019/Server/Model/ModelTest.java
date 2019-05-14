@@ -1,12 +1,6 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.ColorPlayer;
-import it.polimi.isw2019.Server.Model.Exception.ColorNotAvailableException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
-import it.polimi.isw2019.Server.Model.Model;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.PlayerBoard;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,7 +112,7 @@ public class ModelTest {
             fail();
 
 
-        } catch (KillShotException e) {
+        } catch (DamageTrackException e) {
             assertEquals(11,player4.playerDamage());
 
             assertEquals(5,player4.damageDoByAnotherPlayer(player3.getColor()));
@@ -144,8 +138,6 @@ public class ModelTest {
 
             assertEquals(player2.getColor(),player4.firstPlayerDoDamage());
 
-        } catch (OverKillException e) {
-            fail();
         }
 
     }
@@ -154,6 +146,7 @@ public class ModelTest {
     @Test
     public void testAddScoreAfterDeath (){
         try {
+            model.setKillShotTrack(2);
             player4.sufferDamageOrMark(player2.getColor(),1,2);
             player4.sufferDamageOrMark(player3.getColor(),1,2);
             player4.sufferDamageOrMark(player1.getColor(),2,0);
@@ -162,7 +155,8 @@ public class ModelTest {
             fail();
 
 
-        } catch (KillShotException e) {
+        } catch (DamageTrackException e) {
+
 
             model.addScoreAfterDeath(player4);
             assertEquals(8,player3.getScore());
@@ -171,10 +165,11 @@ public class ModelTest {
             assertEquals(3,player2.getScore());
 
             assertEquals(11,player4.playerDamage());
-            //non funziona bene lastPlayerDamage
-            //killShotTrack.killPlayer(player4.lastPlayerDoDamage(), player4.playerDamage());
-            killShotTrack.killPlayer(player3.getColor(), player4.playerDamage());
-            assertEquals(7, killShotTrack.getNumSkull());
+            //
+
+            assertEquals(player3.getColor(), player4.lastPlayerDoDamage());
+            model.addDamageOnKillShotTrack( player4.lastPlayerDoDamage(), player4.playerDamage());
+
             player4.playerDeath();
             assertEquals(1,playerBoard4.getPlayerSkulls());
             assertEquals(0, playerBoard4.numOfDamages());
@@ -182,8 +177,6 @@ public class ModelTest {
             assertEquals(2, playerBoard4.numOfMarkOfOneColor(player2.getColor()));
             assertEquals(1, playerBoard4.numOfMarkOfOneColor(player5.getColor()));
 
-        } catch (OverKillException e) {
-            fail();
         }
 
 
@@ -203,7 +196,7 @@ public class ModelTest {
             player5.sufferDamageOrMark(player3.getColor(),1,0);
             player5.sufferDamageOrMark(player1.getColor(),3,0);
         }
-        catch (OverKillException e){
+        catch (DamageTrackException e){
             assertEquals(player4.getColor(), player5.firstPlayerDoDamage());
             model.addScoreAfterDeath(player5);
             assertEquals(3,player4.getScore());
@@ -218,11 +211,55 @@ public class ModelTest {
             assertEquals(1, playerBoard5.numOfMarkOfOneColor(player2.getColor()));
             assertEquals(0, playerBoard5.numOfMarkOfOneColor(player1.getColor()));
         }
-        catch (KillShotException e){
-            fail();
-        }
+
     }
 
+
+    @Test
+    public void killShotRanking (){
+
+        model.setKillShotTrack(2);
+        model.addDamageOnKillShotTrack(ColorPlayer.YELLOW,12);
+        model.addDamageOnKillShotTrack(ColorPlayer.GREEN,11);
+        model.addDamageOnKillShotTrack(ColorPlayer.BLUE,12);
+        model.addDamageOnKillShotTrack(ColorPlayer.YELLOW,11);
+        model.addDamageOnKillShotTrack(ColorPlayer.GREY,11);
+        model.addDamageOnKillShotTrack(ColorPlayer.GREY,11);
+        model.addDamageOnKillShotTrack(ColorPlayer.GREEN,11);
+        model.addDamageOnKillShotTrack(ColorPlayer.BLUE,12);
+
+
+        int [][] killShotTable = model.killShotRanking();
+
+        assertEquals(1, killShotTable[0][0]);
+        assertEquals(3, killShotTable[1][0]);
+        assertEquals(2, killShotTable[2][0]);
+        assertEquals(4, killShotTable[3][0]);
+        assertEquals(5, killShotTable[4][0]);
+
+        assertEquals(4, killShotTable[0][1]);
+        assertEquals(3, killShotTable[1][1]);
+        assertEquals(2, killShotTable[2][1]);
+        assertEquals(2, killShotTable[3][1]);
+        assertEquals(0, killShotTable[4][1]);
+
+
+        model.addScoreToKillShotTrack();
+
+        assertEquals(8,player1.getScore());
+        assertEquals(6,player3.getScore());
+        assertEquals(4,player2.getScore());
+        assertEquals(2,player4.getScore());
+        assertEquals(0,player5.getScore());
+
+    }
+
+
+    @Test
+    public void testAddScoreToKillShotTrack (){
+
+
+    }
 
 
 

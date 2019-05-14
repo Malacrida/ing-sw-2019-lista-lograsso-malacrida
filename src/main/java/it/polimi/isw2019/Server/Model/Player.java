@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 
@@ -165,21 +164,17 @@ public class Player {
      * @param colorPlayer!= null Color of the player who give damage
      * @param numDamage>=0 number of damage
      * @param numMark>=0 number of mark
-     * @throws KillShotException if player, who take damage, have 11 damage token
-     * @throws OverKillException if player, who take damage, have 12 damage token
+     * @throws DamageTrackException if player, who take damage, have 11 or 12 damage token
      */
-    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws KillShotException,OverKillException {
+    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws DamageTrackException {
 
         try {
             if (numDamage>0){
                 playerBoard.takeDamage(colorPlayer, numDamage);
             }
         }
-        catch (OverKillException e){
-            throw new OverKillException(colorPlayer);
-        }
-        catch (KillShotException e){
-            throw new KillShotException(colorPlayer);
+        catch (DamageTrackException e){
+            throw new DamageTrackException(colorPlayer);
         }
         finally {
             if (numMark>0){

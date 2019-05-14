@@ -9,10 +9,11 @@ import static org.junit.Assert.*;
 public class KillShotTrackTest {
 
     KillShotTrack killShotTrack;
+    KillShotTrack killShotTrack2;
 
     @Before
     public void setUp() throws Exception {
-        killShotTrack= new KillShotTrack(8);
+        killShotTrack= new KillShotTrack(2);
     }
 
     @After
@@ -21,6 +22,7 @@ public class KillShotTrackTest {
 
     @Test
     public void killPlayer() {
+
 
         killShotTrack.killPlayer(ColorPlayer.YELLOW,12);
         assertEquals(7,killShotTrack.getNumSkull());
@@ -52,6 +54,7 @@ public class KillShotTrackTest {
     @Test
     public void numOfKillShotByOnePlayer() {
 
+
         killShotTrack.killPlayer(ColorPlayer.YELLOW,12);
         killShotTrack.killPlayer(ColorPlayer.GREEN,11);
         killShotTrack.killPlayer(ColorPlayer.BLUE,12);
@@ -68,6 +71,24 @@ public class KillShotTrackTest {
         assertEquals(0, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.VIOLET));
 
 
+    }
+
+    @Test
+    public void testKillShotTrackMod1 (){
+        killShotTrack2 = new KillShotTrack(1);
+        assertEquals(5,killShotTrack2.getNumSkull());
+
+        killShotTrack.killPlayer(ColorPlayer.BLUE,12);
+        killShotTrack.killPlayer(ColorPlayer.YELLOW,11);
+        killShotTrack.killPlayer(ColorPlayer.GREY,11);
+        killShotTrack.killPlayer(ColorPlayer.GREY,12);
+        killShotTrack.killPlayer(ColorPlayer.GREEN,11);
+
+        assertEquals(1, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.YELLOW));
+        assertEquals(1, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.GREEN));
+        assertEquals(3, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.GREY));
+        assertEquals(2, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.BLUE));
+        assertEquals(0, killShotTrack.numOfKillShotByOnePlayer(ColorPlayer.VIOLET));
     }
 
 }

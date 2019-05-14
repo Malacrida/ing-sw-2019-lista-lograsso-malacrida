@@ -7,12 +7,14 @@ public class KillShotTrack {
     private int lengthDamageToken;
 
 
-    KillShotTrack (int numSkull){
-        this.numSkull=numSkull;
+    KillShotTrack (int mod){
+        if (mod==1) numSkull=5;
+        if (mod==2) numSkull=8;
         finalFrenzy=false;
-        damageToken=new ColorPlayer[numSkull][2];
-        /*due colonne-> si occupa una per il danno normale due per aver infierito*/
         lengthDamageToken=numSkull;
+        damageToken=new ColorPlayer[lengthDamageToken][2];
+        /*due colonne-> si occupa una per il danno normale due per aver infierito*/
+
     }
 
     public int getNumSkull() {
@@ -49,6 +51,7 @@ public class KillShotTrack {
         }
         return cont;
     }
+
 
 
     public ColorPlayer[][] getDamageToken() {

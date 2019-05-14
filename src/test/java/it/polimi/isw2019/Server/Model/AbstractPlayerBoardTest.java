@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -131,10 +130,8 @@ public class AbstractPlayerBoardTest {
             playerBoard1.takeDamage(ColorPlayer.GREEN,1);
             assertEquals(1,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
         }
-        catch (OverKillException e){
-            fail();
-        }
-        catch (KillShotException e){
+
+        catch (DamageTrackException e){
             fail();
         }
 
@@ -178,10 +175,8 @@ public class AbstractPlayerBoardTest {
             assertEquals(6, playerBoard1.numOfDamagesOfOneColor(ColorPlayer.GREEN));
             assertEquals(2, playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
         }
-        catch (OverKillException e){
-            fail();
-        }
-        catch (KillShotException e){
+
+        catch (DamageTrackException e){
             fail();
         }
 
@@ -190,10 +185,8 @@ public class AbstractPlayerBoardTest {
 
             fail();
         }
-        catch (KillShotException e){
-            fail();
-        }
-        catch (OverKillException e){
+
+        catch (DamageTrackException e){
             assertEquals(4,playerBoard1.numOfDamagesOfOneColor(ColorPlayer.VIOLET));
             assertEquals(0,playerBoard1.numOfMarkOfOneColor(ColorPlayer.VIOLET));
             assertEquals(12,playerBoard1.numOfDamages());
@@ -211,10 +204,8 @@ public class AbstractPlayerBoardTest {
             playerBoard2.addMark(ColorPlayer.BLUE,1);
             playerBoard2.takeDamage(ColorPlayer.GREY,3);
         }
-        catch (OverKillException e){
-            fail();
-        }
-        catch (KillShotException e){
+
+        catch (DamageTrackException e){
             assertEquals(1,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
             assertEquals(11,playerBoard2.numOfDamages());
             assertEquals(ColorPlayer.YELLOW, playerBoard2.firstBlood());
@@ -233,10 +224,8 @@ public class AbstractPlayerBoardTest {
             playerBoard2.takeDamage(ColorPlayer.BLUE,3);
 
         }
-        catch (KillShotException e){
-            fail();
-        }
-        catch (OverKillException e){
+
+        catch (DamageTrackException e){
             assertEquals(0,playerBoard2.numOfMarkOfOneColor(ColorPlayer.BLUE));
             assertEquals(12,playerBoard2.numOfDamages());
             assertEquals(ColorPlayer.YELLOW, playerBoard2.firstBlood());

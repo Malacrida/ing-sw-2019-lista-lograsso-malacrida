@@ -2,9 +2,8 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 
 import java.util.ArrayList;
 
@@ -180,7 +179,7 @@ public abstract class AbstractWeaponCard{
 
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 1,0);
-            } catch (KillShotException | OverKillException e) {
+            } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
             return true;
@@ -196,7 +195,7 @@ public abstract class AbstractWeaponCard{
 
                 aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
 
-            } catch (OverKillException | KillShotException e) {
+            } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
         }
@@ -207,9 +206,9 @@ public abstract class AbstractWeaponCard{
     * attacker -> Player attaccante
     * defender -> Player colpito
     */
-    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
+    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
+    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, KillShotException, OverKillException;
+    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 }

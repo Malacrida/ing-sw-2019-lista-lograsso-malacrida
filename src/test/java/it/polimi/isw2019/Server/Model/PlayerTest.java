@@ -1,7 +1,6 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.*;
 import org.junit.After;
@@ -106,7 +105,7 @@ public class PlayerTest {
             player1.sufferDamageOrMark(ColorPlayer.BLUE,2,3);
             fail();
         }
-        catch (OverKillException e){
+        catch (DamageTrackException e){
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(0, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));
@@ -116,9 +115,7 @@ public class PlayerTest {
             assertEquals(12, player1.playerDamage());
             assertEquals(ColorPlayer.BLUE, player1.lastPlayerDoDamage());
         }
-        catch (KillShotException e){
-            fail();
-        }
+
     }
 
     @Test
@@ -147,10 +144,8 @@ public class PlayerTest {
             player1.sufferDamageOrMark(ColorPlayer.BLUE,2,2);
             fail();
         }
-        catch (OverKillException e){
-            fail();
-        }
-        catch (KillShotException e){
+
+        catch (DamageTrackException e){
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(2, player1.damageDoByAnotherPlayer(ColorPlayer.YELLOW));
             assertEquals(1, player1.markDoByAnotherPlayer(ColorPlayer.GREEN));

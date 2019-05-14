@@ -13,6 +13,7 @@ public class Model extends Observable {
     private Player currentPlayer;
     private int turn;
     private GameBoard gameBoard;
+    private KillShotTrack killShotTrack;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
@@ -23,6 +24,14 @@ public class Model extends Observable {
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
         return this.gameBoard;
+    }
+
+    /**
+     *
+     * @param mod type of game mod
+     */
+    public void setKillShotTrack (int mod){
+        killShotTrack = new KillShotTrack(mod);
     }
 
     public Player getCurrentPlayer(){
@@ -187,7 +196,6 @@ public class Model extends Observable {
                         damageRanking[j-1][0]=idApp;
                         damageRanking[j-1][1]=damageApp;
                     }
-
                 }
                 n++;
             }
@@ -243,6 +251,60 @@ public class Model extends Observable {
         }
     }
 
+    /**
+     *
+     * @param colorPlayerDoKill color of player do the kill shot
+     * @param numOfDamage number of damage that suffer player death
+     */
+    public void addDamageOnKillShotTrack (ColorPlayer colorPlayerDoKill, int numOfDamage){
+        killShotTrack.killPlayer(colorPlayerDoKill,numOfDamage);
+    }
+
+
+    public int [][] killShotRanking (){
+
+        int [][] killShotTable = new int [players.size()][2];
+        int idApp, damageApp;
+
+        for (int i=0; i<players.size(); i++){
+            killShotTable[i][0]= players.get(i).getPlayerID();
+            killShotTable[i][1]= killShotTrack.numOfKillShotByOnePlayer(players.get(i).getColor());
+
+            for (int j=i; j>0; j--){
+                if (killShotTable[j][1]>killShotTable[j-1][1]){
+                    idApp= killShotTable[j][0];
+                    damageApp= killShotTable[j][1];
+                    killShotTable[j][0]= killShotTable[j-1][0];
+                    killShotTable[j][1]= killShotTable[j-1][1];
+                    killShotTable[j-1][0]= idApp;
+                    killShotTable[j-1][1]=damageApp;
+                }
+            }
+        }
+        return killShotTable;
+
+    }
+
+
+    public void addScoreToKillShotTrack (){
+
+        int [][] killShotTable= killShotRanking();
+
+        for (int i=0; i<players.size(); i++){
+            if (players.get(i).getPlayerID()==killShotTable[0][0] && killShotTable[0][1]!=0)
+                players.get(i).addScore(8);
+            if (players.get(i).getPlayerID()==killShotTable[1][0] && killShotTable[1][1]!=0)
+                players.get(i).addScore(6);
+            if (players.get(i).getPlayerID()==killShotTable[2][0] && killShotTable[2][1]!=0)
+                players.get(i).addScore(4);
+            if (players.get(i).getPlayerID()==killShotTable[3][0] && killShotTable[3][1]!=0)
+                players.get(i).addScore(2);
+            if (players.get(i).getPlayerID()==killShotTable[4][0] && killShotTable[4][1]!=0)
+                players.get(i).addScore(1);
+
+        }
+
+    }
 
 
 

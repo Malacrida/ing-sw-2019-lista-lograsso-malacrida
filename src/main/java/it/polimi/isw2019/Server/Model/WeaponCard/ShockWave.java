@@ -2,9 +2,8 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
@@ -23,14 +22,14 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(firstDefender != null){
             if (oneDistance(attacker, firstDefender)) {
 
                 try {
                     firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
             }
@@ -39,7 +38,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 try {
                     secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
             }
@@ -48,7 +47,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 try {
                     thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
 
@@ -66,7 +65,7 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
 
 
@@ -78,7 +77,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 try {
                     playerInFirstSqaure.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException  e) {
                     e.printStackTrace();
                 }
 
@@ -88,7 +87,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 try {
                     playerInSecondSquare.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException  e) {
                     e.printStackTrace();
                 }
 
@@ -98,7 +97,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 try {
                     playerInThirdSquare.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
 
@@ -109,7 +108,7 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         throw new NoEffectException();
 

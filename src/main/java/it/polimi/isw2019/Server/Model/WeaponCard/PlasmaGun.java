@@ -2,8 +2,8 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
@@ -28,7 +28,7 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (firstDefender != null){
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
@@ -37,7 +37,7 @@ public class PlasmaGun extends AbstractWeaponCard{
 
                 try {
                     firstDefender.sufferDamageOrMark(attacker.getColor(), 2,0);
-                } catch (KillShotException | OverKillException e) {
+                } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
                 firstIsValid = true;
@@ -58,10 +58,10 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (gameBoard.changePositionPlayer(attacker, x1, y1, false)){
-
+        if (gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
+//
             System.out.println("In attesa di changePosition");
 
         } else {
@@ -70,8 +70,8 @@ public class PlasmaGun extends AbstractWeaponCard{
 
         }
 
-        if (gameBoard.changePositionPlayer(attacker, x2, y2, false)){
-
+        if (gameBoard.isSquareAvailableOnArena(attacker, x2, y2)){
+//
             System.out.println("In attesa di changePosition");
 
         }
@@ -81,7 +81,7 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (!machineGunAndPlasmaGunEffect(attacker, firstDefender, firstIsValid)){
 
