@@ -29,20 +29,7 @@ public class ShotGun extends AbstractWeaponCard {
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
 
-        if (sameSquare(attacker, firstDefender)){
-
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-
-
-        } else {
-
-            throw new ErrorEffectException();
-
-        }
+        threeDamageInSameSquare(attacker, firstDefender);
 
         if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
 //
@@ -57,26 +44,21 @@ public class ShotGun extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (oneDistance(attacker, firstDefender)){
-
+        if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
-
         } else {
-
             throw new ErrorEffectException();
-
         }
+
     }
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
-
         throw new NoEffectException();
-
     }
 
 }

@@ -24,12 +24,15 @@ public class LockRifle extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+        if ((firstDefender != null) && (visiblePlayers.contains(firstDefender))){
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 1);
             } catch ( DamageTrackException e) {
                 e.printStackTrace();
             }
+            firstIsValid = true;
 
         } else {
             throw new ErrorEffectException();
@@ -38,19 +41,25 @@ public class LockRifle extends AbstractWeaponCard {
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+        if (firstIsValid){
 
-        if (secondDefender != null){
-            try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
-            } catch ( DamageTrackException e) {
-                e.printStackTrace();
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+            if ((secondDefender != null) && (visiblePlayers.contains(secondDefender))){
+                try {
+                    secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                } catch ( DamageTrackException e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                throw new ErrorEffectException();
+
             }
-        } else {
-
-            throw new ErrorEffectException();
-
         }
-
+        else {
+            throw new ErrorEffectException();
+        }
     }
 
     @Override

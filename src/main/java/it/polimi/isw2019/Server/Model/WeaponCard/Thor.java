@@ -29,32 +29,22 @@ public class Thor extends AbstractWeaponCard{
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null) {
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-            this.firstIsValid = true;
-
-        } else {
-
-            throw new ErrorEffectException();
-        }
+        twoDamageAndSetFirstIsValid(attacker, firstDefender, visiblePlayers);
     }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (this.firstIsValid){
+        if (firstIsValid){
 
             try {
                 secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
-            this.secondIsValid = true;
+            secondIsValid = true;
 
         } else {
 
@@ -66,7 +56,7 @@ public class Thor extends AbstractWeaponCard{
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(this.secondIsValid) {
+        if(secondIsValid) {
 
             try {
                 thirdDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);

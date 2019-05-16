@@ -30,31 +30,9 @@ public class PlasmaGun extends AbstractWeaponCard{
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null){
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-            if (visiblePlayers.contains(firstDefender)){
-
-                try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 2,0);
-                } catch (DamageTrackException e) {
-                    e.printStackTrace();
-                }
-                firstIsValid = true;
-            } else {
-
-                throw new ErrorEffectException();
-
-            }
-
-
-        } else {
-
-            throw new ErrorEffectException();
-
-        }
-
-        /* AGGIUNGERE CONTROLLO CHE VEDE IL GIOCATORE */
+        twoDamageAndSetFirstIsValid(attacker, firstDefender, visiblePlayers);
     }
 
     @Override
@@ -65,9 +43,7 @@ public class PlasmaGun extends AbstractWeaponCard{
             System.out.println("In attesa di changePosition");
 
         } else {
-
             throw new ErrorEffectException();
-
         }
 
         if (gameBoard.isSquareAvailableOnArena(attacker, x2, y2)){
@@ -75,18 +51,13 @@ public class PlasmaGun extends AbstractWeaponCard{
             System.out.println("In attesa di changePosition");
 
         }
-
-
-        /* AGGIUNGI MUOVI DI DUE */
     }
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (!machineGunAndPlasmaGunEffect(attacker, firstDefender, firstIsValid)){
-
+        if (!oneDamageIfFirstIsValid(attacker, firstDefender, firstIsValid)){ //se quella funzione torna falso allora lancia l'eccezione
             throw new ErrorEffectException();
-
         }
     }
 }

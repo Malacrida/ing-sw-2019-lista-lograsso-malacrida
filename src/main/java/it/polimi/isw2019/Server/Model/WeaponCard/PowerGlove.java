@@ -1,8 +1,8 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
-import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
@@ -27,10 +27,9 @@ public class PowerGlove extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-            /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
+        if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il defender è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
-
-        if (sameSquare(attacker, firstDefender)){
+            System.out.println("In attesa di ChangePosition");
 
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 2);
@@ -40,39 +39,39 @@ public class PowerGlove extends AbstractWeaponCard {
 
 
         } else {
-
             throw new ErrorEffectException();
-
         }
     }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-            /* AGGIUNGERE CONTROLLO STANZA ACCANTO */
+        if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il firstDefender è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
-            if(sameSquare(attacker, firstDefender)){
+            System.out.println("In attesa di ChangePosition");
+
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
+
+            if(gameBoard.isSquareAvailableOnArena(attacker, secondDefender.getX(), secondDefender.getY())){ //se il secondDefender è la stanza accanto
+                /* AGGIUNGI UN MOVIMENTO */
+                System.out.println("In attesa di ChangePosition");
 
                 try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                    secondDefender.sufferDamageOrMark(attacker.getColor(), 2,0);
                 } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
-                /* AGGIUNGI UN MOVIMENTO */
 
-                if (sameSquare(attacker, secondDefender)){
-
-                    try {
-                        secondDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
-                    } catch (DamageTrackException e) {
-                        e.printStackTrace();
-                    }
-
-                }
             } else {
+                throw new ErrorEffectException();
+            }
 
+        } else {
             throw new ErrorEffectException();
-
         }
 
     }

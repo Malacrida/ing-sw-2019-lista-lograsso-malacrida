@@ -25,45 +25,37 @@ public class MachineGun extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
+    private void ifIsVisibleOneDamage(GameBoard gameBoard, Player attacker, Player defender) throws ErrorEffectException {
+
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+        if (visiblePlayers.contains(defender)){ //se non è vuoto e se firstDefender è visibile
+            try {
+                defender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch ( DamageTrackException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            throw new ErrorEffectException();
+        }
+    }
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null) {
-
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(firstDefender.getX(), firstDefender.getY(), null);
-
-            if (visiblePlayers.contains(firstDefender)) {
-                try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch ( DamageTrackException e) {
-                    e.printStackTrace();
-                }
-                /* Se seleziona il secondo giocatore da attaccare ed è nella seconda stanza selezionata allora dai un danno */
-
-                if (secondDefender != null) {
-                    if (visiblePlayers.contains(secondDefender)) {
-
-                        try {
-                            secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                        } catch (DamageTrackException e) {
-                            e.printStackTrace();
-                        }
-
-                        this.firstIsValid = true;
-                    } else {
-
-                        throw new ErrorEffectException();
-                    }
-
-                }
-
-            } else {
-                throw new ErrorEffectException();
+        if(firstDefender != null){
+            ifIsVisibleOneDamage(gameBoard, attacker, firstDefender);
+            if(secondDefender != null){ /* Se seleziona il secondo giocatore da attaccare */
+                ifIsVisibleOneDamage(gameBoard, attacker, secondDefender);
             }
         } else {
-
             throw new ErrorEffectException();
         }
+
+
+
+        this.firstIsValid = true;
     }
 
     @Override
@@ -71,10 +63,8 @@ public class MachineGun extends AbstractWeaponCard {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
-        if (!machineGunAndPlasmaGunEffect(attacker, firstDefender, firstIsValid)){
-
+        if (oneDamageIfFirstIsValid(attacker, firstDefender, firstIsValid)){
             throw new ErrorEffectException();
-
         }
     }
 
@@ -85,21 +75,22 @@ public class MachineGun extends AbstractWeaponCard {
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (firstIsValid){
-
-            try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-
-            if (thirdDefender != null){
-
+            if (secondDefender != null){
                 try {
-                    thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
-
+                if(thirdDefender != null){
+                    try {
+                        secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    } catch (DamageTrackException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else{
+                throw new ErrorEffectException();
             }
 
         } else {

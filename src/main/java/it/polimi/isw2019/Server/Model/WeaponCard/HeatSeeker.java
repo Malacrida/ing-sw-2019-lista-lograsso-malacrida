@@ -34,10 +34,8 @@ public class HeatSeeker extends AbstractWeaponCard {
             } else firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
 
         }
-        try {
-            firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
-        } catch ( DamageTrackException e) {
-            e.printStackTrace();
+        else{
+            throw new ErrorEffectException();
         }
     }
 
