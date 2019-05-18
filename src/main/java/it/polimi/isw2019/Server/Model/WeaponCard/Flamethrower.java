@@ -2,7 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -23,46 +25,94 @@ public class Flamethrower extends AbstractWeaponCard {
                 "it can sometimes damage a target you can't see – the flame won't go\n" +
                 "through walls, but it will go through doors. Think of it as a straight-line\n" +
                 "blast of flame that can travel 2 squares in a cardinal direction.\n");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 0;
     }
 
-    @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
 
-        /*AGGIUNGERE CONTROLLO SE PLAYER VISIBILE*/
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param firstDefender
+     * @param secondDefender
+     * @param thirdDefender
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @throws ErrorEffectException
+     */
+    @Override
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+
 
         if ((firstDefender != null) && (secondDefender != null)){ //se ha indicato 2 giocatori da attaccare
 
-            if (oneDistanceX(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
+            ArrayList <Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-              //  firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            if(visiblePlayers.contains(firstDefender) && visiblePlayers.contains(secondDefender)){ //se l'attaccanet vede sia il primo che il secondo giocatore
+                if (oneDistanceX(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
 
-                if (oneDistanceX(firstDefender, secondDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al secondo player altrimenti chiama l'eccezione
+                    try {
 
-                   // secondDefender.sufferDamage(attacker.getColor(), 1, 0);
+                        firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
 
+                    } catch ( DamageTrackException e){
+                        e.printStackTrace();
+                    }
+
+
+                    if (oneDistanceX(firstDefender, secondDefender)){ //Se la distanza di 1 è sull'asse delle X allora fai un danno al secondo player altrimenti chiama l'eccezione
+
+                        try {
+
+                            secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+
+                        } catch ( DamageTrackException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    else {// secondo giocatore non è sull'asse
+
+                        throw new ErrorEffectException();
+                    }
                 }
 
-                else {
+                else if (oneDistanceY(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
 
-                    throw new ErrorEffectException();
-                }
+                    try {
+
+                        firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+
+                    } catch ( DamageTrackException e){
+                        e.printStackTrace();
+                    }
+
+                    if (oneDistanceY(firstDefender, secondDefender)){  //Se la distanza di 1 è sull'asse delle Y allora fai un danno al secondo player altrimenti chiama l'eccezione
+
+                        try {
+
+                            secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+
+                        } catch (DamageTrackException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    else { //eccezione  perché il secondo giocatore non è sull'asse
+
+                        throw new ErrorEffectException();
+
+                    }
+
+                } else { //eccezione perché non vede i giocatori
+                throw new ErrorEffectException();
             }
-
-            else if (oneDistanceY(attacker, firstDefender)){ //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
-
-               // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-
-                if (oneDistanceY(firstDefender, secondDefender)){  //Se la distanza di 1 è sull'asse delle Y allora fai un danno al secondo player altrimenti chiama l'eccezione
-
-                  //  secondDefender.sufferDamage(attacker.getColor(), 1, 0);
-
-                }
-
-                else { //eccezione  perché il secondo giocatore non è sull'asse
-
-                    throw new ErrorEffectException();
-
-                }
 
             }
 
@@ -74,73 +124,93 @@ public class Flamethrower extends AbstractWeaponCard {
 
         }
 
-        else if ((firstDefender != null) && (secondDefender == null)) { //se ha indicato un solo player
+        else if (secondDefender == null) {
+            if (firstDefender != null) { //se ha indicato un solo player
 
-            if (oneDistanceX(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
+                if (oneDistanceX(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle X allora fai un danno al primo player
 
-             //   firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+                    try {
 
-            }
-            else if (oneDistanceY(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
+                        firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
 
-             //   firstDefender.sufferDamage(attacker.getColor(), 1, 0);
-
-            }
-            else { //eccezione  perché il giocatore non è sull'asse
-
-                throw new ErrorEffectException();
-
-            }
-        }
-        else { //non ha segnato nessun player
-            throw new ErrorEffectException();
-        }
-
-    }
-
-    @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
-
-        /*AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE*/
-/*
-        ArrayList<Player> playerList1 = firstAttackSquare.getPlayers();
-        ArrayList<Player> playerList2 = secondAttackSquare.getPlayers();
-
-        try{
-
-            if ((!firstAttackSquare.findPlayer(attacker)) && (!secondAttackSquare.findPlayer(attacker)){ //verifica che l'attacker sia in una stanza diversa da quelle selezionate
-
-                try{
-
-                    for (Player aPlayerList1 : playerList1) { //lo fa se la stanza non è vuota
-
-                        aPlayerList1.sufferDamage(attacker.getColor(), 2, 0);
-
+                    } catch ( DamageTrackException e) {
+                        e.printStackTrace();
                     }
 
-                    for (Player aPlayerList2 : playerList2) { //lo fa se la stanza non è vuota
+                } else if (oneDistanceY(attacker, firstDefender)) { //Se la distanza di 1 è sull'asse delle Y allora fai un danno al primo player
 
-                        aPlayerList2.sufferDamage(attacker.getColor(), 1, 0);
+                    try {
 
+                        firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+
+                    } catch ( DamageTrackException e) {
+                        e.printStackTrace();
                     }
 
-                } catch (ErrorEffectException){ //se la stanza è vuota allora errore
+
+                } else { //eccezione  perché il giocatore non è sull'asse
 
                     throw new ErrorEffectException();
 
                 }
-
+            } else { //non ha segnato nessun player
+                throw new ErrorEffectException();
             }
+        }
 
-        } catch (ErrorEffectException){ //se una delle stanze è la stessa dell'attacker allora errore
-
-            throw new ErrorEffectException();
-
-        }*/
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+
+        char direction1, direction2;
+        ArrayList<Player> playerList;
+
+        if (aboveSquare(attacker.getX(), attacker.getY(), x1, x2)) { //se è adiacente
+
+            playerList = gameBoard.playersInOneSquare(x1, y1, null);
+                if(gameBoard.playersWhoCanSee(x1, y1, attacker) == playerList){ // se i giocatori in quella stanza sono visibili all'attaccante
+                direction1 = sameDirection(attacker, playerList.get(0)); //salvo la direzione in cui è adiacente
+
+                for (Player aPlayerList : playerList) {
+
+                    try {
+
+                        aPlayerList.sufferDamageOrMark(attacker.getColor(), 2, 0);
+
+                    } catch (DamageTrackException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+            } else {
+                throw new ErrorEffectException();
+            }
+            if (aboveSquare(x1, y1, x2, y2)){ //se la seconda è adiacente alla prima
+
+                playerList = gameBoard.playersInOneSquare(x1, y1, null);
+                if(gameBoard.playersWhoCanSee(x1, y1, attacker) == playerList){
+                    direction2 = sameDirection(attacker, playerList.get(0));
+
+                    if (direction1 == direction2){// se la seconda stanza scelta è nella stessa direzione della prima allora dai danno anche agli altri
+                        giveOneDamageNoMarksInOneSquare(attacker, playerList);
+                    } else {
+                        throw new ErrorEffectException();
+                    }
+                } else { throw new ErrorEffectException(); }
+            } else {
+                throw new ErrorEffectException();
+            }
+
+        } else {
+            throw new ErrorEffectException();
+        }
+    }
+
+    @Override
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         /*NON C'È L'EFFETTO */
 

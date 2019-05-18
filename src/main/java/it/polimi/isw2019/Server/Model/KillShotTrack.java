@@ -7,24 +7,38 @@ public class KillShotTrack {
     private int lengthDamageToken;
 
 
-    KillShotTrack (int numSkull){
-        this.numSkull=numSkull;
+    KillShotTrack (int mod){
+        if (mod==1) numSkull=5;
+        if (mod==2) numSkull=8;
         finalFrenzy=false;
-        damageToken=new ColorPlayer[numSkull][2];
-        /*due colonne-> si occupa una per il danno normale due per aver infierito*/
         lengthDamageToken=numSkull;
+        damageToken=new ColorPlayer[lengthDamageToken][2];
+        /*due colonne-> si occupa una per il danno normale due per aver infierito*/
+
     }
 
-    public void killPlayer (ColorPlayer colorPlayer, int num){
-        if (num==1){
+    public int getNumSkull() {
+        return numSkull;
+    }
+
+    public boolean isFinalFrenzy() {
+        return finalFrenzy;
+    }
+
+    public void killPlayer (ColorPlayer colorPlayer, int num) {
+        if (num==11){
             damageToken[lengthDamageToken-numSkull][0]=colorPlayer;
         }
-        if (num==2){
+        if (num==12){
             damageToken[lengthDamageToken-numSkull][0]=colorPlayer;
             damageToken[lengthDamageToken-numSkull][1]=colorPlayer;
         }
         numSkull--;
+        if (numSkull == 0) finalFrenzy=true;
     }
+
+
+
 
     public int numOfKillShotByOnePlayer (ColorPlayer colorPlayer){
         int cont=0;
@@ -39,4 +53,8 @@ public class KillShotTrack {
     }
 
 
+
+    public ColorPlayer[][] getDamageToken() {
+        return damageToken;
+    }
 }

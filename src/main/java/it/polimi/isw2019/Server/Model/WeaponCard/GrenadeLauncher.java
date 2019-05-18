@@ -2,7 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -22,50 +24,62 @@ public class GrenadeLauncher extends AbstractWeaponCard {
                 "then move the main target. Or you can deal 1 to an isolated target and\n" +
                 "1 to everyone on a different square. If you target your own square,\n" +
                 "you will not be moved or damaged.\n");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 0;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
+        ArrayList<Player> visiblePlayers;
 
-        if (firstDefender != null){
+        if (firstDefender != null) {
 
-               // firstDefender.sufferDamage(attacker.getColor(), 1, 0);
+            visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-                /* AGGIUNGERE MUOVI DI UNO IL DIFENSORE */
+            if (visiblePlayers.contains(firstDefender)) {
+                try {
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch ( DamageTrackException e) {
+                    e.printStackTrace();
+                }
+                if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)) {
+//
+                    System.out.println("In attesa di changePosition");
 
+                }
+            } else {
+                throw new ErrorEffectException();
+            }
         } else {
-
             throw new ErrorEffectException();
-
         }
-
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
-/*        ArrayList<Player> playerList = firstAttackSquare.getPlayers();
 
-        try {
 
-            for (Player aPlayerList : playerList) {
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-                aPlayerList.sufferDamage(attacker.getColor(), 1, 1);
+        ArrayList<Player> playerList2 = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-            }
+        if (playerList == playerList2){
 
-        } catch (ErrorEffectException) {
+           giveOneDamageNoMarksInOneSquare(attacker, playerList2);
 
+        } else {
             throw new ErrorEffectException();
+        }
 
-        }*/
 
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         /* NON ESISTE QUESTO EFFETTO*/
         throw new NoEffectException();

@@ -1,6 +1,9 @@
 package it.polimi.isw2019.Server.Model.PowerUpCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.GameBoard;
+import it.polimi.isw2019.Server.Model.Player;
 import it.polimi.isw2019.Server.Model.StateCard;
 
 public class PowerUpCard implements PowerUpCardInterface {
@@ -53,12 +56,13 @@ public class PowerUpCard implements PowerUpCardInterface {
         return infoEffect;
     }
 
-    public ColorCube getColorCard(){
-        return colorCard;
-    }
-
     public StateCard getCheckState() {
         return checkState;
+    }
+
+    @Override
+    public void effect() {
+
     }
 
     /* setColor assign the color from enumeration ColorCube to card read String color from db.json*/
@@ -82,27 +86,41 @@ public class PowerUpCard implements PowerUpCardInterface {
         }
     }
 
-    /*public void effect(String name){
+    public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y){
         switch (name) {
             case "Targeting Scope":
-                AbstractWeaponCard.doOneDamage();
+
+                //payonecube
+                try {
+                    defender.sufferDamageOrMark(attacker.getColor(),1,0);
+                } catch (DamageTrackException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case "Newton":
-                AbstractWeaponCard.moveOneSquare();
+                //change position 2
                 break;
 
             case "Tagback Grenade":
-                AbstractWeaponCard.putOneMark();
+                try {
+                    defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                } catch (DamageTrackException  e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case "Teleporter":
-                AbstractWeaponCard.moveOneSquare();
+                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
+//
+                    System.out.println("In attesa");
+
+                }
                 break;
 
             default:
                 //lancia eccezione
         }
-    }*/
+    }
 
 }

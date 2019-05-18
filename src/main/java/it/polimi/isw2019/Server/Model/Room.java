@@ -37,7 +37,6 @@ public class Room {
         if (players.contains(player)){
             players.remove(player);
         }
-        //else inconsistenzza del player
     }
 
     public ArrayList<Player> getPlayers() {

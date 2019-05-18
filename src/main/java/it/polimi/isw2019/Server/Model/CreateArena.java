@@ -1,6 +1,6 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.OutOfRangeException;
+import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public class CreateArena {
     private static Square squares [][]= new Square[3][4];
     private static ArrayList<Room> rooms= new ArrayList<>();
 
-    public static Square[][] chooseMap (int numArena) throws OutOfRangeException {
+    public static Square[][] chooseMap (int numArena) throws OutOfBoundsException {
         setSquares();
         switch (numArena){
             case 1:
@@ -25,12 +25,12 @@ public class CreateArena {
                 setMap4();
                 break;
             default:
-                throw new OutOfRangeException();
+                throw new OutOfBoundsException();
         }
         return squares;
     }
 
-    public static ArrayList<Room> chooseRoom (int numArena) throws OutOfRangeException{
+    public static ArrayList<Room> chooseRoom (int numArena) throws OutOfBoundsException{
         switch (numArena){
             case 1:
                 setRooms1();
@@ -45,7 +45,7 @@ public class CreateArena {
                 setRooms4();
                 break;
             default:
-                throw new OutOfRangeException();
+                throw new OutOfBoundsException();
         }
         return rooms;
     }

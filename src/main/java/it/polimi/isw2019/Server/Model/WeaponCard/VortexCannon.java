@@ -2,7 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -23,14 +25,21 @@ public class VortexCannon extends AbstractWeaponCard {
                 "start on the same square. It is legal to choose targets on" +
                 "your square, on the vortex, or even on squares you can't" +
                 "see. They all end up on the vortex. ");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 0;
+        this.rechargeCube[2] = 1;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(firstDefender != null){
             /*MUOVI DI UNO*/
-            //firstDefender.sufferDamage(attacker.getColor(), 2, 0);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -41,13 +50,21 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(secondDefender != null){
 
             /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
-            //secondDefender.sufferDamage(attacker.getColor(), 1, 0);
-            //thirdDefender.sufferDamage(attacker.getColor(), 1, 0);
+            try {
+                secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
+            try {
+                thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -56,7 +73,7 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws  NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
         throw new NoEffectException();
 
     }

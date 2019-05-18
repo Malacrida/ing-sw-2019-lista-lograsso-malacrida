@@ -2,9 +2,7 @@ package it.polimi.isw2019.Server.Model;
 
 
 //import it.polimi.isw2019.Controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.Server.Message.MoveMessage.ActionMessage;
 import it.polimi.isw2019.Server.Model.Exception.ColorNotAvailableException;
-import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Utilities.Observable;
 
@@ -15,14 +13,25 @@ public class Model extends Observable {
     private Player currentPlayer;
     private int turn;
     private GameBoard gameBoard;
+    private KillShotTrack killShotTrack;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
-    private int [][] damageRanking;
+    int [][] damageRanking;
+
+
     //manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
         return this.gameBoard;
+    }
+
+    /**
+     *
+     * @param mod type of game mod
+     */
+    public void setKillShotTrack (int mod){
+        killShotTrack = new KillShotTrack(mod);
     }
 
     public Player getCurrentPlayer(){
@@ -46,11 +55,11 @@ public class Model extends Observable {
         //verificare che la modalità non sia quella degli spawn
 
         if(this.players.size() <5)
-                this.players.add(player);
+            this.players.add(player);
 
         else
-                // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
-                System.out.println("Cannot be added");
+            // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
+            System.out.println("Cannot be added");
         //notifyObservers(new SetUpMessage("Choose color", currentPlayer.getIdPlayer(),  //colorAvailable ));
     }
 
@@ -168,47 +177,134 @@ public class Model extends Observable {
     }
 
 
-    public void setDamageRanking (Player playerDeath) {
-        damageRanking= new int [players.size()][2];
+    public int [][] setDamageRanking (Player playerDeath) {
+
+        damageRanking= new int [players.size()-1][2];
+        int idApp, damageApp,n=0;
 
         //Matrice in ordine decrescente
         for (int i=0; i<players.size(); i++){
+            if(players.get(i)!= playerDeath && playerDeath.damageDoByAnotherPlayer(players.get(i).getColor())>0){
+                damageRanking[n][0]= players.get(i).getPlayerID();
+                damageRanking[n][1]= playerDeath.damageDoByAnotherPlayer(players.get(i).getColor());
+                for (int j=n; j>0;j--){
+                    if(damageRanking[j][1]>damageRanking[j-1][1]){
+                        idApp=damageRanking[j][0];
+                        damageApp=damageRanking[j][1];
+                        damageRanking[j][0]=damageRanking[j-1][0];
+                        damageRanking[j][1]=damageRanking[j-1][1];
+                        damageRanking[j-1][0]=idApp;
+                        damageRanking[j-1][1]=damageApp;
+                    }
+                }
+                n++;
+            }
         }
+        return damageRanking;
     }
 
+
+
     public void addScoreAfterDeath (Player playerDeath){
+
         //Give a point for first blood
         for (int i=0; i<players.size(); i++){
             if (players.get(i).getColor()==playerDeath.firstPlayerDoDamage()){
                 players.get(i).addScore(1);
             }
         }
-        //switch con i numero dei teschi
+
+        damageRanking=setDamageRanking(playerDeath);
+
+        for (int i=0; i<players.size(); i++){
+            if (damageRanking[0][0]==players.get(i).getPlayerID()){
+                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(8);
+                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(6);
+                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(4);
+                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(2);
+                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
+                if (playerDeath.getNumberOfSkulls()==5)players.get(i).addScore(1);
+            }
+            if (damageRanking[1][0]==players.get(i).getPlayerID()){
+                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(6);
+                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(4);
+                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(2);
+                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
+                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
+
+            }
+            if (players.size()-1>2){
+                if (damageRanking[2][0]==players.get(i).getPlayerID()){
+                    if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(4);
+                    if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(2);
+                    if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
+                    if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
+                }
+                if (players.size()-1>3){
+                    if (damageRanking[3][0]==players.get(i).getPlayerID()){
+                        if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(2);
+                        if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(1);
+                        if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param colorPlayerDoKill color of player do the kill shot
+     * @param numOfDamage number of damage that suffer player death
+     */
+    public void addDamageOnKillShotTrack (ColorPlayer colorPlayerDoKill, int numOfDamage){
+        killShotTrack.killPlayer(colorPlayerDoKill,numOfDamage);
+    }
+
+
+    public int [][] killShotRanking (){
+
+        int [][] killShotTable = new int [players.size()][2];
+        int idApp, damageApp;
+
+        for (int i=0; i<players.size(); i++){
+            killShotTable[i][0]= players.get(i).getPlayerID();
+            killShotTable[i][1]= killShotTrack.numOfKillShotByOnePlayer(players.get(i).getColor());
+
+            for (int j=i; j>0; j--){
+                if (killShotTable[j][1]>killShotTable[j-1][1]){
+                    idApp= killShotTable[j][0];
+                    damageApp= killShotTable[j][1];
+                    killShotTable[j][0]= killShotTable[j-1][0];
+                    killShotTable[j][1]= killShotTable[j-1][1];
+                    killShotTable[j-1][0]= idApp;
+                    killShotTable[j-1][1]=damageApp;
+                }
+            }
+        }
+        return killShotTable;
 
     }
 
-        public void fillMoveWithActions(Player player, ActionMessage actionMessage){
-            //richiama un metodo che mi inserisce all'interno dei messaggi le azioni
-            int numPlayerDamage = player.playerDamage();
-            //se NON e' frenzy
-            if(numPlayerDamage >5){
-                    if(numPlayerDamage > 2){
-                        if(numPlayerDamage >= 0){
-                            actionMessage.setNormalAction();
-                        }
-                        actionMessage.setFirstPoweredAction();
-                    }
-                    actionMessage.setSecondPoweredAction();
-            }
-            //se e' frenzy
-            //se e' il firstPlayer
-            actionMessage.setFrenzyFirstPlayerAction();
-            //altrimenti se sono DOPO il first player
-            actionMessage.setFrenzyAction();
 
+    public void addScoreToKillShotTrack (){
 
+        int [][] killShotTable= killShotRanking();
+
+        for (int i=0; i<players.size(); i++){
+            if (players.get(i).getPlayerID()==killShotTable[0][0] && killShotTable[0][1]!=0)
+                players.get(i).addScore(8);
+            if (players.get(i).getPlayerID()==killShotTable[1][0] && killShotTable[1][1]!=0)
+                players.get(i).addScore(6);
+            if (players.get(i).getPlayerID()==killShotTable[2][0] && killShotTable[2][1]!=0)
+                players.get(i).addScore(4);
+            if (players.get(i).getPlayerID()==killShotTable[3][0] && killShotTable[3][1]!=0)
+                players.get(i).addScore(2);
+            if (players.get(i).getPlayerID()==killShotTable[4][0] && killShotTable[4][1]!=0)
+                players.get(i).addScore(1);
 
         }
+
+    }
 
 
 

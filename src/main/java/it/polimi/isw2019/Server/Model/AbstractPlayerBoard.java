@@ -1,15 +1,14 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 
 import java.util.ArrayList;
 
 public abstract class AbstractPlayerBoard {
 
     protected ColorPlayer color;
-    private int playerSkulls=0;
+    private int playerSkulls;
     private int playerBoardID; // no caratterizzazione con il colore
     private boolean usePlayerBoard;
     private boolean frenzy;
@@ -149,12 +148,12 @@ public abstract class AbstractPlayerBoard {
     }
 
     //Aggiungere i danni al giocatore
-    public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws KillShotException,OverKillException{
+    public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
             if (damageTokens.size()>=12) {
                 removeMarkOfOneColor(colorPlayer);
-                throw new OverKillException(damageTokens.get(11));
+                throw new DamageTrackException();
             }
         }
         if(numOfMarkOfOneColor(colorPlayer)>0){
@@ -163,12 +162,12 @@ public abstract class AbstractPlayerBoard {
                 damageTokens.add(colorPlayer);
                 if (damageTokens.size()>=12) {
                     removeMarkOfOneColor(colorPlayer);
-                    throw new OverKillException(damageTokens.get(11));
+                    throw new DamageTrackException();
                 }
             }
             removeMarkOfOneColor(colorPlayer);
         }
-        if (damageTokens.size()==11) throw new KillShotException();
+        if (damageTokens.size()==11) throw new DamageTrackException();
 
 
     }
@@ -184,13 +183,19 @@ public abstract class AbstractPlayerBoard {
         }
     }
 
-    public void deathPlayer (){
+    public void resetAfterDeath (){
         playerSkulls++;
         damageTokens.clear();
     }
 
     public ColorPlayer firstBlood(){
         return damageTokens.get(0);
+    }
+
+    public ColorPlayer killShot (){
+        if (damageTokens.size()>=11)
+        return damageTokens.get(10);
+        else return null;
     }
 
 

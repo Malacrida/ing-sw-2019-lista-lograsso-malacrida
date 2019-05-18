@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public abstract class MoveMessage {
 
+    //String idMoveMessage is no more used
     private String idMoveMessage;
+
     private int idPlayer;
 
 

@@ -1,11 +1,8 @@
 package it.polimi.isw2019.Server.Model;
 
 import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Server.Model.ColorRoom;
 import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.GameBoard;
-import it.polimi.isw2019.Server.Model.Player;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.*;
 import org.junit.After;
@@ -264,7 +261,7 @@ public class GameBoardTest {
         player.changePosition(0,2, ColorRoom.BLUE);
         ArrayList <Player> playersInPreviousPosition =  gameBoard.playersInOneSquare(0,2, null);
         assertTrue(playersInPreviousPosition.contains(player));
-        gameBoard.changePositionPlayer(player,0,1,false);
+        gameBoard.changePositionPlayer(player,0,1);
         player.changePosition(0,1,ColorRoom.BLUE);
         ArrayList <Player> playersInOneSquare = gameBoard.playersInOneSquare(0,1, null);
         assertTrue(playersInOneSquare.contains(player));

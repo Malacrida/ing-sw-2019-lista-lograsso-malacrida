@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Server.Message.PlayerMove;
 
 
-public class ReloadMove extends Action {
+/*public class ReloadMove extends Action {
     private int positionWeaponCardToReload;
     char [][] paymentForRecharge;
     public ReloadMove(String idPlayerMove, String idAction, int positionWeaponCardToReload, char [][] paymentForRecharge){
@@ -9,4 +9,4 @@ public class ReloadMove extends Action {
         this.positionWeaponCardToReload = positionWeaponCardToReload;
         this.paymentForRecharge= paymentForRecharge;
     }
-}
+}*/

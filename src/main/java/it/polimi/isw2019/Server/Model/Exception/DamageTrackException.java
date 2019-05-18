@@ -2,16 +2,16 @@ package it.polimi.isw2019.Server.Model.Exception;
 
 import it.polimi.isw2019.Server.Model.ColorPlayer;
 
-public class OverKillException extends Exception {
+public class DamageTrackException extends Exception {
 
     private ColorPlayer colorPlayer;
 
-    public OverKillException(){
+    public DamageTrackException(){
 
     }
 
-    public OverKillException(ColorPlayer colorPlayer){
-        this.colorPlayer=colorPlayer;
+    public DamageTrackException(ColorPlayer colorPlayer){
+            this.colorPlayer=colorPlayer;
     }
 
     public ColorPlayer getColorPlayer() {

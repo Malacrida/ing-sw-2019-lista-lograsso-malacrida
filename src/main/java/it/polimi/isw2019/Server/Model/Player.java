@@ -1,8 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.KillShotException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OverKillException;
 import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 
@@ -13,6 +12,7 @@ public class Player {
     private String actionHeroComment; //frase effetto
     private int playerID;
     private ColorPlayer color;
+    private boolean firstPlayer;
     private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>(); // cariche?
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
     private AbstractPlayerBoard playerBoard;
@@ -36,6 +36,14 @@ public class Player {
     public void setPlayerBoardAndColor (AbstractPlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
+    }
+
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public boolean isFirstPlayer() {
+        return firstPlayer;
     }
 
     public Player getPlayer() {
@@ -156,21 +164,17 @@ public class Player {
      * @param colorPlayer!= null Color of the player who give damage
      * @param numDamage>=0 number of damage
      * @param numMark>=0 number of mark
-     * @throws KillShotException if player, who take damage, have 11 damage token
-     * @throws OverKillException if player, who take damage, have 12 damage token
+     * @throws DamageTrackException if player, who take damage, have 11 or 12 damage token
      */
-    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws KillShotException,OverKillException {
+    public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws DamageTrackException {
 
         try {
             if (numDamage>0){
                 playerBoard.takeDamage(colorPlayer, numDamage);
             }
         }
-        catch (OverKillException e){
-            throw new OverKillException(colorPlayer);
-        }
-        catch (KillShotException e){
-            throw new KillShotException(colorPlayer);
+        catch (DamageTrackException e){
+            throw new DamageTrackException(colorPlayer);
         }
         finally {
             if (numMark>0){
@@ -199,6 +203,8 @@ public class Player {
         return playerBoard.firstBlood();
     }
 
+    public ColorPlayer lastPlayerDoDamage () { return playerBoard.killShot();}
+
     public int getNumberOfSkulls (){
         return playerBoard.getPlayerSkulls();
     }
@@ -207,6 +213,10 @@ public class Player {
         this.x=x;
         this.y=y;
         this.colorRoom=colorRoom;
+    }
+
+    public void playerDeath (){
+        playerBoard.resetAfterDeath();
     }
 
 

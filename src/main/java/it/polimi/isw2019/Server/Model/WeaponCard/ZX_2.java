@@ -2,7 +2,9 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
 
 import java.util.ArrayList;
@@ -18,14 +20,21 @@ public class ZX_2 extends AbstractWeaponCard {
                 "can see and deal 1 mark to each.");
         this.infoEffect.add("NOTE : Remember that the 3 targets can be\n" +
                 "in 3 different rooms.   ");
+        this.rechargeCube[0] = 1;
+        this.rechargeCube[1] = 1;
+        this.rechargeCube[2] = 0;
     }
 
     @Override
-    public void firstEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(firstDefender != null){
 
-          //  firstDefender.sufferDamage(attacker.getColor(), 1, 2);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 2);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -37,15 +46,27 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException{
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(firstDefender != null){
+        if((firstDefender != null) && (secondDefender != null) && (thirdDefender != null)){
 
-         //   firstDefender.sufferDamage(attacker.getColor(), 0, 1);
+            try {
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+            } catch (DamageTrackException  e) {
+                e.printStackTrace();
+            }
 
-          //  secondDefender.sufferDamage(attacker.getColor(), 0, 1);
+            try {
+                secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+            } catch (DamageTrackException  e) {
+                e.printStackTrace();
+            }
 
-        //    thirdDefender.sufferDamage(attacker.getColor(), 0, 1);
+            try {
+                thirdDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -57,7 +78,7 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
         throw new NoEffectException();
 
     }

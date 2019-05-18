@@ -3,30 +3,30 @@ package it.polimi.isw2019.Server.Model;
 import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
 import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.Exception.OutOfRangeException;
 import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
 
 import java.util.ArrayList;
 
 public class Arena {
 
-    private static Arena instance; // guardare se fare l'attributo static
     private Square[][] squares= new Square[3][4];
-
     private ArrayList<Room> rooms= new ArrayList<>();
 
      Arena(){
 
     }
 
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
 
-    public void chooseArena (int numArena) throws OutOfRangeException{
+    public void chooseArena (int numArena) throws OutOfBoundsException{
         try {
             squares= CreateArena.chooseMap(numArena);
             rooms= CreateArena.chooseRoom(numArena);
         }
-        catch (OutOfRangeException e){
-            throw new OutOfRangeException();
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException("Number out of possible bounds");
         }
 
     }
@@ -108,23 +108,33 @@ public class Arena {
         return players;
     }
 
-    public ArrayList<Player> playerWhoSeeOnArena (int x, int y, Player player){
-        ArrayList <Player> players= new ArrayList<>();
-        players.clear();
-        players=squares[x][y].getPlayers();
+    /**
+     *
+     * @param player
+     * @return
+     */
+    public ArrayList<Player> playerWhoSeeOnArena(Player player){
+
+        int x= player.getX();
+        int y= player.getY();
+        ArrayList <Player> playersWhoSee= new ArrayList<>();
+        ArrayList<Player> playersInTheRoom = new ArrayList<>();
+        playersWhoSee.clear();
+        playersWhoSee=squares[x][y].getPlayers();
 
         //Orizzontale verso destra
         for (int i=0; i<2; i++){
             if(y+i+1<4) {
                 if (squares[x][y + i].squaresAvailable().contains(squares[x][y + i + 1]))
-                    players.addAll(squares[x][y + i + 1].getPlayers());
+                    playersWhoSee.addAll(squares[x][y + i + 1].getPlayers());
             }
         }
+
         //Orizzontale verso sinistra
         for (int i=0; i<3; i++){
             if(y-i-1>=0) {
                 if (squares[x][y - i].squaresAvailable().contains(squares[x][y - i - 1]))
-                    players.addAll(squares[x][y - i - 1].getPlayers());
+                    playersWhoSee.addAll(squares[x][y - i - 1].getPlayers());
             }
             else break;
         }
@@ -132,7 +142,7 @@ public class Arena {
         for (int i=0; i<2; i++){
             if(x-i>0) {
                 if (squares[x - i][y].squaresAvailable().contains(squares[x - i - 1][y]))
-                    players.addAll(squares[x - i - 1][y].getPlayers());
+                    playersWhoSee.addAll(squares[x - i - 1][y].getPlayers());
             }
             else break;
         }
@@ -140,25 +150,49 @@ public class Arena {
         for (int i=0; i<2; i++){
             if(x+i+1<3) {
                 if (squares[x + i][y].squaresAvailable().contains(squares[x + i + 1][y]))
-                    players.addAll(squares[x + i + 1][y].getPlayers());
+                    playersWhoSee.addAll(squares[x + i + 1][y].getPlayers());
             }
         }
 
-        if(player.getColorRoom()==ColorRoom.YELLOW){
-            ArrayList <Player> playersInRoom = playersInOneRoom(ColorRoom.YELLOW,player);
-            for (int i=0; i<playersInRoom.size(); i++){
-                if(!players.contains(playersInRoom.get(i))){
-                    players.add(playersInRoom.get(i));
-                }
-            }
+        playersInTheRoom = playerInTheRoomNear(player);
+        for (int i=0; i<playersInTheRoom.size(); i++){
+            if (!playersWhoSee.contains(playersInTheRoom.get(i))) playersWhoSee.add(playersInTheRoom.get(i));
         }
 
-        if(players.contains(player) ){
-            players.remove(player);
+        if(playersWhoSee.contains(player) ){
+            playersWhoSee.remove(player);
         }
-       return players;
+       return playersWhoSee;
     }
 
+
+    public ArrayList<Player> playerInTheRoomNear (Player player){
+         ArrayList<Player> playersInTheRoom = new ArrayList<>();
+
+         int x= player.getX();
+         int y= player.getY();
+
+         for (int i=0; i<rooms.size(); i++){
+             if (x-1>0){
+                if (rooms.get(i).containsSquare(squares[x-1][y])&& squares[x][y].squaresAvailable().contains(squares[x-1][y]))
+                    playersInTheRoom.addAll(rooms.get(i).getPlayers());
+             }
+             if(x+1<2){
+                 if (rooms.get(i).containsSquare(squares[x+1][y])&&squares[x][y].squaresAvailable().contains(squares[x+1][y]))
+                     playersInTheRoom.addAll(rooms.get(i).getPlayers());
+             }
+             if(y-1>0){
+                 if (rooms.get(i).containsSquare(squares[x][y-1])&&squares[x][y].squaresAvailable().contains(squares[x][y-1]))
+                     playersInTheRoom.addAll(rooms.get(i).getPlayers());
+             }
+             if(y+1<4){
+                 if (rooms.get(i).containsSquare(squares[x][y+1])&&squares[x][y].squaresAvailable().contains(squares[x][y+1]))
+                     playersInTheRoom.addAll(rooms.get(i).getPlayers());
+             }
+
+         }
+         return playersInTheRoom;
+    }
 
 
     //Controllo sul colore scelto dal giocatore dove spownare
@@ -183,25 +217,30 @@ public class Arena {
     }
 
     //per spostare di posizione il giocaotre
-    public boolean movePlayer (Player player, int x, int y, boolean teleporter){
+    public void movePlayer(Player player, int x, int y){
+
+        if (isSquaresAvailable(player,x,y)) {
+            if(isPlayerChangeRoom(player, x,y)){
+                playerChangeRoom(player,x,y);
+            }
+            squares[player.getX()][player.getY()].removePlayers(player);
+            squares[x][y].addPlayer(player);
+        }
+    }
+
+    public void teleporterMove(Player player, int x, int y){
 
         if(isPlayerChangeRoom(player, x,y)){
             playerChangeRoom(player,x,y);
         }
 
-        if (!teleporter) {
-            ArrayList<Square> squaresAvailable = squares[player.getX()][player.getY()].squaresAvailable();
-            if (squaresAvailable.contains(squares[x][y])) {
-                squares[player.getX()][player.getY()].removePlayers(player);
-                squares[x][y].addPlayer(player);
-                return true;
-            } else return false;
-        }
-        else{
-            squares[player.getX()][player.getY()].removePlayers(player);
-            squares[x][y].addPlayer(player);
-            return true;
-        }
+        squares[player.getX()][player.getY()].removePlayers(player);
+        squares[x][y].addPlayer(player);
+    }
+
+    public boolean isSquaresAvailable (Player player, int x, int y){
+        ArrayList<Square> squaresAvailable = squares[player.getX()][player.getY()].squaresAvailable();
+        return squaresAvailable.contains(squares[x][y]);
     }
 
     //per vedere se il player cambia stanza
@@ -214,9 +253,11 @@ public class Arena {
 
     public void playerChangeRoom (Player player, int x, int y){
         for(int i=0; i<rooms.size(); i++){
-            if(rooms.get(i).getColorRoom()== player.getColorRoom()){
+            if(rooms.get(i).containsSquare(squares[player.getX()][player.getY()])){
                 rooms.get(i).removePlayer(player);
             }
+        }
+        for(int i=0; i<rooms.size(); i++){
             if(rooms.get(i).containsSquare(squares[x][y])){
                 rooms.get(i).addPlayer(player);
             }

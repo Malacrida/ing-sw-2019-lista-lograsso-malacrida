@@ -1,12 +1,22 @@
 package it.polimi.isw2019.Server.Message.PlayerMove;
 
-public class RunGrabMove extends RunMove {
-    private char typeCard;
-    private int weaponCardPosition;
+import it.polimi.isw2019.Server.Controller.VisitorController;
 
-    public RunGrabMove(String idPlayerMove, String idAction, int[][] movement, char typeCard, int weaponCardPosition){
-        super(idPlayerMove,idAction,movement);
-        this.typeCard = typeCard;
-        this.weaponCardPosition = weaponCardPosition;
+public class RunGrabMove extends PlayerMove {
+
+    private int[][] movement;
+    private char[][] cardSelection;
+
+    @Override
+    public void visit(VisitorController singleMoveController) {
+            singleMoveController.visitControllerRunGrab(this);
+    }
+
+    public void setMovement(int[][] movement){
+        this.movement = movement;
+    }
+
+    public void setCardSelection(char[][] cardSelection){
+        this.cardSelection = cardSelection;
     }
 }
