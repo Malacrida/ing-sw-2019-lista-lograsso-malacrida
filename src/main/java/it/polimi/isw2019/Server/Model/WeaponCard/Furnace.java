@@ -41,25 +41,44 @@ public class Furnace extends AbstractWeaponCard {
 
     }
 
+    private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
+
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
+
+        for (Player aPlayerList : playerList){
+
+            try {
+
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch ( DamageTrackException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
+        ArrayList<Player> playerList;
 
-        /*AGGIUNGERE CONTROLLO SE LA STANZA È VISTA DALL'ATTACCANTE*/
+        if (gameBoard.isSquareAvailableOnArena(attacker, x1, y1)) { //controllo se la stanza è visibile dall'attaccante
+            playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-        if (playerList != null){
-
-            for (Player aPlayerList : playerList) {
+            if (playerList != null) {
 
                 damageFurnace(gameBoard, attacker, x1, y1);
+
+            } else { // se la stanza è vuota allora errore
+
+                throw new ErrorEffectException();
+
             }
-
-        } else { // se la stanza è vuota allora errore
-
+        }
+        else {
             throw new ErrorEffectException();
-
         }
 
     }
@@ -67,24 +86,23 @@ public class Furnace extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        /*AGGIUNGERE CONTROLLO SE LA STANZA È ADIACENTE*/
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
+        ArrayList<Player> playerList;
 
-        if (oneDistanceX(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse X
+        if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){ //se è una stanza visibile
 
-            damageFurnace(gameBoard, attacker, x1, y1);
+            if((oneDistanceX(attacker.getX(), attacker.getY(), x1, y1)) || (oneDistanceY(attacker.getX(), attacker.getY(), x1, y1))) { //se dista esattamente 1
+                playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
-        }
-
-        else if (oneDistanceY(attacker, playerList.get(0))){ //se sono esattamente distante 1 su asse Y
-
-            damageFurnace(gameBoard, attacker, x1, y1);
-
-        }
-
-        else {
-
-            throw new ErrorEffectException();
+                if(playerList != null){ // se c'è qualche giocatore dentro la stanza
+                    damageAndMarkFurnace(gameBoard, attacker, x1, x2); // fai il danno
+                }
+                else{
+                    throw new ErrorEffectException();
+                }
+            }
+            else{
+                throw new ErrorEffectException();
+            }
 
         }
     }

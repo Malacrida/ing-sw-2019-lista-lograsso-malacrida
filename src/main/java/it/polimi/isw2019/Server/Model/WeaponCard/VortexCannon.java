@@ -33,13 +33,17 @@ public class VortexCannon extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(firstDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+        if((firstDefender != null) && (visiblePlayers.contains(firstDefender)) && (!sameSquare(attacker.getX(), attacker.getY(), x1, y1))){
             /*MUOVI DI UNO*/
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
+
+            firstIsValid = true;
 
         } else {
 
@@ -52,22 +56,26 @@ public class VortexCannon extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(secondDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
-            /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
-            try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-            try {
-                thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
+        if (firstIsValid){
+            if((secondDefender != null) && (visiblePlayers.contains(secondDefender))){
+                /*MUOVI DI UNO IL SECONDO E IL TERZO GIOCATORE*/
+                try {
+                    secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (DamageTrackException e) {
+                    e.printStackTrace();
+                }
 
+                if((thirdDefender != null) && visiblePlayers.contains(thirdDefender)){
+                    try {
+                        thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    } catch (DamageTrackException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         } else {
-
             throw new ErrorEffectException();
         }
     }

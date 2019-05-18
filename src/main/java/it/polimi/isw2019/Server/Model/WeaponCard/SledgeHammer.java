@@ -25,52 +25,25 @@ public class SledgeHammer extends AbstractWeaponCard {
 
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
-
-        if (sameSquare(attacker, firstDefender)){
-
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-
-            throw new ErrorEffectException();
-
-        }
+        twoDamageInSameSquare(attacker, firstDefender);
     }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (sameSquare(attacker, firstDefender)){
+        threeDamageInSameSquare(attacker, firstDefender);
 
-            try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
-            } catch (DamageTrackException e) {
-                e.printStackTrace();
-            }
-
-            if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
-                //
-                System.out.print("In attesa di changePosition");
-            } else {
-                throw new ErrorEffectException();
-            }
-
+        if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
+            //
+            System.out.print("In attesa di changePosition");
         } else {
-
             throw new ErrorEffectException();
-
         }
-
     }
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
         throw new NoEffectException();
-
     }
 
 }
