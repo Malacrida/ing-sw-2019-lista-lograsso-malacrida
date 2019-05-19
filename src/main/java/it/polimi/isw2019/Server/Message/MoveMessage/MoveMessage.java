@@ -6,7 +6,7 @@ public abstract class MoveMessage {
 
     //String idMoveMessage is no more used
     private String idMoveMessage;
-
+    //little model that contains all the structure of the model and updates the view.
     private int idPlayer;
 
 

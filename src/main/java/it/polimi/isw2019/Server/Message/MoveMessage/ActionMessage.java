@@ -53,6 +53,6 @@ public class ActionMessage extends MoveMessage {
             return this.actionYouCanPerform;
         }
 
-
+        
 
 }
