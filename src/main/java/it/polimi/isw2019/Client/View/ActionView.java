@@ -73,7 +73,7 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
 
     }
-
+//in base alla scelta un visit diverso!!!!!
     public int[][] insertMovement(int numMovement){
         int[][] tmpMovement = new int[numMovement][2];
         Scanner input = new Scanner(System.in);
