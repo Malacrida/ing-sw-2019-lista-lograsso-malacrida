@@ -1,8 +1,8 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
-import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
@@ -31,10 +31,14 @@ public class RocketLauncher extends  AbstractWeaponCard {
         this.rechargeCube[2] = 0;
     }
 
+
+    /* PER UNA QUESTIONE DI EFFETTO O SCEGLI IL PRIMO O IL TERZO PERCHÉ UNO IMPLICA L'ALTRO QUINDI NEL TERZO È CONTENUTO IL PRIMO*/
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+
+        if ((firstDefender != null) && (visiblePlayers.contains(firstDefender)) && (!sameSquare(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY()))) {
 
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
@@ -44,15 +48,13 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
             if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
 //
-                System.out.print("In attesa di changePosition");
+                System.out.println("In attesa di changePosition");
 
             } else {
 
                 throw new ErrorEffectException();
 
             }
-
-            firstIsValid = true;
 
         } else {
 
@@ -81,19 +83,16 @@ public class RocketLauncher extends  AbstractWeaponCard {
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), firstDefender);
-        if (firstIsValid){
 
-            for (Player aPlayerList : playerList) {
+        for (Player aPlayerList : playerList) {
 
-                try {
-                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (DamageTrackException  e) {
-                    e.printStackTrace();
-                }
-
+            try {
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (DamageTrackException  e) {
+                e.printStackTrace();
             }
-        } else {
-            throw new ErrorEffectException();
+
         }
+        firstEffect(gameBoard, attacker, firstDefender, null, null, -1, -1, -1, -1);
     }
 }

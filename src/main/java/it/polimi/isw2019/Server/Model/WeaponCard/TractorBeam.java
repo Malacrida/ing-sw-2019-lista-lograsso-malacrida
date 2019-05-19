@@ -23,7 +23,7 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         /*MUOVI DI DUE*/
 
@@ -44,11 +44,11 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         /*MUOVI DI DUE*/
 
-        if(secondDefender != null){
+        if((secondDefender != null) && (sameSquare(attacker.getX(), attacker.getY(), secondDefender.getX(), secondDefender.getY()))){
 
             try {
                 secondDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);

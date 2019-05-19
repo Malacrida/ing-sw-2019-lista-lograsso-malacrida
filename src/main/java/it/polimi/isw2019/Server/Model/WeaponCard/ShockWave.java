@@ -24,8 +24,16 @@ public class ShockWave extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
+
+
         if(firstDefender != null){
-            if (oneDistance(attacker, firstDefender)) {
+
+            x1 = firstDefender.getX();
+            y1 = firstDefender.getY();
+            x2 = secondDefender.getX();
+            y2 = secondDefender.getY();
+
+            if (gameBoard.isSquareAvailableOnArena(attacker, x1, y1)) {
 
                 try {
                     firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -34,7 +42,7 @@ public class ShockWave extends AbstractWeaponCard {
                 }
             }
 
-            else if ((oneDistance(attacker, secondDefender)) && !sameSquare(firstDefender, secondDefender)){
+            else if ((gameBoard.isSquareAvailableOnArena(attacker, x2, y2)) && !sameSquare(x1, y1, x2, y2)){
 
                 try {
                     secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -43,7 +51,7 @@ public class ShockWave extends AbstractWeaponCard {
                 }
             }
 
-            else if ((oneDistance(attacker, thirdDefender)) && !sameSquare(firstDefender, thirdDefender) && !sameSquare(secondDefender, thirdDefender)){
+            else if ((gameBoard.isSquareAvailableOnArena(attacker,thirdDefender.getX(), thirdDefender.getY())) && !sameSquare(x1, y1, thirdDefender.getX(), thirdDefender.getY()) && !sameSquare(x2, y2, thirdDefender.getX(), thirdDefender.getY())){
 
                 try {
                     thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -51,23 +59,16 @@ public class ShockWave extends AbstractWeaponCard {
                     e.printStackTrace();
                 }
 
-            } else {
-
-                throw new ErrorEffectException();
-
-            }
-
         } else {
 
             throw new ErrorEffectException();
 
         }
     }
+    }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
-
-
 
         if (firstDefender != null) {
             ArrayList<Player> firstSquare= gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);

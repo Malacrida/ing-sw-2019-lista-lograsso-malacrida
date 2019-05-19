@@ -49,6 +49,9 @@ public class GrenadeLauncher extends AbstractWeaponCard {
                     System.out.println("In attesa di changePosition");
 
                 }
+                else {
+                    throw new ErrorEffectException();
+                }
             } else {
                 throw new ErrorEffectException();
             }
@@ -61,19 +64,20 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
+        if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
+            ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
+                if (playerList != null){
 
+                    oneDamageAllPlayersInOneSquare(attacker, playerList);
 
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
-
-        ArrayList<Player> playerList2 = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
-
-        if (playerList == playerList2){
-
-           giveOneDamageNoMarksInOneSquare(attacker, playerList2);
-
-        } else {
+                } else {
+                    throw new ErrorEffectException();
+                }
+        }else{
             throw new ErrorEffectException();
         }
+
+
 
 
     }

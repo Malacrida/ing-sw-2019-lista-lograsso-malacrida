@@ -29,8 +29,9 @@ public class Whisper extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(firstDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
 
+        if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 2)) && (visiblePlayers.contains(firstDefender))){
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 1);
             } catch (DamageTrackException e) {
@@ -38,7 +39,6 @@ public class Whisper extends AbstractWeaponCard {
             }
 
         } else {
-
             throw new ErrorEffectException();
 
         }

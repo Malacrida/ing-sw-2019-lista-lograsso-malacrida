@@ -55,130 +55,98 @@ public abstract class AbstractWeaponCard{
         this.stateCard = newStateCard;
     }
 
-    //AGGIUNGERE METODO playerIsVisible
 
+    /* EFFETTI (abstract) */
 
-    /* I due giocatori distano di 1 sull'asse delle X e hanno la stessa Y*/
+    /*
+    * attackSquare -> square in cui vuole attaccare
+    * attacker -> Player attaccante
+    * defender -> Player colpito
+    */
+    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-    public boolean oneDistanceY (Player firstPlayer, Player secondPlayer){
+    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-        if (firstPlayer.getX() == secondPlayer.getX()){
+    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-            if ((firstPlayer.getY() - secondPlayer.getY()) == 1){
-                return true;
-            }
-
-            else return false;
-        }
-
-        else return false;
-    }
-
+/*METODI DI CONTROLLO*/
 
     /* I due giocatori distano di 1 sull'asse delle X e hanno la stessa Y*/
 
-    public boolean oneDistanceX (Player firstPlayer, Player secondPlayer){
+    protected boolean oneDistanceY (int x1, int y1, int x2, int y2){
+        return (x1 == x2) && (Math.abs(y1 - y2) == 1);
+    }
 
-        if (firstPlayer.getY() == secondPlayer.getY()){
+    /* I due giocatori distano di 1 sull'asse delle X e hanno la stessa Y*/
 
-            if ((firstPlayer.getX() - secondPlayer.getX()) == 1){
-                return true;
-            }
+    protected boolean oneDistanceX (int x1, int y1, int x2, int y2){
+        return (y1 == y2) && (Math.abs(x1 - x2) == 1);
+    }
 
-            else return false;
+    /* Cella distante almeno 1 o 2 celle (se move = 1 allora è 1 cella se è 2 allora è 2 celle) */
+
+    protected boolean moreThanOneOrTwoDistance(int x1, int y1, int x2, int y2, int move){
+
+        if (move == 1) {
+            return (x1 == x2) && (Math.abs(y1 - y2) >= 1) || (y1 == y2) && (Math.abs(x1 - x2) >= 1);
         }
 
+        else if (move == 2) {
+            return (x1 == x2) && (Math.abs(y1 - y2) > 1) || (y1 == y2) && (Math.abs(x1 - x2) > 1);
+        }
         else return false;
     }
 
-    public boolean sameSquare (Player firstPlayer, Player secondPlayer){
+    /* I due giocatori sono nella stessa stanza */
+
+    protected boolean sameSquare (int x1, int y1, int x2, int y2){
+        return (x1 == x2) && (y1 == y2);
+    }
+
+
+    protected char direction(Player firstPlayer, Player secondPlayer) {
 
         int x1 = firstPlayer.getX();
         int y1 = firstPlayer.getY();
         int x2 = secondPlayer.getX();
         int y2 = secondPlayer.getY();
-
-        if ((x1 == x2) && (y1 == y2)){
-
-            return true;
-
-        }
-
-        else return false;
-
-    }
-
-    public boolean oneDistance(Player firstPlayer, Player secondPlayer) {
-
-        if ((oneDistanceX(firstPlayer, secondPlayer)) && (!oneDistanceY(firstPlayer, secondPlayer))){
-
-            return true;
-
-        }
-
-        else if ((!oneDistanceX(firstPlayer, secondPlayer)) && (oneDistanceY(firstPlayer, secondPlayer))){
-
-            return true;
-
-        }
-
-        else return false;
-    }
-
-    public char sameDirection (Player firstPlayer, Player secondPlayer) {
-
-        int x1 = firstPlayer.getX();
-        int y1 = firstPlayer.getY();
-        int x2 = secondPlayer.getX();
-        int y2 = secondPlayer.getY();
-        char direction;
+        char dir;
 
         if (x1 == x2){
 
-            direction = 'x';
+            dir = 'x';
 
-            return direction;
+            return dir;
 
         }
 
         else if (y1 == y2) {
 
-            direction = 'y';
+            dir = 'y';
 
-            return direction;
+            return dir;
 
         }
 
         else {
 
-            direction = 'n';
+            dir = 'n';
 
-            return direction;
+            return dir;
 
         }
 
     }
 
-    public boolean aboveSquare(int x1, int y1, int x2, int y2){
+    /* METODI DANNI NO DUPLICAZIONE*/
 
-        if ((x1 - x2 == 1) && (y1 - y2 == 0)){
-            return true;
-        }
+    /* fai un danno se il primo effetto è valido */
 
-        else if ((y1 - y2 == 1) && (x1 - x2 == 0)){
-            return true;
-        }
-
-        else return false;
-
-    }
-
-    public boolean machineGunAndPlasmaGunEffect(Player attacker, Player firstDefender, boolean firstValid){
+    protected boolean oneDamageIfFirstIsValid(Player attacker, Player defender, boolean firstValid){
 
         if(firstIsValid){
-
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 1,0);
+                defender.sufferDamageOrMark(attacker.getColor(), 1,0);
             } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
@@ -188,7 +156,9 @@ public abstract class AbstractWeaponCard{
         }
     }
 
-    public void giveOneDamageNoMarksInOneSquare(Player attacker, ArrayList<Player> playerList) {
+    /* 1 danno a tutti i player in una cella */
+
+    protected void oneDamageAllPlayersInOneSquare(Player attacker, ArrayList<Player> playerList) {
         for (Player aPlayerList : playerList) {
 
             try {
@@ -201,14 +171,56 @@ public abstract class AbstractWeaponCard{
         }
     }
 
-    /*
-    * attackSquare -> square in cui vuole attaccare
-    * attacker -> Player attaccante
-    * defender -> Player colpito
-    */
-    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
+    /*2 danni a un giocatore nella stessa stanza dell'attaccante*/
 
-    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
+    protected void twoDamageInSameSquare (Player attacker, Player defender) throws ErrorEffectException { //utile per SledgeHammer e CyberBlade
+        if (sameSquare(attacker.getX(), attacker.getY(), defender.getX(), defender.getY())){
+            try {
+                defender.sufferDamageOrMark(attacker.getColor(),2,0);
+            }catch (DamageTrackException e){
+                e.printStackTrace();
+            }
 
-    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
+        }
+
+        else {
+            throw new ErrorEffectException();
+        }
+    }
+
+    /* 3 danni a un giocatore nella stessa stanza dell'attaccante */
+    protected void threeDamageInSameSquare (Player attacker, Player defender) throws ErrorEffectException {
+
+        if (sameSquare(attacker.getX(), attacker.getY(), defender.getX(),  defender.getY())){
+            try {
+                defender.sufferDamageOrMark(attacker.getColor(), 3, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new ErrorEffectException();
+        }
+    }
+
+    protected void twoDamageAndSetFirstIsValid (Player attacker, Player defender, ArrayList<Player> visiblePlayers) throws ErrorEffectException {
+
+        if ((defender != null) && (visiblePlayers.contains(defender))){
+
+            try {
+                defender.sufferDamageOrMark(attacker.getColor(), 2,0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
+            firstIsValid = true;
+
+        } else {
+            throw new ErrorEffectException();
+        }
+    }
+
+    protected boolean playersAreVisible (ArrayList<Player> visiblePlayers, Player firstPlayer, Player secondPlayer, Player thirdPlayer){
+
+        return visiblePlayers.contains(firstPlayer) && visiblePlayers.contains(secondPlayer) && visiblePlayers.contains(thirdPlayer);
+
+    }
 }

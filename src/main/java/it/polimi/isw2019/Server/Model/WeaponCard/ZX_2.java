@@ -28,8 +28,9 @@ public class ZX_2 extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if(firstDefender != null){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(),attacker.getY(), attacker);
 
+        if((firstDefender != null) && (visiblePlayers.contains(firstDefender))){
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 2);
             } catch (DamageTrackException e) {
@@ -48,7 +49,9 @@ public class ZX_2 extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if((firstDefender != null) && (secondDefender != null) && (thirdDefender != null)){
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(),attacker.getY(), attacker);
+
+        if((firstDefender != null) && (secondDefender != null) && (thirdDefender != null) && (playersAreVisible(visiblePlayers, firstDefender, secondDefender, thirdDefender))){
 
             try {
                 firstDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
@@ -69,7 +72,6 @@ public class ZX_2 extends AbstractWeaponCard {
             }
 
         } else {
-
             throw new ErrorEffectException();
         }
 

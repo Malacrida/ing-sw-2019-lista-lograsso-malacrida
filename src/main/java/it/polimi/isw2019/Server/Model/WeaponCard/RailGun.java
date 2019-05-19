@@ -32,7 +32,7 @@ public class RailGun extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        char direction = sameDirection(attacker, firstDefender);
+        char direction = direction(attacker, firstDefender);
 
         if(direction != 'n'){
 
@@ -53,8 +53,8 @@ public class RailGun extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        char firstDirection = sameDirection(attacker, firstDefender);
-        char secondDirection = sameDirection(attacker, firstDefender);
+        char firstDirection = direction(attacker, firstDefender);
+        char secondDirection = direction(attacker, firstDefender);
 
         if ((firstDirection != 'n') && (firstDirection == secondDirection)){
 
@@ -78,9 +78,7 @@ public class RailGun extends AbstractWeaponCard {
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
-
         throw new NoEffectException();
-
     }
 
 }
