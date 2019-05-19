@@ -200,12 +200,18 @@ public class Arena {
         switch (colorRoomToSpawn){
             case RED:
                 squares[1][0].addPlayer(player);
+                player.changeRoom(ColorRoom.RED);
+                player.changeSquare(1,0);
                 break;
             case BLUE:
                 squares[0][2].addPlayer(player);
+                player.changeRoom(ColorRoom.BLUE);
+                player.changeSquare(0,2);
                 break;
             case YELLOW:
                 squares[2][3].addPlayer(player);
+                player.changeRoom(ColorRoom.YELLOW);
+                player.changeSquare(2,3);
                 break;
         }
         for (int i=0; i<rooms.size();i++){
@@ -225,6 +231,7 @@ public class Arena {
             }
             squares[player.getX()][player.getY()].removePlayers(player);
             squares[x][y].addPlayer(player);
+            player.changeSquare(x,y);
         }
     }
 
@@ -236,6 +243,7 @@ public class Arena {
 
         squares[player.getX()][player.getY()].removePlayers(player);
         squares[x][y].addPlayer(player);
+        player.changeSquare(x,y);
     }
 
     public boolean isSquaresAvailable (Player player, int x, int y){
@@ -256,17 +264,12 @@ public class Arena {
             if(rooms.get(i).containsSquare(squares[player.getX()][player.getY()])){
                 rooms.get(i).removePlayer(player);
             }
-        }
-        for(int i=0; i<rooms.size(); i++){
             if(rooms.get(i).containsSquare(squares[x][y])){
                 rooms.get(i).addPlayer(player);
+                player.changeRoom(rooms.get(i).getColorRoom());
             }
         }
     }
-
-    //metodo dove dato uno squere ritorno il colore della stanza dov'è
-
-
 
 
 }

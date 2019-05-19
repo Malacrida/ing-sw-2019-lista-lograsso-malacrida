@@ -30,6 +30,7 @@ public class Room {
     }
 
     public void addPlayer (Player player){
+        if (!players.contains(player))
         players.add(player);
     }
 
