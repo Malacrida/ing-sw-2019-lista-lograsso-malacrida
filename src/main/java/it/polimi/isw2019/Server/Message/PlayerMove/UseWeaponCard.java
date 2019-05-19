@@ -1,9 +1,12 @@
 package it.polimi.isw2019.Server.Message.PlayerMove;
 
+import it.polimi.isw2019.Server.Controller.VisitorController;
+
 import java.util.ArrayList;
 
-public class UseWeaponCard extends Action {
-
+public class UseWeaponCard extends PlayerMove {
+    private String idPlayerMove;
+    private String idAction;
     private int weaponCardChoosen;
     private int[] effect;
     private int[] cubes;
@@ -13,7 +16,8 @@ public class UseWeaponCard extends Action {
 
     public UseWeaponCard(String idPlayerMove, String idAction, int weaponCardChoosen,int[] effect,
                          char[][] paymentEffect, ArrayList<Integer> playerAttacked, int [][] squareToAttack){
-        super(idPlayerMove,idAction);
+        this.idPlayerMove = idPlayerMove;
+        this.idAction = idAction;
         this.weaponCardChoosen = weaponCardChoosen;
         this.effect = effect;
         //this.cubes = cubes;
@@ -22,4 +26,8 @@ public class UseWeaponCard extends Action {
         this.squareToAttack = squareToAttack;
     }
 
+    @Override
+    public void visit(VisitorController singleMoveController) {
+
+    }
 }

@@ -4,7 +4,7 @@ public abstract class Action extends PlayerMove {
     private int idAction;
 
 
-    public int getIdAction(){
+    public int getIdAction() {
         return idAction;
     }
 }
