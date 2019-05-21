@@ -1,5 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
+import it.polimi.isw2019.Model.ColorPlayer;
+import it.polimi.isw2019.Model.KillShotTrack;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

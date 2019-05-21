@@ -1,9 +1,12 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
-import it.polimi.isw2019.Server.Model.Exception.OutOfBoundsException;
-import it.polimi.isw2019.Server.Model.WeaponCard.*;
+import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
+import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
+import it.polimi.isw2019.Model.Exception.OutOfBoundsException;
+import it.polimi.isw2019.Model.Arena;
+import it.polimi.isw2019.Model.ColorRoom;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.WeaponCard.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,10 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Server.Model.Exception.AmmoTileUseException;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.Square;
-import it.polimi.isw2019.Server.Model.SquareAmmo;
+import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
+import it.polimi.isw2019.Model.Exception.AmmoTileUseException;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
+import it.polimi.isw2019.Model.SquareAmmo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

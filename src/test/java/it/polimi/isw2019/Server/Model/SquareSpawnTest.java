@@ -1,9 +1,9 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.Square;
-import it.polimi.isw2019.Server.Model.SquareSpawn;
-import it.polimi.isw2019.Server.Model.WeaponCard.AbstractWeaponCard;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.Square;
+import it.polimi.isw2019.Model.SquareSpawn;
+import it.polimi.isw2019.Model.WeaponCard.AbstractWeaponCard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

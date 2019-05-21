@@ -1,8 +1,8 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
-import it.polimi.isw2019.Server.Model.ColorPlayer;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.PlayerBoard;
+import it.polimi.isw2019.Model.ColorPlayer;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.PlayerBoard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

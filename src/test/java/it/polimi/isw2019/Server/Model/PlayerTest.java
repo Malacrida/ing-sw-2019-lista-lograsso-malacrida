@@ -1,8 +1,12 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
-import it.polimi.isw2019.Server.Model.PowerUpCard.PowerUpCard;
-import it.polimi.isw2019.Server.Model.WeaponCard.*;
+import it.polimi.isw2019.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
+import it.polimi.isw2019.Model.AbstractPlayerBoard;
+import it.polimi.isw2019.Model.ColorPlayer;
+import it.polimi.isw2019.Model.Player;
+import it.polimi.isw2019.Model.PlayerBoard;
+import it.polimi.isw2019.Model.WeaponCard.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,8 +1,9 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
-import it.polimi.isw2019.Server.Model.*;
-import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
-import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.*;
+import it.polimi.isw2019.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.WeaponCard.LockRifle;
 import org.junit.*;
 
 import java.util.ArrayList;

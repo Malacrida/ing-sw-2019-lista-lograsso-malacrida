@@ -1,6 +1,7 @@
 package it.polimi.isw2019.Server.Model;
 
-import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Model.*;
+import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
