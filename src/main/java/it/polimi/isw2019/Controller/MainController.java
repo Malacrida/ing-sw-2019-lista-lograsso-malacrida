@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Controller;
 
 import it.polimi.isw2019.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Server.Utilities.Observer;
+import it.polimi.isw2019.Utilities.Observer;
 
 //action controller del programma di sten
 public class MainController implements Observer<PlayerMove> {
