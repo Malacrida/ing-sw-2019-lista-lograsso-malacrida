@@ -1,8 +1,8 @@
 package it.polimi.isw2019.View;
 
-import it.polimi.isw2019.Message.MoveMessage.MoveMessage;
-import it.polimi.isw2019.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Server.Utilities.Observable;
+import it.polimi.isw2019.Message.MoveMessage.*;
+import it.polimi.isw2019.Message.PlayerMove.*;
+import it.polimi.isw2019.Utilities.Observable;
 import java.util.Scanner;
 
 public class ActionView  extends Observable<PlayerMove> implements VisitorView{

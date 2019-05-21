@@ -1,8 +1,6 @@
 package it.polimi.isw2019.Controller;
 
-import it.polimi.isw2019.Message.PlayerMove.ActionMove;
-import it.polimi.isw2019.Message.PlayerMove.RunGrabMove;
-import it.polimi.isw2019.Message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.Message.PlayerMove.*;
 
 public class RunUseWeaponCard extends ActionController {
 
@@ -23,6 +21,11 @@ public class RunUseWeaponCard extends ActionController {
 
     @Override
     public void visitControllerRunGrab(RunGrabMove runGrabMove) {
+
+    }
+
+    @Override
+    public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
 
     }
 }

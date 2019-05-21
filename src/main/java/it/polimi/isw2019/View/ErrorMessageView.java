@@ -1,7 +1,6 @@
 package it.polimi.isw2019.View;
 
-import it.polimi.isw2019.Message.MoveMessage.ErrorMessage;
-import it.polimi.isw2019.Message.MoveMessage.MoveMessage;
+import it.polimi.isw2019.Message.MoveMessage.*;
 
 public class ErrorMessageView implements VisitorView{
 
