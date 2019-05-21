@@ -1,6 +1,5 @@
 package it.polimi.isw2019.Client.View;
-import it.polimi.isw2019.Server.Message.MoveMessage.MoveMessage;
-import it.polimi.isw2019.Server.Message.MoveMessage.SetUpMessage;
+import it.polimi.isw2019.Server.Message.MoveMessage.*;
 import it.polimi.isw2019.Server.Message.PlayerMove.SetUpMove;
 import it.polimi.isw2019.Server.Utilities.Observable;
 
@@ -36,12 +35,25 @@ public class SetupView extends Observable implements VisitorView  {
     @Override
     public void visitActionView(MoveMessage moveMessage) {
 
-
-
     }
 
     @Override
     public void errorMessageView(MoveMessage moveMessage) {
+
+    }
+
+    @Override
+    public void visitRun(RunMessage runMessage) {
+
+    }
+
+    @Override
+    public void visitRunGrab(RunGrabMessage runGrabMessage) {
+
+    }
+
+    @Override
+    public void visitReload(ReloadMessage reloadMessage) {
 
     }
 }

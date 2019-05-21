@@ -1,5 +1,7 @@
 package it.polimi.isw2019.Server.Message.MoveMessage;
 
+import it.polimi.isw2019.Client.View.VisitorView;
+
 import java.util.ArrayList;
 
 public class SetUpMessage extends MoveMessage {
@@ -13,5 +15,10 @@ public class SetUpMessage extends MoveMessage {
     }
     public ArrayList<String> getColorAvailable() {
         return this.colorAvailable;
+    }
+
+    @Override
+    public void visit(VisitorView visitorView) {
+            visitorView.visitSetupView(this);
     }
 }

@@ -34,6 +34,7 @@ public class Model extends Observable {
         killShotTrack = new KillShotTrack(mod);
     }
 
+
     public Player getCurrentPlayer(){
         return this.currentPlayer;
     }

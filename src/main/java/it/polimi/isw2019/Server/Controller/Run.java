@@ -1,9 +1,6 @@
 package it.polimi.isw2019.Server.Controller;
 
-import it.polimi.isw2019.Server.Message.PlayerMove.ActionMove;
-import it.polimi.isw2019.Server.Message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.Server.Message.PlayerMove.RunGrabMove;
-import it.polimi.isw2019.Server.Message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.Server.Message.PlayerMove.*;
 import it.polimi.isw2019.Server.Model.Model;
 
 public class Run extends ActionController{
@@ -26,6 +23,11 @@ public class Run extends ActionController{
 
     @Override
     public void visitControllerRunGrab(RunGrabMove runGrabMove) {
+
+    }
+
+    @Override
+    public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
 
     }
 }

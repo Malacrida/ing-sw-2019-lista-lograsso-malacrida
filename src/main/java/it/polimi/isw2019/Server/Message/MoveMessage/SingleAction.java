@@ -1,5 +1,7 @@
 package it.polimi.isw2019.Server.Message.MoveMessage;
 
+import it.polimi.isw2019.Client.View.VisitorView;
+
 import java.util.ArrayList;
 
 public class SingleAction extends MoveMessage {
@@ -54,5 +56,10 @@ public class SingleAction extends MoveMessage {
 
     public int getIdAction(){
         return this.idAction;
+    }
+
+    @Override
+    public void visit(VisitorView visitorView) {
+
     }
 }

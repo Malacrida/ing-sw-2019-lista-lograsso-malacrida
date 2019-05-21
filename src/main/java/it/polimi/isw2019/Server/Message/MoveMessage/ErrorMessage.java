@@ -1,6 +1,8 @@
 package it.polimi.isw2019.Server.Message.MoveMessage;
 
 
+import it.polimi.isw2019.Client.View.VisitorView;
+
 public class ErrorMessage extends MoveMessage {
 
     private String errorMessage;
@@ -15,5 +17,8 @@ public class ErrorMessage extends MoveMessage {
     }
 
 
+    @Override
+    public void visit(VisitorView visitorView) {
 
+    }
 }

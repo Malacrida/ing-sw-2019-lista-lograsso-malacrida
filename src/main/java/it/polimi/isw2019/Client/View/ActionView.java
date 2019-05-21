@@ -1,7 +1,6 @@
 package it.polimi.isw2019.Client.View;
 
-import it.polimi.isw2019.Server.Message.MoveMessage.ActionMessage;
-import it.polimi.isw2019.Server.Message.MoveMessage.MoveMessage;
+import it.polimi.isw2019.Server.Message.MoveMessage.*;
 import it.polimi.isw2019.Server.Message.PlayerMove.PlayerMove;
 import it.polimi.isw2019.Server.Message.PlayerMove.RunGrabMove;
 import it.polimi.isw2019.Server.Message.PlayerMove.RunMove;
@@ -16,14 +15,30 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
     }
 
     @Override
+    public void visitRun(RunMessage runMessage){
+
+    }
+
+    @Override
+    public void visitRunGrab(RunGrabMessage runGrabMessage) {
+
+    }
+
+    @Override
+    public void visitReload(ReloadMessage reloadMessage) {
+
+    }
+
+    @Override
     public void visitActionView(MoveMessage moveMessage) {
         Scanner input = new Scanner(System.in);
 
         for(int i=0; i<((ActionMessage)(moveMessage)).getActionYouCanPerform().size(); i++)
-            System.out.println("press "+ i + " to choose the following action "+((ActionMessage)(moveMessage)).getActionYouCanPerform().get(i).getIdMoveMessage());
-        int actionChoosen = input.nextInt();
+       //     System.out.println("press "+ i + " to choose the following action "+((ActionMessage)(moveMessage)).getActionYouCanPerform().get(i).getIdMoveMessage());
+      //  int actionChoosen = input.nextInt();
 
-        ActionMessage message = (ActionMessage)(moveMessage);
+
+        /*ActionMessage message = (ActionMessage)(moveMessage);
         int idAction = message.getActionYouCanPerform().get(actionChoosen).getIdAction();
 
         RunMove runMove = null;
@@ -67,9 +82,9 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
                 break;
 
+*/
 
-
-        }
+       // }
 
 
     }
