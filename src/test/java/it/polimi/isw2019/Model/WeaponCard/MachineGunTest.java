@@ -1,6 +1,7 @@
-package it.polimi.isw2019.Server.Model.WeaponCard;
+package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorPlayer;
+import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.Player;
 import it.polimi.isw2019.Model.PlayerBoard;
 import org.junit.After;
@@ -9,10 +10,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ShotGunTest {
+public class MachineGunTest {
+
     private Player attacker, firstDefender, secondDefender, thirdDefender;
     private int x1, y1, x2, y2;
     private PlayerBoard pba, pb1, pb2, pb3;
+
 
     @Before
     public void setUp() throws Exception {
@@ -30,6 +33,7 @@ public class ShotGunTest {
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
         secondDefender.setPlayerBoardAndColor(pb2, ColorPlayer.GREEN);
         thirdDefender.setPlayerBoardAndColor(pb3, ColorPlayer.GREY);
+
     }
 
     @After
@@ -40,26 +44,39 @@ public class ShotGunTest {
     public void firstEffect() {
 
         try {
-            assertEquals(3, pb1.numOfDamages());
-            assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
+            assertEquals(1, pb1.numOfDamages());
+            assertEquals(1, pb2.numOfDamages());
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws DamageTrackException {
 
         try {
             assertEquals(2, pb1.numOfDamages());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+
     }
 
     @Test
-    public void thirdEffect() {
+    public void thirdEffect() throws DamageTrackException {
+        try {
+
+            assertEquals(2, pb2.numOfDamages());
+            assertEquals(1, pb3.numOfDamages());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

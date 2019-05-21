@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Server.Model;
+package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
 import it.polimi.isw2019.Model.Exception.AmmoTileUseException;

@@ -1,5 +1,7 @@
 package it.polimi.isw2019.Message.MoveMessage;
 
+import it.polimi.isw2019.View.VisitorView;
+
 import java.util.ArrayList;
 
 public class TurnMessage extends MoveMessage {
@@ -31,5 +33,10 @@ public class TurnMessage extends MoveMessage {
 
     public ArrayList<Integer> getPowerUpCard(){
         return this.powerUpCard;
+    }
+
+    @Override
+    public void visit(VisitorView visitorView) {
+
     }
 }

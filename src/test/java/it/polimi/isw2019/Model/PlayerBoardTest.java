@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Server.Model;
+package it.polimi.isw2019.Model;
 
 import org.junit.After;
 import org.junit.Before;

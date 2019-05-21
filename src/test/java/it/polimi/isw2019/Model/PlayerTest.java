@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Server.Model;
+package it.polimi.isw2019.Model;
 
 import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;

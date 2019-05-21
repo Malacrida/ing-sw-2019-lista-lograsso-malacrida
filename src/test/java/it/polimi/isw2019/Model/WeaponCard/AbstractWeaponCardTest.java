@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Server.Model.WeaponCard;
+package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorPlayer;
 import it.polimi.isw2019.Model.Player;
