@@ -215,6 +215,15 @@ public class Player {
         this.colorRoom=colorRoom;
     }
 
+    public void changeSquare(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+
+    public void changeRoom (ColorRoom colorRoom){
+        this.colorRoom=colorRoom;
+    }
+
     public void playerDeath (){
         playerBoard.resetAfterDeath();
     }

@@ -1,8 +1,8 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
 import it.polimi.isw2019.Server.Model.ColorCube;
-import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Server.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Server.Model.GameBoard;
 import it.polimi.isw2019.Server.Model.Player;
@@ -47,11 +47,73 @@ public class Flamethrower extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
+        ArrayList<Player> visilePlayers = gameBoard.playersWhoCanSee(attacker);
+        char dir1, dir2;
 
+
+        if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())) {
+            dir1 = direction(attacker, firstDefender);
+
+            try{
+                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (DamageTrackException e) {
+                e.printStackTrace();
+            }
+
+            dir2 = direction(attacker, secondDefender);
+
+            if ((visilePlayers.contains(secondDefender)) && (dir1 == dir2)){
+                try{
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (DamageTrackException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            throw new ErrorEffectException();
+        }
     }
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+
+        char dir1, dir2;
+
+        if(gameBoard.isSquareAvailableOnArena(attacker, x1,  y1)){
+            ArrayList<Player> playersListFirstSquare = gameBoard.playersInOneSquare(x1, y1, null);
+
+            dir1 = direction(attacker, playersListFirstSquare.get(0));
+
+            for (Player player:playersListFirstSquare) {
+
+                try {
+                    player.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                } catch (DamageTrackException e){
+                    e.printStackTrace();
+                }
+            }
+
+            ArrayList<Player> playersListSecondSquare = gameBoard.playersInOneSquare(x2, y2, null);
+            dir2 = direction(attacker, playersListSecondSquare.get(0));
+
+            if ((gameBoard.isSquareAvailableOnArena(playersListFirstSquare.get(0), x2, y2)) && (dir1 == dir2)) {
+
+                for (Player player : playersListSecondSquare) {
+
+                    try {
+                        player.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                    } catch (DamageTrackException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        else {
+            throw new ErrorEffectException();
+        }
+
     }
 
     @Override

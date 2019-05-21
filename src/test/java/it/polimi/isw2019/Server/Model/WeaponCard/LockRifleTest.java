@@ -1,32 +1,21 @@
 package it.polimi.isw2019.Server.Model.WeaponCard;
 
-import it.polimi.isw2019.Server.Model.ColorPlayer;
-import it.polimi.isw2019.Server.Model.Player;
-import it.polimi.isw2019.Server.Model.PlayerBoard;
-import org.junit.After;
-import org.junit.Before;
+import it.polimi.isw2019.Server.Model.*;
+import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
+import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
+import org.junit.*;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class LockRifleTest {
 
-    private Player attacker, firstDefender, secondDefender, thirdDefender;
-    private int x1, y1, x2, y2;
-    //thirdDefender = new Player("Giampierpaolo", "Ma a cosa sto giocando?", 4);
-
-
-    //x1 = 1;
-
-
-    //y1 = 1;
-
-
-    //x2 = 1;
-
-
-    //y2 = 2;
-
-    private PlayerBoard pba, pb1, pb2;
-
-    private boolean firstIsValid;
+    Player attacker, firstDefender, secondDefender;
+    GameBoard gameBoard;
+    PlayerBoard pba, pb1, pb2;
+    LockRifle card = new LockRifle();
 
     @Before
     public void setUp() throws Exception {
@@ -36,8 +25,8 @@ public class LockRifleTest {
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
-
-
+        gameBoard = new GameBoard();
+        gameBoard.chooseArena(4);
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
@@ -49,12 +38,25 @@ public class LockRifleTest {
     public void tearDown() throws Exception {
     }
 
-    /*@Test
-    public void firstEffect() {
-
+    @Test
+    public void testFirstEffect() {
         try {
-            assertEquals(2, pb1.());
-            assertTrue(firstIsValid);
+            gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
+            gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
+            gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+
+            card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+            assertTrue(visiblePlayers.contains(firstDefender));
+
+        } catch (ErrorEffectException e) {
+            e.printStackTrace();
+        } catch (DamageTrackException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(2, pb1.numOfDamages());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +65,7 @@ public class LockRifleTest {
     }
 
     @Test
-    public void secondEffect() {
+    public void testSecondEffect() {
        try {
             assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
 
@@ -75,6 +77,6 @@ public class LockRifleTest {
 
 
     @Test
-    public void thirdEffect() {
-    }*/
+    public void testThirdEffect() {
+    }
 }

@@ -205,6 +205,16 @@ public class Model extends Observable {
     }
 
 
+    public void assignPoint (int n1,int n2, int n3, int n4, int[][] playerDamageRanking){
+        for (int i=0; i<players.size(); i++){
+            if (damageRanking[0][0]==players.get(i).getPlayerID()) players.get(i).addScore(n1);
+            if (damageRanking[1][0]==players.get(i).getPlayerID()) players.get(i).addScore(n2);
+            if (damageRanking[2][0]==players.get(i).getPlayerID()) players.get(i).addScore(n3);
+            if (damageRanking[3][0]==players.get(i).getPlayerID()) players.get(i).addScore(n4);
+        }
+
+    }
+
 
     public void addScoreAfterDeath (Player playerDeath){
 
@@ -216,6 +226,9 @@ public class Model extends Observable {
         }
 
         damageRanking=setDamageRanking(playerDeath);
+        if (playerDeath.getNumberOfSkulls()==0) {
+            assignPoint(8,6,4,2, damageRanking);
+        }
 
         for (int i=0; i<players.size(); i++){
             if (damageRanking[0][0]==players.get(i).getPlayerID()){
