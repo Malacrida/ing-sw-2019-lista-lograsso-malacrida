@@ -33,7 +33,7 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
     public void visitActionView(MoveMessage moveMessage) {
         Scanner input = new Scanner(System.in);
 
-        for(int i=0; i<((ActionMessage)(moveMessage)).getActionYouCanPerform().size(); i++)
+        //for(int i=0; i<((ActionMessage)(moveMessage)).getActionYouCanPerform().size(); i++)
        //     System.out.println("press "+ i + " to choose the following action "+((ActionMessage)(moveMessage)).getActionYouCanPerform().get(i).getIdMoveMessage());
       //  int actionChoosen = input.nextInt();
 
