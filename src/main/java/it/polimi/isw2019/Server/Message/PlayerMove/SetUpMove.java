@@ -1,21 +1,17 @@
 package it.polimi.isw2019.Server.Message.PlayerMove;
 
+import it.polimi.isw2019.Server.Controller.VisitorController;
+
 public class SetUpMove extends PlayerMove{
     private String nickname;
     private String phrase;
-    private int idPlayer;
     private String color;
     private char gameMood;
 
-    public SetUpMove(String idPlayerMove,String nickname, String phrase) {
-        super(idPlayerMove);
+
+    public SetUpMove(String nickname, String phrase, String color, char gameMood){
         this.nickname = nickname;
         this.phrase = phrase;
-    }
-
-    public SetUpMove(String idPlayerMove,int idPlayer , String color, char gameMood){
-        super(idPlayerMove);
-        this.idPlayer= idPlayer;
         this.color = color;
         this.gameMood= gameMood;
     }
@@ -33,7 +29,13 @@ public class SetUpMove extends PlayerMove{
         return this.gameMood;
     }
 
-    public int getIdPlayer(){
-        return this.idPlayer;
+    public String getColor(){
+        return this.color;
+    }
+
+    @Override
+    public void visit(VisitorController singleMoveController) {
+        //check if is correct
+        //singleMoveController.visitControllerSetUpPlayer(this);
     }
 }

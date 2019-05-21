@@ -6,7 +6,7 @@ import it.polimi.isw2019.Server.Message.MoveMessage.*;
 
 import java.util.ArrayList;
 
-public abstract class View extends Observable implements Observer<MoveMessage> {
+public abstract class  View extends Observable implements Observer<MoveMessage> {
 
     protected String nickname;
     protected String phrase;

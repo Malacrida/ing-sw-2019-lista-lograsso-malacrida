@@ -36,7 +36,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
         if (firstDefender != null) {
 
-            visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+            visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             if (visiblePlayers.contains(firstDefender)) {
                 try {

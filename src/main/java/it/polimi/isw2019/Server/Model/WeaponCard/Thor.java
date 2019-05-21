@@ -29,7 +29,7 @@ public class Thor extends AbstractWeaponCard{
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         twoDamageAndSetFirstIsValid(attacker, firstDefender, visiblePlayers);
     }

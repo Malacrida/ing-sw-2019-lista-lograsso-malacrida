@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import it.polimi.isw2019.Server.Message.*;
 
-public abstract class Observable {
+public abstract class Observable<T> {
 
     private List<Observer> observers;
 
@@ -26,8 +26,7 @@ public abstract class Observable {
         }
     }*/
 
-    //togliere diamont
-    public <T> void notifyObservers(T message){
+    public void notifyObservers(T message){
         for(Observer o: this.observers){
             o.update(message);
         }

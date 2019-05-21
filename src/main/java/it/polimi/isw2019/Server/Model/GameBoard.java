@@ -174,7 +174,7 @@ public class GameBoard {
     }
 
     //Player who can see on arena by player who attack
-    public ArrayList<Player> playersWhoCanSee (int x, int y, Player player){
+    public ArrayList<Player> playersWhoCanSee(Player player){
         return gameArena.playerWhoSeeOnArena(player);
     }
 

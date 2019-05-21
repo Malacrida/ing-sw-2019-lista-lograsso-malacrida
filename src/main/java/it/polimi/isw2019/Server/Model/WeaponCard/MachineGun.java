@@ -27,7 +27,7 @@ public class MachineGun extends AbstractWeaponCard {
 
     private void ifIsVisibleOneDamage(GameBoard gameBoard, Player attacker, Player defender) throws ErrorEffectException {
 
-        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if (visiblePlayers.contains(defender)){ //se non è vuoto e se firstDefender è visibile
             try {
