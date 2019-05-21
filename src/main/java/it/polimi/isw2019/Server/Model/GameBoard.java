@@ -22,7 +22,7 @@ public class GameBoard {
     private Arena gameArena=null;
     private static GameBoard instance;
 
-    GameBoard (){
+    public GameBoard (){
 
     }
 
