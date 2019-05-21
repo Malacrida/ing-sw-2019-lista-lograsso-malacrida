@@ -30,7 +30,7 @@ public class Hellion extends AbstractWeaponCard {
 
         if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
             ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
 
@@ -65,7 +65,7 @@ public class Hellion extends AbstractWeaponCard {
 
         if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
             ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
 

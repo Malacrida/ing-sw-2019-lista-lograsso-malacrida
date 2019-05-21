@@ -108,6 +108,7 @@ public class Arena {
         return players;
     }
 
+
     /**
      *
      * @param player
@@ -123,7 +124,7 @@ public class Arena {
         playersWhoSee=squares[x][y].getPlayers();
 
         //Orizzontale verso destra
-        for (int i=0; i<2; i++){
+        for (int i=0; i<3; i++){
             if(y+i+1<4) {
                 if (squares[x][y + i].squaresAvailable().contains(squares[x][y + i + 1]))
                     playersWhoSee.addAll(squares[x][y + i + 1].getPlayers());
@@ -140,7 +141,7 @@ public class Arena {
         }
         //Verticale verso l'alto
         for (int i=0; i<2; i++){
-            if(x-i>0) {
+            if(x-i-1>0) {
                 if (squares[x - i][y].squaresAvailable().contains(squares[x - i - 1][y]))
                     playersWhoSee.addAll(squares[x - i - 1][y].getPlayers());
             }
