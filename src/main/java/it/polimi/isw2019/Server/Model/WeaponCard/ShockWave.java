@@ -28,12 +28,7 @@ public class ShockWave extends AbstractWeaponCard {
 
         if(firstDefender != null){
 
-            x1 = firstDefender.getX();
-            y1 = firstDefender.getY();
-            x2 = secondDefender.getX();
-            y2 = secondDefender.getY();
-
-            if (gameBoard.isSquareAvailableOnArena(attacker, x1, y1)) {
+            if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())) {
 
                 try {
                     firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -42,7 +37,7 @@ public class ShockWave extends AbstractWeaponCard {
                 }
             }
 
-            else if ((gameBoard.isSquareAvailableOnArena(attacker, x2, y2)) && !sameSquare(x1, y1, x2, y2)){
+            else if ((gameBoard.isSquareAvailableOnArena(attacker, secondDefender.getX(), secondDefender.getY())) && !sameSquare(firstDefender.getX(), firstDefender.getY(), secondDefender.getX(), secondDefender.getY())){
 
                 try {
                     secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -51,7 +46,7 @@ public class ShockWave extends AbstractWeaponCard {
                 }
             }
 
-            else if ((gameBoard.isSquareAvailableOnArena(attacker,thirdDefender.getX(), thirdDefender.getY())) && !sameSquare(x1, y1, thirdDefender.getX(), thirdDefender.getY()) && !sameSquare(x2, y2, thirdDefender.getX(), thirdDefender.getY())){
+            else if ((gameBoard.isSquareAvailableOnArena(attacker,thirdDefender.getX(), thirdDefender.getY())) && !sameSquare(firstDefender.getX(), firstDefender.getY(), thirdDefender.getX(), thirdDefender.getY()) && !sameSquare(secondDefender.getX(), secondDefender.getY(), thirdDefender.getX(), thirdDefender.getY())){
 
                 try {
                     thirdDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);

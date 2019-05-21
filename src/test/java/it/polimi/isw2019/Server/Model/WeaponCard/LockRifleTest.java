@@ -3,9 +3,7 @@ package it.polimi.isw2019.Server.Model.WeaponCard;
 import it.polimi.isw2019.Server.Model.*;
 import it.polimi.isw2019.Server.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Server.Model.Exception.ErrorEffectException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.ArrayList;
 
@@ -48,7 +46,7 @@ public class LockRifleTest {
             gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
 
             card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker.getX(), attacker.getY(), attacker);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(firstDefender));
 
@@ -58,7 +56,7 @@ public class LockRifleTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(2, pb1);
+            assertEquals(2, pb1.numOfDamages());
         } catch (Exception e) {
             e.printStackTrace();
         }
