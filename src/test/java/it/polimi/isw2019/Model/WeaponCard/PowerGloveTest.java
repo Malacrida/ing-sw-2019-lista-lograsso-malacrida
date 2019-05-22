@@ -1,29 +1,28 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.*;
-import it.polimi.isw2019.Model.Exception.DamageTrackException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MachineGunTest {
+import static org.junit.Assert.*;
+
+public class PowerGloveTest {
 
     Player attacker, firstDefender, secondDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
-    MachineGun card = new MachineGun();
-
+    PowerGlove card = new PowerGlove();
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Sara", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Speriamo che sto test vada", 2);
+        attacker = new Player("Alba", "Speriamo che sto test vada", 1);
+        firstDefender = new Player("Sara", "Speriamo che sto test vada", 2);
         secondDefender = new Player("Davide", "Speriamo che sto test vada", 3);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
         gameBoard = new GameBoard();
-        gameBoard.chooseArena(3);
+        gameBoard.chooseArena(4);
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
@@ -32,12 +31,6 @@ public class MachineGunTest {
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
-
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -45,12 +38,10 @@ public class MachineGunTest {
     }
 
     @Test
-    public void secondEffect() throws DamageTrackException {
-
+    public void secondEffect() {
     }
 
     @Test
-    public void thirdEffect() throws DamageTrackException {
-
+    public void thirdEffect() {
     }
 }

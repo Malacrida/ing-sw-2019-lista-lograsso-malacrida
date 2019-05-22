@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class RocketLauncher extends  AbstractWeaponCard {
 
     public RocketLauncher() {
-        super(14, "Rocket Launcher", ColorCube.RED, 3);
+        super(14, "Rocket Launcher", ColorCube.RED, 2);
         this.infoEffect = new ArrayList<>();
         this.infoEffect.add("BASIC EFFECT : basic effect: Deal 2 damage to 1 target you can see that is not on your" +
                 "square. Then you may move the target 1 square.");
@@ -46,7 +46,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
                 e.printStackTrace();
             }
 
-            if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
+            if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1))){ //tenere conto che le prime coordinate sono per il movimento del FIRSTDEFENDER quando viene invocato questa carta
 //
                 System.out.println("In attesa di changePosition");
 
@@ -56,6 +56,8 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
             }
 
+            firstIsValid = true;
+
         } else {
 
             throw new ErrorEffectException();
@@ -65,12 +67,19 @@ public class RocketLauncher extends  AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
-        if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
+        if ((x2 != -1) && (y2 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x2, y2))){
 //
             System.out.print("In attesa di changePosition");
 
+            if ((x3 != -1) && (y3 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x3, y3))){
+                System.out.print("In attesa di changePosition");
+            }
+            else {
+                throw new ErrorEffectException();
+            }
+
         } else {
 
             throw new ErrorEffectException();
@@ -80,19 +89,40 @@ public class RocketLauncher extends  AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), firstDefender);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        for (Player aPlayerList : playerList) {
+        if (!firstIsValid){
+            if ((firstDefender != null) && (visiblePlayers.contains(firstDefender)) && (!sameSquare(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY()))) {
 
-            try {
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch (DamageTrackException  e) {
-                e.printStackTrace();
+                try {
+                    firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                } catch (DamageTrackException e) {
+                    e.printStackTrace();
+                }
+
+                ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), firstDefender);
+
+                for (Player aPlayerList : playerList) {
+
+                    try {
+                        aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    } catch (DamageTrackException  e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            } else {
+
+                throw new ErrorEffectException();
+
             }
-
         }
-        firstEffect(gameBoard, attacker, firstDefender, null, null, -1, -1, -1, -1);
+
+        else{
+            throw new ErrorEffectException();
+        }
+
     }
 }

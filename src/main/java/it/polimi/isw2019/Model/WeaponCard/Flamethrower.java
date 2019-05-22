@@ -48,7 +48,8 @@ public class Flamethrower extends AbstractWeaponCard {
     public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visilePlayers = gameBoard.playersWhoCanSee(attacker);
-        char dir1, dir2;
+        char dir1;
+        char dir2;
 
 
         if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())) {
@@ -76,14 +77,12 @@ public class Flamethrower extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
-
-        char dir1, dir2;
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, x1,  y1)){
             ArrayList<Player> playersListFirstSquare = gameBoard.playersInOneSquare(x1, y1, null);
 
-            dir1 = direction(attacker, playersListFirstSquare.get(0));
+            char dir1 = direction(attacker, playersListFirstSquare.get(0));
 
             for (Player player:playersListFirstSquare) {
 
@@ -95,7 +94,7 @@ public class Flamethrower extends AbstractWeaponCard {
             }
 
             ArrayList<Player> playersListSecondSquare = gameBoard.playersInOneSquare(x2, y2, null);
-            dir2 = direction(attacker, playersListSecondSquare.get(0));
+            char dir2 = direction(attacker, playersListSecondSquare.get(0));
 
             if ((gameBoard.isSquareAvailableOnArena(playersListFirstSquare.get(0), x2, y2)) && (dir1 == dir2)) {
 
