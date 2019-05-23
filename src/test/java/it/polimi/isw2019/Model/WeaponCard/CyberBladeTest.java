@@ -3,14 +3,14 @@ package it.polimi.isw2019.Model.WeaponCard;
 import it.polimi.isw2019.Model.*;
 import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Model.Exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CyberBladeTest {
 
@@ -51,7 +51,7 @@ public class CyberBladeTest {
 
             assertTrue(visiblePlayers.contains(firstDefender));
 
-        } catch (ErrorEffectException | DamageTrackException | NoEffectException e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
 
@@ -70,11 +70,11 @@ public class CyberBladeTest {
     @Test
     public void testThirdEffect() {
         try {
-            card.thirdEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            card.thirdEffect(gameBoard, attacker, firstDefender, secondDefender, null, -1, -1, -1, -1);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(secondDefender));
-        } catch (ErrorEffectException | DamageTrackException | NoEffectException e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
 

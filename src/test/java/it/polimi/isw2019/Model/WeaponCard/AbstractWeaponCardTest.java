@@ -7,12 +7,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class AbstractWeaponCardTest {
 
-    private Player attacker, firstDefender, secondDefender, thirdDefender;
-    private int x1, y1, x2, y2;
+    Player attacker, firstDefender, secondDefender, thirdDefender;
+    int x1, y1, x2, y2;
+    ArrayList<Player> players;
 
-    private PlayerBoard pba, pb1, pb2;
+    PlayerBoard pba, pb1, pb2;
+    CyberBlade card = new CyberBlade();
 
     @Before
     public void setUp() throws Exception {
@@ -28,6 +32,12 @@ public class AbstractWeaponCardTest {
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
         secondDefender.setPlayerBoardAndColor(pb2, ColorPlayer.GREEN);
+
+        players = new ArrayList<>();
+
+        players.add(firstDefender);
+        players.add(secondDefender);
+        players.add(thirdDefender);
 
     }
 
@@ -82,5 +92,70 @@ public class AbstractWeaponCardTest {
 
     @Test
     public void sameDirection() {
+    }
+
+    @Test
+    public void firstEffect() {
+    }
+
+    @Test
+    public void secondEffect() {
+    }
+
+    @Test
+    public void thirdEffect() {
+    }
+
+    @Test
+    public void oneDistanceY1() {
+    }
+
+    @Test
+    public void oneDistanceX1() {
+    }
+
+    @Test
+    public void moreThanOneOrTwoDistance() {
+    }
+
+    @Test
+    public void sameSquare1() {
+    }
+
+    @Test
+    public void direction() {
+    }
+
+    @Test
+    public void oneDamageIfFirstIsValid() {
+    }
+
+    @Test
+    public void oneDamageAllPlayersInOneSquare(Player attacker, ArrayList<Player> players) {
+        /*this.oneDamageAllPlayersInOneSquare(this.attacker, this.players);
+
+        assertTrue(this.players.contains(firstDefender));
+
+        try {
+            assertEquals(1, pb1.numOfDamages());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    @Test
+    public void twoDamageInSameSquare() {
+    }
+
+    @Test
+    public void threeDamageInSameSquare() {
+    }
+
+    @Test
+    public void twoDamageAndSetFirstIsValid() {
+    }
+
+    @Test
+    public void playersAreVisible() {
     }
 }

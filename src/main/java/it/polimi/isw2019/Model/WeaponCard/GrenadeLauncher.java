@@ -30,7 +30,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers;
 
@@ -49,9 +49,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
                     System.out.println("In attesa di changePosition");
 
                 }
-                else {
-                    throw new ErrorEffectException();
-                }
+
             } else {
                 throw new ErrorEffectException();
             }
@@ -61,7 +59,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
         /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
         if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
@@ -83,7 +81,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /* NON ESISTE QUESTO EFFETTO*/
         throw new NoEffectException();

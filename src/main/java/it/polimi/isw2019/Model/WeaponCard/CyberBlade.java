@@ -1,9 +1,8 @@
 package it.polimi.isw2019.Model.WeaponCard;
 
 import it.polimi.isw2019.Model.ColorCube;
-import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.Exception.DamageTrackException;
-import it.polimi.isw2019.Model.Exception.NoEffectException;
+import it.polimi.isw2019.Model.Exception.ErrorEffectException;
 import it.polimi.isw2019.Model.GameBoard;
 import it.polimi.isw2019.Model.Player;
 
@@ -41,7 +40,7 @@ public class CyberBlade extends AbstractWeaponCard {
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         if (firstDefender != null) {
             twoDamageInSameSquare(attacker, firstDefender);
@@ -68,7 +67,7 @@ public class CyberBlade extends AbstractWeaponCard {
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
 //
@@ -95,7 +94,7 @@ public class CyberBlade extends AbstractWeaponCard {
      * @throws ErrorEffectException
      */
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         if (secondDefender != null){
             twoDamageInSameSquare(attacker, secondDefender);

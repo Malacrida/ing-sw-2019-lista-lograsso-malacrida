@@ -26,7 +26,7 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
             ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
@@ -60,7 +60,7 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
 
         if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
@@ -95,7 +95,7 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         throw new NoEffectException();
 

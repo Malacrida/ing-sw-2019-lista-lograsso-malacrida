@@ -45,7 +45,7 @@ public class Flamethrower extends AbstractWeaponCard {
      * @throws ErrorEffectException
      */
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visilePlayers = gameBoard.playersWhoCanSee(attacker);
         char dir1;
@@ -65,7 +65,7 @@ public class Flamethrower extends AbstractWeaponCard {
 
             if ((visilePlayers.contains(secondDefender)) && (dir1 == dir2)){
                 try{
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
@@ -77,7 +77,7 @@ public class Flamethrower extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, x1,  y1)){
             ArrayList<Player> playersListFirstSquare = gameBoard.playersInOneSquare(x1, y1, null);
@@ -116,7 +116,7 @@ public class Flamethrower extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /*NON C'È L'EFFETTO */
 

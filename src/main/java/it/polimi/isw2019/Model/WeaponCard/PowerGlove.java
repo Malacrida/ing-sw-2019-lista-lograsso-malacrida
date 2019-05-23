@@ -25,7 +25,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il defender è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
@@ -44,7 +44,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il firstDefender è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
@@ -77,7 +77,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
         throw new NoEffectException();
 
     }

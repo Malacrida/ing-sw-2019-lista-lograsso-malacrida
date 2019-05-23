@@ -6,6 +6,7 @@ import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.Exception.NoEffectException;
 import it.polimi.isw2019.Model.GameBoard;
 import it.polimi.isw2019.Model.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
-    private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
 
@@ -59,7 +60,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList;
 
@@ -84,7 +85,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList;
 
@@ -108,7 +109,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
 

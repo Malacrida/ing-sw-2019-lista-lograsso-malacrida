@@ -28,11 +28,34 @@ public class FlamethrowerTest {
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
     }
 
     @Test
-    public void firstEffect() {
+    public void testFirstEffect() {
+        /*try {
+            card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+            assertTrue(visiblePlayers.contains(firstDefender));
+            assertFalse(visiblePlayers.contains(secondDefender));
+
+
+
+        } catch (ErrorEffectException | DamageTrackException e) {
+            e.printStackTrace();
+        } catch (NoEffectException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            assertEquals(1, pb1.numOfDamages());
+            assertEquals(0, pb2.numOfDamages());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        }*/
     }
 
     @Test

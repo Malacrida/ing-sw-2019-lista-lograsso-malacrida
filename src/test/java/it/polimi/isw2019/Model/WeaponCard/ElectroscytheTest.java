@@ -3,7 +3,6 @@ package it.polimi.isw2019.Model.WeaponCard;
 import it.polimi.isw2019.Model.*;
 import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.Exception.ErrorEffectException;
-import it.polimi.isw2019.Model.Exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +59,7 @@ public class ElectroscytheTest {
             assertTrue(players.contains(thirdDefender));
 
 
-        } catch (ErrorEffectException | DamageTrackException | NoEffectException e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
 

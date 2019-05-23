@@ -5,8 +5,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class FurnaceTest {
 
     Player attacker, firstDefender, secondDefender;
@@ -39,8 +37,14 @@ public class FurnaceTest {
     public void tearDown() throws Exception {
     }
 
+    /*@Test
+    public void testDamageAndMarkFurnace(){
+
+    }*/
+
     @Test
-    public void firstEffect() {
+    public void testFirstEffect() {
+
     }
 
     @Test
