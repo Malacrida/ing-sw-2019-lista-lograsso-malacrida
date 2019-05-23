@@ -19,7 +19,25 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
     @Override
     public void visitRunGrab(RunGrabMessage runGrabMessage) {
+        Scanner input = new Scanner(System.in);
+        RunGrabMove runGrabMove = new RunGrabMove();
+        runGrabMove.setMovement(insertMovement(0));
+        char c;
 
+        System.out.println("Insert 'A' if you want to grab an AmmoCard or 'W' if you want to grab an ammo or '0' if you don't want to grab anything");
+        // runGrabMove.setCardSelection()
+        c = input.next().charAt(0);
+        runGrabMove.setCardSelection(c);
+        int positionWeaponCard;
+
+        System.out.println("If you've choosen to grab a WeaponCard, insert 0/1/2 to grab " +
+                    "one of weaponCard, otherwise press -1");
+        positionWeaponCard = input.nextInt();
+
+        System.out.println("If you've choosen to grab a WeaponCard, insert (eventually) the color of the payment");
+        c = input.next().charAt(0);
+        runGrabMove.setPositionWeaponCard(positionWeaponCard);
+        notifyObservers(runGrabMove);
     }
 
     @Override

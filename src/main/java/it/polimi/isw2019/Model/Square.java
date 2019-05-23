@@ -81,7 +81,9 @@ public abstract class Square{
     }
     public ArrayList<AbstractWeaponCard> getWeaponCards(){ return null;}
 
-    public void setAmmoTile (AmmoTile ammoTile){}
+    public void setAmmoTile (AmmoTile ammoTile){
+
+    }
 
     public AmmoTile takeAmmoTile () throws AmmoTileUseException {
         throw new AmmoTileUseException();
@@ -93,6 +95,9 @@ public abstract class Square{
         return false;
     }
 
+    public boolean isSpawnPoint(){
+        return spawnPoint;
+    }
 
 
 

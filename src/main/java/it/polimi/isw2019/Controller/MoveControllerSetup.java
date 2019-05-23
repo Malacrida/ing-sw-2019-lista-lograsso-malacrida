@@ -1,9 +1,6 @@
 package it.polimi.isw2019.Controller;
 
-import it.polimi.isw2019.Message.PlayerMove.ActionMove;
-import it.polimi.isw2019.Message.PlayerMove.ChooseActionMove;
-import it.polimi.isw2019.Message.PlayerMove.RunGrabMove;
-import it.polimi.isw2019.Message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.Message.PlayerMove.*;
 
 public class MoveControllerSetup implements VisitorController {
 
@@ -19,7 +16,7 @@ public class MoveControllerSetup implements VisitorController {
     }
 
     @Override
-    public void visitControllerRun(ActionMove actionMove) {
+    public void visitControllerRun(RunMove runMove) {
 
     }
 
