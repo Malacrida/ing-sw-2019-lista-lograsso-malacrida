@@ -228,7 +228,13 @@ public class Player {
         playerBoard.resetAfterDeath();
     }
 
+    public ArrayList<AbstractWeaponCard> getWeaponCards(){
+        return this.weaponCards;
+    }
 
+    public ArrayList<PowerUpCard> getPowerUpCards(){
+        return this.powerUpCards;
+    }
 
 
 }

@@ -79,63 +79,10 @@ public class Model extends Observable {
         //scelto in modo randomico
     }
 
-    /*public  void accept(VisitorAction visitorAction, PlayerMove playerMove){
-        visitorAction.visitModel(this, playerMove);
-    } -> problemi con git
-    */
-
-    public void run(Player player, ArrayList movement){
-
-        for(int i = 0; i < movement.size(); i++){
-            //check dei movimenti verra' fatto nel controller
-            //sposto di tre direttamente o faccio un for
-        }
-
-        //update
-
+    public boolean isSpawnPoint(int x, int y){
+       return gameBoard.getGameArena().isSpawnSquare(x,y);
     }
 
-    //generalizzare le carte in modo tale che poi qui non devo stare ad inserire tre tipi di grab diversi ma solo uno con la carta
-    //check viene fatto nel controller
-
-    public void grab(Player player){
-        //posizionare la carta dalla Gameboard al player
-        //verificare il player quante carte ha di quel tipo
-        //se ne ha piu di tre deve scambiare una carta con quella che ha appena preso
-        //nel caso che siano ammoCard, spostare i cubi dal ammoBox alla parte delle munizioni
-        //oppure prendere una powerup card ed eventualmente fare quello che viene fatto prima
-
-        //fare tre tipo di grab diversi (?)
-
-        //termine update
-
-
-    }
-
-    //mancherebbe la carta
-    public void reload(Player player,ArrayList<ColorCube> cube){
-
-        //cubi vengono spostati dalle munizioni all'ammo box
-
-        //cambio di stato della carta
-
-
-    }
-
-    public void useWeaponCard(Player player,ArrayList position){
-        //riflettere su come invocare bene gli effetti diversi
-        //weaponCard di quel giocatore diventa da carica a scarica
-
-        //update
-    }
-
-    public void usePowerUpCard(Player player, PowerUpCard powerUpCard){
-        //getEffect della weaponCard
-        //posizionata nel mazzo
-
-        //update
-
-    }
 
     public void gameSetting (){
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
@@ -205,12 +152,12 @@ public class Model extends Observable {
     }
 
 
-    public void assignPoint (int n1,int n2, int n3, int n4, int[][] playerDamageRanking){
+    public void assignPoint (int p1,int p2, int p3, int p4, int[][] playerDamageRanking){
         for (int i=0; i<players.size(); i++){
-            if (damageRanking[0][0]==players.get(i).getPlayerID()) players.get(i).addScore(n1);
-            if (damageRanking[1][0]==players.get(i).getPlayerID()) players.get(i).addScore(n2);
-            if (damageRanking[2][0]==players.get(i).getPlayerID()) players.get(i).addScore(n3);
-            if (damageRanking[3][0]==players.get(i).getPlayerID()) players.get(i).addScore(n4);
+            if (playerDamageRanking[0][0]==players.get(i).getPlayerID()) players.get(i).addScore(p1);
+            if (playerDamageRanking[1][0]==players.get(i).getPlayerID()) players.get(i).addScore(p2);
+            if (playerDamageRanking[2][0]==players.get(i).getPlayerID()) players.get(i).addScore(p3);
+            if (playerDamageRanking[3][0]==players.get(i).getPlayerID()) players.get(i).addScore(p4);
         }
 
     }
@@ -226,42 +173,26 @@ public class Model extends Observable {
         }
 
         damageRanking=setDamageRanking(playerDeath);
-        if (playerDeath.getNumberOfSkulls()==0) {
-            assignPoint(8,6,4,2, damageRanking);
-        }
 
-        for (int i=0; i<players.size(); i++){
-            if (damageRanking[0][0]==players.get(i).getPlayerID()){
-                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(8);
-                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(6);
-                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(4);
-                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(2);
-                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
-                if (playerDeath.getNumberOfSkulls()==5)players.get(i).addScore(1);
-            }
-            if (damageRanking[1][0]==players.get(i).getPlayerID()){
-                if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(6);
-                if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(4);
-                if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(2);
-                if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
-                if (playerDeath.getNumberOfSkulls()==4)players.get(i).addScore(1);
-
-            }
-            if (players.size()-1>2){
-                if (damageRanking[2][0]==players.get(i).getPlayerID()){
-                    if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(4);
-                    if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(2);
-                    if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
-                    if (playerDeath.getNumberOfSkulls()==3)players.get(i).addScore(1);
-                }
-                if (players.size()-1>3){
-                    if (damageRanking[3][0]==players.get(i).getPlayerID()){
-                        if (playerDeath.getNumberOfSkulls()==0)players.get(i).addScore(2);
-                        if (playerDeath.getNumberOfSkulls()==1)players.get(i).addScore(1);
-                        if (playerDeath.getNumberOfSkulls()==2)players.get(i).addScore(1);
-                    }
-                }
-            }
+        switch (playerDeath.getNumberOfSkulls()){
+            case 0:
+                assignPoint(8,6,4,2, damageRanking);
+                break;
+            case 1:
+                assignPoint(6,4,2,1, damageRanking);
+                break;
+            case 2:
+                assignPoint(4,2,1,1, damageRanking);
+                break;
+            case 3:
+                assignPoint(2,1,1,0, damageRanking);
+                break;
+            case 4:
+                assignPoint(1,1,0,0, damageRanking);
+                break;
+            case 5:
+                assignPoint(1,0,0,0, damageRanking);
+                break;
         }
     }
 
