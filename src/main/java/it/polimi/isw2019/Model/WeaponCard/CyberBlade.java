@@ -62,11 +62,13 @@ public class CyberBlade extends AbstractWeaponCard {
      * @param y1
      * @param x2
      * @param y2
+     * @param x3
+     * @param y3
      * @throws ErrorEffectException
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
 //

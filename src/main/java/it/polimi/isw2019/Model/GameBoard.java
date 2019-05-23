@@ -190,4 +190,7 @@ public class GameBoard {
         return gameArena.isSquaresAvailable(player,x,y);
     }
 
+    public Arena getGameArena() {
+        return gameArena;
+    }
 }

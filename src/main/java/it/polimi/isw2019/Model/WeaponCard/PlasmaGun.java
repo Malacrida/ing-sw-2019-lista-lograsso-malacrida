@@ -36,9 +36,9 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
+        if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(attacker, x1, y1))){
 //
             System.out.println("In attesa di changePosition");
 
@@ -46,7 +46,7 @@ public class PlasmaGun extends AbstractWeaponCard{
             throw new ErrorEffectException();
         }
 
-        if (gameBoard.isSquareAvailableOnArena(attacker, x2, y2)){
+        if ((x2 != -1) && (y2 != -1) && (gameBoard.isSquareAvailableOnArena(attacker, x2, y2))){
 //
             System.out.println("In attesa di changePosition");
 

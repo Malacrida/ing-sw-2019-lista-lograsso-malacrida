@@ -8,6 +8,12 @@ public abstract class ActionController implements VisitorController{
     //is adiacent
     //messe nel model
     //controller solo l'input!!!!
+    Model model;
+
+    public ActionController(Model model){
+        this.model = model;
+    }
+
     public void run(int [][] movement, Model model) {
        //check if data are correct
        //if(model.getCurrentPlayer().isAdiacent(movement[0][0], movement[0][1]) then

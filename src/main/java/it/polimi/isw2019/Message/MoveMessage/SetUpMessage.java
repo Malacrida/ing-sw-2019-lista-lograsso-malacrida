@@ -19,6 +19,7 @@ public class SetUpMessage extends MoveMessage {
 
     @Override
     public void visit(VisitorView visitorView) {
-            visitorView.visitSetupView(this);
+
+        visitorView.visitSetupView(this);
     }
 }

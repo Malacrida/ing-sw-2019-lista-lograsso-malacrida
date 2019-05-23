@@ -79,63 +79,10 @@ public class Model extends Observable {
         //scelto in modo randomico
     }
 
-    /*public  void accept(VisitorAction visitorAction, PlayerMove playerMove){
-        visitorAction.visitModel(this, playerMove);
-    } -> problemi con git
-    */
-
-    public void run(Player player, ArrayList movement){
-
-        for(int i = 0; i < movement.size(); i++){
-            //check dei movimenti verra' fatto nel controller
-            //sposto di tre direttamente o faccio un for
-        }
-
-        //update
-
+    public boolean isSpawnPoint(int x, int y){
+       return gameBoard.getGameArena().isSpawnSquare(x,y);
     }
 
-    //generalizzare le carte in modo tale che poi qui non devo stare ad inserire tre tipi di grab diversi ma solo uno con la carta
-    //check viene fatto nel controller
-
-    public void grab(Player player){
-        //posizionare la carta dalla Gameboard al player
-        //verificare il player quante carte ha di quel tipo
-        //se ne ha piu di tre deve scambiare una carta con quella che ha appena preso
-        //nel caso che siano ammoCard, spostare i cubi dal ammoBox alla parte delle munizioni
-        //oppure prendere una powerup card ed eventualmente fare quello che viene fatto prima
-
-        //fare tre tipo di grab diversi (?)
-
-        //termine update
-
-
-    }
-
-    //mancherebbe la carta
-    public void reload(Player player,ArrayList<ColorCube> cube){
-
-        //cubi vengono spostati dalle munizioni all'ammo box
-
-        //cambio di stato della carta
-
-
-    }
-
-    public void useWeaponCard(Player player,ArrayList position){
-        //riflettere su come invocare bene gli effetti diversi
-        //weaponCard di quel giocatore diventa da carica a scarica
-
-        //update
-    }
-
-    public void usePowerUpCard(Player player, PowerUpCard powerUpCard){
-        //getEffect della weaponCard
-        //posizionata nel mazzo
-
-        //update
-
-    }
 
     public void gameSetting (){
         playerBoardsAvailable= SetUpGame.setPlayerBoard();

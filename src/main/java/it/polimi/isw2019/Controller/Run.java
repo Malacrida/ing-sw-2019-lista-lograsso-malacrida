@@ -1,12 +1,13 @@
 package it.polimi.isw2019.Controller;
 
-import it.polimi.isw2019.Message.PlayerMove.ActionMove;
-import it.polimi.isw2019.Message.PlayerMove.ChooseActionMove;
-import it.polimi.isw2019.Message.PlayerMove.RunGrabMove;
-import it.polimi.isw2019.Message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.Message.PlayerMove.*;
+import it.polimi.isw2019.Model.Model;
 
 public class Run extends ActionController{
 
+    public Run(Model model){
+        super(model);
+    }
     @Override
     public void visitControllerSetUpPlayer(SetUpMove setUpMove) {
 
@@ -19,8 +20,8 @@ public class Run extends ActionController{
 
     //change into runMove
     @Override
-    public void visitControllerRun(ActionMove actionMove) {
-
+    public void visitControllerRun(RunMove runMove) {
+        //check adiacenze!
     }
 
     @Override

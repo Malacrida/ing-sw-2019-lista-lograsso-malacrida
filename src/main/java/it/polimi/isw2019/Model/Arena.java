@@ -55,6 +55,7 @@ public class Arena {
         return squares[x][y].getWeaponCards();
     }
 
+
     public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles){
         for (int i=0; i<3; i++){
             for (int j=0; j<4; j++){
@@ -250,6 +251,10 @@ public class Arena {
     public boolean isSquaresAvailable (Player player, int x, int y){
         ArrayList<Square> squaresAvailable = squares[player.getX()][player.getY()].squaresAvailable();
         return squaresAvailable.contains(squares[x][y]);
+    }
+
+    public boolean isSpawnSquare(int x, int y){
+        return squares[x][y].isSpawnPoint();
     }
 
     //per vedere se il player cambia stanza
