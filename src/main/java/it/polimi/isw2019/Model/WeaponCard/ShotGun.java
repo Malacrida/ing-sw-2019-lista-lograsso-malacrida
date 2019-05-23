@@ -31,7 +31,7 @@ public class ShotGun extends AbstractWeaponCard {
 
         threeDamageInSameSquare(attacker, firstDefender);
 
-        if (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1)){
+        if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1))){
 //
             System.out.println("In attesa di changePosition");
 
@@ -42,7 +42,7 @@ public class ShotGun extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){
             try {

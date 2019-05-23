@@ -70,10 +70,12 @@ public class Electroscythe extends AbstractWeaponCard {
      * @param y1
      * @param x2
      * @param y2
+     * @param x3
+     * @param y3
      * @throws ErrorEffectException
      */
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);

@@ -3,26 +3,26 @@ package it.polimi.isw2019.Model.WeaponCard;
 import it.polimi.isw2019.Model.*;
 import it.polimi.isw2019.Model.Exception.DamageTrackException;
 import it.polimi.isw2019.Model.Exception.ErrorEffectException;
+import it.polimi.isw2019.Model.Exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class LockRifleTest {
+public class CyberBladeTest {
 
     Player attacker, firstDefender, secondDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
-    LockRifle card = new LockRifle();
+    CyberBlade card = new CyberBlade();
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Davide", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
+        attacker = new Player("Alba", "Speriamo che sto test vada", 1);
+        firstDefender = new Player("Davide", "Tanto attaccano sempre me", 2);
         secondDefender = new Player("Sara", "Tanto attaccano sempre Alba", 3);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
@@ -36,7 +36,7 @@ public class LockRifleTest {
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
     }
 
     @After
@@ -46,38 +46,43 @@ public class LockRifleTest {
     @Test
     public void testFirstEffect() {
         try {
-            card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            card.firstEffect(gameBoard, attacker, firstDefender, null, null,-1, -1, -1, -1);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(firstDefender));
 
-        } catch (ErrorEffectException e) {
-            e.printStackTrace();
-        } catch (DamageTrackException e) {
+        } catch (ErrorEffectException | DamageTrackException | NoEffectException e) {
             e.printStackTrace();
         }
+
         try {
             assertEquals(2, pb1.numOfDamages());
+            assertEquals(0, pb2.numOfDamages());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
     public void testSecondEffect() {
-       try {
-           // assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
+    }
 
+    @Test
+    public void testThirdEffect() {
+        try {
+            card.thirdEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+            assertTrue(visiblePlayers.contains(secondDefender));
+        } catch (ErrorEffectException | DamageTrackException | NoEffectException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            assertEquals(2, pb2.numOfDamages());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-
-
-    @Test
-    public void testThirdEffect() {
     }
 }
