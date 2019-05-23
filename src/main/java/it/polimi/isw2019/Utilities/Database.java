@@ -1,7 +1,7 @@
 package it.polimi.isw2019.Utilities;
 
-import it.polimi.isw2019.Model.AmmoTile.AmmoTile;
-import it.polimi.isw2019.Model.PowerUpCard.PowerUpCard;
+import it.polimi.isw2019.model.ammotile.AmmoTile;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
