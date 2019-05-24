@@ -46,6 +46,11 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
     }
 
     @Override
+    public void visitTurnView(TurnMessage turnMessage) {
+
+    }
+
+    @Override
     public void visitActionView(MoveMessage moveMessage) {
         Scanner input = new Scanner(System.in);
 

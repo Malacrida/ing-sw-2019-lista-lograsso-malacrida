@@ -7,8 +7,8 @@ public class ErrorMessage extends MoveMessage {
 
     private String errorMessage;
 
-    public ErrorMessage(String idMoveMessage, String errorMessage) {
-        super(idMoveMessage);
+    public ErrorMessage(String idPlayer, String errorMessage) {
+        super(idPlayer);
         this.errorMessage = errorMessage;
     }
 
@@ -19,6 +19,6 @@ public class ErrorMessage extends MoveMessage {
 
     @Override
     public void visit(VisitorView visitorView) {
-
+        //invocare la schermata di errore
     }
 }

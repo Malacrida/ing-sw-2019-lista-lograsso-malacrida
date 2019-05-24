@@ -1,6 +1,7 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.PlayerMove.*;
+import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.Model;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
@@ -26,12 +27,15 @@ public class RunGrab extends ActionController{
 
     @Override
     public void visitControllerRunGrab(RunGrabMove runGrabMove) {
+
         if(runGrabMove.getCardSelection()!= 'A' || runGrabMove.getCardSelection()!= 'W' || runGrabMove.getCardSelection() != '0') {
-            //create error message
+            model.sendErrorMessage(model.getCurrentPlayer(),"Wrong Selection");
             return;
         }
+
         else{
-            int movement[][] =new int[1][1];
+            int movement[][] = new int[1][1];
+
             if(runGrabMove.getMovement().length == 0){
                 movement[0][0] = model.getCurrentPlayer().getX();
                 movement[0][1] = model.getCurrentPlayer().getY();
@@ -39,33 +43,18 @@ public class RunGrab extends ActionController{
             else{
                 movement = runGrabMove.getMovement();
             }
+
+            model.run(movement,false);
+
             if(runGrabMove.getCardSelection()== 'W'){
                 //check if is spawnPoint
-                if(model.isSpawnPoint(movement[0][0], movement[0][1])) {
-                    //controll that there is the card at that position
-                    //assume that the index is OK
-                    AbstractWeaponCard tmpWeaponCard= model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard());
-                   if(model.getCurrentPlayer().getWeaponCards().size() == 3){
-                       String error = "Cannot GRAB -> to many weapon cards";
-                   } else if (model.getCurrentPlayer().getWeaponCards().size() <3){
-                       // if(tmpWeaponCard.getRechargecube())
-                       //assume payment correct
-                       //model.getCurrentPlayer().
-                       //else
-                       //String error ="Payment invalid";
-                       //fare tante stringhe quanti sono i possibili errori
-                   }
-                }
+                model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
             }
             else if(runGrabMove.getCardSelection() == 'A'){
+                model.grabAmmoCard(movement);
                 //check che in quella posizione la ammocard NON sia stata usata
-                if(!model.isSpawnPoint(movement[0][0], movement[0][1])){
-                    //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
-
-
-                }
-                    //aggiornarli le munizioni in base alla ammo
-                    //mettere la ammo nel deck
+                //aggiornarli le munizioni in base alla ammo
+                //mettere la ammo nel deck
             }
         }
     }
