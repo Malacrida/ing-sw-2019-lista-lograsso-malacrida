@@ -22,13 +22,13 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if ((firstDefender != null) && (visiblePlayers.contains(firstDefender))){
+        if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0)))){
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 1);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 1);
             } catch ( DamageTrackException e) {
                 e.printStackTrace();
             }
@@ -40,16 +40,16 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         if (firstIsValid){
 
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-            if ((secondDefender != null) && (visiblePlayers.contains(secondDefender))){
+            if ((defenders.get(1) != null) && (visiblePlayers.contains(defenders.get(1)))){
                 try {
-                    secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 0, 1);
                 } catch ( DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             } else {
 
@@ -63,7 +63,7 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         //lancia eccezione perché non esiste questo effetto
 

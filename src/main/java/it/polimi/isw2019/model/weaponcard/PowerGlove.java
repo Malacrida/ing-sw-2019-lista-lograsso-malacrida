@@ -25,16 +25,16 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il defender è la stanza accanto
+        if(gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())){ //se il defender è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
-            System.out.println("In attesa di ChangePosition");
+            gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
 
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 2);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 2);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
 
@@ -44,40 +44,37 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())){ //se il firstDefender è la stanza accanto
+        if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //se il defenders.get(0) è la stanza accanto
             /* AGGIUNGI UN MOVIMENTO */
-            System.out.println("In attesa di ChangePosition");
+            gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
 
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
-            if(gameBoard.isSquareAvailableOnArena(attacker, secondDefender.getX(), secondDefender.getY())){ //se il secondDefender è la stanza accanto
+            if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(1).getX(), defenders.get(1).getY())) { //se il defenders.get(1) è la stanza accanto
                 /* AGGIUNGI UN MOVIMENTO */
-                System.out.println("In attesa di ChangePosition");
+                gameBoard.changePositionPlayer(attacker, defenders.get(1).getX(), defenders.get(1).getY());
 
                 try {
-                    secondDefender.sufferDamageOrMark(attacker.getColor(), 2,0);
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 2, 0);
                 } catch (DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
 
             } else {
                 throw new ErrorEffectException();
             }
 
-        } else {
-            throw new ErrorEffectException();
         }
-
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         throw new NoEffectException();
 
     }

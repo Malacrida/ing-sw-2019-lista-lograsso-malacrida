@@ -1,5 +1,7 @@
 package it.polimi.isw2019.model.powerupcard;
 
+import it.polimi.isw2019.model.GameBoard;
+import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
 
 public interface PowerUpCardInterface {
@@ -14,5 +16,5 @@ public interface PowerUpCardInterface {
 
     public StateCard getCheckState();
 
-    public void effect();
+    public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y);
 }

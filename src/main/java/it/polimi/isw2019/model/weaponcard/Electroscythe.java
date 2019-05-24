@@ -25,19 +25,14 @@ public class Electroscythe extends AbstractWeaponCard {
      *
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param defenders
+     * @param coordinates
      * @throws ErrorEffectException
      * @throws DamageTrackException
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
@@ -63,19 +58,12 @@ public class Electroscythe extends AbstractWeaponCard {
      *
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param x3
-     * @param y3
+     * @param defenders
+     * @param coordinates
      * @throws ErrorEffectException
      */
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
@@ -86,7 +74,7 @@ public class Electroscythe extends AbstractWeaponCard {
                     try {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 2, 0);
                     }catch (DamageTrackException e){
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                 }
 
@@ -100,18 +88,13 @@ public class Electroscythe extends AbstractWeaponCard {
      *
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param defenders
+     * @param coordinates
      * @throws NoEffectException
      */
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         /*NON ESISTE IL QUESTO EFFETTO*/
         throw new NoEffectException();
 

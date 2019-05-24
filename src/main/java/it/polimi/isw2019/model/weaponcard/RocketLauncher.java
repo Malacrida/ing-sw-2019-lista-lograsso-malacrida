@@ -33,95 +33,85 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
     /* PER UNA QUESTIONE DI EFFETTO O SCEGLI IL PRIMO O IL TERZO PERCHÉ UNO IMPLICA L'ALTRO QUINDI NEL TERZO È CONTENUTO IL PRIMO*/
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if ((firstDefender != null) && (visiblePlayers.contains(firstDefender)) && (!sameSquare(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY()))) {
+        if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
 
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
                 e.printStackTrace();
             }
 
-            if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1))){ //tenere conto che le prime coordinate sono per il movimento del FIRSTDEFENDER quando viene invocato questa carta
+            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){ //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
 //
                 System.out.println("In attesa di changePosition");
 
             } else {
-
                 throw new ErrorEffectException();
-
             }
-
             firstIsValid = true;
-
         } else {
-
             throw new ErrorEffectException();
-
         }
 
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if ((x2 != -1) && (y2 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x2, y2))){
+        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))){
 //
-            System.out.print("In attesa di changePosition");
+            gameBoard.changePositionPlayer(attacker, coordinates[2], coordinates[3]);
 
-            if ((x3 != -1) && (y3 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x3, y3))){
-                System.out.print("In attesa di changePosition");
+            if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[4], coordinates[5]))){
+
+                gameBoard.changePositionPlayer(attacker, coordinates[4], coordinates[5]);
+
             }
+
             else {
                 throw new ErrorEffectException();
             }
-
-        } else {
-
-            throw new ErrorEffectException();
-
         }
 
-    }
+        else
+            throw new ErrorEffectException();
+        }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if (!firstIsValid){
-            if ((firstDefender != null) && (visiblePlayers.contains(firstDefender)) && (!sameSquare(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY()))) {
-
-                try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
-                } catch (DamageTrackException e) {
-                    e.printStackTrace();
-                }
-
-                ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), firstDefender);
-
-                for (Player aPlayerList : playerList) {
-
-                    try {
-                        aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                    } catch (DamageTrackException  e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            } else {
-
-                throw new ErrorEffectException();
-
-            }
-        }
-
-        else{
+        if (firstIsValid) {
             throw new ErrorEffectException();
         }
 
+        if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
+
+            try {
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+            } catch (DamageTrackException e) {
+                e.getMessage();
+            }
+
+            ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), defenders.get(0));
+
+            for (Player aPlayerList : playerList) {
+
+                try {
+                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                } catch (DamageTrackException  e) {
+                    e.getMessage();
+                }
+
+            }
+
+        } else {
+            throw new ErrorEffectException();
+        }
     }
 }

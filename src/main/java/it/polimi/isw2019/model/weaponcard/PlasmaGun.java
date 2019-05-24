@@ -27,35 +27,35 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        twoDamageAndSetFirstIsValid(attacker, firstDefender, visiblePlayers);
+        twoDamageAndSetFirstIsValid(attacker, defenders.get(0), visiblePlayers);
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(attacker, x1, y1))){
+        if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]))){
 //
-            System.out.println("In attesa di changePosition");
+            gameBoard.changePositionPlayer(attacker, coordinates[0], coordinates[1]);
 
         } else {
             throw new ErrorEffectException();
         }
 
-        if ((x2 != -1) && (y2 != -1) && (gameBoard.isSquareAvailableOnArena(attacker, x2, y2))){
+        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(attacker, coordinates[2], coordinates[3]))){
 //
-            System.out.println("In attesa di changePosition");
+            gameBoard.changePositionPlayer(attacker, coordinates[2], coordinates[3]);
 
         }
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        if (!oneDamageIfFirstIsValid(attacker, firstDefender, firstIsValid)){ //se quella funzione torna falso allora lancia l'eccezione
+        if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){ //se quella funzione torna falso allora lancia l'eccezione
             throw new ErrorEffectException();
         }
     }

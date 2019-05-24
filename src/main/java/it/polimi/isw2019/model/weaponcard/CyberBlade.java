@@ -28,22 +28,17 @@ public class CyberBlade extends AbstractWeaponCard {
      * Deal 2 damage to 1 target on attacker's square
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param defenders
+     * @param coordinates
      * @throws ErrorEffectException
      * @throws DamageTrackException
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if (firstDefender != null) {
-            twoDamageInSameSquare(attacker, firstDefender);
+        if (defenders.get(0) != null) {
+            twoDamageInSameSquare(attacker, defenders.get(0));
         }
         else {
             throw new ErrorEffectException();
@@ -54,24 +49,17 @@ public class CyberBlade extends AbstractWeaponCard {
      *
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param x3
-     * @param y3
+     * @param defenders
+     * @param coordinates
      * @throws ErrorEffectException
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
+        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){
 //
-            System.out.println("IN ATTESA DI CHANGEPOSITIONE");
+            gameBoard.changePositionPlayer(attacker, coordinates[0], coordinates[1]);
 
         }
         else {
@@ -84,20 +72,15 @@ public class CyberBlade extends AbstractWeaponCard {
      *
      * @param gameBoard
      * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param defenders
+     * @param coordinates
      * @throws ErrorEffectException
      */
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if (secondDefender != null){
-            twoDamageInSameSquare(attacker, secondDefender);
+        if (defenders.get(1) != null){
+            twoDamageInSameSquare(attacker, defenders.get(1));
         }
     }
 

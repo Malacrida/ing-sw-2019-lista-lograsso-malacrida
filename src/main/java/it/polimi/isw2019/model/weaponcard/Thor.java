@@ -26,22 +26,22 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        twoDamageAndSetFirstIsValid(attacker, firstDefender, visiblePlayers);
+        twoDamageAndSetFirstIsValid(attacker, defenders.get(0), visiblePlayers);
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         if (firstIsValid){
 
             try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             secondIsValid = true;
 
@@ -53,14 +53,14 @@ public class Thor extends AbstractWeaponCard{
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         if(secondIsValid) {
 
             try {
-                thirdDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(2).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         } else {

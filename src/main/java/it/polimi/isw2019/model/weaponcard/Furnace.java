@@ -27,7 +27,7 @@ public class Furnace extends AbstractWeaponCard {
 
     private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
 
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
         for (Player aPlayerList : playerList){
 
@@ -35,7 +35,7 @@ public class Furnace extends AbstractWeaponCard {
 
                 aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch ( DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -52,7 +52,7 @@ public class Furnace extends AbstractWeaponCard {
 
                 aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch ( DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -60,17 +60,17 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList;
 
-        if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(attacker, x1, y1))) { //controllo se la stanza è visibile dall'attaccante
-            playerList = gameBoard.playersInOneSquare(x1, y1, null);
+        if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]))) { //controllo se la stanza è visibile dall'attaccante
+            playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
 
 
             if (playerList != null) {
 
-                damageFurnace(gameBoard, attacker, x1, y1);
+                damageFurnace(gameBoard, attacker, coordinates[0], coordinates[1]);
 
             } else { // se la stanza è vuota allora errore
 
@@ -85,17 +85,17 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList;
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){ //se è una stanza visibile
+        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){ //se è una stanza visibile
 
-            if((oneDistanceX(attacker.getX(), attacker.getY(), x1, y1)) || (oneDistanceY(attacker.getX(), attacker.getY(), x1, y1))) { //se dista esattamente 1
-                playerList = gameBoard.playersInOneSquare(x1, y1, null);
+            if((oneDistanceX(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) || (oneDistanceY(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))) { //se dista esattamente 1
+                playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
 
                 if(playerList != null){ // se c'è qualche giocatore dentro la stanza
-                    damageAndMarkFurnace(gameBoard, attacker, x1, x2); // fai il danno
+                    damageAndMarkFurnace(gameBoard, attacker, coordinates[0], coordinates[2]); // fai il danno
                 }
                 else{
                     throw new ErrorEffectException();
@@ -109,7 +109,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
 

@@ -30,23 +30,23 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers;
 
-        if (firstDefender != null) {
+        if (defenders.get(0) != null) {
 
             visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-            if (visiblePlayers.contains(firstDefender)) {
+            if (visiblePlayers.contains(defenders.get(0))) {
                 try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch ( DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
-                if ((x1 != -1) && (y1 != -1) && (gameBoard.isSquareAvailableOnArena(firstDefender, x1, y1))) {
+                if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) {
 //
-                    System.out.println("In attesa di changePosition");
+                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
 
                 }
 
@@ -58,19 +58,23 @@ public class GrenadeLauncher extends AbstractWeaponCard {
         }
     }
 
+    //per fare questo effetto, devono essere riempite le coordinate [3] e [4]
+
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        /* AGGIUNGERE CONTROLLO SE POSSO VEDERE UN QUADRATO */
-        if(gameBoard.isSquareAvailableOnArena(attacker, x1, y1)){
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
-                if (playerList != null){
+        if(coordinates[2] != -1 && coordinates[3] != -1){
+            ArrayList<Player> squarePlayers = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null);
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-                    oneDamageAllPlayersInOneSquare(attacker, playerList);
+            if (visiblePlayers.contains(squarePlayers.get(0))){
 
-                } else {
-                    throw new ErrorEffectException();
-                }
+                oneDamageAllPlayersInOneSquare(attacker, squarePlayers);
+
+            }else{
+                throw new ErrorEffectException();
+            }
+
         }else{
             throw new ErrorEffectException();
         }
@@ -78,10 +82,11 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
 
 
+
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /* NON ESISTE QUESTO EFFETTO*/
         throw new NoEffectException();

@@ -19,6 +19,9 @@ public class GrenadeLauncherTest {
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     GrenadeLauncher card = new GrenadeLauncher();
+    int [] coordinates = new int[4];
+
+    ArrayList<Player> defenders = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -47,6 +50,14 @@ public class GrenadeLauncherTest {
         gameBoard.insertPlayer(secondDefender, ColorRoom.YELLOW);
         gameBoard.insertPlayer(thirdDefender, ColorRoom.RED);
         gameBoard.insertPlayer(fourDefender, ColorRoom.YELLOW);
+
+        coordinates[2] = 2;
+        coordinates[3] = 3;
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
+        defenders.add(thirdDefender);
+        defenders.add(fourDefender);
     }
 
     @After
@@ -56,7 +67,7 @@ public class GrenadeLauncherTest {
     @Test
     public void testFirstEffect() {
         try {
-            card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, thirdDefender,-1, -1, -1, -1);
+            card.firstEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(firstDefender));
@@ -80,10 +91,10 @@ public class GrenadeLauncherTest {
     @Test
     public void testSecondEffect() {
         try {
-            System.out.print(firstDefender.getX() + " " + firstDefender.getY());
-            card.secondEffect(gameBoard, attacker, null, null, null,2, 3, -1, -1, -1, -1);
+            System.out.print("La X:" + firstDefender.getX() + " " + "La Y:" + firstDefender.getY());
+            card.secondEffect(gameBoard, attacker, null, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-            ArrayList<Player> players = gameBoard.playersInOneSquare(2, 3, null);
+            ArrayList<Player> players = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null);
 
 
             assertEquals(2, firstDefender.getX());
@@ -104,7 +115,7 @@ public class GrenadeLauncherTest {
             assertEquals(1, pb4.numOfDamages());
 
 
-        } catch (ErrorEffectException | DamageTrackException e) {
+        } catch (ErrorEffectException e) {
             e.printStackTrace();
         }
 

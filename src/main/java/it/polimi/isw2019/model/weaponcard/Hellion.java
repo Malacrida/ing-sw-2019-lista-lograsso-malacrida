@@ -26,17 +26,17 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
+        if((defenders.get(0) != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
+            ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), null);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
 
-            if( visiblePlayers.contains(firstDefender)){ // se firstDefender è contenuto nella lista di player visiili dall'attaccante allora procedo
+            if(visiblePlayers.contains(defenders.get(0))){ // se defenders.get(0) è contenuto nella lista di player visiili dall'attaccante allora procedo
                 try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
                     e.printStackTrace();
                 }
@@ -60,27 +60,26 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), null);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
+        if(moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1)){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
 
-        if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
 
-            /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
-
-            if( visiblePlayers.contains(firstDefender)){ // se firstDefender è contenuto nella lista di player visiili dall'attaccante allora procedo
+            if(visiblePlayers.contains(defenders.get(0))){ // se defenders.get(0) è contenuto nella lista di player visiili dall'attaccante allora procedo
                 try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
 
                 for (Player aPlayerList : playerList) {
                     try {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 0, 2);
                     } catch (DamageTrackException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                 }
             }
@@ -95,7 +94,7 @@ public class Hellion extends AbstractWeaponCard {
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         throw new NoEffectException();
 

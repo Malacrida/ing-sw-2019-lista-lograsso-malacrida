@@ -23,15 +23,15 @@ public class HeatSeeker extends AbstractWeaponCard {
     }
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if (firstDefender != null) {
-            if (visiblePlayers.contains(firstDefender)) {
+        if (defenders.get(0) != null) {
+            if (visiblePlayers.contains(defenders.get(0))) {
 
                 throw new ErrorEffectException();
-            } else firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
+            } else defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
 
         }
         else{
@@ -40,13 +40,13 @@ public class HeatSeeker extends AbstractWeaponCard {
     }
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         // NON ESISTE L'EFFETTO
         throw new NoEffectException();
     }
 
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         /* NON ESISTE L'EFFETTO */
         throw new NoEffectException();
     }
