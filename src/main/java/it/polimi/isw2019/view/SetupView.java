@@ -56,4 +56,9 @@ public class SetupView extends Observable implements VisitorView  {
     public void visitReload(ReloadMessage reloadMessage) {
 
     }
+
+    @Override
+    public void visitTurnView(TurnMessage turnMessage) {
+
+    }
 }

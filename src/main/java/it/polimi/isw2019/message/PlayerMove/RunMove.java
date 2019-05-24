@@ -15,5 +15,9 @@ public class RunMove extends PlayerMove{
         this.movement = movement;
     }
 
+    public int[][] getMovement(){
+        return this.movement;
+    }
+
 
 }

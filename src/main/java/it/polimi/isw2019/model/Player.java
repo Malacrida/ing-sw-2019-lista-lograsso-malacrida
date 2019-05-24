@@ -75,6 +75,7 @@ public class Player {
     //Dalla playerMove la carta da scartare
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
+
     public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
@@ -89,6 +90,7 @@ public class Player {
     //Dalla playerMove la carta da scartare
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
+
     public void takePowerUpCard (PowerUpCard insertPowerUpCard, PowerUpCard removePowerUpCard){
         if (powerUpCards.size()<3){
             powerUpCards.add(insertPowerUpCard);
