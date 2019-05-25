@@ -15,7 +15,7 @@ public class Flamethrower extends AbstractWeaponCard {
     public Flamethrower() {
         super(12, "Flamethrower", ColorCube.RED, 1);
         this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC MODE: Choose a square 1 move away and possibly a second square\n" +
+        this.infoEffect.add("BASIC MODE: FChoose a square 1 move away and possibly a second square\n" +
                 "1 more move away in the same direction. On each square, you may\n" +
                 "choose 1 target and give it 1 damage.\n");
         this.infoEffect.add("IN BARBECUE MODE: Choose 2 squares as above. Deal 2 damage to\n" +
@@ -33,11 +33,13 @@ public class Flamethrower extends AbstractWeaponCard {
 
     /**
      *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws ErrorEffectException
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
      */
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
@@ -53,7 +55,7 @@ public class Flamethrower extends AbstractWeaponCard {
             try{
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
             dir2 = direction(attacker, defenders.get(1));
@@ -62,7 +64,7 @@ public class Flamethrower extends AbstractWeaponCard {
                 try{
                     defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
         }
@@ -70,6 +72,17 @@ public class Flamethrower extends AbstractWeaponCard {
             throw new ErrorEffectException();
         }
     }
+
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
@@ -112,6 +125,15 @@ public class Flamethrower extends AbstractWeaponCard {
         }
 
     }
+
+
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {

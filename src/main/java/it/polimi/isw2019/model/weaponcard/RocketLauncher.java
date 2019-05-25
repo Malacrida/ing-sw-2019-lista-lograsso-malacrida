@@ -32,6 +32,16 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
 
     /* PER UNA QUESTIONE DI EFFETTO O SCEGLI IL PRIMO O IL TERZO PERCHÉ UNO IMPLICA L'ALTRO QUINDI NEL TERZO È CONTENUTO IL PRIMO*/
+
+
+    /**
+     * @param gameBoard   is the Gameboard where players play
+     * @param attacker    is the player who use Weapon card
+     * @param defenders   are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @æuthor Davide Lista
+     */
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
@@ -42,12 +52,12 @@ public class RocketLauncher extends  AbstractWeaponCard {
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
-            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){ //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
+            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) { //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
 //
-                System.out.println("In attesa di changePosition");
+                gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
 
             } else {
                 throw new ErrorEffectException();
@@ -59,28 +69,44 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
     }
 
-    @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))){
+    /**
+     * @param gameBoard   is the Gameboard where players play
+     * @param attacker    is the player who use Weapon card
+     * @param defenders   are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @æuthor Davide Lista
+     */
+    @Override
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
+
+        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))) {
 //
             gameBoard.changePositionPlayer(attacker, coordinates[2], coordinates[3]);
 
-            if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[4], coordinates[5]))){
+            if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[4], coordinates[5]))) {
 
                 gameBoard.changePositionPlayer(attacker, coordinates[4], coordinates[5]);
 
-            }
-
-            else {
+            } else {
                 throw new ErrorEffectException();
             }
-        }
-
-        else
+        } else
             throw new ErrorEffectException();
-        }
+    }
 
+
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 

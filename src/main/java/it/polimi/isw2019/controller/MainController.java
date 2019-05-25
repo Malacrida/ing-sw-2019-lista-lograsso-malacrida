@@ -20,7 +20,7 @@ public class MainController implements Observer<PlayerMove> {
 
     @Override
     public void update(PlayerMove playerMove) {
-        //playerMove.visitController(new MoveControllerSetup(),new Run(),new RunGrab(model));
+        playerMove.visitController(new MoveControllerSetup(),new Run(model),new RunGrab(model));
     }
 
 

@@ -24,11 +24,21 @@ public class PowerGlove extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())){ //se il defender è la stanza accanto
-            /* AGGIUNGI UN MOVIMENTO */
             gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
 
             try {
@@ -43,11 +53,22 @@ public class PowerGlove extends AbstractWeaponCard {
         }
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //se il defenders.get(0) è la stanza accanto
-            /* AGGIUNGI UN MOVIMENTO */
+
             gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
 
             try {
@@ -57,7 +78,6 @@ public class PowerGlove extends AbstractWeaponCard {
             }
 
             if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(1).getX(), defenders.get(1).getY())) { //se il defenders.get(1) è la stanza accanto
-                /* AGGIUNGI UN MOVIMENTO */
                 gameBoard.changePositionPlayer(attacker, defenders.get(1).getX(), defenders.get(1).getY());
 
                 try {
@@ -72,6 +92,14 @@ public class PowerGlove extends AbstractWeaponCard {
 
         }
     }
+
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {

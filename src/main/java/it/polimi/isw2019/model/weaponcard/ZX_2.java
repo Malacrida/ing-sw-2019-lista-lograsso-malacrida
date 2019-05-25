@@ -25,12 +25,23 @@ public class ZX_2 extends AbstractWeaponCard {
         this.rechargeCube[2] = 0;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0)))){
+        if((!defenders.isEmpty()) && (visiblePlayers.contains(defenders.get(0)))){
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 2);
             } catch (DamageTrackException e) {
@@ -46,6 +57,17 @@ public class ZX_2 extends AbstractWeaponCard {
 
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
@@ -53,22 +75,12 @@ public class ZX_2 extends AbstractWeaponCard {
 
         if((defenders.get(0) != null) && (defenders.get(1) != null) && (defenders.get(2) != null) && (playersAreVisible(visiblePlayers, defenders.get(0), defenders.get(1), defenders.get(2)))){
 
-            try {
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 0, 1);
-            } catch (DamageTrackException  e) {
-                e.getMessage();
-            }
-
-            try {
-                defenders.get(1).sufferDamageOrMark(attacker.getColor(), 0, 1);
-            } catch (DamageTrackException  e) {
-                e.getMessage();
-            }
-
-            try {
-                defenders.get(2).sufferDamageOrMark(attacker.getColor(), 0, 1);
-            } catch (DamageTrackException e) {
-                e.getMessage();
+            for (int i = 0; i < 2; i++){
+                try {
+                    defenders.get(i).sufferDamageOrMark(attacker.getColor(), 0, 1);
+                } catch (DamageTrackException  e) {
+                    e.getMessage();
+                }
             }
 
         } else {
@@ -78,6 +90,14 @@ public class ZX_2 extends AbstractWeaponCard {
 
 
     }
+
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {

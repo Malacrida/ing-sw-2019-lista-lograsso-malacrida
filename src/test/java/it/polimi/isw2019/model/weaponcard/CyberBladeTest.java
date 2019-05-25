@@ -80,7 +80,7 @@ public class CyberBladeTest {
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(secondDefender));
-        } catch (ErrorEffectException | DamageTrackException e) {
+        } catch (ErrorEffectException e) {
             e.printStackTrace();
         }
 

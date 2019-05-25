@@ -22,15 +22,15 @@ public class Electroscythe extends AbstractWeaponCard {
     }
 
     /**
+     * Deal 1 damage and to every other player on your square.
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
      *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws ErrorEffectException
-     * @throws DamageTrackException
+     * @æuthor Davide Lista
      */
-
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
@@ -55,12 +55,14 @@ public class Electroscythe extends AbstractWeaponCard {
 
 
     /**
+     * Deal 2 damage to every other player on your square.
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
      *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws ErrorEffectException
+     * @æuthor Davide Lista
      */
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
@@ -84,15 +86,13 @@ public class Electroscythe extends AbstractWeaponCard {
 
     }
 
-    /**
-     *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws NoEffectException
-     */
 
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         /*NON ESISTE IL QUESTO EFFETTO*/

@@ -66,9 +66,48 @@ public abstract class AbstractWeaponCard{
     * attacker -> Player attaccante
     * defender -> Player colpito
     */
+
+    /**
+     * FIRSTEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
     public abstract void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
+    /**
+     * SECONDEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
+
     public abstract void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
+
+    /**
+     * THIRDEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
 
     public abstract void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
@@ -158,7 +197,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 1,0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             return true;
         } else {
@@ -188,7 +227,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(),2,0);
             }catch (DamageTrackException e){
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -205,7 +244,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 3, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         } else {
             throw new ErrorEffectException();
@@ -219,7 +258,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 2,0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             firstIsValid = true;
 

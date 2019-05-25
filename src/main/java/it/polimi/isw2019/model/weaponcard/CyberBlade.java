@@ -8,7 +8,7 @@ import it.polimi.isw2019.model.Player;
 
 import java.util.ArrayList;
 
-public class CyberBlade extends AbstractWeaponCard {
+public class CyberBlade extends AbstractWeaponCard{
 
     public CyberBlade(){
         super(16, "Cyber Blade", ColorCube.YELLOW, 3);
@@ -46,16 +46,18 @@ public class CyberBlade extends AbstractWeaponCard {
     }
 
     /**
+     * Move 1 square
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
      *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws ErrorEffectException
+     * @æuthor Davide Lista
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){
 //
@@ -67,17 +69,18 @@ public class CyberBlade extends AbstractWeaponCard {
         }
     }
 
-
     /**
+     * To a different target on attacker's square the shadowstep may be used before or after this effect
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
      *
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
-     * @throws ErrorEffectException
+     * @æuthor Davide Lista
      */
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         if (defenders.get(1) != null){
             twoDamageInSameSquare(attacker, defenders.get(1));

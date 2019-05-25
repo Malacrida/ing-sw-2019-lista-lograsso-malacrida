@@ -21,6 +21,16 @@ public class ShockWave extends AbstractWeaponCard {
         this.rechargeCube[2] = 0;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         if ((!threePlayersSameSquare(defenders.get(0), defenders.get(1), defenders.get(2))) && threeSquaresAvailable(gameBoard, attacker, defenders.get(0), defenders.get(1), defenders.get(2))){
@@ -38,6 +48,16 @@ public class ShockWave extends AbstractWeaponCard {
         }
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         ArrayList<Player> firstSquare= gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
@@ -54,6 +74,15 @@ public class ShockWave extends AbstractWeaponCard {
             throw new ErrorEffectException();
         }
     }
+
+
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
