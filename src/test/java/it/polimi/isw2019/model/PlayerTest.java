@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player player1, player2 , player3, player4;
-    private AbstractPlayerBoard playerBoard1, playerBoard2 , playerBoard3, playerBoard4;
+    private PlayerBoard playerBoard1, playerBoard2 , playerBoard3, playerBoard4;
     private ColorPlayer colorPlayer1, colorPlayer2,colorPlayer3, colorPlayer4;
     private AbstractWeaponCard weaponCard1,weaponCard2, weaponCard3, weaponCard4;
     private PowerUpCard powerUpCard1, powerUpCard2;

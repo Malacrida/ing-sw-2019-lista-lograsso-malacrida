@@ -28,8 +28,10 @@ public class RunGrab extends ActionController{
     @Override
     public void visitControllerRunGrab(RunGrabMove runGrabMove) {
 
+
+
         if(runGrabMove.getCardSelection()!= 'A' || runGrabMove.getCardSelection()!= 'W' || runGrabMove.getCardSelection() != '0') {
-            model.sendErrorMessage(model.getCurrentPlayer(),"Wrong Selection");
+            model.sendErrorMessage(model.getCurrentPlayer(),"Wrong Selection" + runGrabMove.getCardSelection());
             return;
         }
 
@@ -44,7 +46,11 @@ public class RunGrab extends ActionController{
                 movement = runGrabMove.getMovement();
             }
 
-            model.run(movement,false);
+            if(!checkInputCorrect(runGrabMove.getMovement()))
+                return;
+            else {
+                model.run(movement, false);
+            }
 
             if(runGrabMove.getCardSelection()== 'W'){
                 //check if is spawnPoint

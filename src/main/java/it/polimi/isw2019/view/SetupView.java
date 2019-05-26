@@ -8,6 +8,11 @@ import java.util.Scanner;
 public class SetupView extends Observable implements VisitorView  {
 
     @Override
+    public void visitUpdateView(UpdateMessage updateMessage) {
+
+    }
+
+    @Override
     public void visitSetupView(MoveMessage moveMessage) {
         SetUpMove message ;
         Scanner input = new Scanner(System.in);
@@ -15,6 +20,7 @@ public class SetupView extends Observable implements VisitorView  {
         String phrase;
         String color;
         char gameMood;
+        // nickname con eventualmente la connessione client server
         System.out.println("Insert nickname:");
         nickname = input.nextLine();
         System.out.println("Insert phrase:");

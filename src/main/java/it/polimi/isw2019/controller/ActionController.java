@@ -14,14 +14,16 @@ public abstract class ActionController implements VisitorController{
         this.model = model;
     }
 
-    public void run(int [][] movement, Model model) {
-       //check if data are correct
-       //if(model.getCurrentPlayer().isAdiacent(movement[0][0], movement[0][1]) then
-        for(int i=0;i<movement.length;i++)
-                   //!tmpPosition.isAdiacent(movement[i][0], movement[i][1]) then
-                            //create error message
-        //see if it can ben introduced in the model instead of the controller
-        model.getCurrentPlayer().changePosition(movement[movement.length-1][0],movement[movement.length-1][1], ColorRoom.BLUE);
+    public boolean checkInputCorrect(int[][] matrix){
+
+        int numMovement = matrix.length;
+
+        for(int i=0;i<numMovement;i++){
+            if(matrix[i][0]<0 && matrix[i][0] >2 && matrix[i][1]<0 && matrix[i][1] >3)
+                model.sendErrorMessage(model.getCurrentPlayer(), "The index you've inserted are wrong!" + matrix[i][0] + matrix[i][1]);
+            return false;
+        }
+        return true;
     }
 
 

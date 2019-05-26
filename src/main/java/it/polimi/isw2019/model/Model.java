@@ -2,7 +2,7 @@ package it.polimi.isw2019.model;
 
 
 //import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.message.MoveMessage.ErrorMessage;
+import it.polimi.isw2019.message.MoveMessage.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.Utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
@@ -127,85 +127,6 @@ public class Model extends Observable {
 
     }
 
-    //
-    public void sendErrorMessage(Player player, String error){
-        notifyObservers(new ErrorMessage(player.getName(),error));
-    }
-
-    public void grabAmmoCard(int[][] movement){
-        if(!isSpawnPoint(movement[0][0], movement[0][1])){
-            //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
-
-
-        }
-    }
-
-    public void run(int[][] movement, boolean notify){
-
-    }
-
-    //introduco un flag in cui bypasso i controlli se la viene inserita un'altra weapon card DOPO il warning
-    //introdurre un metodo che vede che weapon card il giocatore puo prendere con le munizioni che ha, altrimenti (automaticamente) si conclude la mossa
-
-    public void grabWeaponCard(AbstractWeaponCard weaponCard, int[][] movement, char color){
-        if(isSpawnPoint(movement[0][0], movement[0][1])) {
-            //controll that there is the card at that position
-            //assume that the index is OK
-
-            if(getCurrentPlayer().getWeaponCards().size() == 3){
-                //creare un warning in cui chiedi di inserire un'altra weapon card
-                sendErrorMessage(currentPlayer,"you've got too many card, you cannot grab wit!");
-            } else if (getCurrentPlayer().getWeaponCards().size() <3) {
-                //chiedere a davi se il metodo è quello corretto
-                if (weaponCard.getRechargecube().equals(convertCharToColorCube(color))) {
-                    currentPlayer.takeWeaponCards(weaponCard, null);
-
-                } else {
-                    sendErrorMessage(currentPlayer, "you don't have the cubes to pay for this weapon card!");
-
-                }
-            }
-                //assume payment correct
-                //model.getCurrentPlayer().
-                //else
-                //String error ="Payment invalid";
-                //fare tante stringhe quanti sono i possibili errori
-            }
-        }
-
-    public ColorCube convertCharToColorCube(char c){
-
-        if(c == 'r')
-            return ColorCube.RED;
-        else if(c == 'b')
-            return ColorCube.BLUE;
-        else
-            return ColorCube.YELLOW;
-
-    }
-
-    public boolean isAdiacent(int x1,int y1, int x2, int y2){
-
-        boolean checkNord = true, checkSud = true, checkWest = true, checkOvest = true;
-
-        //checkDistanze
-
-        if(x2 == 0)
-            checkNord = false;
-
-        if(x2 == 2)
-            checkSud = false;
-
-        if(y2 == 0)
-            checkOvest = false;
-
-        if(y2 == 3)
-            checkWest = false;
-
-        //chiedo domani a sara
-
-        return true;
-    }
 
 
     public int [][] setDamageRanking (Player playerDeath) {
@@ -333,7 +254,149 @@ public class Model extends Observable {
         }
 
     }
+    //
 
+    public int numMovementCanBePerformedRunGrab(){
+        int numDamage = currentPlayer.playerDamage();
+        if(numDamage <= 2 && !currentPlayer.isFrenzy())
+            return 1;
+        else if(numDamage > 2 && !currentPlayer.isFrenzy())
+            return 2;
+        else if(currentPlayer.isFrenzy() && !currentPlayer.isFirstPlayer())
+            return 2;
+        else if(currentPlayer.isFrenzy() && currentPlayer.isFrenzy())
+            return 3;
+        else
+            return -1;
+    }
+
+    public int numMovementCanBePerformedRun(){
+        int numDamage = currentPlayer.playerDamage();
+        if(!currentPlayer.isFrenzy())
+            return 3;
+        else if(currentPlayer.isFrenzy())
+            return 4;
+        else
+            return -1;
+    }
+
+    public void sendErrorMessage(Player player, String error){
+
+        notifyObservers(new ErrorMessage(player.getName(),error));
+
+    }
+
+
+    public void sendMessage(int numAction){
+        switch (numAction){
+            case 0:
+                notifyObservers(new RunMessage(currentPlayer.getName(),numMovementCanBePerformedRun()));
+                break;
+
+            case 1:
+                notifyObservers(new RunGrabMessage(currentPlayer.getName(),numMovementCanBePerformedRunGrab()));
+                break;
+        }
+
+    }
+
+    public void grabAmmoCard(int[][] movement){
+        if(!isSpawnPoint(movement[0][0], movement[0][1])){
+            //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
+
+
+        }
+    }
+
+    public boolean checkVicinity(ArrayList<Square> squares, Square tmpSquare) {
+        for (Square square : squares)
+            if (square.equals(tmpSquare))
+                return true;
+        return false;
+
+    }
+
+    public void run(int[][] movement, boolean notify){
+
+        ArrayList<Square> squares = new ArrayList<Square>();
+
+        //square adiacenti alla cella iniziale
+        squares = gameBoard.getGameArena().squaresAvailable(currentPlayer.getX(),currentPlayer.getY());
+        Square tmpSquare = gameBoard.getGameArena().getSquare(currentPlayer.getX(), currentPlayer.getY());
+
+        for(int i=0; i<movement.length; i++) {
+            if (!checkVicinity(squares, gameBoard.getGameArena().getSquare(movement[i][0], movement[i][1]))) {
+                int[] index = gameBoard.getGameArena().coordinateOfSquare(tmpSquare);
+                sendErrorMessage( currentPlayer,"the cell with coordinates " + movement[i][0] + movement[i][1] + "is NOT near to the cell " +
+                        "with coordinates" + index[0]+ index[1]);
+                sendMessage(0);
+                return;
+            }
+            squares =  gameBoard.getGameArena().squaresAvailable(movement[i][0], movement[i][1]);
+            tmpSquare = gameBoard.getGameArena().getSquare(movement[i][0], movement[i][1]);
+        }
+
+        gameBoard.changePositionPlayer(currentPlayer,movement[movement.length-1][0],movement[movement.length-1][1]);
+
+        if(!notify)
+            return;
+        else {
+
+            int numPlayerInRoom = gameBoard.playersInOneSquare(movement[movement.length-1][0],movement[movement.length-1][1],currentPlayer).size();
+            gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
+            //migliorare l'update
+           //metodo che viene invocato!!!!!
+            notifyObservers(new UpdateMessage(currentPlayer.getName()));
+        }
+    }
+
+    //introduco un flag in cui bypasso i controlli se la viene inserita un'altra weapon card DOPO il warning
+    //introdurre un metodo che vede che weapon card il giocatore puo prendere con le munizioni che ha, altrimenti (automaticamente) si conclude la mossa
+
+    public void grabWeaponCard(AbstractWeaponCard weaponCard, int[][] movement, char color){
+        if(isSpawnPoint(movement[0][0], movement[0][1])) {
+            //controll that there is the card at that position
+            //assume that the index is OK
+
+            if(getCurrentPlayer().getWeaponCards().size() == 3){
+                //creare un warning in cui chiedi di inserire un'altra weapon card
+                sendErrorMessage(currentPlayer,"you've got too many card, you cannot grab! ");
+                sendMessage(1);
+            } else if (getCurrentPlayer().getWeaponCards().size() <3) {
+                //chiedere a davi se il metodo è quello corretto
+                if (weaponCard.getRechargecube().equals(convertCharToColorCube(color))) {
+                    currentPlayer.takeWeaponCards(weaponCard, null);
+
+                } else {
+                    //
+                    sendErrorMessage(currentPlayer, "you don't have the cubes to pay for this weapon card!");
+                }
+            }
+            //assume payment correct
+            //model.getCurrentPlayer().
+            //else
+            //String error ="Payment invalid";
+        }
+    }
+
+    public void handlePayment(int[] cubes){
+
+    }
+
+
+    public ColorCube convertCharToColorCube(char c){
+
+        if(c == 'r')
+            return ColorCube.RED;
+        else if(c == 'b')
+            return ColorCube.BLUE;
+        else
+            return ColorCube.YELLOW;
+
+    }
+    public void updatePlayerBoard(){
+
+    }
 
 
 }

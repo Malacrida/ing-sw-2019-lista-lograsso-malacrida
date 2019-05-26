@@ -22,6 +22,9 @@ public abstract class AbstractWeaponCard{
     protected boolean firstIsValid = false;
     protected boolean secondIsValid = false;
 
+    private String[][] weaponCardDescription;
+
+
     public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects) {
         this.id = id;
         this.name = name;

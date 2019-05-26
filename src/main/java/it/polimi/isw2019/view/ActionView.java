@@ -1,11 +1,85 @@
 package it.polimi.isw2019.view;
 
+import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.message.MoveMessage.*;
 import it.polimi.isw2019.message.PlayerMove.*;
 import it.polimi.isw2019.Utilities.Observable;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ActionView  extends Observable<PlayerMove> implements VisitorView{
+
+    private String nicknamePlayer;
+    private String actionHero;
+    private String gameBoard;
+    private String[][] playerBoard;
+    private String[][] weaponCard;
+    private String[][] powerUpCard;
+    private int temporaryScore;
+
+
+
+    public String getNicknamePlayer() {
+        return nicknamePlayer;
+    }
+
+    public void setNicknamePlayer(String nicknamePlayer) {
+        this.nicknamePlayer = nicknamePlayer;
+    }
+
+    public String getActionHero() {
+        return actionHero;
+    }
+
+    public String[][] getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public void setPlayerBoard( String[][] playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    public  String[][] getWeaponCard() {
+        return weaponCard;
+    }
+
+    public void setWeaponCard(String[][] weaponCard) {
+        this.weaponCard = weaponCard;
+    }
+
+    public  String[][] getPowerUpCard() {
+        return powerUpCard;
+    }
+
+    public void setPowerUpCard( String[][] powerUpCard) {
+        this.powerUpCard = powerUpCard;
+    }
+
+    public int getTemporaryScore() {
+        return temporaryScore;
+    }
+
+    public void setTemporaryScore(int temporaryScore) {
+        this.temporaryScore = temporaryScore;
+    }
+
+    public String getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(String gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    public void setActionHero(String actionHero) {
+        this.actionHero = actionHero;
+    }
+
+    @Override
+    public void visitUpdateView(UpdateMessage updateMessage) {
+
+    }
 
     @Override
     public void visitSetupView(MoveMessage messageMove) {
@@ -15,6 +89,8 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
     @Override
     public void visitRun(RunMessage runMessage){
 
+       notifyObservers(new RunMove(insertMovement(runMessage.getNumMovement())));
+
     }
 
     @Override
@@ -22,6 +98,7 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
         Scanner input = new Scanner(System.in);
         RunGrabMove runGrabMove = new RunGrabMove();
         runGrabMove.setMovement(insertMovement(0));
+
         char c;
 
         System.out.println("Insert 'A' if you want to grab an AmmoCard or 'W' if you want to grab an ammo or '0' if you don't want to grab anything");
@@ -52,63 +129,11 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
     @Override
     public void visitActionView(MoveMessage moveMessage) {
-        Scanner input = new Scanner(System.in);
-
-        //for(int i=0; i<((ActionMessage)(moveMessage)).getActionYouCanPerform().size(); i++)
-       //     System.out.println("press "+ i + " to choose the following action "+((ActionMessage)(moveMessage)).getActionYouCanPerform().get(i).getIdMoveMessage());
-      //  int actionChoosen = input.nextInt();
-
-
-        /*ActionMessage message = (ActionMessage)(moveMessage);
-        int idAction = message.getActionYouCanPerform().get(actionChoosen).getIdAction();
-
-        RunMove runMove = null;
-        RunGrabMove runGrabMove = null;
-        int numMovement = -1;
-
-        switch(idAction){
-            case 0 :
-
-                runMove = new RunMove();
-                numMovement = message.getActionYouCanPerform().get(actionChoosen).getNumMovement();
-                runMove.setMovement(insertMovement(numMovement));
-                notifyObservers(runMove);
-
-                break;
-            case 1:
-                runGrabMove = new RunGrabMove();
-                numMovement = message.getActionYouCanPerform().get(actionChoosen).getNumMovement();
-                runGrabMove.setMovement(insertMovement(numMovement));
-                runGrabMove.setCardSelection(insertGrab());
-
-                notifyObservers(runGrabMove);
-                break;
-
-            case 2 :
-
-                break;
-
-            case 3 :
-                break;
-
-            case 4:
-
-                break;
-
-            case 5:
-
-                break;
-
-            case 6 :
-
-                break;
-
-*/
-
-       // }
 
 
     }
+
+
 //in base alla scelta un visit diverso!!!!!
     public int[][] insertMovement(int numMovement){
         int[][] tmpMovement = new int[numMovement][2];
@@ -157,6 +182,7 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
     @Override
     public void errorMessageView(MoveMessage moveMessage) {
+        System.out.println(((ErrorMessage)(moveMessage)).getErrorMessage());
 
     }
 
