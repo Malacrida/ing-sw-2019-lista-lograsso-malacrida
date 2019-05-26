@@ -127,11 +127,6 @@ public class Model extends Observable {
 
     }
 
-    //
-    public void sendErrorMessage(Player player, String error){
-        notifyObservers(new ErrorMessage(player.getName(),error));
-    }
-
     public void grabAmmoCard(int[][] movement){
         if(!isSpawnPoint(movement[0][0], movement[0][1])){
             //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
@@ -173,39 +168,7 @@ public class Model extends Observable {
             }
         }
 
-    public ColorCube convertCharToColorCube(char c){
 
-        if(c == 'r')
-            return ColorCube.RED;
-        else if(c == 'b')
-            return ColorCube.BLUE;
-        else
-            return ColorCube.YELLOW;
-
-    }
-
-    public boolean isAdiacent(int x1,int y1, int x2, int y2){
-
-        boolean checkNord = true, checkSud = true, checkWest = true, checkOvest = true;
-
-        //checkDistanze
-
-        if(x2 == 0)
-            checkNord = false;
-
-        if(x2 == 2)
-            checkSud = false;
-
-        if(y2 == 0)
-            checkOvest = false;
-
-        if(y2 == 3)
-            checkWest = false;
-
-        //chiedo domani a sara
-
-        return true;
-    }
 
 
     public int [][] setDamageRanking (Player playerDeath) {
@@ -334,6 +297,29 @@ public class Model extends Observable {
 
     }
 
+
+    public ColorCube convertCharToColorCube(char c){
+
+        if(c == 'r')
+            return ColorCube.RED;
+        else if(c == 'b')
+            return ColorCube.BLUE;
+        else
+            return ColorCube.YELLOW;
+
+    }
+    public void updateSingleMessage(Player player){
+
+    }
+
+    public void updateMessage(){
+
+    }
+
+
+    public void sendErrorMessage(Player player, String error){
+        notifyObservers(new ErrorMessage(player.getName(),error));
+    }
 
 
 }

@@ -18,6 +18,12 @@ public abstract class AbstractPlayerBoard {
     private ArrayList<ColorCube> yellowCubes= new ArrayList<>();
     private ArrayList<ColorCube> blueCubes= new ArrayList<>();
 
+    private String[] skullsRepresentation;
+    private String[] markRepresentation;
+    private String[] damageRepresentation;
+    private String colorRepresentation;
+    private String[][] playerBoardRepresentation;
+
 
     AbstractPlayerBoard(ColorPlayer color, boolean frenzy){
         this.color=color;
@@ -199,5 +205,90 @@ public abstract class AbstractPlayerBoard {
     }
 
 
+    //metodi per la rappresentazione testuale
+    public String[] getSkullsRepresentation() {
+        return skullsRepresentation;
+    }
+
+    public void setSkullsRepresentation() {
+        skullsRepresentation = new String[6];
+        skullsRepresentation[0] = "8";
+        skullsRepresentation[0] = "6";
+        skullsRepresentation[0] = "4";
+        skullsRepresentation[0] = "2";
+        skullsRepresentation[0] = "1";
+        skullsRepresentation[0] = "1";
+    }
+
+    public void setSkullsFrenzyRepresentation() {
+        skullsRepresentation = new String[4];
+        skullsRepresentation[0] = "4";
+        skullsRepresentation[0] = "2";
+        skullsRepresentation[0] = "1";
+        skullsRepresentation[0] = "1";
+
+    }
+
+    public String[] getMarkRepresentation() {
+        return markRepresentation;
+    }
+
+    public void setMarkRepresentation() {
+        markRepresentation = new String[12];
+    }
+
+    public String[] getDamageRepresentation() {
+        return damageRepresentation;
+    }
+
+    public void setDamageRepresentation() {
+        damageRepresentation = new String[12];
+    }
+
+    public String getColorRepresentation() {
+        return colorRepresentation;
+    }
+
+    public void setColorRepresentation() {
+        switch(color){
+            case BLUE:
+                colorRepresentation = "blue";
+                break;
+            case VIOLET:
+                colorRepresentation = "violet";
+                break;
+            case YELLOW:
+                colorRepresentation = "yellow";
+                break;
+            case GREY:
+                colorRepresentation = "grey";
+                break;
+            case GREEN:
+                colorRepresentation = "green";
+                break;
+
+        }
+    }
+
+    public String[][] getPlayerBoardRepresentation() {
+        return playerBoardRepresentation;
+    }
+
+    public void setPlayerBoardRepresentation(boolean frenzy) {
+        playerBoardRepresentation = new String[4][];
+        setColorRepresentation();
+        setDamageRepresentation();
+        setMarkRepresentation();
+        setSkullsRepresentation();
+        playerBoardRepresentation[0][0] = getColorRepresentation();
+        playerBoardRepresentation[1] = getMarkRepresentation();
+        playerBoardRepresentation[2] = getDamageRepresentation();
+        if(frenzy == true){
+            setSkullsFrenzyRepresentation();
+        }
+        playerBoardRepresentation[2] = getSkullsRepresentation();
+    }
+
+    //update!!
 
 }
