@@ -9,8 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AbstractPlayerBoardTest {
-    AbstractPlayerBoard playerBoard1;
-    AbstractPlayerBoard playerBoard2;
+    PlayerBoard playerBoard1;
+    PlayerBoard playerBoard2;
 
     @Before
     public void setUp() throws Exception {

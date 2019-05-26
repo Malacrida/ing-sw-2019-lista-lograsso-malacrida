@@ -15,7 +15,7 @@ public class Player {
     private boolean firstPlayer;
     private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>(); // cariche?
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
-    private AbstractPlayerBoard playerBoard;
+    private PlayerBoard playerBoard;
     private int score; // punteggio del giocatore
     // x, y, colorRoom show the player's position
     private int x;
@@ -33,7 +33,7 @@ public class Player {
         colorRoom= null;
     }
 
-    public void setPlayerBoardAndColor (AbstractPlayerBoard playerBoard, ColorPlayer color) {
+    public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
     }
