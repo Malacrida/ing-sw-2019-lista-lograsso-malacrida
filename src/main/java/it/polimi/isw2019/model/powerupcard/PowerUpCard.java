@@ -52,6 +52,10 @@ public class PowerUpCard implements PowerUpCardInterface {
         return color;
     }
 
+    public ColorCube getColorCard(){
+        return colorCard;
+    }
+
     public String getInfoEffect(){
         return infoEffect;
     }
@@ -61,8 +65,41 @@ public class PowerUpCard implements PowerUpCardInterface {
     }
 
     @Override
-    public void effect() {
+    public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y) {
+        switch (name) {
+            case "Targeting Scope":
 
+                //payonecube
+                try {
+                    defender.sufferDamageOrMark(attacker.getColor(),1,0);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "Newton":
+                //change position 2
+                break;
+
+            case "Tagback Grenade":
+                try {
+                    defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                } catch (DamageTrackException  e) {
+                    e.getMessage();
+                }
+                break;
+
+            case "Teleporter":
+                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
+//
+                    gameBoard.changePositionPlayer(attacker, x, y);
+
+                }
+                break;
+
+            default:
+                //lancia eccezione
+        }
     }
 
     /* setColor assign the color from enumeration ColorCube to card read String color from db.json*/
@@ -83,43 +120,6 @@ public class PowerUpCard implements PowerUpCardInterface {
                 break;
             default:
                 //lancio eccezione
-        }
-    }
-
-    public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y){
-        switch (name) {
-            case "Targeting Scope":
-
-                //payonecube
-                try {
-                    defender.sufferDamageOrMark(attacker.getColor(),1,0);
-                } catch (DamageTrackException e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "Newton":
-                //change position 2
-                break;
-
-            case "Tagback Grenade":
-                try {
-                    defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
-                } catch (DamageTrackException  e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "Teleporter":
-                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
-//
-                    System.out.println("In attesa");
-
-                }
-                break;
-
-            default:
-                //lancia eccezione
         }
     }
 

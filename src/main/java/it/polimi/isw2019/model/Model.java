@@ -2,8 +2,10 @@ package it.polimi.isw2019.model;
 
 
 //import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
+import it.polimi.isw2019.message.MoveMessage.ErrorMessage;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.Utilities.Observable;
+import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,8 @@ public class Model extends Observable {
     private int turn;
     private GameBoard gameBoard;
     private KillShotTrack killShotTrack;
+    //assume that the player are in order!!
+    //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
@@ -121,6 +125,86 @@ public class Model extends Observable {
             // al posto di rilanciare l'eccezione
         }
 
+    }
+
+    //
+    public void sendErrorMessage(Player player, String error){
+        notifyObservers(new ErrorMessage(player.getName(),error));
+    }
+
+    public void grabAmmoCard(int[][] movement){
+        if(!isSpawnPoint(movement[0][0], movement[0][1])){
+            //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
+
+
+        }
+    }
+
+    public void run(int[][] movement, boolean notify){
+
+    }
+
+    //introduco un flag in cui bypasso i controlli se la viene inserita un'altra weapon card DOPO il warning
+    //introdurre un metodo che vede che weapon card il giocatore puo prendere con le munizioni che ha, altrimenti (automaticamente) si conclude la mossa
+
+    public void grabWeaponCard(AbstractWeaponCard weaponCard, int[][] movement, char color){
+        if(isSpawnPoint(movement[0][0], movement[0][1])) {
+            //controll that there is the card at that position
+            //assume that the index is OK
+
+            if(getCurrentPlayer().getWeaponCards().size() == 3){
+                //creare un warning in cui chiedi di inserire un'altra weapon card
+                sendErrorMessage(currentPlayer,"you've got too many card, you cannot grab wit!");
+            } else if (getCurrentPlayer().getWeaponCards().size() <3) {
+                //chiedere a davi se il metodo è quello corretto
+                if (weaponCard.getRechargecube().equals(convertCharToColorCube(color))) {
+                    currentPlayer.takeWeaponCards(weaponCard, null);
+
+                } else {
+                    sendErrorMessage(currentPlayer, "you don't have the cubes to pay for this weapon card!");
+
+                }
+            }
+                //assume payment correct
+                //model.getCurrentPlayer().
+                //else
+                //String error ="Payment invalid";
+                //fare tante stringhe quanti sono i possibili errori
+            }
+        }
+
+    public ColorCube convertCharToColorCube(char c){
+
+        if(c == 'r')
+            return ColorCube.RED;
+        else if(c == 'b')
+            return ColorCube.BLUE;
+        else
+            return ColorCube.YELLOW;
+
+    }
+
+    public boolean isAdiacent(int x1,int y1, int x2, int y2){
+
+        boolean checkNord = true, checkSud = true, checkWest = true, checkOvest = true;
+
+        //checkDistanze
+
+        if(x2 == 0)
+            checkNord = false;
+
+        if(x2 == 2)
+            checkSud = false;
+
+        if(y2 == 0)
+            checkOvest = false;
+
+        if(y2 == 3)
+            checkWest = false;
+
+        //chiedo domani a sara
+
+        return true;
     }
 
 

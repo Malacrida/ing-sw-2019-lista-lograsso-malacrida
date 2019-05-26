@@ -15,7 +15,7 @@ public class Flamethrower extends AbstractWeaponCard {
     public Flamethrower() {
         super(12, "Flamethrower", ColorCube.RED, 1);
         this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC MODE: Choose a square 1 move away and possibly a second square\n" +
+        this.infoEffect.add("BASIC MODE: FChoose a square 1 move away and possibly a second square\n" +
                 "1 more move away in the same direction. On each square, you may\n" +
                 "choose 1 target and give it 1 damage.\n");
         this.infoEffect.add("IN BARBECUE MODE: Choose 2 squares as above. Deal 2 damage to\n" +
@@ -33,41 +33,38 @@ public class Flamethrower extends AbstractWeaponCard {
 
     /**
      *
-     * @param gameBoard
-     * @param attacker
-     * @param firstDefender
-     * @param secondDefender
-     * @param thirdDefender
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @throws ErrorEffectException
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
      */
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visilePlayers = gameBoard.playersWhoCanSee(attacker);
         char dir1;
         char dir2;
 
 
-        if (gameBoard.isSquareAvailableOnArena(attacker, firstDefender.getX(), firstDefender.getY())) {
-            dir1 = direction(attacker, firstDefender);
+        if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) {
+            dir1 = direction(attacker, defenders.get(0));
 
             try{
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
-            dir2 = direction(attacker, secondDefender);
+            dir2 = direction(attacker, defenders.get(1));
 
-            if ((visilePlayers.contains(secondDefender)) && (dir1 == dir2)){
+            if ((visilePlayers.contains(defenders.get(1))) && (dir1 == dir2)){
                 try{
-                    secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
         }
@@ -76,47 +73,70 @@ public class Flamethrower extends AbstractWeaponCard {
         }
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, x1,  y1)){
-            ArrayList<Player> playersListFirstSquare = gameBoard.playersInOneSquare(x1, y1, null);
+        ArrayList<Player> playersListFirstSquare = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
+        char dir1 = direction(attacker, playersListFirstSquare.get(0));
 
-            char dir1 = direction(attacker, playersListFirstSquare.get(0));
+        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0],  coordinates[1])){
+
+
+
 
             for (Player player:playersListFirstSquare) {
 
                 try {
                     player.sufferDamageOrMark(attacker.getColor(), 2, 0);
                 } catch (DamageTrackException e){
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
-
-            ArrayList<Player> playersListSecondSquare = gameBoard.playersInOneSquare(x2, y2, null);
-            char dir2 = direction(attacker, playersListSecondSquare.get(0));
-
-            if ((gameBoard.isSquareAvailableOnArena(playersListFirstSquare.get(0), x2, y2)) && (dir1 == dir2)) {
-
-                for (Player player : playersListSecondSquare) {
-
-                    try {
-                        player.sufferDamageOrMark(attacker.getColor(), 2, 0);
-                    } catch (DamageTrackException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        }else {
+            throw new ErrorEffectException();
         }
 
-        else {
+        ArrayList<Player> playersListSecondSquare = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null);
+        char dir2 = direction(attacker, playersListSecondSquare.get(0));
+
+        if ((gameBoard.isSquareAvailableOnArena(playersListFirstSquare.get(0), coordinates[2], coordinates[3])) && (dir1 == dir2)) {
+
+            for (Player player : playersListSecondSquare) {
+
+                try {
+                    player.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+            }
+        }else {
             throw new ErrorEffectException();
         }
 
     }
 
+
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /*NON C'È L'EFFETTO */
 

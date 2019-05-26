@@ -21,16 +21,28 @@ public class LockRifle extends AbstractWeaponCard {
         this.rechargeCube[2] = 2;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if ((firstDefender != null) && (visiblePlayers.contains(firstDefender))){
+        if (visiblePlayers.contains(defenders.get(0))){
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 1);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 1);
             } catch ( DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             firstIsValid = true;
 
@@ -39,17 +51,29 @@ public class LockRifle extends AbstractWeaponCard {
         }
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         if (firstIsValid){
 
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-            if ((secondDefender != null) && (visiblePlayers.contains(secondDefender))){
+            if (visiblePlayers.contains(defenders.get(1))){
                 try {
-                    secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 0, 1);
                 } catch ( DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             } else {
 
@@ -62,8 +86,16 @@ public class LockRifle extends AbstractWeaponCard {
         }
     }
 
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         //lancia eccezione perché non esiste questo effetto
 

@@ -66,11 +66,50 @@ public abstract class AbstractWeaponCard{
     * attacker -> Player attaccante
     * defender -> Player colpito
     */
-    public abstract void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-    public abstract void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws NoEffectException, ErrorEffectException, DamageTrackException;
+    /**
+     * FIRSTEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
+    public abstract void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
-    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException;
+    /**
+     * SECONDEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
+
+    public abstract void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
+
+    /**
+     * THIRDEFFECT
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     * @throws NoEffectException there is not the effect
+     * @throws DamageTrackException there is a problem with Damage Track
+     *
+     * @æuthor Davide Lista
+     */
+
+    public abstract void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
 /*METODI DI CONTROLLO*/
 
@@ -88,13 +127,13 @@ public abstract class AbstractWeaponCard{
 
     /* Cella distante almeno 1 o 2 celle (se move = 1 allora è 1 cella se è 2 allora è 2 celle) */
 
-    protected boolean moreThanOneOrTwoDistance(int x1, int y1, int x2, int y2, int move){
+    protected boolean moreThanOneOrTwoDistance(int x1, int y1, int x2, int y2, int minDistance){
 
-        if (move == 1) {
+        if (minDistance == 1) {
             return (x1 == x2) && (Math.abs(y1 - y2) >= 1) || (y1 == y2) && (Math.abs(x1 - x2) >= 1);
         }
 
-        else if (move == 2) {
+        else if (minDistance == 2) {
             return (x1 == x2) && (Math.abs(y1 - y2) > 1) || (y1 == y2) && (Math.abs(x1 - x2) > 1);
         }
         else return false;
@@ -106,6 +145,13 @@ public abstract class AbstractWeaponCard{
         return (x1 == x2) && (y1 == y2);
     }
 
+    protected boolean threePlayersSameSquare(Player p1, Player p2, Player p3){
+        return (sameSquare(p1.getX(), p1.getY(), p2.getX(), p2.getY())) || (sameSquare(p1.getX(), p1.getY(), p3.getX(), p3.getY())) || (sameSquare(p2.getX(), p2.getY(), p3.getX(), p3.getY()));
+    }
+
+    protected boolean threeSquaresAvailable(GameBoard gameBoard, Player attacker, Player p1, Player p2, Player p3){
+        return gameBoard.isSquareAvailableOnArena(attacker, p1.getX(), p1.getY()) && gameBoard.isSquareAvailableOnArena(attacker, p2.getX(), p2.getY()) && gameBoard.isSquareAvailableOnArena(attacker, p3.getX(), p3.getY());
+    }
 
     protected char direction(Player firstPlayer, Player secondPlayer) {
 
@@ -145,13 +191,13 @@ public abstract class AbstractWeaponCard{
 
     /* fai un danno se il primo effetto è valido */
 
-    protected boolean oneDamageIfFirstIsValid(Player attacker, Player defender, boolean firstValid){
+    protected boolean oneDamageIfFirstIsValid(Player attacker, Player defender, boolean firstIsValid){
 
         if(firstIsValid){
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 1,0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             return true;
         } else {
@@ -169,7 +215,7 @@ public abstract class AbstractWeaponCard{
                 aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
 
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -181,7 +227,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(),2,0);
             }catch (DamageTrackException e){
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -198,7 +244,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 3, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         } else {
             throw new ErrorEffectException();
@@ -212,7 +258,7 @@ public abstract class AbstractWeaponCard{
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 2,0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             firstIsValid = true;
 

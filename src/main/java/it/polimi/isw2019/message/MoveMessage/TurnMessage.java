@@ -5,30 +5,28 @@ import it.polimi.isw2019.view.VisitorView;
 import java.util.ArrayList;
 
 public class TurnMessage extends MoveMessage {
-    private boolean firstTurn;
-    private boolean startGame;
-    private ArrayList<Integer> powerUpCard;
 
-    public TurnMessage(String idMoveMessage, int idPlayer, boolean startGame){
-        super(idMoveMessage,idPlayer);
-        this.startGame = startGame;
+    private boolean respawn;
+    private ArrayList<Integer> powerUpCard;
+    private String idPlayer;
+
+    public TurnMessage(String idPlayer, boolean respawn){
+        super(idPlayer);
+        this.respawn = respawn;
     }
 
 
 
-    public TurnMessage(String idMoveMessage, int idPlayer, boolean firstTurn, ArrayList<Integer> powerUpCard){
+    public TurnMessage(String idMoveMessage, int idPlayer, boolean respawn, ArrayList<Integer> powerUpCard){
         super(idMoveMessage,idPlayer);
-        this.firstTurn = firstTurn;
+        this.respawn = respawn;
         this.powerUpCard = powerUpCard;
     }
 
 
 
-    public boolean isFirstTurn(){
-        return this.firstTurn;
-    }
-    public boolean isStartGame(){
-        return this.startGame;
+    public boolean isRespawn(){
+        return this.respawn;
     }
 
     public ArrayList<Integer> getPowerUpCard(){

@@ -19,6 +19,9 @@ public class CyberBladeTest {
     PlayerBoard pba, pb1, pb2;
     CyberBlade card = new CyberBlade();
 
+    int [] coordinates = new int[4];
+    ArrayList<Player> defenders = new ArrayList<>();
+
     @Before
     public void setUp() throws Exception {
         attacker = new Player("Alba", "Speriamo che sto test vada", 1);
@@ -37,6 +40,12 @@ public class CyberBladeTest {
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
+
+        coordinates[2] = 2;
+        coordinates[3] = 3;
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
     }
 
     @After
@@ -46,19 +55,16 @@ public class CyberBladeTest {
     @Test
     public void testFirstEffect() {
         try {
-            card.firstEffect(gameBoard, attacker, firstDefender, null, null,-1, -1, -1, -1);
+            System.out.println("FIRSTDEFENDER - La X:" + firstDefender.getX() + " " + "La Y:" + firstDefender.getY());
+            System.out.println("ATTACKER - La X:" + attacker.getX() + " " + "La Y:" + attacker.getY());
+            System.out.println("DEFENDER.GET(0) - La X:" + defenders.get(0).getX() + " " + "La Y:" + defenders.get(0).getY());
+            card.firstEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-            assertTrue(visiblePlayers.contains(firstDefender));
-
-        } catch (ErrorEffectException | DamageTrackException e) {
-            e.printStackTrace();
-        }
-
-        try {
+            assertTrue(visiblePlayers.contains(defenders.get(0)));
             assertEquals(2, pb1.numOfDamages());
             assertEquals(0, pb2.numOfDamages());
-        } catch (Exception e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
     }
@@ -70,11 +76,11 @@ public class CyberBladeTest {
     @Test
     public void testThirdEffect() {
         try {
-            card.thirdEffect(gameBoard, attacker, firstDefender, secondDefender, null, -1, -1, -1, -1);
+            card.thirdEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(secondDefender));
-        } catch (ErrorEffectException | DamageTrackException e) {
+        } catch (ErrorEffectException e) {
             e.printStackTrace();
         }
 

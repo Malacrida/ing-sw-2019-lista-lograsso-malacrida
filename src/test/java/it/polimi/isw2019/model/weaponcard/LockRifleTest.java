@@ -18,6 +18,8 @@ public class LockRifleTest {
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
     LockRifle card = new LockRifle();
+    int [] coordinates;
+    ArrayList<Player> defenders = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -37,6 +39,10 @@ public class LockRifleTest {
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+        coordinates = new int[]{-1, -1, 3, 2};
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
     }
 
     @After
@@ -46,7 +52,7 @@ public class LockRifleTest {
     @Test
     public void testFirstEffect() {
         try {
-            card.firstEffect(gameBoard, attacker, firstDefender, secondDefender, null,-1, -1, -1, -1);
+            card.firstEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
             assertTrue(visiblePlayers.contains(firstDefender));

@@ -2,6 +2,7 @@ package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorPlayer;
 import it.polimi.isw2019.model.Player;
+import it.polimi.isw2019.model.PlayerBoard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -131,15 +132,6 @@ public class AbstractWeaponCardTest {
 
     @Test
     public void oneDamageAllPlayersInOneSquare() {
-        /*this.oneDamageAllPlayersInOneSquare(this.attacker, this.players);
-
-        assertTrue(this.players.contains(firstDefender));
-
-        try {
-            assertEquals(1, pb1.numOfDamages());
-        } catch (exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Test

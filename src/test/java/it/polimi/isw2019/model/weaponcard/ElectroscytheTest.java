@@ -18,6 +18,8 @@ public class ElectroscytheTest {
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3;
     Electroscythe card = new Electroscythe();
+    int [] coordinates = new int[4];
+    ArrayList<Player> defenders = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -41,6 +43,15 @@ public class ElectroscytheTest {
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
+
+        coordinates[2] = 2;
+        coordinates[3] = 3;
+
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
+        defenders.add(thirdDefender);
+
     }
 
     @After
@@ -49,9 +60,9 @@ public class ElectroscytheTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void testFirstEffect() {
         try {
-            card.firstEffect(gameBoard, attacker, null, null, null,-1, -1, -1, -1);
+            card.firstEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> players = gameBoard.playersInOneSquare(attacker.getX(),attacker.getY(), attacker);
 
             assertTrue(players.contains(firstDefender));
@@ -75,7 +86,7 @@ public class ElectroscytheTest {
     @Test
     public void testSecondEffect() {
         try {
-            card.secondEffect(gameBoard, attacker, null, null, null,-1, -1, -1, -1, -1, -1);
+            card.secondEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> players = gameBoard.playersInOneSquare(attacker.getX(),attacker.getY(), attacker);
 
             assertTrue(players.contains(firstDefender));
@@ -96,6 +107,6 @@ public class ElectroscytheTest {
     }
 
     @Test
-    public void thirdEffect() {
+    public void testThirdEffect() {
     }
 }

@@ -28,18 +28,28 @@ public class RailGun extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        char direction = direction(attacker, firstDefender);
+        char direction = direction(attacker, defenders.get(0));
 
         if(direction != 'n'){
 
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 3, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         } else {
@@ -50,23 +60,34 @@ public class RailGun extends AbstractWeaponCard {
 
     }
 
-    @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
 
-        char firstDirection = direction(attacker, firstDefender);
-        char secondDirection = direction(attacker, firstDefender);
+    @Override
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+
+        char firstDirection = direction(attacker, defenders.get(0));
+        char secondDirection = direction(attacker, defenders.get(0));
 
         if ((firstDirection != 'n') && (firstDirection == secondDirection)){
 
             try {
-                firstDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException  e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             try {
-                secondDefender.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(1).sufferDamageOrMark(attacker.getColor(), 2, 0);
             } catch (DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         } else {
@@ -76,8 +97,16 @@ public class RailGun extends AbstractWeaponCard {
         }
     }
 
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
         throw new NoEffectException();
     }
 

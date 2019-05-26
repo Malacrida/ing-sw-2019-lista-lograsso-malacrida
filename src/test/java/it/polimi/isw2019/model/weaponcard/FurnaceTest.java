@@ -5,12 +5,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class FurnaceTest {
 
     Player attacker, firstDefender, secondDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
     Furnace card = new Furnace();
+    ArrayList<Player> defenders = new ArrayList<>();
+    int [] coordinates = new int[4];
 
     @Before
     public void setUp() throws Exception {
@@ -30,6 +34,13 @@ public class FurnaceTest {
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
+
+        coordinates[2] = 2;
+        coordinates[3] = 3;
+
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
 
     }
 

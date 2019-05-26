@@ -1,9 +1,6 @@
 package it.polimi.isw2019.view;
 
-import it.polimi.isw2019.message.MoveMessage.MoveMessage;
-import it.polimi.isw2019.message.MoveMessage.ReloadMessage;
-import it.polimi.isw2019.message.MoveMessage.RunGrabMessage;
-import it.polimi.isw2019.message.MoveMessage.RunMessage;
+import it.polimi.isw2019.message.MoveMessage.*;
 
 
 public interface VisitorView{
@@ -14,4 +11,5 @@ public interface VisitorView{
     public abstract void visitRun(RunMessage runMessage);
     public abstract void visitRunGrab(RunGrabMessage runGrabMessage);
     public abstract void visitReload(ReloadMessage reloadMessage);
+    public abstract void visitTurnView(TurnMessage turnMessage);
 }
