@@ -25,33 +25,51 @@ public class Hellion extends AbstractWeaponCard {
         this.rechargeCube[2] = 0;
     }
 
-    @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
 
-        if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+
+    private void hellionEffects (GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int marks) throws ErrorEffectException {
+        ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), null);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+        if(visiblePlayers.contains(defenders.get(0))){ // se defenders.get(0) è contenuto nella lista di player visiili dall'attaccante allora procedo
+            try {
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
+            } catch (DamageTrackException e) {
+                e.getMessage();
+            }
+
+            for (Player aPlayerList : playerList) {
+                try {
+                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 0, marks);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+            }
+        }
+        else {
+            throw new ErrorEffectException();
+        }
+    }
+
+    /**
+     * Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
+    @Override
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+
+        if((defenders.get(0) != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
 
             /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
-
-            if( visiblePlayers.contains(firstDefender)){ // se firstDefender è contenuto nella lista di player visiili dall'attaccante allora procedo
-                try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (DamageTrackException e) {
-                    e.printStackTrace();
-                }
-
-                for (Player aPlayerList : playerList) {
-                    try {
-                        aPlayerList.sufferDamageOrMark(attacker.getColor(), 0, 1);
-                    } catch (DamageTrackException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            else {
-                throw new ErrorEffectException();
-            }
+            hellionEffects(gameBoard, attacker, defenders, 1);
         }
         else{
             throw new ErrorEffectException();
@@ -59,43 +77,43 @@ public class Hellion extends AbstractWeaponCard {
 
     }
 
+    /**
+     * Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
-
-
-        if((firstDefender != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), firstDefender.getX(), firstDefender.getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(firstDefender.getX(), firstDefender.getY(), null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-
-            /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
-
-            if( visiblePlayers.contains(firstDefender)){ // se firstDefender è contenuto nella lista di player visiili dall'attaccante allora procedo
-                try {
-                    firstDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (DamageTrackException e) {
-                    e.printStackTrace();
-                }
-
-                for (Player aPlayerList : playerList) {
-                    try {
-                        aPlayerList.sufferDamageOrMark(attacker.getColor(), 0, 2);
-                    } catch (DamageTrackException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            else {
-                throw new ErrorEffectException();
-            }
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+        if(moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1)) { //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
+            hellionEffects(gameBoard, attacker, defenders, 2);
         }
-        else{
+
+        else {
             throw new ErrorEffectException();
         }
+        /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
+
+
 
     }
 
+    /**
+     * This effect doesn't exist
+     * @throws NoEffectException there isn't this effect
+     *
+     * @æuthor Davide Lista
+     */
+
+
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         throw new NoEffectException();
 

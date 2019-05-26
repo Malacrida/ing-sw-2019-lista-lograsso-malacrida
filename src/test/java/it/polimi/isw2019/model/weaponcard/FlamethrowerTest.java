@@ -4,12 +4,16 @@ import it.polimi.isw2019.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class FlamethrowerTest {
 
     Player attacker, firstDefender, secondDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
+    ArrayList<Player> defenders = new ArrayList<>();
     Flamethrower card = new Flamethrower();
+    int [] coordinates = new int[4];
 
     @Before
     public void setUp() throws Exception {
@@ -29,6 +33,14 @@ public class FlamethrowerTest {
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+
+        coordinates[2] = 2;
+        coordinates[3] = 3;
+
+
+        defenders.add(firstDefender);
+        defenders.add(secondDefender);
+
     }
 
     @Test

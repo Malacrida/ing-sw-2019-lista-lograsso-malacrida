@@ -25,15 +25,17 @@ public class MachineGun extends AbstractWeaponCard {
         this.rechargeCube[2] = 1;
     }
 
+
+
     private void ifIsVisibleOneDamage(GameBoard gameBoard, Player attacker, Player defender) throws ErrorEffectException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if (visiblePlayers.contains(defender)){ //se non è vuoto e se firstDefender è visibile
+        if (visiblePlayers.contains(defender)){ //se non è vuoto e se defenders.get(0) è visibile
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch ( DamageTrackException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         else {
@@ -41,13 +43,24 @@ public class MachineGun extends AbstractWeaponCard {
         }
     }
 
-    @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws ErrorEffectException, DamageTrackException {
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
 
-        if(firstDefender != null){
-            ifIsVisibleOneDamage(gameBoard, attacker, firstDefender);
-            if(secondDefender != null){ /* Se seleziona il secondo giocatore da attaccare */
-                ifIsVisibleOneDamage(gameBoard, attacker, secondDefender);
+    @Override
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+
+        if(defenders.get(0) != null){
+            ifIsVisibleOneDamage(gameBoard, attacker, defenders.get(0));
+            if(defenders.get(1) != null){ /* Se seleziona il secondo giocatore da attaccare */
+                ifIsVisibleOneDamage(gameBoard, attacker, defenders.get(1));
             }
         } else {
             throw new ErrorEffectException();
@@ -58,34 +71,54 @@ public class MachineGun extends AbstractWeaponCard {
         this.firstIsValid = true;
     }
 
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
+
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2, int x3, int y3) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
 
-        if (oneDamageIfFirstIsValid(attacker, firstDefender, firstIsValid)){
+        if (oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
             throw new ErrorEffectException();
         }
     }
 
 
-
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     *
+     * @æuthor Davide Lista
+     */
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
-    public void thirdEffect(GameBoard gameBoard, Player attacker, Player firstDefender, Player secondDefender, Player thirdDefender, int x1, int y1, int x2, int y2) throws NoEffectException, ErrorEffectException, DamageTrackException {
+    public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
         if (firstIsValid){
-            if (secondDefender != null){
+            if (defenders.get(1) != null){
                 try {
-                    secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
-                if(thirdDefender != null){
+                if(defenders.get(2) != null){
                     try {
-                        secondDefender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                        defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
                     } catch (DamageTrackException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                 }
             }

@@ -131,16 +131,7 @@ public class AbstractWeaponCardTest {
     }
 
     @Test
-    public void oneDamageAllPlayersInOneSquare(Player attacker, ArrayList<Player> players) {
-        /*this.oneDamageAllPlayersInOneSquare(this.attacker, this.players);
-
-        assertTrue(this.players.contains(firstDefender));
-
-        try {
-            assertEquals(1, pb1.numOfDamages());
-        } catch (exception e) {
-            e.printStackTrace();
-        }*/
+    public void oneDamageAllPlayersInOneSquare() {
     }
 
     @Test
