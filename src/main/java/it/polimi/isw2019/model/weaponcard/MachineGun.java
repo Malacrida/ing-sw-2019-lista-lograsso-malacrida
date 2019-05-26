@@ -65,9 +65,6 @@ public class MachineGun extends AbstractWeaponCard {
         } else {
             throw new ErrorEffectException();
         }
-
-
-
         this.firstIsValid = true;
     }
 
@@ -85,9 +82,11 @@ public class MachineGun extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        /* Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato*/
+        /*PAGO UN GIALLO
+        * Se il primo effetto è valido allora aggiunge un danno al primo giocatore a cui ha sparato
+        */
 
-        if (oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
+        if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
             throw new ErrorEffectException();
         }
     }
@@ -107,29 +106,21 @@ public class MachineGun extends AbstractWeaponCard {
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException {
 
-        if (firstIsValid){
-            if (defenders.get(1) != null){
+        /*PAGO UN BLU*/
+
+        if (defenders.get(1) != null){
+            if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
+                throw new ErrorEffectException();
+            }
+            if(defenders.get(2) != null){
                 try {
-                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(2).sufferDamageOrMark(attacker.getColor(), 1, 0);
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
-                if(defenders.get(2) != null){
-                    try {
-                        defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
-                    } catch (DamageTrackException e) {
-                        e.getMessage();
-                    }
-                }
             }
-            else{
-                throw new ErrorEffectException();
-            }
-
-        } else {
-
+        } else{
             throw new ErrorEffectException();
-
         }
     }
 }

@@ -40,7 +40,7 @@ public class RailGun extends AbstractWeaponCard {
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA VEDERE CON SARA
 
         char direction = direction(attacker, defenders.get(0));
 

@@ -69,17 +69,19 @@ public class ZX_2 extends AbstractWeaponCard {
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if((defenders.get(0) != null) && (defenders.get(1) != null) && (defenders.get(2) != null) && (playersAreVisible(visiblePlayers, defenders.get(0), defenders.get(1), defenders.get(2)))){
+        if((!defenders.isEmpty()) && (defenders.size() < 3)){
 
-            for (int i = 0; i < 2; i++){
-                try {
-                    defenders.get(i).sufferDamageOrMark(attacker.getColor(), 0, 1);
-                } catch (DamageTrackException  e) {
-                    e.getMessage();
+            for (Player defender : defenders) {
+                if (visiblePlayers.contains(defender)) {
+                    try {
+                        defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
+                    } catch (DamageTrackException e) {
+                        e.getMessage();
+                    }
                 }
             }
 

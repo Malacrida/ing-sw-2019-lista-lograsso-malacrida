@@ -47,13 +47,15 @@ public class VortexCannon extends AbstractWeaponCard {
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))){
-
-            gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
-
-            try {
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
-            } catch (DamageTrackException e) {
-                e.getMessage();
+            if (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1])){
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+                try {
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+            } else {
+                throw new ErrorEffectException();
             }
 
             firstIsValid = true;
@@ -83,7 +85,7 @@ public class VortexCannon extends AbstractWeaponCard {
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if (firstIsValid){
-            if((defenders.get(1) != null) && (visiblePlayers.contains(defenders.get(1)))){
+            if((visiblePlayers.contains(defenders.get(1))) && (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]))){
 
                 gameBoard.changePositionPlayer(defenders.get(1), coordinates[0], coordinates[1]);
 
@@ -93,7 +95,7 @@ public class VortexCannon extends AbstractWeaponCard {
                     e.getMessage();
                 }
 
-                if((defenders.get(2) != null) && visiblePlayers.contains(defenders.get(2))){
+                if((visiblePlayers.contains(defenders.get(2))) && (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]))){
 
                     gameBoard.changePositionPlayer(defenders.get(2), coordinates[0], coordinates[1]);
 

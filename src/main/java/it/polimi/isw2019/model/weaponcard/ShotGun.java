@@ -38,29 +38,29 @@ public class ShotGun extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
+        if (!defenders.isEmpty()) {
+            damagesInSameSquare(attacker, defenders.get(0), 3);
 
-        threeDamageInSameSquare(attacker, defenders.get(0));
+            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) {
 
-        if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
-//
-            gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
-
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+            }
         } else {
             throw new ErrorEffectException();
         }
-
     }
 
-    /**
-     *
-     * @param gameBoard is the Gameboard where players play
-     * @param attacker is the player who use Weapon card
-     * @param defenders are players attacked
-     * @param coordinates some coordinates used to move players or to indicate squares to attack players
-     * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
-     */
+
+        /**
+         *
+         * @param gameBoard is the Gameboard where players play
+         * @param attacker is the player who use Weapon card
+         * @param defenders are players attacked
+         * @param coordinates some coordinates used to move players or to indicate squares to attack players
+         * @throws ErrorEffectException there is a problem during effect
+         *
+         * @æuthor Davide Lista
+         */
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {

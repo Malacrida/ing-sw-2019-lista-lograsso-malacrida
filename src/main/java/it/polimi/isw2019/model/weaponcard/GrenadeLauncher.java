@@ -45,19 +45,19 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
         ArrayList<Player> visiblePlayers;
 
-        if (defenders.get(0) != null) {
+        if (!defenders.isEmpty()) { //se ha inserito almeno un giocatore da attaccare
 
             visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-            if (visiblePlayers.contains(defenders.get(0))) {
+            if (visiblePlayers.contains(defenders.get(0))) { //vedo se è presente in quelli visibili
                 try {
-                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //fai un danno
                 } catch ( DamageTrackException e) {
                     e.getMessage();
                 }
-                if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) {
+                if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) { //se ha inserito delle coordinate valide e la cella è adiacente a quella dove il difensore si trova
 //
-                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]); //allora lo sposti
 
                 }
 
@@ -86,13 +86,15 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        if(coordinates[2] != -1 && coordinates[3] != -1){
-            ArrayList<Player> squarePlayers = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        /*PAGO UN ROSSO*/
 
-            if (visiblePlayers.contains(squarePlayers.get(0))){
+        if(coordinates[2] != -1 && coordinates[3] != -1){ //SE HA INSERITO ALTRE 2 COORDINATE VALIDE
+            ArrayList<Player> squarePlayers = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null); //tutti i giocatori all'interno di quella quadrato
+            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker); //tutti i giocatori visibili
 
-                oneDamageAllPlayersInOneSquare(attacker, squarePlayers);
+            if (visiblePlayers.contains(squarePlayers.get(0))){ //se almeno uno è visibile
+
+                oneDamageAllPlayersInOneSquare(attacker, squarePlayers); //dai un danno a tutti i giocatori presenti nel quadrato
 
             }else{
                 throw new ErrorEffectException();

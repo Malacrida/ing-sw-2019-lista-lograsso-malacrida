@@ -58,7 +58,11 @@ public class Thor extends AbstractWeaponCard{
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if (firstIsValid){
+        /* PAGARE UN BLU */
+
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(defenders.get(0));
+
+        if (firstIsValid && visiblePlayers.contains(defenders.get(1))){
 
             try {
                 defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -87,8 +91,12 @@ public class Thor extends AbstractWeaponCard{
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
+        /*PAGA UN BLU */
 
-        if(secondIsValid) {
+
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(defenders.get(1));
+
+        if(secondIsValid && visiblePlayers.contains(defenders.get(2))) {
 
             try {
                 defenders.get(2).sufferDamageOrMark(attacker.getColor(), 2, 0);

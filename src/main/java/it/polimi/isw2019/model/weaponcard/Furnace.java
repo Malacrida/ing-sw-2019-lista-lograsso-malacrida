@@ -50,7 +50,7 @@ public class Furnace extends AbstractWeaponCard {
 
             try {
 
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }
@@ -71,7 +71,7 @@ public class Furnace extends AbstractWeaponCard {
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA RIVEDERE
 
         ArrayList<Player> playerList;
 
@@ -107,14 +107,14 @@ public class Furnace extends AbstractWeaponCard {
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         ArrayList<Player> playerList;
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){ //se è una stanza visibile
+        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){ //se è una cella visibile
 
-            if((oneDistanceX(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) || (oneDistanceY(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))) { //se dista esattamente 1
-                playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
+            if(oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) { //se dista esattamente 1
+                playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null); //lista di tutti i giocatori all'interno di quella cella
 
                 if(playerList != null){ // se c'è qualche giocatore dentro la stanza
                     damageAndMarkFurnace(gameBoard, attacker, coordinates[0], coordinates[2]); // fai il danno

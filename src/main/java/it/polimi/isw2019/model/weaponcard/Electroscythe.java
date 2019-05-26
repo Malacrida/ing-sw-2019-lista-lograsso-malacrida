@@ -34,16 +34,15 @@ public class Electroscythe extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-
-        ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
+        ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker); //PLAYERS IN UN QUADRATO
 
         if(!playersList.isEmpty()){
 
                 for (Player aPlayerList:playersList) {
                     try {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                    }catch (DamageTrackException e){
-                        throw new DamageTrackException(aPlayerList.getColor());
+                    } catch (DamageTrackException e) {
+                        e.getMessage();
                     }
                 }
 
@@ -66,9 +65,10 @@ public class Electroscythe extends AbstractWeaponCard {
      */
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+
         /*AGGIUNGERE PAGARE UN CUBO ROSSO E UNO BLU*/
 
-        ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker);
+        ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker); //PLAYERS NELLA CELLA
 
         if(!playersList.isEmpty()){
 

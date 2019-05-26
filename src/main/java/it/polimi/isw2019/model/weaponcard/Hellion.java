@@ -66,9 +66,8 @@ public class Hellion extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if((defenders.get(0) != null) && (moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
+        if((defenders.get(0) != null) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
 
-            /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
             hellionEffects(gameBoard, attacker, defenders, 1);
         }
         else{
@@ -91,17 +90,15 @@ public class Hellion extends AbstractWeaponCard {
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-        if(moreThanOneOrTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY(), 1)) { //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
+        //PAGA UN ROSSO
+
+        if((!defenders.isEmpty()) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) { //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
             hellionEffects(gameBoard, attacker, defenders, 2);
         }
 
         else {
             throw new ErrorEffectException();
         }
-        /*CONTROLLO SE I PLAYERS ALL'INTERNO DELLA STANZA SONO VISIBILI */
-
-
-
     }
 
     /**

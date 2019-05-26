@@ -35,10 +35,13 @@ public class TractorBeam extends AbstractWeaponCard {
 
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-
-        /*MUOVI DI DUE*/
-
         if(defenders.get(0) != null){
+            if (coordinates[0] != -1 && coordinates[1] != -1){
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+                if (coordinates[2] != -1 && coordinates[3] != -1){
+                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+                }
+            }
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
@@ -51,6 +54,7 @@ public class TractorBeam extends AbstractWeaponCard {
             throw new ErrorEffectException();
 
         }
+
 
     }
 
@@ -68,14 +72,24 @@ public class TractorBeam extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        /*MUOVI DI DUE*/
+        /*PAGA GIALLO ROSSO*/
 
-        if((defenders.get(1) != null) && (sameSquare(attacker.getX(), attacker.getY(), defenders.get(1).getX(), defenders.get(1).getY()))){
+        if(defenders.get(0) != null) {
+            if (coordinates[0] != -1 && coordinates[1] != -1) {
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+                if (coordinates[2] != -1 && coordinates[3] != -1) {
+                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+                }
+            }
 
-            try {
-                defenders.get(1).sufferDamageOrMark(attacker.getColor(), 3, 0);
-            } catch (DamageTrackException e) {
-                e.getMessage();
+            if (sameSquare(attacker.getX(), attacker.getY(), defenders.get(1).getX(), defenders.get(1).getY())) {
+                try {
+                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 3, 0);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+            } else {
+                throw new ErrorEffectException();
             }
 
         } else {

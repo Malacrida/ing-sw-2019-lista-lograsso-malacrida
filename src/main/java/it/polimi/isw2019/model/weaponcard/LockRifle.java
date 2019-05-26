@@ -44,7 +44,7 @@ public class LockRifle extends AbstractWeaponCard {
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }
-            firstIsValid = true;
+            this.firstIsValid = true;
 
         } else {
             throw new ErrorEffectException();
@@ -65,7 +65,10 @@ public class LockRifle extends AbstractWeaponCard {
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-        if (firstIsValid){
+
+        /* PAGARE UN ROSSO */
+
+        if (this.firstIsValid){
 
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 

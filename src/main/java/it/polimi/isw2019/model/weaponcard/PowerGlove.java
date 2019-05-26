@@ -38,15 +38,14 @@ public class PowerGlove extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())){ //se il defender è la stanza accanto
-            gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
+        if(gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())){ //se il defender è la stanza accanto DA CONTROLLARE SE È ESATTAMENTE UN MOVIMENTO O NO
+            gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY()); //Cambia posizione l'attacconte e va nello stesso quadrato del bersaglio
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 2);
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
-
 
         } else {
             throw new ErrorEffectException();
@@ -67,6 +66,11 @@ public class PowerGlove extends AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
+        /* PAGA UN BLU */
+
+        char dir1 = direction(attacker, defenders.get(0));
+        char dir2 = direction(attacker, defenders.get(1));
+
         if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //se il defenders.get(0) è la stanza accanto
 
             gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
@@ -77,7 +81,7 @@ public class PowerGlove extends AbstractWeaponCard {
                 e.getMessage();
             }
 
-            if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(1).getX(), defenders.get(1).getY())) { //se il defenders.get(1) è la stanza accanto
+            if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(1).getX(), defenders.get(1).getY()) && (dir1 == dir2)) { //se il defenders.get(1) è la stanza accanto
                 gameBoard.changePositionPlayer(attacker, defenders.get(1).getX(), defenders.get(1).getY());
 
                 try {

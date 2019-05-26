@@ -38,16 +38,12 @@ public class HeatSeeker extends AbstractWeaponCard {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if (defenders.get(0) != null) {
-            if (visiblePlayers.contains(defenders.get(0))) {
+        if (!defenders.isEmpty() && !visiblePlayers.contains(defenders.get(0))) {
 
-                throw new ErrorEffectException();
-            } else defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
+            defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
 
-        }
-        else{
-            throw new ErrorEffectException();
-        }
+        } else throw new ErrorEffectException();
+
     }
 
     /**

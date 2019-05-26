@@ -36,7 +36,11 @@ public class SledgeHammer extends AbstractWeaponCard {
 
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-        twoDamageInSameSquare(attacker, defenders.get(0));
+        if(!defenders.isEmpty()){
+            damagesInSameSquare(attacker, defenders.get(0),2);
+        } else {
+            throw new ErrorEffectException();
+        }
     }
 
     /**
@@ -52,15 +56,22 @@ public class SledgeHammer extends AbstractWeaponCard {
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException {
+        /*PAGA UN ROSSO*/
+        if(!defenders.isEmpty()){
+            damagesInSameSquare(attacker, defenders.get(0),3);
+            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
 
-        threeDamageInSameSquare(attacker, defenders.get(0));
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+            }
+            if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
 
-        if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
-            //
-            gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+            }
+
         } else {
             throw new ErrorEffectException();
         }
+
     }
 
     /**

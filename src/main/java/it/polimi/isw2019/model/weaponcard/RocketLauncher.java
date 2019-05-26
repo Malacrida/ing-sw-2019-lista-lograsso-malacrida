@@ -47,7 +47,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
+        if ((!defenders.isEmpty()) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
@@ -57,12 +57,10 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
             if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) { //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
 //
-                gameBoard.changePositionPlayer(attacker, defenders.get(0).getX(), defenders.get(0).getY());
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
 
-            } else {
-                throw new ErrorEffectException();
             }
-            firstIsValid = true;
+
         } else {
             throw new ErrorEffectException();
         }
@@ -81,8 +79,10 @@ public class RocketLauncher extends  AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
+        /* PAGARE UN BLU */
+
         if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))) {
-//
+
             gameBoard.changePositionPlayer(attacker, coordinates[2], coordinates[3]);
 
             if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[4], coordinates[5]))) {
@@ -92,6 +92,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
             } else {
                 throw new ErrorEffectException();
             }
+
         } else
             throw new ErrorEffectException();
     }
@@ -110,11 +111,9 @@ public class RocketLauncher extends  AbstractWeaponCard {
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        /* PAGO UN GIALLO */
 
-        if (firstIsValid) {
-            throw new ErrorEffectException();
-        }
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
 
@@ -133,6 +132,12 @@ public class RocketLauncher extends  AbstractWeaponCard {
                 } catch (DamageTrackException  e) {
                     e.getMessage();
                 }
+
+            }
+
+            if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) { //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
+
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
 
             }
 
