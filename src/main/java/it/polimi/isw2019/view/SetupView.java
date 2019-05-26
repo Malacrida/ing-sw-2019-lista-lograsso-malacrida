@@ -8,6 +8,11 @@ import java.util.Scanner;
 public class SetupView extends Observable implements VisitorView  {
 
     @Override
+    public void visitUpdateView(UpdateMessage updateMessage) {
+
+    }
+
+    @Override
     public void visitSetupView(MoveMessage moveMessage) {
         SetUpMove message ;
         Scanner input = new Scanner(System.in);

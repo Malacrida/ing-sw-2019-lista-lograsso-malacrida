@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 public class ModelTest {
 
     Model model;
-    AbstractPlayerBoard playerBoard1;
-    AbstractPlayerBoard playerBoard2;
-    AbstractPlayerBoard playerBoard3;
-    AbstractPlayerBoard playerBoard4;
-    AbstractPlayerBoard playerBoard5;
+    PlayerBoard playerBoard1;
+    PlayerBoard playerBoard2;
+    PlayerBoard playerBoard3;
+    PlayerBoard playerBoard4;
+    PlayerBoard playerBoard5;
     Player player1, player2, player3, player4, player5;
     KillShotTrack killShotTrack;
 

@@ -19,5 +19,6 @@ public interface VisitorView{
 
     public abstract void visitTurnView(TurnMessage turnMessage);
 
+    public abstract void visitUpdateView(UpdateMessage updateMessage);
 
 }

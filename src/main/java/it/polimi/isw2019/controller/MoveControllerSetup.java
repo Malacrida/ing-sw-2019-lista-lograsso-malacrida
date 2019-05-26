@@ -1,10 +1,11 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.PlayerMove.*;
+import it.polimi.isw2019.model.Model;
 
 public class MoveControllerSetup implements VisitorController {
 
-
+    private Model model;
     @Override
     public void visitControllerSetUpPlayer(SetUpMove setUpMove) {
 
@@ -27,37 +28,7 @@ public class MoveControllerSetup implements VisitorController {
 
     @Override
     public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
-        switch(chooseActionMove.getNumAction()) {
-            case 0:
-                //create runMessage
-                //check with the status of the player
-                break;
-            case 1:
-                //create runGrabMessage
-                //check with the statu of the player
-                break;
-            case 2:
-                //create useWeaponCardMessage
-                break;
-            case 3:
-                //create runUseWeaponCardMessage
-                //check with status of player
-                break;
-            case 4:
-                //create runReloadUseWeaponCardMessage
-                //check with status of player
-                break;
-            case 5:
-                //create reloadMessage
-                break;
-
-            case 6:
-                //create useWeaponCardMessage
-                break;
-            //default -> messaggio errore
-            }
-
-
+            model.sendMessage(chooseActionMove.getNumAction());
         }
     }
 

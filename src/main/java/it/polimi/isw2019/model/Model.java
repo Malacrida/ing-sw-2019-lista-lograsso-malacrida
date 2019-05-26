@@ -2,8 +2,7 @@ package it.polimi.isw2019.model;
 
 
 //import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.message.MoveMessage.ErrorMessage;
-import it.polimi.isw2019.message.MoveMessage.UpdateMessage;
+import it.polimi.isw2019.message.MoveMessage.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.Utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
@@ -256,12 +255,50 @@ public class Model extends Observable {
 
     }
     //
+
+    public int numMovementCanBePerformedRunGrab(){
+        int numDamage = currentPlayer.playerDamage();
+        if(numDamage <= 2 && !currentPlayer.isFrenzy())
+            return 1;
+        else if(numDamage > 2 && !currentPlayer.isFrenzy())
+            return 2;
+        else if(currentPlayer.isFrenzy() && !currentPlayer.isFirstPlayer())
+            return 2;
+        else if(currentPlayer.isFrenzy() && currentPlayer.isFrenzy())
+            return 3;
+        else
+            return -1;
+    }
+
+    public int numMovementCanBePerformedRun(){
+        int numDamage = currentPlayer.playerDamage();
+        if(!currentPlayer.isFrenzy())
+            return 3;
+        else if(currentPlayer.isFrenzy())
+            return 4;
+        else
+            return -1;
+    }
+
     public void sendErrorMessage(Player player, String error){
 
         notifyObservers(new ErrorMessage(player.getName(),error));
 
     }
 
+
+    public void sendMessage(int numAction){
+        switch (numAction){
+            case 0:
+                notifyObservers(new RunMessage(currentPlayer.getName(),numMovementCanBePerformedRun()));
+                break;
+
+            case 1:
+                notifyObservers(new RunGrabMessage(currentPlayer.getName(),numMovementCanBePerformedRunGrab()));
+                break;
+        }
+
+    }
 
     public void grabAmmoCard(int[][] movement){
         if(!isSpawnPoint(movement[0][0], movement[0][1])){
@@ -292,6 +329,7 @@ public class Model extends Observable {
                 int[] index = gameBoard.getGameArena().coordinateOfSquare(tmpSquare);
                 sendErrorMessage( currentPlayer,"the cell with coordinates " + movement[i][0] + movement[i][1] + "is NOT near to the cell " +
                         "with coordinates" + index[0]+ index[1]);
+                sendMessage(0);
                 return;
             }
             squares =  gameBoard.getGameArena().squaresAvailable(movement[i][0], movement[i][1]);
@@ -306,6 +344,8 @@ public class Model extends Observable {
 
             int numPlayerInRoom = gameBoard.playersInOneSquare(movement[movement.length-1][0],movement[movement.length-1][1],currentPlayer).size();
             gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
+            //migliorare l'update
+           //metodo che viene invocato!!!!!
             notifyObservers(new UpdateMessage(currentPlayer.getName()));
         }
     }
@@ -321,7 +361,7 @@ public class Model extends Observable {
             if(getCurrentPlayer().getWeaponCards().size() == 3){
                 //creare un warning in cui chiedi di inserire un'altra weapon card
                 sendErrorMessage(currentPlayer,"you've got too many card, you cannot grab! ");
-
+                sendMessage(1);
             } else if (getCurrentPlayer().getWeaponCards().size() <3) {
                 //chiedere a davi se il metodo è quello corretto
                 if (weaponCard.getRechargecube().equals(convertCharToColorCube(color))) {

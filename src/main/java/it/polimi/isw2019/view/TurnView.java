@@ -34,6 +34,11 @@ public class TurnView implements VisitorView {
     }
 
     @Override
+    public void visitUpdateView(UpdateMessage updateMessage) {
+
+    }
+
+    @Override
     public void visitTurnView(TurnMessage turnMessage) {
           //  if(turnMessage.getNicknamePlayer().compareTo(view.getNickname())
                     // yourTurnView
