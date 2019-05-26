@@ -14,12 +14,15 @@ public class PlayerBoard {
     private boolean frenzy;
     protected ArrayList<ColorPlayer> damageTokens= new ArrayList<>();
    // protected ColorPlayer [] damageTokens= new ColorPlayer[12];
-    private int numOfDamages =0;
+    //private int numOfDamages =0;
     private ArrayList<ColorPlayer> markTokens= new ArrayList<>();
     private ArrayList<ColorCube> redCubes= new ArrayList<>();
     private ArrayList<ColorCube> yellowCubes= new ArrayList<>();
     private ArrayList<ColorCube> blueCubes= new ArrayList<>();
 
+    public int numOfDamages (){
+        return damageTokens.size();
+    }
 
     PlayerBoard(ColorPlayer color){
         this.color=color;
