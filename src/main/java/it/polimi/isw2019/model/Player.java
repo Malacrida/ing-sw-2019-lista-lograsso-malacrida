@@ -22,6 +22,9 @@ public class Player {
     private int y;
     private ColorRoom colorRoom;
 
+    private String[][] weaponCard;
+    private String[][] powerUpCard;
+
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;

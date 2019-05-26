@@ -249,25 +249,30 @@ public abstract class AbstractPlayerBoard {
         return colorRepresentation;
     }
 
-    public void setColorRepresentation() {
-        switch(color){
+    public String returnColor(ColorPlayer color){
+        String tmpColor = " ";
+        switch(color) {
             case BLUE:
-                colorRepresentation = "blue";
-                break;
+                tmpColor =  "blue";
+            break;
             case VIOLET:
-                colorRepresentation = "violet";
-                break;
+                tmpColor = "violet";
+            break;
             case YELLOW:
-                colorRepresentation = "yellow";
-                break;
+                tmpColor = "yellow";
+            break;
             case GREY:
-                colorRepresentation = "grey";
-                break;
+                tmpColor = "grey";
+            break;
             case GREEN:
-                colorRepresentation = "green";
-                break;
-
+                tmpColor = "green";
+            break;
         }
+        return tmpColor;
+    }
+
+    public void setColorRepresentation() {
+        colorRepresentation = returnColor(color);
     }
 
     public String[][] getPlayerBoardRepresentation() {
@@ -283,12 +288,27 @@ public abstract class AbstractPlayerBoard {
         playerBoardRepresentation[0][0] = getColorRepresentation();
         playerBoardRepresentation[1] = getMarkRepresentation();
         playerBoardRepresentation[2] = getDamageRepresentation();
-        if(frenzy == true){
+        if(frenzy){
             setSkullsFrenzyRepresentation();
         }
         playerBoardRepresentation[2] = getSkullsRepresentation();
     }
 
-    //update!!
+    public void updateSkull(){
+        for(int i=0; i< skullsRepresentation.length; i++)
+            skullsRepresentation[i] = "X";
+    }
+    public void updateDamage(){
+        for(int i=0; i< damageTokens.size(); i++){
+            damageRepresentation[i] = returnColor(damageTokens.get(i));
+        }
+    }
+
+    public void updateMark(){
+        for(int i=0; i< markTokens.size(); i++){
+            markRepresentation[i] = returnColor(markTokens.get(i));
+        }
+    }
+
 
 }

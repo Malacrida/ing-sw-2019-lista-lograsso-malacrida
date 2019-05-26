@@ -5,11 +5,10 @@ import it.polimi.isw2019.view.VisitorView;
 import java.util.ArrayList;
 
 public class UpdateMessage extends MoveMessage{
+    private String[][] gameBoard;
 
-    private String gameBoard;
-    private ArrayList<String> playerBoard;
-    private ArrayList<String> weaponCard;
-    private ArrayList<String> powerUpCard;
+
+    private String[][] playerBoard;
     private int temporaryScore;
 
     public UpdateMessage(String nicknamePlayer){
@@ -18,7 +17,7 @@ public class UpdateMessage extends MoveMessage{
 
     @Override
     public void visit(VisitorView visitorView) {
-
+            //visitorView.v
     }
 
     @Override
@@ -30,36 +29,12 @@ public class UpdateMessage extends MoveMessage{
         this.nicknamePlayer = nicknamePlayer;
     }
 
-    public String getGameBoard() {
-        return gameBoard;
-    }
-
-    public void setGameBoard(String gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    public ArrayList<String> getPlayerBoard() {
+    public String[][] getPlayerBoard() {
         return playerBoard;
     }
 
-    public void setPlayerBoard(ArrayList<String> playerBoard) {
+    public void setPlayerBoard(String[][] playerBoard) {
         this.playerBoard = playerBoard;
-    }
-
-    public ArrayList<String> getWeaponCard() {
-        return weaponCard;
-    }
-
-    public void setWeaponCard(ArrayList<String> weaponCard) {
-        this.weaponCard = weaponCard;
-    }
-
-    public ArrayList<String> getPowerUpCard() {
-        return powerUpCard;
-    }
-
-    public void setPowerUpCard(ArrayList<String> powerUpCard) {
-        this.powerUpCard = powerUpCard;
     }
 
     public int getTemporaryScore() {
@@ -68,5 +43,13 @@ public class UpdateMessage extends MoveMessage{
 
     public void setTemporaryScore(int temporaryScore) {
         this.temporaryScore = temporaryScore;
+    }
+
+    public String[][] getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(String[][] gameBoard) {
+        this.gameBoard = gameBoard;
     }
 }

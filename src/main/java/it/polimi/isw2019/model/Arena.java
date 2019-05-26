@@ -32,19 +32,6 @@ public class Arena {
 
     }
 
-    public String[][] getArenaRepresentation() {
-        return arenaRepresentation;
-    }
-
-    //chiedere a sara per il colore
-    public void setArenaRepresentation() {
-        for (int i = 0; i < squares.length; i++) {
-            for (int j = 0; j < squares[i].length; j++) {
-                // squares[i][j].setSquareRepresentation();
-            }
-        }
-    }
-
     //I colori indicano i punti di spawn
     public void setWeaponsCardOnSquareSpawn(ArrayList<AbstractWeaponCard> weaponCardsRed, ArrayList<AbstractWeaponCard> weaponCardsBlue, ArrayList<AbstractWeaponCard> weaponCardsYellow) {
         squares[1][0].setWeaponCards(weaponCardsRed);
@@ -288,6 +275,50 @@ public class Arena {
             }
         }
     }
+
+    public Square[][] getSquares() {
+        return squares;
+    }
+
+    public ArrayList<Square> squaresAvailable(int x, int y){
+        return squares[x][y].squaresAvailable();
+    }
+
+    public Square getSquare(int x, int y){
+        return squares[x][y];
+    }
+
+    public int[] coordinateOfSquare(Square square){
+        int[] index = new int[2];
+        for(int i=0;i<3;i++)
+            for(int j=0; i<4; j++)
+                if(square.equals(squares[i][j])){
+                    index[0] = i;
+                    index[1] = j;
+                }
+        return index;
+        }
+
+
+    public String[][] getArenaRepresentation() {
+        return arenaRepresentation;
+    }
+
+    //chiedere a sara per il colore
+    public void setArenaRepresentation() {
+        for (int i = 0; i < squares.length; i++) {
+            for (int j = 0; j < squares[i].length; j++) {
+                //mettere a posto
+                //accedere al colore e alla carta
+                squares[i][j].setSquareRepresentation("blue",'A',0);
+            }
+        }
+    }
+
+    public void updateArenaRepresentation(int x, int y, int numPlayers){
+        squares[x][y].setNumPlayersInSquare(numPlayers);
+    }
+
 }
 
 

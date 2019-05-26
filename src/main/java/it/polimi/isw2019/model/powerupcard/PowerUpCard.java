@@ -22,6 +22,7 @@ public class PowerUpCard implements PowerUpCardInterface {
 
     private StateCard checkState = StateCard.DECK;
 
+    private String[][] powerUpDescription;
 
     /* Costruttore */
     public PowerUpCard (int id, String name, String color, String infoEffect, ColorCube colorCard){
