@@ -31,7 +31,7 @@ public class PlayerBoard {
         return damageTokens.size();
     }
 
-    PlayerBoard(ColorPlayer color){
+    public PlayerBoard(ColorPlayer color){
         this.color=color;
        // this.playerBoardID=playerBoardID;
         this.frenzy=false;

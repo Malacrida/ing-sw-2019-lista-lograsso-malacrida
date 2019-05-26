@@ -163,10 +163,9 @@ public abstract class AbstractWeaponCard{
         else if (p2 == null){
             return (sameSquare(p1.getX(), p1.getY(), p3.getX(), p3.getY()));
         }
-        else if (p3 == null){
+        else {
             return (sameSquare(p1.getX(), p1.getY(), p2.getX(), p2.getY()));
         }
-        else return false;
     }
 
     protected boolean threeSquaresAvailable(GameBoard gameBoard, Player attacker, Player p1, Player p2, Player p3){
