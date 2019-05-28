@@ -1,8 +1,5 @@
 package it.polimi.isw2019.network;
 
-import it.polimi.isw2019.message.PlayerMove.ActionMove;
-import it.polimi.isw2019.message.PlayerMove.ChooseActionMove;
-
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

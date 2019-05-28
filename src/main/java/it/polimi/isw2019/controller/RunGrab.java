@@ -1,9 +1,7 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.PlayerMove.*;
-import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.Model;
-import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 public class RunGrab extends ActionController{
     private Model model;
