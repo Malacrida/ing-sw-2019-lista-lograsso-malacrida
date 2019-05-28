@@ -1,5 +1,6 @@
 package it.polimi.isw2019.message.MoveMessage;
 
+import it.polimi.isw2019.view.MainView;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;

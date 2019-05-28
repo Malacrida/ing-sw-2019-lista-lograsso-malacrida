@@ -1,15 +1,21 @@
 package it.polimi.isw2019.message.PlayerMove;
 
 import it.polimi.isw2019.controller.VisitorController;
+import it.polimi.isw2019.view.MainView;
 
 public class SetUpMove extends PlayerMove{
     private String nickname;
     private String phrase;
     private String color;
     private char gameMood;
+    private MainView player;
 
+    public MainView getPlayer() {
+        return player;
+    }
 
-    public SetUpMove(String nickname, String phrase, String color, char gameMood){
+    public SetUpMove(MainView player, String nickname, String phrase, String color, char gameMood){
+        this.player= player;
         this.nickname = nickname;
         this.phrase = phrase;
         this.color = color;
@@ -35,7 +41,6 @@ public class SetUpMove extends PlayerMove{
 
     @Override
     public void visit(VisitorController singleMoveController) {
-        //check if is correct
-        //singleMoveController.visitControllerSetUpPlayer(this);
+        singleMoveController.visitControllerSetUpPlayer(this);
     }
 }

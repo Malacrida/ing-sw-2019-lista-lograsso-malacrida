@@ -4,6 +4,7 @@ import it.polimi.isw2019.message.PlayerMove.*;
 import it.polimi.isw2019.model.Model;
 
 public class RunGrab extends ActionController{
+
     private Model model;
     public RunGrab(Model model){
         super(model);

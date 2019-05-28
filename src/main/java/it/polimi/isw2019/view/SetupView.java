@@ -34,9 +34,11 @@ public class SetupView extends Observable implements VisitorView  {
                 "to choose one of them : /n 1) N -> Normal ; 2) T -> Terminator ; 3) B ->Boot; ");
         //consume only one char
         gameMood = input.next().charAt(0);
-        message = new SetUpMove(nickname,phrase,color, gameMood);
+        //message = new SetUpMove(nickname,phrase,color, gameMood);
 
     }
+
+
 
     @Override
     public void visitActionView(MoveMessage moveMessage) {

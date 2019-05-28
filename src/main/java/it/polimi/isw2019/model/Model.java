@@ -280,6 +280,7 @@ public class Model extends Observable {
             return -1;
     }
 
+
     public void sendErrorMessage(Player player, String error){
 
         notifyObservers(new ErrorMessage(player.getName(),error));
