@@ -1,6 +1,6 @@
 package it.polimi.isw2019.view;
 
-import it.polimi.isw2019.message.MoveMessage.*;
+import it.polimi.isw2019.message.movemessage.*;
 
 
 public interface VisitorView{

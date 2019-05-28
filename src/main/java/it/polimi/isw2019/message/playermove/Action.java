@@ -1,4 +1,4 @@
-package it.polimi.isw2019.message.PlayerMove;
+package it.polimi.isw2019.message.playermove;
 
 public abstract class Action extends PlayerMove {
 

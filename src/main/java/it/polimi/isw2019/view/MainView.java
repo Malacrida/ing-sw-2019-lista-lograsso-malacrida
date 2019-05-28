@@ -1,14 +1,13 @@
 package it.polimi.isw2019.view;
 
-import it.polimi.isw2019.Utilities.Observable;
-import it.polimi.isw2019.message.MoveMessage.*;
-import it.polimi.isw2019.Utilities.Observer;
-import it.polimi.isw2019.message.PlayerMove.PlayerMove;
-import it.polimi.isw2019.message.PlayerMove.RunGrabMove;
-import it.polimi.isw2019.message.PlayerMove.RunMove;
-import it.polimi.isw2019.message.PlayerMove.SetUpMove;
+import it.polimi.isw2019.utilities.Observable;
+import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.utilities.Observer;
+import it.polimi.isw2019.message.playermove.PlayerMove;
+import it.polimi.isw2019.message.playermove.RunGrabMove;
+import it.polimi.isw2019.message.playermove.RunMove;
+import it.polimi.isw2019.message.playermove.SetUpMove;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {

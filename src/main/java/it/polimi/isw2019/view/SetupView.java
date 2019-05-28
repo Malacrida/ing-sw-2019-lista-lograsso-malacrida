@@ -1,7 +1,7 @@
 package it.polimi.isw2019.view;
-import it.polimi.isw2019.message.MoveMessage.*;
-import it.polimi.isw2019.message.PlayerMove.SetUpMove;
-import it.polimi.isw2019.Utilities.Observable;
+import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.SetUpMove;
+import it.polimi.isw2019.utilities.Observable;
 
 import java.util.Scanner;
 

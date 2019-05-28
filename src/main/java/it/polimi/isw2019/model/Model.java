@@ -2,9 +2,9 @@ package it.polimi.isw2019.model;
 
 
 //import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
-import it.polimi.isw2019.message.MoveMessage.*;
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
-import it.polimi.isw2019.Utilities.Observable;
+import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;

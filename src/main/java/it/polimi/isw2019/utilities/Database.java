@@ -1,4 +1,4 @@
-package it.polimi.isw2019.Utilities;
+package it.polimi.isw2019.utilities;
 
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;

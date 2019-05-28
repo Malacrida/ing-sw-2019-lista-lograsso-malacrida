@@ -1,4 +1,4 @@
-package it.polimi.isw2019.message.MoveMessage;
+package it.polimi.isw2019.message.movemessage;
 
 public class RunGrabMessage extends RunMessage{
 

@@ -1,12 +1,9 @@
 package it.polimi.isw2019.controller;
 
-import it.polimi.isw2019.message.PlayerMove.*;
+import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.Model;
-import it.polimi.isw2019.Utilities.Observer;
+import it.polimi.isw2019.utilities.Observer;
 import it.polimi.isw2019.model.SetUpGame;
-import it.polimi.isw2019.view.MainView;
-
-import java.util.ArrayList;
 
 public class MainController implements Observer<PlayerMove> {
     MoveControllerSetup moveControllerSetup;

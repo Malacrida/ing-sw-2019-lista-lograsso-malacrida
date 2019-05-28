@@ -1,7 +1,6 @@
 package it.polimi.isw2019.controller;
 
-import it.polimi.isw2019.Utilities.Observer;
-import it.polimi.isw2019.message.PlayerMove.*;
+import it.polimi.isw2019.message.playermove.*;
 
 
 public interface VisitorController {
