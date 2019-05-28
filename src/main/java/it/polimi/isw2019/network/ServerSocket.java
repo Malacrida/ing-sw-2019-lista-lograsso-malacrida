@@ -13,7 +13,15 @@ public class ServerSocket {
     public ServerSocket(int serverPort){
         this.serverPort = serverPort;
         this.serverSocket = new ServerSocket(serverPort);
+    }
 
+    public ServerSocket(ServerSocket serverSocket){
+        this.serverSocket = serverSocket;
+        this.serverPort = serverSocket.getServerPort();
+    }
+
+    private int getServerPort() {
+        return serverPort;
     }
 
 }

@@ -14,15 +14,13 @@ public class Furnace extends AbstractWeaponCard {
 
     public Furnace() {
         super(9, "Furnace", ColorCube.RED,1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT: Choose a room you can see, but not the room\n" +
-                "you are in. Deal 1 damage to everyone in that room.\n");
-        this.infoEffect.add("IN COZY FIRE MODE: Choose a square exactly one move\n" +
-                "away. Deal 1 damage and 1 mark to everyone on that\n" +
-                "square.\n");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 1;
+        this.infoEffect[0] = "FIRST EFFECT : Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.\n";
+        this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTE : You can use only one effect.\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.RED;
+        this.rechargeCube[1] = ColorCube.BLUE;
     }
 
     private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){

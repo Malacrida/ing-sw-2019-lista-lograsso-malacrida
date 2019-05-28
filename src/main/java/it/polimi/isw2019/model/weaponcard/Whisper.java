@@ -13,17 +13,14 @@ public class Whisper extends AbstractWeaponCard {
 
     public Whisper() {
         super(5, "Whisper", ColorCube.BLUE, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("EFFECT: Deal 3 damage and 1 mark to 1 target you can see.\n" +
-                "Your target must be at least 2 moves away from you.\n");
-        this.infoEffect.add("NOTES: Notes: For example, in the 2-by-2 room, you cannot shoot\n" +
-                "a target on an adjacent square, but you can shoot a target\n" +
-                "on the diagonal. If you are beside a door, you can't shoot\n" +
-                "a target on the other side of the door, but you can shoot\n" +
-                "a target on a different square of that room.\n");
-        this.rechargeCube[0] = 0;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 2;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\n";
+        this.infoEffect[1] = "SECOND EFFECT: This effect doesn't exist.\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";
+        this.infoEffect[3] = "NOTES: For example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal. If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.\n";
+        this.rechargeCube = new ColorCube[3];
+        this.rechargeCube[0] = ColorCube.BLUE;
+        this.rechargeCube[1] = ColorCube.BLUE;
+        this.rechargeCube[2] = ColorCube.YELLOW;
     }
 
 

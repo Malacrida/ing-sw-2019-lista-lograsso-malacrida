@@ -14,20 +14,12 @@ public class Flamethrower extends AbstractWeaponCard {
 
     public Flamethrower() {
         super(12, "Flamethrower", ColorCube.RED, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC MODE: FChoose a square 1 move away and possibly a second square\n" +
-                "1 more move away in the same direction. On each square, you may\n" +
-                "choose 1 target and give it 1 damage.\n");
-        this.infoEffect.add("IN BARBECUE MODE: Choose 2 squares as above. Deal 2 damage to\n" +
-                "everyone on the first square and 1 damage to everyone on the second\n" +
-                "square.\n");
-        this.infoEffect.add("NOTES: This weapon cannot damage anyone in your square. However,\n" +
-                "it can sometimes damage a target you can't see – the flame won't go\n" +
-                "through walls, but it will go through doors. Think of it as a straight-line\n" +
-                "blast of flame that can travel 2 squares in a cardinal direction.\n");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 0;
+        this.infoEffect[0] = "FIRST EFFECT : Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n";
+        this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTE : This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.\n";
+        this.rechargeCube = new ColorCube[1];
+        this.rechargeCube[0] = ColorCube.RED;
     }
 
 

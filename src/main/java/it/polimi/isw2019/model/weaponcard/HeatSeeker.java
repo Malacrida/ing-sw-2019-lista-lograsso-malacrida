@@ -1,11 +1,11 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.NoEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
@@ -13,13 +13,14 @@ public class HeatSeeker extends AbstractWeaponCard {
 
     public HeatSeeker() {
         super(10, "HeatSeeker", ColorCube.RED, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("EFFECT: Choose 1 target you cannot see and deal 3 damage " +
-                "to it.");
-        this.infoEffect.add("NOTE : Yes, this can only hit targets you cannot see. ");
-        this.rechargeCube[0] = 2;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 0;
+        this.infoEffect[0] = "FIRST EFFECT: Choose 1 target you cannot see and deal 3 damage to it.\n";
+        this.infoEffect[1] = "SECOND EFFECT: This effect doesn't exist;\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTES: Yes, this can only hit targets you cannot see.\n";
+        this.rechargeCube = new ColorCube[3];
+        this.rechargeCube[0] = ColorCube.RED;
+        this.rechargeCube[1] = ColorCube.RED;
+        this.rechargeCube[2] = ColorCube.YELLOW;
     }
 
     /**

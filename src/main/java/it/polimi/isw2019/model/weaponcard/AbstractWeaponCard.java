@@ -4,8 +4,8 @@ import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
@@ -14,9 +14,9 @@ public abstract class AbstractWeaponCard{
     protected int id;
     protected String name;
     protected ColorCube color;
-    protected ArrayList<String> infoEffect;
+    protected String[] infoEffect = new String[4];
     protected ArrayList<Player> deathPlayers;
-    protected int[] rechargeCube = new int[3]; //LEGENDA [0] -> RED [1] -> YELLOW [2] -> BLUE
+    protected ColorCube[] rechargeCube;
     protected StateCard stateCard = StateCard.DECK;
     protected int maxPossibleEffects;
     protected boolean firstIsValid = false;
@@ -43,13 +43,13 @@ public abstract class AbstractWeaponCard{
         return name;
     }
 
-    public int[] getRechargecube(){ return rechargeCube; }
+    public ColorCube[] getRechargecube(){ return rechargeCube; }
 
     public ColorCube getColor(){
         return color;
     }
 
-    public ArrayList<String> getInfoEffect(){
+    public String[] getInfoEffect(){
         return infoEffect;
     }
 

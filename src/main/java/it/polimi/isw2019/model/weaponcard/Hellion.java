@@ -1,11 +1,11 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.NoEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
@@ -13,16 +13,13 @@ public class Hellion extends AbstractWeaponCard {
 
     public Hellion() {
         super(11, "Hellion", ColorCube.RED, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC MODE: Deal 1 damage to 1 target you can see at least\n" +
-                "1 move away. Then give 1 mark to that target and everyone\n" +
-                "else on that square.\n");
-        this.infoEffect.add("IN NANO-TRACER MODE: Deal 1 damage to 1 target you can\n" +
-                "see at least 1 move away. Then give 2 marks to that target\n" +
-                "and everyone else on that square.\n");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 0;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTES: You can use only one effect\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.RED;
+        this.rechargeCube[1] = ColorCube.YELLOW;
     }
 
 

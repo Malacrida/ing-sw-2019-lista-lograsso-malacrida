@@ -13,14 +13,12 @@ public class SledgeHammer extends AbstractWeaponCard {
 
     public SledgeHammer() {
         super(21, "SledgeHammer", ColorCube.YELLOW, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("Deal 2 damage to 1 target on your square.");
-        this.infoEffect.add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.");
-        this.infoEffect.add("NOTES: Remember that moves go through" +
-                "doors, but not walls.");
-        this.rechargeCube[0] = 0;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 0;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage to 1 target on your square.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";
+        this.infoEffect[3] = "NOTES: Remember that moves go through doors, but not walls.\n";
+        this.rechargeCube = new ColorCube[1];
+        this.rechargeCube[0] = ColorCube.YELLOW;
     }
 
     /**

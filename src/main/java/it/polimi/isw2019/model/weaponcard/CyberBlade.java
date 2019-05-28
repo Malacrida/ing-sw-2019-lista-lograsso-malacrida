@@ -1,10 +1,10 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 
 import java.util.ArrayList;
 
@@ -12,16 +12,15 @@ public class CyberBlade extends AbstractWeaponCard{
 
     public CyberBlade(){
         super(16, "Cyber Blade", ColorCube.YELLOW, 3);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT : Deal 2 damage to 1 target on your square.\n");
-        this.infoEffect.add("WITH SHADOWSTEP: move 1 square before or after the basic effect");
-        this.infoEffect.add("WITH SLICE AND DICE : to a different target on your square the shadowstep may be used before or after this effect.");
-        this.infoEffect.add("NOTE : Combining all effects allows you to move onto a square and\n" +
-                "whack 2 people; or whack somebody, move, and whack somebody else;\n" +
-                "or whack 2 people and then move.   ");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 0;
+
+        this.infoEffect[0] = "FIRST EFFECT : Deal 2 damage to 1 target on your square.\n";
+        this.infoEffect[1] = "SECOND EFFECT: move 1 square before or after the basic effect\n";
+        this.infoEffect[2] = "THIRD EFFECT : to a different target on your square the shadowstep may be used before or after this effect.";
+        this.infoEffect[3] = "NOTE : Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else;\n" +
+                "or whack 2 people and then move.";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.YELLOW;
+        this.rechargeCube[1] = ColorCube.RED;
     }
 
     /**

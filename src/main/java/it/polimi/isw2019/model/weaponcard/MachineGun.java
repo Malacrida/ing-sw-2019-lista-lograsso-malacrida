@@ -13,16 +13,13 @@ public class MachineGun extends AbstractWeaponCard {
 
     public MachineGun() {
         super(2, "Machine Gun", ColorCube.BLUE, 3);
-        this.infoEffect = new ArrayList<>();
-        infoEffect.add("BASIC EFFECT: Choose 1 or 2 targets you can see and deal 1 damage to each.\n");
-        infoEffect.add("WITH FOCUS SHOT: Deal 1 additional damage to one of those targets. You have to pay a YELLOW cube.");
-        infoEffect.add("WITH TURRET TRIPOD: Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see. You have to pay a BLUE cube.\n");
-        infoEffect.add("NOTES: If you deal both additional points of damage, they must be dealt ot 2 different targhets.\n" +
-                "If you see only 2 targets, you deal 2 to each if you use both optional effects.\n" +
-                "If you use the basic effect on only 1 target, you can still use the turret tripod to give it 1 additional damage");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 1;
+        this.infoEffect[0] = "FIRST EFFECT: Choose 1 or 2 targets you can see and deal 1 damage to each.\\n";
+        this.infoEffect[1] = "SECOND EFFECT: Deal 1 additional damage to one of those targets. You have to pay a YELLOW cube.";
+        this.infoEffect[2] = "THIRD EFFECT: Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see. You have to pay a BLUE cube.\n";
+        this.infoEffect[3] = "NOTES: If you deal both additional points of damage, they must be dealt ot 2 different targhets. If you see only 2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the turret tripod to give it 1 additional damage.\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.BLUE;
+        this.rechargeCube[1] = ColorCube.RED;
     }
 
 
