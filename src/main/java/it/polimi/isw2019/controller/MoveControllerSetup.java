@@ -1,14 +1,15 @@
 package it.polimi.isw2019.controller;
 
+import it.polimi.isw2019.Utilities.Observer;
 import it.polimi.isw2019.message.PlayerMove.*;
 import it.polimi.isw2019.model.Model;
 
-public class MoveControllerSetup implements VisitorController {
+public class MoveControllerSetup implements VisitorController{
 
     private Model model;
     @Override
     public void visitControllerSetUpPlayer(SetUpMove setUpMove) {
-
+            model.registerObserver(setUpMove.getPlayer());
     }
 
     @Override

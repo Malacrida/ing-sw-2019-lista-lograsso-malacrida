@@ -5,4 +5,5 @@ public class RunGrabMessage extends RunMessage{
     public RunGrabMessage(String nicknamePlayer, int numMovement) {
         super(nicknamePlayer, numMovement);
     }
+
 }

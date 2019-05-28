@@ -6,6 +6,7 @@ import it.polimi.isw2019.model.Model;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 public class RunGrab extends ActionController{
+
     private Model model;
     public RunGrab(Model model){
         super(model);

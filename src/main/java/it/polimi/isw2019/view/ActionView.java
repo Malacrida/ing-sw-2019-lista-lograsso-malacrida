@@ -8,7 +8,7 @@ import it.polimi.isw2019.Utilities.Observable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ActionView  extends Observable<PlayerMove> implements VisitorView{
+/*public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
     private String nicknamePlayer;
     private String actionHero;
@@ -188,3 +188,4 @@ public class ActionView  extends Observable<PlayerMove> implements VisitorView{
 
 
 }
+*/
