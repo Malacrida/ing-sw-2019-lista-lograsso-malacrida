@@ -12,18 +12,13 @@ public class PlasmaGun extends AbstractWeaponCard{
 
     public PlasmaGun() {
         super(4, "Plasma Gun", ColorCube.BLUE, 3);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage to 1 target you can see.\n");
-        this.infoEffect.add("WITH WITH PHASE GLIDE: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n");
-        this.infoEffect.add("WITH CHARGED SHOT: Deal 1 additional damage to 1 additional damage to your target. You have to pay a BLUE cube.\n");
-        this.infoEffect.add("NOTES: The two moves have no ammo cost. You don't have" +
-                " to be able to see your target when you play the card." +
-                "For example, you can move 2 squares and shoot a target" +
-                "you now see. You cannot use 1 move before shooting and " +
-                "1 move after.");
-        this.rechargeCube[0] = 0;
-        this.rechargeCube[1] = 1;
-        this.rechargeCube[2] = 1;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage to 1 target you can see.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n";
+        this.infoEffect[2] = "THIRD EFFECT: Deal 1 additional damage to 1 additional damage to your target. You have to pay a BLUE cube.\n";
+        this.infoEffect[3] = "NOTES: The two moves have no ammo cost. You don't have to be able to see your target when you play the card.\n For example, you can move 2 squares and shoot a target you now see. You cannot use 1 move before shooting and 1 move after.";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.BLUE;
+        this.rechargeCube[1] = ColorCube.YELLOW;
     }
 
     /**

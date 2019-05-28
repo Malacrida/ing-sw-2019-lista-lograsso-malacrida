@@ -13,16 +13,13 @@ public class ShotGun extends AbstractWeaponCard {
 
     public ShotGun() {
         super(18, "Shot Gun", ColorCube.YELLOW, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC MODE : Deal 3 damage to 1 target on" +
-                "your square. If you want, you may then move" +
-                "the target 1 square.");
-        this.infoEffect.add("IN LONG BARREL MODE:Deal 2 damage to" +
-                "1 target on any square exactly one move" +
-                "away.");
-        this.rechargeCube[0] = 0;
-        this.rechargeCube[1] = 2;
-        this.rechargeCube[2] = 0;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Deal 2 damage to 1 target on any square exactly one move away.\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";
+        this.infoEffect[3] = "NOTES: You can use only one effect.\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.YELLOW;
+        this.rechargeCube[1] = ColorCube.YELLOW;
     }
 
     /**
