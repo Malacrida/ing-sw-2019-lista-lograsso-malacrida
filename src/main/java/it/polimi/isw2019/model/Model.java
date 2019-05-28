@@ -264,7 +264,7 @@ public class Model extends Observable {
             return 2;
         else if(currentPlayer.isFrenzy() && !currentPlayer.isFirstPlayer())
             return 2;
-        else if(currentPlayer.isFrenzy() && currentPlayer.isFrenzy())
+        else if(currentPlayer.isFrenzy())
             return 3;
         else
             return -1;
@@ -365,13 +365,15 @@ public class Model extends Observable {
                 sendMessage(1);
             } else if (getCurrentPlayer().getWeaponCards().size() <3) {
                 //chiedere a davi se il metodo è quello corretto
+                /*
                 if (weaponCard.getRechargecube().equals(convertCharToColorCube(color))) {
                     currentPlayer.takeWeaponCards(weaponCard, null);
 
-                } else {
+                }
+                else {
                     //
                     sendErrorMessage(currentPlayer, "you don't have the cubes to pay for this weapon card!");
-                }
+                }*/
             }
             //assume payment correct
             //model.getCurrentPlayer().

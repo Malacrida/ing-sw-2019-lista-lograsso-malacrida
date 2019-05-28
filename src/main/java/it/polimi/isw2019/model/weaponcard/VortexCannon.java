@@ -13,21 +13,13 @@ public class VortexCannon extends AbstractWeaponCard {
 
     public VortexCannon() {
         super(8, "Vortex Cannon", ColorCube.RED, 1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT: basic effect: Choose a square you can see, but not your" +
-                "square. Call it the vortex. Choose a target on the vortex" +
-                "or 1 move away from it. Move it onto the vortex and give it" +
-                "2 damage.");
-        this.infoEffect.add("WITH BLACK HOLE :Choose up to 2 other targets on the" +
-                "vortex or 1 move away from it. Move them onto the vortex" +
-                "and give them each 1 damage.");
-        this.infoEffect.add("NOTE :The 3 targets must be different, but some might" +
-                "start on the same square. It is legal to choose targets on" +
-                "your square, on the vortex, or even on squares you can't" +
-                "see. They all end up on the vortex. ");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 1;
+        this.infoEffect[0] = "FIRST EFFECT: Choose a square you can see, but not your square. Call it the vortex. Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage";
+        this.infoEffect[1] = "SECOND EFFECT: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.";
+        this.infoEffect[2] = "THIRD EFFECT: ";
+        this.infoEffect[3] = "NOTES: The 3 targets must be different, but some might start on the same square. It is legal to choose targets on your square, on the vortex, or even on squares you can't see. They all end up on the vortex.";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.RED;
+        this.rechargeCube[1] = ColorCube.BLUE;
     }
 
     /**
@@ -47,13 +39,15 @@ public class VortexCannon extends AbstractWeaponCard {
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))){
-
-            gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
-
-            try {
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
-            } catch (DamageTrackException e) {
-                e.getMessage();
+            if (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1])){
+                gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
+                try {
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                } catch (DamageTrackException e) {
+                    e.getMessage();
+                }
+            } else {
+                throw new ErrorEffectException();
             }
 
             firstIsValid = true;
@@ -83,7 +77,7 @@ public class VortexCannon extends AbstractWeaponCard {
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         if (firstIsValid){
-            if((defenders.get(1) != null) && (visiblePlayers.contains(defenders.get(1)))){
+            if((visiblePlayers.contains(defenders.get(1))) && (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]))){
 
                 gameBoard.changePositionPlayer(defenders.get(1), coordinates[0], coordinates[1]);
 
@@ -93,7 +87,7 @@ public class VortexCannon extends AbstractWeaponCard {
                     e.getMessage();
                 }
 
-                if((defenders.get(2) != null) && visiblePlayers.contains(defenders.get(2))){
+                if((visiblePlayers.contains(defenders.get(2))) && (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]))){
 
                     gameBoard.changePositionPlayer(defenders.get(2), coordinates[0], coordinates[1]);
 

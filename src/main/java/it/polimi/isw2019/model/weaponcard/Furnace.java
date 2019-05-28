@@ -14,15 +14,13 @@ public class Furnace extends AbstractWeaponCard {
 
     public Furnace() {
         super(9, "Furnace", ColorCube.RED,1);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT: Choose a room you can see, but not the room\n" +
-                "you are in. Deal 1 damage to everyone in that room.\n");
-        this.infoEffect.add("IN COZY FIRE MODE: Choose a square exactly one move\n" +
-                "away. Deal 1 damage and 1 mark to everyone on that\n" +
-                "square.\n");
-        this.rechargeCube[0] = 1;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 1;
+        this.infoEffect[0] = "FIRST EFFECT : Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n";
+        this.infoEffect[1] = "SECOND EFFECT: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.\n";
+        this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTE : You can use only one effect.\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.RED;
+        this.rechargeCube[1] = ColorCube.BLUE;
     }
 
     private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
@@ -50,7 +48,7 @@ public class Furnace extends AbstractWeaponCard {
 
             try {
 
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }
@@ -71,7 +69,7 @@ public class Furnace extends AbstractWeaponCard {
      */
 
     @Override
-    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA RIVEDERE
 
         ArrayList<Player> playerList;
 
@@ -107,14 +105,14 @@ public class Furnace extends AbstractWeaponCard {
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
         ArrayList<Player> playerList;
 
-        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){ //se è una stanza visibile
+        if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1])){ //se è una cella visibile
 
-            if((oneDistanceX(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) || (oneDistanceY(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))) { //se dista esattamente 1
-                playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
+            if(oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) { //se dista esattamente 1
+                playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null); //lista di tutti i giocatori all'interno di quella cella
 
                 if(playerList != null){ // se c'è qualche giocatore dentro la stanza
                     damageAndMarkFurnace(gameBoard, attacker, coordinates[0], coordinates[2]); // fai il danno

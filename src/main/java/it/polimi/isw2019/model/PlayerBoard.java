@@ -31,7 +31,7 @@ public class PlayerBoard {
         return damageTokens.size();
     }
 
-    PlayerBoard(ColorPlayer color){
+    public PlayerBoard(ColorPlayer color){
         this.color=color;
        // this.playerBoardID=playerBoardID;
         this.frenzy=false;
@@ -214,19 +214,19 @@ public class PlayerBoard {
     public void setSkullsRepresentation() {
         skullsRepresentation = new String[6];
         skullsRepresentation[0] = "8";
-        skullsRepresentation[0] = "6";
-        skullsRepresentation[0] = "4";
-        skullsRepresentation[0] = "2";
-        skullsRepresentation[0] = "1";
-        skullsRepresentation[0] = "1";
+        skullsRepresentation[1] = "6";
+        skullsRepresentation[2] = "4";
+        skullsRepresentation[3] = "2";
+        skullsRepresentation[4] = "1";
+        skullsRepresentation[5] = "1";
     }
 
     public void setSkullsFrenzyRepresentation() {
         skullsRepresentation = new String[4];
         skullsRepresentation[0] = "4";
-        skullsRepresentation[0] = "2";
-        skullsRepresentation[0] = "1";
-        skullsRepresentation[0] = "1";
+        skullsRepresentation[1] = "2";
+        skullsRepresentation[2] = "1";
+        skullsRepresentation[3] = "1";
 
     }
 

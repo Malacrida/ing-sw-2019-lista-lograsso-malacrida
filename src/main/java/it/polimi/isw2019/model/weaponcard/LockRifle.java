@@ -13,12 +13,13 @@ public class LockRifle extends AbstractWeaponCard {
 
     public LockRifle() {
         super(1, "Lock Rifle", ColorCube.BLUE, 2);
-        this.infoEffect = new ArrayList<>();
-        this.infoEffect.add("BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n");
-        this.infoEffect.add("WITH DECOND LOCK: Deal 1 mark to a different target you can see. You have to pay a RED cube");
-        this.rechargeCube[0] = 0;
-        this.rechargeCube[1] = 0;
-        this.rechargeCube[2] = 2;
+        this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage and 1 mark to 1 target you can see.";
+        this.infoEffect[1] = "SECOND EFFECT: Deal 1 mark to a different target you can see. You have to pay a RED cube.\n";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";
+        this.infoEffect[3] = "NOTES: You can use all effects.\n";
+        this.rechargeCube = new ColorCube[2];
+        this.rechargeCube[0] = ColorCube.BLUE;
+        this.rechargeCube[1] = ColorCube.BLUE;
     }
 
     /**
@@ -44,7 +45,7 @@ public class LockRifle extends AbstractWeaponCard {
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }
-            firstIsValid = true;
+            this.firstIsValid = true;
 
         } else {
             throw new ErrorEffectException();
@@ -65,7 +66,10 @@ public class LockRifle extends AbstractWeaponCard {
 
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-        if (firstIsValid){
+
+        /* PAGARE UN ROSSO */
+
+        if (this.firstIsValid){
 
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
