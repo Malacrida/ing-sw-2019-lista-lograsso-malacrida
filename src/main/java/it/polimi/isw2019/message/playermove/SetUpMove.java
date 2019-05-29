@@ -40,7 +40,7 @@ public class SetUpMove extends PlayerMove{
     }
 
     @Override
-    public void visit(VisitorController singleMoveController) {
-        singleMoveController.visitControllerSetUpPlayer(this);
+    public void accept(VisitorController visitorController) {
+        visitorController.visitControllerSetUpPlayer(this);
     }
 }

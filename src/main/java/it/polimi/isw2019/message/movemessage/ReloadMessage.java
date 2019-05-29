@@ -5,7 +5,7 @@ import it.polimi.isw2019.view.VisitorView;
 public class ReloadMessage extends MoveMessage{
 
     @Override
-    public void visit(VisitorView visitorView) {
+    public void accept(VisitorView visitorView) {
         visitorView.visitReload(this);
     }
 

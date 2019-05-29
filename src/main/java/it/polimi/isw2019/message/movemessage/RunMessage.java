@@ -30,7 +30,7 @@ public class RunMessage extends MoveMessage {
     }
 
     @Override
-    public void visit(VisitorView visitorView) {
+    public void accept(VisitorView visitorView) {
             visitorView.visitRun(this);
     }
 }

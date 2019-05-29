@@ -14,11 +14,6 @@ public class UpdateMessage extends MoveMessage{
     }
 
     @Override
-    public void visit(VisitorView visitorView) {
-            //visitorView.v
-    }
-
-    @Override
     public String getNicknamePlayer() {
         return nicknamePlayer;
     }
@@ -49,5 +44,10 @@ public class UpdateMessage extends MoveMessage{
 
     public void setGameBoard(String[][] gameBoard) {
         this.gameBoard = gameBoard;
+    }
+
+    @Override
+    public void accept(VisitorView visitorview) {
+
     }
 }

@@ -82,7 +82,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
     @Override
     public void update(MoveMessage message) {
 
-            message.visitView(visitorView);
+            message.accept(visitorView);
     }
 
     @Override
