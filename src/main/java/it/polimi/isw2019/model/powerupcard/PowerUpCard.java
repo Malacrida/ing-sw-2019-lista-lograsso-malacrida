@@ -6,7 +6,7 @@ import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
 
-public class PowerUpCard implements PowerUpCardInterface {
+public class PowerUpCard implements PowerUpCardInterface , Cloneable {
 
     /* Attributes */
 
@@ -124,4 +124,22 @@ public class PowerUpCard implements PowerUpCardInterface {
         }
     }
 
+    public void setPowerUpDescription(){
+        powerUpDescription = new String[5][];
+
+        powerUpDescription[0][0] = String.valueOf(id);
+        powerUpDescription[1][0] = name;
+        powerUpDescription[2][0] = colorCard.getColorCubeRepresentation();
+        powerUpDescription[3][0] = infoEffect;
+        powerUpDescription[4][0] = checkState.getStateCardRepresentation();
+    }
+
+    public void changeStateCard(StateCard stateCard){
+        powerUpDescription[4][0] = stateCard.getStateCardRepresentation();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

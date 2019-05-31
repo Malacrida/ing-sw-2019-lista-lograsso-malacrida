@@ -3,12 +3,13 @@ package it.polimi.isw2019.model;
 
 //import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.ColorChoosen;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Model extends Observable {
     private Player currentPlayer;
@@ -20,9 +21,14 @@ public class Model extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
+    private ArrayList<String> colorAvailable;
 
+    private Player tmpPlayer;
 
-    //manca una MAP per mappare le posizioni dei giocatori all'interno del model
+    public ArrayList<String> getColorAvailable() {
+        return colorAvailable;
+    }
+//manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
@@ -33,6 +39,8 @@ public class Model extends Observable {
      *
      * @param mod type of game mod
      */
+
+
     public void setKillShotTrack (int mod){
         killShotTrack = new KillShotTrack(mod);
     }
@@ -55,18 +63,6 @@ public class Model extends Observable {
         //resettarla quando si finisce il turno
     }
 
-    public void addPlayer (Player player){
-        //verificare che la modalità non sia quella degli spawn
-
-        if(this.players.size() <5)
-            this.players.add(player);
-
-        else
-            // il model dovrà fare l'update a quella view o dell'avvenuta aggiunta oppure dell'errore
-            System.out.println("Cannot be added");
-        //notifyObservers(new SetUpMessage("Choose color", currentPlayer.getIdPlayer(),  //colorAvailable ));
-    }
-
     public void calculationTemporaryScore(){
 
         //quando qualcuno muore, alla fine di chi ha ucciso una determinata persona, viene calcolato il punteggio.
@@ -78,8 +74,23 @@ public class Model extends Observable {
         //termine dell'ultimo turno nella modalità freenzy
     }
 
+
+
+
+
     public void chooseFirstPlayer(){
-        //scelto in modo randomico
+        Random rand = new Random();
+
+        int n = rand.nextInt(players.size());
+
+        players.get(n).setFirstPlayer(true);
+
+
+    }
+
+    public void setFrenzyPlayers(){
+            //guardare il regolamento
+
     }
 
     public boolean isSpawnPoint(int x, int y){
@@ -90,6 +101,47 @@ public class Model extends Observable {
     public void gameSetting (){
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
     }
+
+    public void checkNickname(String name, String actionHeroComment, int numIdPlayer){
+
+        tmpPlayer = new Player(numIdPlayer);
+
+        if(players.size()<5) {
+            players.add(tmpPlayer);
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getName().equals(name)) {
+                    setPlayerWithoutNickname(numIdPlayer);
+                    return;
+                }
+            }
+            tmpPlayer.setNicknameAndActionHeroComment(name,actionHeroComment);
+        }
+
+        else{
+            //send error message
+            //deregister observer
+        }
+
+    }
+
+
+    public void setPlayerWithoutNickname(int idPlayer) {
+        //notify del nickname!!!!!!! che lo deve reinserire
+
+    }
+
+    public void updateTurn(){
+
+        if(currentPlayer.getPlayerID() == players.size()){
+            turn = 0;
+        }
+        else
+            turn = turn + 1;
+
+        currentPlayer = players.get(turn);
+
+    }
+
 
     //Colore scelto dal giocatore è ancora disponibile
     public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
@@ -107,11 +159,39 @@ public class Model extends Observable {
         throw new ColorNotAvailableException();
     }
 
-    //Set del colore del player
-    public void setPlayer(String name, String actionHeroComment, int playerID, ColorPlayer green) {
-        Player player= new Player(name, actionHeroComment, playerID);
-        players.add(player);
 
+    public ColorPlayer translateColorToColorPlayer(String color){
+        if(color.equals("blue"))
+            return ColorPlayer.BLUE;
+        else if(color.equals("green"))
+            return ColorPlayer.GREEN;
+        else if(color.equals("yellow"))
+            return ColorPlayer.YELLOW;
+        else if(color.equals("violet"))
+            return ColorPlayer.VIOLET;
+        else
+            return ColorPlayer.GREY;
+    }
+
+
+    public ArrayList<String> colorAvailable(){
+        ArrayList <String> colorAvailable = new ArrayList<>();
+
+        for(PlayerBoard playerBoardAvailable : playerBoardsAvailable){
+            colorAvailable.add(playerBoardAvailable.getColor().getColorPlayerRepresentation());
+        }
+
+        this.colorAvailable = colorAvailable;
+
+        return colorAvailable;
+    }
+
+    public void assignPlayerBoardToPlayer(Player player, String color){
+        try {
+            setPlayerWithPlayerBoard(player, translateColorToColorPlayer(color));
+
+        }catch(ColorNotAvailableException c){
+        }
     }
 
     public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
@@ -282,22 +362,7 @@ public class Model extends Observable {
 
 
     public void sendErrorMessage(Player player, String error){
-
         notifyObservers(new ErrorMessage(player.getName(),error));
-
-    }
-
-
-    public void sendMessage(int numAction){
-        switch (numAction){
-            case 0:
-                notifyObservers(new RunMessage(currentPlayer.getName(),numMovementCanBePerformedRun()));
-                break;
-
-            case 1:
-                notifyObservers(new RunGrabMessage(currentPlayer.getName(),numMovementCanBePerformedRunGrab()));
-                break;
-        }
 
     }
 
@@ -330,7 +395,7 @@ public class Model extends Observable {
                 int[] index = gameBoard.getGameArena().coordinateOfSquare(tmpSquare);
                 sendErrorMessage( currentPlayer,"the cell with coordinates " + movement[i][0] + movement[i][1] + "is NOT near to the cell " +
                         "with coordinates" + index[0]+ index[1]);
-                sendMessage(0);
+                //sendMessage(0);
                 return;
             }
             squares =  gameBoard.getGameArena().squaresAvailable(movement[i][0], movement[i][1]);
@@ -344,10 +409,10 @@ public class Model extends Observable {
         else {
 
             int numPlayerInRoom = gameBoard.playersInOneSquare(movement[movement.length-1][0],movement[movement.length-1][1],currentPlayer).size();
-            gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
+           // gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
             //migliorare l'update
            //metodo che viene invocato!!!!!
-            notifyObservers(new UpdateMessage(currentPlayer.getName()));
+           // notifyObservers(new UpdateMessage(currentPlayer.getName()));
         }
     }
 
@@ -362,7 +427,7 @@ public class Model extends Observable {
             if(getCurrentPlayer().getWeaponCards().size() == 3){
                 //creare un warning in cui chiedi di inserire un'altra weapon card
                 sendErrorMessage(currentPlayer,"you've got too many card, you cannot grab! ");
-                sendMessage(1);
+               // sendMessage(1);
             } else if (getCurrentPlayer().getWeaponCards().size() <3) {
                 //chiedere a davi se il metodo è quello corretto
                 /*
@@ -387,19 +452,6 @@ public class Model extends Observable {
     }
 
 
-    public ColorCube convertCharToColorCube(char c){
-
-        if(c == 'r')
-            return ColorCube.RED;
-        else if(c == 'b')
-            return ColorCube.BLUE;
-        else
-            return ColorCube.YELLOW;
-
-    }
-    public void updatePlayerBoard(){
-
-    }
 
 
 }

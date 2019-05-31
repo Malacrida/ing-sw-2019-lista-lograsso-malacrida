@@ -4,13 +4,24 @@ import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.Model;
 import it.polimi.isw2019.utilities.Observer;
 import it.polimi.isw2019.model.SetUpGame;
+import it.polimi.isw2019.view.MainView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController implements Observer<PlayerMove>, VisitorController {
 
     Model model;
+    ArrayList<String> colorAvailable;
 
+    Map<Integer, MainView> views;
+
+
+    private int numIdPlayer;
 
     public MainController() {
+        views = new HashMap<>();
         SetUpGame.setPlayerBoard();
 
     }
@@ -23,7 +34,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitControllerSetUpPlayer(SetUpMove setUpMove) {
-
+           // model.checkNickname(setUpMove.getNickname());
     }
 
     @Override
@@ -41,6 +52,15 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             return false;
         }
         return true;
+    }
+    // rivedere probabilmente
+    @Override
+    public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
+           views.put(numIdPlayer,firstMessage.getMainView());
+           numIdPlayer ++;
+           model.registerObserver(firstMessage.getMainView());
+           model.checkNickname(firstMessage.getNickname(), firstMessage.getActionHero(),numIdPlayer);
+
     }
 
     @Override
@@ -89,8 +109,25 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         }
     }
 
+    public void checkCorrectnessInputColor(String color){
+
+    }
+
+    @Override
+    public void visitColorChoosen(ColorChoosen colorChoosen){
+
+        for(String color : model.getColorAvailable()){
+            if(colorChoosen.getColorChoosen().equals(color))
+                    model.assignPlayerBoardToPlayer(model.getCurrentPlayer(), colorChoosen.getColorChoosen());
+            return;
+            }
+
+        model.sendErrorMessage(model.getCurrentPlayer(),"the color is not available" + colorChoosen.getColorChoosen());
+
+    }
+
     @Override
     public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
-        model.sendMessage(chooseActionMove.getNumAction());
+        //model.sendMessage(chooseActionMove.getNumAction());
     }
 }

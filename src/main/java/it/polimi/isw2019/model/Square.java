@@ -14,7 +14,6 @@ public abstract class Square{
     private boolean spawnPoint;
     protected ArrayList<Player> players= new ArrayList<>();
     private String[] squareRepresentation;
-
     Square (boolean spawnPoint){
         this.spawnPoint = spawnPoint;
     }
@@ -74,8 +73,11 @@ public abstract class Square{
     }
 
     public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards){}
+
     public void putNewWeaponCard(AbstractWeaponCard weaponCard){}
+
     public void takeWeapon (AbstractWeaponCard weaponCard){}
+
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
         return false;
     }
@@ -103,16 +105,22 @@ public abstract class Square{
         return squareRepresentation;
     }
 
-    public void setSquareRepresentation(String color,char typeOfCard, int numPlayer) {
+    public void setSquareRepresentation(String color) {
         this.squareRepresentation = new String[3];
         squareRepresentation[0] = color;
-        squareRepresentation[1] = Character.toString(typeOfCard);
-        squareRepresentation[2] = String.valueOf(numPlayer);
+        squareRepresentation[1] = Character.toString(returnTypeOfCard());
+        squareRepresentation[2] = String.valueOf(players.size());
 
     }
 
-    public void setNumPlayersInSquare(int numPlayersInSquare){
-        squareRepresentation[2] = String.valueOf(numPlayersInSquare);
+    public char returnTypeOfCard(){
+        if(this.spawnPoint)
+            return 'W';
+        else return 'A';
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

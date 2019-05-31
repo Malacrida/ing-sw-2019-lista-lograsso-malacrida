@@ -27,6 +27,10 @@ public class Player {
 
     private boolean frenzy;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isFrenzy() {
         return frenzy;
     }
@@ -35,16 +39,23 @@ public class Player {
         this.frenzy = frenzy;
     }
 
-    public Player(String name, String actionHeroComment, int playerID) {
+    public Player(String name, String actionHeroComment) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
-        this.playerID=playerID;
         //value out of range of play
         x=-1;
         y=-1;
         colorRoom= null;
     }
 
+    public Player(int playerID){
+        this.playerID = playerID;
+    }
+
+    public void setNicknameAndActionHeroComment(String nickName, String actionHeroComment){
+        this.name = nickName;
+        this.actionHeroComment = actionHeroComment;
+    }
     public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;

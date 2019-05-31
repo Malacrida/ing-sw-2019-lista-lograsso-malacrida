@@ -10,7 +10,7 @@ import it.polimi.isw2019.model.exception.OutOfBoundsException;
 
 import java.util.ArrayList;
 
-public class GameBoard {
+public class GameBoard{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
@@ -25,7 +25,6 @@ public class GameBoard {
     public GameBoard (){
 
     }
-
 
 
 
@@ -193,4 +192,11 @@ public class GameBoard {
     public Arena getGameArena() {
         return gameArena;
     }
+
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

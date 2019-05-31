@@ -43,8 +43,7 @@ public class RunGrabMove extends PlayerMove {
     }
 
     @Override
-    public void visit(VisitorController singleMoveController) {
-        singleMoveController.visitControllerRunGrab(this);
+    public void accept(VisitorController visitorController) {
+        visitorController.visitControllerRunGrab(this);
     }
-
 }

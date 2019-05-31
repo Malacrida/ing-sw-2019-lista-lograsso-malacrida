@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class SquareSpawn extends Square {
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
-
+    private String[][] descriptionWeaponCard;
 
     SquareSpawn() {
         super(true);
@@ -51,4 +51,5 @@ public class SquareSpawn extends Square {
         }
 
     }
+
 }
