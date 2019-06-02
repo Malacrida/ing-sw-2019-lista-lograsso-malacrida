@@ -29,6 +29,8 @@ public class Player {
 
     private boolean isTerminator;
     private boolean moveTerminator;
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -44,9 +46,6 @@ public class Player {
         colorRoom= null;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public boolean isFrenzy() {
         return frenzy;
