@@ -1,4 +1,4 @@
-package it.polimi.isw2019.model.weaponcard;
+/*package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
@@ -67,7 +67,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-
+/*
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA RIVEDERE
 
@@ -103,7 +103,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-
+/*
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
@@ -136,14 +136,15 @@ public class Furnace extends AbstractWeaponCard {
      * @æuthor Davide Lista
      */
 
-
+/*
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
-
+/*
         throw new NoEffectException();
     }
 
 
 }
+*/

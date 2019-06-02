@@ -16,9 +16,8 @@ public class ErrorMessage extends MoveMessage {
         return this.errorMessage;
     }
 
-
     @Override
-    public void visit(VisitorView visitorView) {
-        //invocare la schermata di errore
+    public void accept(VisitorView visitorview) {
+            visitorview.errorMessageView(this);
     }
 }

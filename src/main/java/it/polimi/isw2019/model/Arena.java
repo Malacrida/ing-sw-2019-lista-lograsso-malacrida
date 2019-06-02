@@ -8,7 +8,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Arena {
+public class Arena{
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -17,6 +17,8 @@ public class Arena {
     Arena() {
 
     }
+
+
 
     public ArrayList<Room> getRooms() {
         return rooms;
@@ -288,6 +290,18 @@ public class Arena {
         return squares[x][y];
     }
 
+    public ColorRoom getColorRoom(Square square){
+        ColorRoom colorRoom = null;
+        for(Room room : rooms){
+            if(room.containsSquare(square)){
+                colorRoom = room.getColorRoom();
+                break;
+            }
+
+        }
+        return colorRoom;
+    }
+
     public int[] coordinateOfSquare(Square square){
         int[] index = new int[2];
         for(int i=0;i<3;i++)
@@ -304,21 +318,20 @@ public class Arena {
         return arenaRepresentation;
     }
 
-    //chiedere a sara per il colore
+
     public void setArenaRepresentation() {
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares[i].length; j++) {
-                //mettere a posto
-                //accedere al colore e alla carta
-                squares[i][j].setSquareRepresentation("blue",'A',0);
+                squares[i][j].setSquareRepresentation(getColorRoom(squares[i][j]).getColorRoomRepresentation());
             }
         }
     }
 
-    public void updateArenaRepresentation(int x, int y, int numPlayers){
-        squares[x][y].setNumPlayersInSquare(numPlayers);
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
-
 }
+
 
 

@@ -31,6 +31,9 @@ public class Player {
     private boolean moveTerminator;
 
 
+
+
+
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
@@ -41,6 +44,10 @@ public class Player {
         colorRoom= null;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isFrenzy() {
         return frenzy;
     }
@@ -49,6 +56,14 @@ public class Player {
         this.frenzy = frenzy;
     }
 
+    public Player(int playerID){
+        this.playerID = playerID;
+    }
+
+    public void setNicknameAndActionHeroComment(String nickName, String actionHeroComment){
+        this.name = nickName;
+        this.actionHeroComment = actionHeroComment;
+    }
     public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;

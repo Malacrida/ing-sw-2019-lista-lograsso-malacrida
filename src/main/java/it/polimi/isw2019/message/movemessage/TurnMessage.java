@@ -34,7 +34,7 @@ public class TurnMessage extends MoveMessage {
     }
 
     @Override
-    public void visit(VisitorView visitorView) {
+    public void accept(VisitorView visitorview) {
 
     }
 }
