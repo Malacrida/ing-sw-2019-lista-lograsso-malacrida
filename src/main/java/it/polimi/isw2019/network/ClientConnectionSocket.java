@@ -37,10 +37,10 @@ public class ClientConnectionSocket {
         }
     }
 
-    private void startNewClient(){
-        Thread thread = new Thread(this);
+    /*private void startNewClient(){
+        Thread thread = new Thread();
         thread.start();
-    }
+    }*/
 
 
 }
