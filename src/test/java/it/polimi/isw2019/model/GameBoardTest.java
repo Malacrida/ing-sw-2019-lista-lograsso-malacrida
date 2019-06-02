@@ -46,11 +46,11 @@ public class GameBoardTest {
 
         weaponCard1= new Electroscythe();
         weaponCard2= new GrenadeLauncher();
-        weaponCard3= new Furnace();
+        weaponCard3= new PlasmaGun();
         weaponCard4= new GrenadeLauncher();
         weaponCard5= new HeatSeeker();
         weaponCard6= new GrenadeLauncher();
-        weaponCard7= new Furnace();
+        weaponCard7= new PowerGlove();
         weaponCard8= new Electroscythe();
         weaponCard9= new GrenadeLauncher();
         anotherWeaponCard= new CyberBlade();
@@ -64,6 +64,19 @@ public class GameBoardTest {
         weaponCards.add(weaponCard7);
         weaponCards.add(weaponCard8);
         weaponCards.add(weaponCard9);
+
+        /*
+        weaponCards[0]= weaponCard1;
+        weaponCards[1]= weaponCard2;
+        weaponCards[2]= weaponCard3;
+        weaponCards[3]= weaponCard4;
+        weaponCards[4]= weaponCard5;
+        weaponCards[5]= weaponCard6;
+        weaponCards[6]= weaponCard7;
+        weaponCards[7]= weaponCard8;
+        weaponCards[8]= weaponCard9;
+         */
+
 
         ammoTile=new AmmoTile(1, null,null,null);
 
@@ -108,20 +121,26 @@ public class GameBoardTest {
 
         gameBoard.setWeaponCards(weaponCards1);
         gameBoard.setWeaponCardsOnBoard();
-        assert (gameBoard.sizeWeaponCards()==0);
+        assertEquals (0, gameBoard.sizeWeaponCards());
         try {
-            ArrayList<AbstractWeaponCard> weaponCardsRed =gameBoard.weaponCardsOnSquares(1,0);
-            assertTrue(weaponCardsRed.contains(weaponCard1));
-            assertTrue(weaponCardsRed.contains(weaponCard4));
-            assertTrue(weaponCardsRed.contains(weaponCard7));
-            ArrayList<AbstractWeaponCard> weaponCardsBlue =gameBoard.weaponCardsOnSquares(0,2);
-            assertTrue(weaponCardsBlue.contains(weaponCard2));
-            assertTrue(weaponCardsBlue.contains(weaponCard5));
-            assertTrue(weaponCardsBlue.contains(weaponCard8));
-            ArrayList<AbstractWeaponCard> weaponCardsYellow =gameBoard.weaponCardsOnSquares(2,3);
-            assertTrue(weaponCardsYellow.contains(weaponCard3));
-            assertTrue(weaponCardsYellow.contains(weaponCard6));
-            assertTrue(weaponCardsYellow.contains(weaponCard9));
+            AbstractWeaponCard[] weaponCardsRed =gameBoard.weaponCardsOnSquares(1,0);
+
+            assertEquals(weaponCard1,weaponCardsRed[0]);
+            assertEquals(weaponCard2,weaponCardsRed[1]);
+            assertEquals(weaponCard3,weaponCardsRed[2]);
+
+            AbstractWeaponCard[] weaponCardsBlue =gameBoard.weaponCardsOnSquares(0,2);
+
+            assertEquals(weaponCard4,weaponCardsBlue[0]);
+            assertEquals(weaponCard5,weaponCardsBlue[1]);
+            assertEquals(weaponCard6,weaponCardsBlue[2]);
+
+
+            AbstractWeaponCard [] weaponCardsYellow =gameBoard.weaponCardsOnSquares(2,3);
+
+            assertEquals(weaponCard7,weaponCardsYellow[0]);
+            assertEquals(weaponCard8,weaponCardsYellow[1]);
+            assertEquals(weaponCard9,weaponCardsYellow[2]);
         }
         catch (OutOfBoundsException e){
             fail();
@@ -142,13 +161,17 @@ public class GameBoardTest {
 
 
         try {
-            gameBoard.takeWeaponCard(weaponCard3,2,3);
+            gameBoard.takeWeaponCard(weaponCard7,2,3);
         }
         catch (OutOfBoundsException e){
             fail();
         }
         try {
-            ArrayList <AbstractWeaponCard> weaponCardsPresent = gameBoard.weaponCardsOnSquares(2,3);
+            AbstractWeaponCard[] tempCard  = gameBoard.weaponCardsOnSquares(2,3);
+            ArrayList <AbstractWeaponCard> weaponCardsPresent = new ArrayList<>();
+            weaponCardsPresent.add(tempCard[0]);
+            weaponCardsPresent.add(tempCard[1]);
+
             assertTrue(weaponCardsPresent.contains(anotherWeaponCard));
             assertFalse(weaponCardsPresent.contains(weaponCard3));
         }
@@ -161,7 +184,12 @@ public class GameBoardTest {
             gameBoard.takeWeaponCard(weaponCard1,1,0);
             gameBoard.takeWeaponCard(weaponCard4,1,0);
             gameBoard.takeWeaponCard(weaponCard7,1,0);
-            ArrayList <AbstractWeaponCard> weaponCardsPresent = gameBoard.weaponCardsOnSquares(1,0);
+
+            AbstractWeaponCard[] tempCard = gameBoard.weaponCardsOnSquares(1,0);
+            ArrayList <AbstractWeaponCard> weaponCardsPresent = new ArrayList<>();
+            weaponCardsPresent.add(tempCard[0]);
+            weaponCardsPresent.add(tempCard[1]);
+            weaponCardsPresent.add(tempCard[2]);
             assertFalse(weaponCardsPresent.contains(weaponCard1));
             assertFalse(weaponCardsPresent.contains(weaponCard4));
             assertFalse(weaponCardsPresent.contains(weaponCard7));

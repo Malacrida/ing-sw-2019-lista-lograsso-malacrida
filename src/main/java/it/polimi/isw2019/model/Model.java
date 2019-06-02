@@ -39,8 +39,6 @@ public class Model extends Observable {
      *
      * @param mod type of game mod
      */
-
-
     public void setKillShotTrack (int mod){
         killShotTrack = new KillShotTrack(mod);
     }
@@ -449,6 +447,10 @@ public class Model extends Observable {
 
     public void handlePayment(int[] cubes){
 
+    }
+
+    public void addPlayer (Player player){
+        players.add(player);
     }
 
 

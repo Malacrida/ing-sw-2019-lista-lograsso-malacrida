@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model;
 
-import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
+
+import it.polimi.isw2019.model.weaponcard.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class SquareSpawnTest {
     AbstractWeaponCard weaponCard1;
     AbstractWeaponCard weaponCard2;
     AbstractWeaponCard weaponCard3;
-    ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
+    AbstractWeaponCard [] weaponCards= new AbstractWeaponCard[3];
     ArrayList<Square> squaresNear= new ArrayList<>();
     Player player1;
     Player player2;
@@ -33,12 +34,12 @@ public class SquareSpawnTest {
         squareSpawn3= new SquareSpawn();
         //squareSpawn4= new SquareSpawn(squareSpawn3,null,null,squareSpawn5);
         squareSpawn5= new SquareSpawn();
-        //weaponCard1= new CyberBlade(0,null,null);
-       // weaponCard2= new Electroscythe(1,null,null);
-        //weaponCard3= new Flamethrower(2,null,null);
-        weaponCards.add(weaponCard1);
-        weaponCards.add(weaponCard2);
-        weaponCards.add(weaponCard3);
+        weaponCard1= new CyberBlade();
+        weaponCard2= new Electroscythe();
+        weaponCard3= new Flamethrower();
+        weaponCards[0]=weaponCard1;
+        weaponCards[1]=weaponCard2;
+        weaponCards[2]=weaponCard3;
         player1= new Player("name1", null, 1);
         player2= new Player("name2", null, 2);
     }
@@ -65,18 +66,18 @@ public class SquareSpawnTest {
     @Test
     public void setWeaponCardsTest() {
         squareSpawn1.setWeaponCards(weaponCards);
-        ArrayList <AbstractWeaponCard> weaponCardsTest = squareSpawn1.getWeaponCards();
-        assert (weaponCardsTest.size()==3);
-        for (int i=0; i<weaponCards.size(); i++){
-            assert (weaponCardsTest.contains(weaponCards.get(i)));
+        AbstractWeaponCard[] weaponCardsTest = squareSpawn1.getWeaponCards();
+        assert (squareSpawn1.numOfWeaponCards()==3);
+        for (int i=0; i<3; i++){
+            assert (weaponCardsTest[i].equals(weaponCards[i]));
         }
     }
 
     @Test
     public void putNewWeaponCardTest() {
         squareSpawn1.putNewWeaponCard(weaponCard1);
-        ArrayList<AbstractWeaponCard> weaponCardsTest= squareSpawn1.getWeaponCards();
-        assert ((weaponCardsTest.contains(weaponCard1))&&(weaponCardsTest.size()==1));
+        AbstractWeaponCard[] weaponCardsTest= squareSpawn1.getWeaponCards();
+        assert (weaponCardsTest[0].equals(weaponCard1));
     }
 
     @Test

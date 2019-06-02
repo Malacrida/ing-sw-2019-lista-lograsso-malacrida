@@ -12,7 +12,7 @@ public class FurnaceTest {
     Player attacker, firstDefender, secondDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2;
-    Furnace card = new Furnace();
+    ShotGun card = new ShotGun();
     ArrayList<Player> defenders = new ArrayList<>();
     int [] coordinates = new int[4];
 

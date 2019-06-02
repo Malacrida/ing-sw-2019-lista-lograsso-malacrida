@@ -1,4 +1,4 @@
-/*package it.polimi.isw2019.model.weaponcard;
+package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
@@ -9,7 +9,7 @@ import it.polimi.isw2019.model.Player;
 //import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
+/*
 public class Furnace extends AbstractWeaponCard {
 
     public Furnace() {
@@ -23,7 +23,7 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
     }
 
-    private void damageFurnace(/*@NotNull */GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 

@@ -34,7 +34,7 @@ public class PlayerTest {
         colorPlayer4 = ColorPlayer.VIOLET;
         playerBoard4 = new PlayerBoard(colorPlayer4);
         weaponCard1 = new Electroscythe();
-        weaponCard2 = new Furnace();
+        weaponCard2 = new PlasmaGun();
         weaponCard3 = new GrenadeLauncher();
         weaponCard4 = new HeatSeeker();
     }
