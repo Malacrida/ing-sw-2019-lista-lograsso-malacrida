@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Thor extends AbstractWeaponCard{
 
     public Thor() {
-        super(3, "T.H.O.R.", ColorCube.BLUE,3);
+        super(3, "T.H.O.R.", ColorCube.BLUE,3, 0, 3);
         this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage to 1 target you can see.\n";
         this.infoEffect[1] = "SECOND EFFECT: Deal 1 damage to a second target that your first target can see. You have to pay a BLUE cube.\n";
         this.infoEffect[2] = "THIRD EFFECT: Deal 2 damage to a third target that your second target can see. You have to pay a BLUE cube. You cannot use this effect unless you first use the chain reaction\n";

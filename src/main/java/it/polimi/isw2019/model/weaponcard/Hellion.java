@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Hellion extends AbstractWeaponCard {
 
     public Hellion() {
-        super(11, "Hellion", ColorCube.RED, 1);
+        super(11, "Hellion", ColorCube.RED, 1, 2, 1);
         this.infoEffect[0] = "FIRST EFFECT: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n";
         this.infoEffect[1] = "SECOND EFFECT: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";

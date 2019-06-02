@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Furnace extends AbstractWeaponCard {
 
     public Furnace() {
-        super(9, "Furnace", ColorCube.RED,1);
+        super(9, "Furnace", ColorCube.RED,1, 2, 0);
         this.infoEffect[0] = "FIRST EFFECT : Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";

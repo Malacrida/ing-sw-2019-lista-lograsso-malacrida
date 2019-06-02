@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class VortexCannon extends AbstractWeaponCard {
 
     public VortexCannon() {
-        super(8, "Vortex Cannon", ColorCube.RED, 1);
+        super(8, "Vortex Cannon", ColorCube.RED, 1, 6, 3);
         this.infoEffect[0] = "FIRST EFFECT: Choose a square you can see, but not your square. Call it the vortex. Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage";
         this.infoEffect[1] = "SECOND EFFECT: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.";
         this.infoEffect[2] = "THIRD EFFECT: ";

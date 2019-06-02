@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class RailGun extends AbstractWeaponCard {
 
     public RailGun() {
-        super(15, "Rail Gun", ColorCube.YELLOW, 1);
+        super(15, "Rail Gun", ColorCube.YELLOW, 1, 4,2 );
         this.infoEffect[0] = "FIRST EFFECT: Choose a cardinal direction and 1 target in that direction deal 3 damage to it";
         this.infoEffect[1] = "SECOND EFFECT: Choose a cardinal direction and 1 or 2 targets in that direction deal 2 damage to each";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist";

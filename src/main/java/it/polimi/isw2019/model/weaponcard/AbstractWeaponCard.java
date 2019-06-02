@@ -19,17 +19,21 @@ public abstract class AbstractWeaponCard implements Cloneable{
     protected ColorCube[] rechargeCube;
     protected StateCard stateCard = StateCard.DECK;
     protected int maxPossibleEffects;
+    protected int maxPossibleCoordinates;
+    protected int maxPossibleDefenders;
     protected boolean firstIsValid = false;
     protected boolean secondIsValid = false;
 
     private String[][] weaponCardDescription;
 
 
-    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects) {
+    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefenders) {
         this.id = id;
         this.name = name;
         this.color = color;
         this.maxPossibleEffects = maxPossibleEffects;
+        this.maxPossibleCoordinates = maxPossibleCoordinates;
+        this.maxPossibleDefenders = maxPossibleDefenders;
     }
 
 
@@ -54,9 +58,15 @@ public abstract class AbstractWeaponCard implements Cloneable{
         return infoEffect;
     }
 
-    public StateCard checkState(){
+    public StateCard getStateCard(){
         return stateCard;
     }
+
+    public int getMaxPossibleEffects() {return maxPossibleEffects;}
+
+    public int getMaxPossibleCoordinates() {return maxPossibleCoordinates; }
+
+    public int getMaxPossibleDefenders() {return  maxPossibleDefenders; }
 
     public void changeState(StateCard newStateCard) {
         this.stateCard = newStateCard;
