@@ -29,9 +29,9 @@ public class Player {
 
     private boolean isTerminator;
     private boolean moveTerminator;
-
-
-
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
     public Player(String name, String actionHeroComment, int playerID) {
