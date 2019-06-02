@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GrenadeLauncher extends AbstractWeaponCard {
 
     public GrenadeLauncher() {
-        super(13, "Grenade Launcher", ColorCube.RED, 2);
+        super(13, "Grenade Launcher", ColorCube.RED, 2, 2, 1);
         this.infoEffect[0] = "FIRST EFFECT : Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\n";
         this.infoEffect[1] = "SECOND EFFECT: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";

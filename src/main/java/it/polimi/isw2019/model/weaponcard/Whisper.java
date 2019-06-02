@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Whisper extends AbstractWeaponCard {
 
     public Whisper() {
-        super(5, "Whisper", ColorCube.BLUE, 1);
+        super(5, "Whisper", ColorCube.BLUE, 1, 0, 1);
         this.infoEffect[0] = "FIRST EFFECT: Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\n";
         this.infoEffect[1] = "SECOND EFFECT: This effect doesn't exist.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";

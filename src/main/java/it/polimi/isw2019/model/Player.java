@@ -1,7 +1,6 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.EndTurnException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
@@ -23,9 +22,27 @@ public class Player {
     private int y;
     private ColorRoom colorRoom;
 
+    private String[][] weaponCard;
+    private String[][] powerUpCard;
+
     private boolean frenzy;
 
-    private int numAction;
+    private boolean isTerminator;
+    private boolean moveTerminator;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public Player(String name, String actionHeroComment, int playerID) {
+        this.name = name;
+        this.actionHeroComment=actionHeroComment;
+        this.playerID=playerID;
+        //value out of range of play
+        x=-1;
+        y=-1;
+        colorRoom= null;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -37,15 +54,6 @@ public class Player {
 
     public void setFrenzy(boolean frenzy) {
         this.frenzy = frenzy;
-    }
-
-    public Player(String name, String actionHeroComment) {
-        this.name = name;
-        this.actionHeroComment=actionHeroComment;
-        //value out of range of play
-        x=-1;
-        y=-1;
-        colorRoom= null;
     }
 
     public Player(int playerID){
@@ -261,11 +269,5 @@ public class Player {
         return this.powerUpCards;
     }
 
-    public void updateAction() throws EndTurnException {
-        if(numAction < 2)
-            numAction ++;
-        else if(numAction == 2)
-            throw new EndTurnException();
 
-    }
 }

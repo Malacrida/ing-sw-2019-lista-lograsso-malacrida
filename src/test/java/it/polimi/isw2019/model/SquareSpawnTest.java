@@ -132,6 +132,7 @@ public class SquareSpawnTest {
             squareSpawn1.addPlayer(player2);
             squareSpawn1.removePlayers(player1);
             assert (squareSpawn1.getPlayers().size()==1);
+            assert (squareSpawn1.numPlayers()==1);
         }
         catch (NullPointerException e){
             fail();

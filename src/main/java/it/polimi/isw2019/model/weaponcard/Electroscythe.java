@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Electroscythe extends AbstractWeaponCard {
 
     public Electroscythe() {
-        super(6, "Electroscythe", ColorCube.BLUE, 1);
+        super(6, "Electroscythe", ColorCube.BLUE, 1, 0, 0);
         this.infoEffect[0] = "FIRST EFFECT : Deal 1 damage and to every other player on your square.\n";
         this.infoEffect[1] = "SECOND EFFECT: Deal 2 damage to every other player on your square. You have to pay a BLUE cube and a RED cube.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";

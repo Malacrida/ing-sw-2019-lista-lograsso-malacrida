@@ -34,7 +34,7 @@ public class Arena {
     }
 
     //I colori indicano i punti di spawn
-    public void setWeaponsCardOnSquareSpawn(ArrayList<AbstractWeaponCard> weaponCardsRed, ArrayList<AbstractWeaponCard> weaponCardsBlue, ArrayList<AbstractWeaponCard> weaponCardsYellow) {
+    public void setWeaponsCardOnSquareSpawn(AbstractWeaponCard[] weaponCardsRed, AbstractWeaponCard[] weaponCardsBlue, AbstractWeaponCard[] weaponCardsYellow) {
         squares[1][0].setWeaponCards(weaponCardsRed);
         squares[0][2].setWeaponCards(weaponCardsBlue);
         squares[2][3].setWeaponCards(weaponCardsYellow);
@@ -53,7 +53,7 @@ public class Arena {
         squares[x][y].takeWeapon(weaponCard);
     }
 
-    public ArrayList<AbstractWeaponCard> getWeaponCardsOnSquares(int x, int y) {
+    public AbstractWeaponCard[] getWeaponCardsOnSquares(int x, int y) {
         return squares[x][y].getWeaponCards();
     }
 

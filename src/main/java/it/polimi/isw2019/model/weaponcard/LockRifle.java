@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class LockRifle extends AbstractWeaponCard {
 
     public LockRifle() {
-        super(1, "Lock Rifle", ColorCube.BLUE, 2);
+        super(1, "Lock Rifle", ColorCube.BLUE, 2, 0, 2);
         this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage and 1 mark to 1 target you can see.";
         this.infoEffect[1] = "SECOND EFFECT: Deal 1 mark to a different target you can see. You have to pay a RED cube.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";

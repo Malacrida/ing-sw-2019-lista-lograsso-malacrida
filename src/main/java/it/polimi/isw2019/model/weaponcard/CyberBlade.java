@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class CyberBlade extends AbstractWeaponCard{
 
     public CyberBlade(){
-        super(16, "Cyber Blade", ColorCube.YELLOW, 3);
+        super(16, "Cyber Blade", ColorCube.YELLOW, 3, 2, 2);
 
         this.infoEffect[0] = "FIRST EFFECT : Deal 2 damage to 1 target on your square.\n";
         this.infoEffect[1] = "SECOND EFFECT: move 1 square before or after the basic effect\n";

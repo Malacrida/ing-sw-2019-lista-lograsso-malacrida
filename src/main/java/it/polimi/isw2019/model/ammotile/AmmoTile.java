@@ -61,6 +61,4 @@ public class AmmoTile implements AmmoTIleInterface {
         return checkState;
     }
 
-
-
 }
