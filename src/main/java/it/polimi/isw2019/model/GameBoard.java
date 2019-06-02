@@ -60,6 +60,7 @@ public class GameBoard{
         for (int i =0; i<3;i++){
             deck[i]= weaponCards.get(0);
             deck[i].changeState(StateCard.ON_BOARD);
+            weaponCards.remove(0);
         }
         return deck;
     }

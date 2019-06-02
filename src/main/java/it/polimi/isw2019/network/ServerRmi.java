@@ -1,5 +1,7 @@
 package it.polimi.isw2019.network;
 
+import it.polimi.isw2019.message.playermove.PlayerMove;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -40,9 +42,11 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
     }
 
     @Override
-    public void reciveMove() {
+    public void reciveMove(PlayerMove playerMove) {
 
     }
+
+
 
 
 }
