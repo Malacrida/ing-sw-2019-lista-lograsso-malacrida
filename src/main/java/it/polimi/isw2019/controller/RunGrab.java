@@ -5,7 +5,7 @@ import it.polimi.isw2019.model.Model;
 
 public class RunGrab extends ActionController{
 
-    private Model model;
+
     public RunGrab(Model model){
         super(model);
     }
@@ -53,7 +53,7 @@ public class RunGrab extends ActionController{
 
             if(runGrabMove.getCardSelection()== 'W'){
                 //check if is spawnPoint
-                model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
+              //  model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
             }
             else if(runGrabMove.getCardSelection() == 'A'){
                 model.grabAmmoCard(movement);

@@ -6,7 +6,7 @@ import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
     }
 
-    private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(/*@NotNull */GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
