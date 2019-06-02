@@ -13,7 +13,7 @@ public class Flamethrower extends AbstractWeaponCard {
 
 
     public Flamethrower() {
-        super(12, "Flamethrower", ColorCube.RED, 1);
+        super(12, "Flamethrower", ColorCube.RED, 1, 4, 2);
         this.infoEffect[0] = "FIRST EFFECT : Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";

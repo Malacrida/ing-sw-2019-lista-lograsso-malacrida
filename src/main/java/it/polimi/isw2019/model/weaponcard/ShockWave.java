@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ShockWave extends AbstractWeaponCard {
 
     public ShockWave() {
-        super(20, "Shock Wave", ColorCube.YELLOW, 1);
+        super(20, "Shock Wave", ColorCube.YELLOW, 1, 6, 3);
         this.infoEffect[0] = "FIRST EFFECT: choose up to 3 targets on different squares, each exactly 1 move away deal 1 damage to each target.";
         this.infoEffect[1] = "SECOND EFFECT: Deal 1 damage to all targets that are exactly 1 move away\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";

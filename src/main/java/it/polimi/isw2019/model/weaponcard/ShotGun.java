@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ShotGun extends AbstractWeaponCard {
 
     public ShotGun() {
-        super(18, "Shot Gun", ColorCube.YELLOW, 1);
+        super(18, "Shot Gun", ColorCube.YELLOW, 1, 2, 1);
         this.infoEffect[0] = "FIRST EFFECT: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\n";
         this.infoEffect[1] = "SECOND EFFECT: Deal 2 damage to 1 target on any square exactly one move away.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";

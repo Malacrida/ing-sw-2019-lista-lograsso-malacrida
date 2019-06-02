@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class TractorBeam extends AbstractWeaponCard {
 
     public TractorBeam() {
-        super(7, "Tractor Beam", ColorCube.BLUE, 1);
+        super(7, "Tractor Beam", ColorCube.BLUE, 1, 4, 1);
         this.infoEffect[0] = "FIRST EFFECT: Move a target 0,1 or 2 squares to a square you can see, and give it 1 damage.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose a target 0,1 or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist";

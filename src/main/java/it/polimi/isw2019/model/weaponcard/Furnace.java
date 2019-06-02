@@ -1,19 +1,18 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.NoEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
-//import org.jetbrains.annotations.NotNull;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
-/*
+
 public class Furnace extends AbstractWeaponCard {
 
     public Furnace() {
-        super(9, "Furnace", ColorCube.RED,1);
+        super(9, "Furnace", ColorCube.RED,1, 2, 0);
         this.infoEffect[0] = "FIRST EFFECT : Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
@@ -23,7 +22,7 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
     }
 
-    private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
@@ -67,7 +66,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-/*
+
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA RIVEDERE
 
@@ -103,7 +102,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-/*
+
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
@@ -136,15 +135,14 @@ public class Furnace extends AbstractWeaponCard {
      * @æuthor Davide Lista
      */
 
-/*
+
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
-/*
+
         throw new NoEffectException();
     }
 
 
 }
-*/

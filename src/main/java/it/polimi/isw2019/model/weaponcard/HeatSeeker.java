@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class HeatSeeker extends AbstractWeaponCard {
 
     public HeatSeeker() {
-        super(10, "HeatSeeker", ColorCube.RED, 1);
+        super(10, "HeatSeeker", ColorCube.RED, 1, 0, 1);
         this.infoEffect[0] = "FIRST EFFECT: Choose 1 target you cannot see and deal 3 damage to it.\n";
         this.infoEffect[1] = "SECOND EFFECT: This effect doesn't exist;\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist;\n";

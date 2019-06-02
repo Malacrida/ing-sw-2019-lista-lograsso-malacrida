@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ZX_2 extends AbstractWeaponCard {
 
     public ZX_2() {
-        super(17, "ZX_2", ColorCube.YELLOW, 1);
+        super(17, "ZX_2", ColorCube.YELLOW, 1, 0, 3);
         this.infoEffect[0] = "FIRST EFFECT: Deal 1 damage and 2 marks to 1 target you can see.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose up to 3 targets you can see and deal 1 mark to each.\n";
         this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist.\n";

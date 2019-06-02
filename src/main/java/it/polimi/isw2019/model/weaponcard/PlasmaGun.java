@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PlasmaGun extends AbstractWeaponCard{
 
     public PlasmaGun() {
-        super(4, "Plasma Gun", ColorCube.BLUE, 3);
+        super(4, "Plasma Gun", ColorCube.BLUE, 3, 4, 1);
         this.infoEffect[0] = "FIRST EFFECT: Deal 2 damage to 1 target you can see.\n";
         this.infoEffect[1] = "SECOND EFFECT: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n";
         this.infoEffect[2] = "THIRD EFFECT: Deal 1 additional damage to 1 additional damage to your target. You have to pay a BLUE cube.\n";
