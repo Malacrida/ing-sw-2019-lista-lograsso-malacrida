@@ -21,6 +21,7 @@ public class GameBoard{
     private ArrayList<AmmoTile> ammoTiles;
     private Arena gameArena=null;
     private static GameBoard instance;
+    private KillShotTrack killShotTrack;
 
     public GameBoard (){
 
@@ -194,9 +195,14 @@ public class GameBoard{
     }
 
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public KillShotTrack getKillShotTrack() {
+        return killShotTrack;
     }
+
+    public void setKillShotTrack(KillShotTrack killShotTrack) {
+        this.killShotTrack = killShotTrack;
+    }
+
+
 
 }

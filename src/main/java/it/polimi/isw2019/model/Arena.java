@@ -8,7 +8,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Arena{
+public class Arena {
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -17,7 +17,6 @@ public class Arena{
     Arena() {
 
     }
-
 
 
     public ArrayList<Room> getRooms() {
@@ -282,18 +281,18 @@ public class Arena{
         return squares;
     }
 
-    public ArrayList<Square> squaresAvailable(int x, int y){
+    public ArrayList<Square> squaresAvailable(int x, int y) {
         return squares[x][y].squaresAvailable();
     }
 
-    public Square getSquare(int x, int y){
+    public Square getSquare(int x, int y) {
         return squares[x][y];
     }
 
-    public ColorRoom getColorRoom(Square square){
+    public ColorRoom getColorRoom(Square square) {
         ColorRoom colorRoom = null;
-        for(Room room : rooms){
-            if(room.containsSquare(square)){
+        for (Room room : rooms) {
+            if (room.containsSquare(square)) {
                 colorRoom = room.getColorRoom();
                 break;
             }
@@ -302,16 +301,16 @@ public class Arena{
         return colorRoom;
     }
 
-    public int[] coordinateOfSquare(Square square){
+    public int[] coordinateOfSquare(Square square) {
         int[] index = new int[2];
-        for(int i=0;i<3;i++)
-            for(int j=0; i<4; j++)
-                if(square.equals(squares[i][j])){
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; i < 4; j++)
+                if (square.equals(squares[i][j])) {
                     index[0] = i;
                     index[1] = j;
                 }
         return index;
-        }
+    }
 
 
     public String[][] getArenaRepresentation() {
@@ -327,11 +326,6 @@ public class Arena{
         }
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+
 }
-
-
 

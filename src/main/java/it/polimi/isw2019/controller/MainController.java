@@ -37,8 +37,16 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
            // model.checkNickname(setUpMove.getNickname());
     }
 
+
     @Override
-    public void visitControllerAction(ActionMove actionMove) {
+    public void visitReload(ReloadMove reloadMove) {
+
+    }
+
+    @Override
+    public void visitControllerActionChoosen(ChooseActionMove chooseActionMove){
+
+         model.sendCorrectActionMessage(chooseActionMove.getNumAction());
 
     }
 
@@ -47,7 +55,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         int numMovement = matrix.length;
 
         for(int i=0;i<numMovement;i++){
-            if(matrix[i][0]<0 && matrix[i][0] >2 && matrix[i][1]<0 && matrix[i][1] >3)
+            if(matrix[i][0]<0 || matrix[i][0] >2 || matrix[i][1]<0 || matrix[i][1] >3)
                 model.sendErrorMessage(model.getCurrentPlayer(), "The index you've inserted are wrong!" + matrix[i][0] + matrix[i][1]);
             return false;
         }
