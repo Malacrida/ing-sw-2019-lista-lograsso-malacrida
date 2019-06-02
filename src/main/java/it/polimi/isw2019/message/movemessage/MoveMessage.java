@@ -2,7 +2,7 @@ package it.polimi.isw2019.message.movemessage;
 
 import it.polimi.isw2019.view.VisitorView;
 
-public abstract class MoveMessage {
+public abstract class MoveMessage implements VisitableMessageMove{
 
     //String idMoveMessage is no more used
     protected String idMoveMessage;
@@ -29,13 +29,5 @@ public abstract class MoveMessage {
     public String getNicknamePlayer(){
         return nicknamePlayer;
     }
-
-    public void visitView(VisitorView... visitorView){
-        for(VisitorView vv : visitorView){
-            visit(vv);
-        }
-    }
-
-    public abstract void visit(VisitorView visitorView);
 
 }

@@ -14,10 +14,6 @@ public class ActionMessage extends MoveMessage {
         actionYouCanPerform = new HashMap<>();
 
     }
-    @Override
-    public void visit(VisitorView visitorView) {
-
-    }
 
     public void setPowerUpAction(){
             actionYouCanPerform.put(6,"USE POWER UP CARD");
@@ -60,6 +56,9 @@ public class ActionMessage extends MoveMessage {
             return this.actionYouCanPerform;
         }
 
-        
 
+    @Override
+    public void accept(VisitorView visitorview) {
+
+    }
 }

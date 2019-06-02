@@ -1,4 +1,4 @@
-package it.polimi.isw2019.model.weaponcard;
+/*package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
@@ -6,7 +6,7 @@ import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
     }
 
-    private void damageFurnace(@NotNull GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(/*@NotNull */GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
@@ -67,7 +67,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-
+/*
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //DA RIVEDERE
 
@@ -103,7 +103,7 @@ public class Furnace extends AbstractWeaponCard {
      *
      * @æuthor Davide Lista
      */
-
+/*
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
@@ -136,14 +136,15 @@ public class Furnace extends AbstractWeaponCard {
      * @æuthor Davide Lista
      */
 
-
+/*
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {
 
         /* NON ESISTE L'EFFETTO */
-
+/*
         throw new NoEffectException();
     }
 
 
 }
+*/

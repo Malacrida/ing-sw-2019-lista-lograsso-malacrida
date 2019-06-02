@@ -10,13 +10,13 @@ import it.polimi.isw2019.model.exception.OutOfBoundsException;
 
 import java.util.ArrayList;
 
-public class GameBoard {
+public class GameBoard{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
-    private ArrayList<AbstractWeaponCard> weaponCardsRed= new ArrayList<>();
-    private ArrayList<AbstractWeaponCard> weaponCardsBlue= new ArrayList<>();
-    private ArrayList<AbstractWeaponCard> weaponCardsYellow= new ArrayList<>();
+    private AbstractWeaponCard[] weaponCardsRed= new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCardsBlue= new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCardsYellow= new AbstractWeaponCard[3];
     private ArrayList<PowerUpCard> powerUpCards;
     private ArrayList<AmmoTile> ammoTiles;
     private Arena gameArena=null;
@@ -25,7 +25,6 @@ public class GameBoard {
     public GameBoard (){
 
     }
-
 
 
 
@@ -54,26 +53,23 @@ public class GameBoard {
         this.ammoTiles = ammoTiles;
     }
 
+
+    public AbstractWeaponCard[] createDeckForSpawnSquares (){
+        AbstractWeaponCard[] deck = new AbstractWeaponCard[3];
+        for (int i =0; i<3;i++){
+            deck[i]= weaponCards.get(0);
+            deck[i].changeState(StateCard.ON_BOARD);
+        }
+        return deck;
+    }
+
     //settare le carte nei punti spawn
     public void setWeaponCardsOnBoard (){
-        //I colori indicano i punti di spawn
-        for (int i=0; i<9; i++){
-            if (i%3==0){
-                weaponCardsRed.add(weaponCards.get(0));
-                //cambio di stato
-                weaponCards.remove(0);
-            }
-            if (i%3==1){
-                weaponCardsBlue.add(weaponCards.get(0));
-                //cambio di stato
-                weaponCards.remove(0);
-            }
-            if (i%3==2){
-                weaponCardsYellow.add(weaponCards.get(0));
-                //cambio di stato
-                weaponCards.remove(0);
-            }
-        }
+
+        weaponCardsRed = createDeckForSpawnSquares();
+        weaponCardsBlue = createDeckForSpawnSquares();
+        weaponCardsYellow = createDeckForSpawnSquares();
+
         gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsYellow);
     }
 
@@ -96,7 +92,7 @@ public class GameBoard {
         return weaponCard;
     }
 
-    public ArrayList<AbstractWeaponCard> weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
+    public AbstractWeaponCard[] weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
         if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
             return gameArena.getWeaponCardsOnSquares(x,y);
         }
@@ -193,4 +189,11 @@ public class GameBoard {
     public Arena getGameArena() {
         return gameArena;
     }
+
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

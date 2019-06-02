@@ -1,34 +1,48 @@
 package it.polimi.isw2019.network;
 
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
-public class ServerRmi {
+
+public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRMI{
+
+
+
+    private HashMap<String,ClientInterfaceRmi> clientConnected = new HashMap<>();
+
 
     public ServerRmi ()throws RemoteException {
-        super();
+
     }
 
-    //aprire connessione
-
-   // ActionMove actionMove = new ActionMove();
-    // ChooseActionMove chooseActionMove = new ChooseActionMove();
-
-
-    public void start () throws RemoteException, AlreadyBoundException{
-        try {
-            Registry registry = LocateRegistry.getRegistry();
-         //   registry.bind("action_move", actionMove);
+    @Override
+    public void addToTheServer(String name, ClientInterfaceRmi clientInterfaceRmi)throws RemoteException {
+        if (!clientConnected.containsKey(name)) {
+            clientConnected.put(name, clientInterfaceRmi);
         }
-        catch (RemoteException e){
-            throw new RemoteException(e.getMessage());
-        }
-        /*
-        catch (AlreadyBoundException f){
-            throw new AlreadyBoundException(f.getMessage());
-        }*/
+        System.out.println("Aggiunto: "+name);
     }
+
+
+
+    @Override
+    public void removeToTheClient(String name) throws RemoteException {
+        if (!clientConnected.containsKey(name)) {
+            clientConnected.remove(name);
+        }
+
+    }
+
+    @Override
+    public void addGame() {
+
+    }
+
+    @Override
+    public void reciveMove() {
+
+    }
+
+
 }

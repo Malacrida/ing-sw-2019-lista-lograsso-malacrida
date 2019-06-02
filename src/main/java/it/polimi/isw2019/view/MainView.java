@@ -1,12 +1,9 @@
 package it.polimi.isw2019.view;
 
+import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.message.playermove.RunGrabMove;
-import it.polimi.isw2019.message.playermove.RunMove;
-import it.polimi.isw2019.message.playermove.SetUpMove;
 
 import java.util.Scanner;
 
@@ -79,10 +76,54 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         this.actionHero = actionHero;
     }
 
+
+
+    public void startView(){
+        SetUpMove message ;
+        Scanner input = new Scanner(System.in);
+        String nickname;
+        String phrase;
+        // nickname con eventualmente la connessione client server
+        System.out.println("Insert nickname:");
+        nickname = input.next();
+        System.out.println("Insert phrase:");
+        phrase = input.nextLine();
+        notifyObservers(new FirstMessage(this,nickname,phrase));
+    }
+
+    @Override
+    public void waitForStart(EndRegistration endRegistration) {
+        //loop
+        System.out.println("waiting for other player to enter the game!");
+    }
+
+    @Override
+    public void visitOkRegistration(RegistrationPlayer registrationPlayer) {
+
+        Scanner input = new Scanner(System.in);
+        setActionHero(registrationPlayer.getActionHero());
+        setNicknamePlayer(registrationPlayer.getNicknamePlayer());
+
+        System.out.println("Your registered!");
+
+        System.out.println("Choose one of those color copying the name :");
+
+        for(String color : registrationPlayer.getColors()){
+            System.out.println(color);
+        }
+
+        String colorChoosen = input.next();
+
+
+
+
+
+
+    }
     @Override
     public void update(MoveMessage message) {
 
-            message.visitView(visitorView);
+            message.accept(visitorView);
     }
 
     @Override
@@ -91,30 +132,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
     }
 
     @Override
-    public void visitSetupView(MoveMessage moveMessage) {
-        SetUpMove message ;
-        Scanner input = new Scanner(System.in);
-        String nickname;
-        String phrase;
-        String color;
-        char gameMood;
-        // nickname con eventualmente la connessione client server
-        System.out.println("Insert nickname:");
-        nickname = input.nextLine();
-        System.out.println("Insert phrase:");
-        phrase = input.nextLine();
-        for(int i = 0; i< ((SetUpMessage)(moveMessage)).getColorAvailable().size(); i++)
-            System.out.println("Color available :" + ((SetUpMessage)(moveMessage)).getColorAvailable());
-
-        System.out.println("Insert color:");
-        color = input.nextLine();
-        System.out.println("Tapping the first upper case letter of the name of the game mode " +
-                "to choose one of them : /n 1) N -> Normal ; 2) T -> Terminator ; 3) B ->Boot; ");
-        //consume only one char
-        gameMood = input.next().charAt(0);
-        message = new SetUpMove(this,nickname,phrase,color, gameMood);
-
-        notifyObservers(message);
+    public void visitSetupView(SetUpMessage setUpMessage) {
 
     }
 

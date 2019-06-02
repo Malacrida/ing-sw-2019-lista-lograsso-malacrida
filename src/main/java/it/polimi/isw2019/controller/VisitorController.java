@@ -16,5 +16,8 @@ public interface VisitorController {
 
     public abstract void visitControllerChooseAction(ChooseActionMove chooseActionMove);
 
+    public abstract void visitControllerRegisterPlayer(FirstMessage firstMessage);
+
+    public abstract void visitColorChoosen(ColorChoosen colorChoosen);
 
 }

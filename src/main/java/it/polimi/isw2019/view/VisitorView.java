@@ -5,7 +5,7 @@ import it.polimi.isw2019.message.movemessage.*;
 
 public interface VisitorView{
 
-    public abstract void visitSetupView(MoveMessage messageMove);
+    public abstract void visitSetupView(SetUpMessage setUpMessage);
 
     public abstract void visitActionView(MoveMessage moveMessage);
 
@@ -21,4 +21,7 @@ public interface VisitorView{
 
     public abstract void visitUpdateView(UpdateMessage updateMessage);
 
+    public abstract void visitOkRegistration(RegistrationPlayer registrationPlayer);
+
+    public abstract void waitForStart(EndRegistration endRegistration);
 }

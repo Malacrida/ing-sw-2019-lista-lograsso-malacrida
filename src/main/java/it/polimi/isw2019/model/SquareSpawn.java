@@ -6,8 +6,7 @@ import java.util.ArrayList;
 
 public class SquareSpawn extends Square {
 
-    private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
-
+    private AbstractWeaponCard[] weaponCards= new AbstractWeaponCard[3];
 
     SquareSpawn() {
         super(true);
@@ -16,38 +15,47 @@ public class SquareSpawn extends Square {
 
     @Override
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
-        if (weaponCards.contains(weaponCard)) return true;
-        else return false;
+        for (int i=0; i<3; i++){
+            if (weaponCards[i]==weaponCard) return true;
+        }
+        return false;
     }
 
     @Override
     public void takeWeapon (AbstractWeaponCard weaponCard){
-        if (containsWeapon(weaponCard)){
-            weaponCards.remove(weaponCard);
-            //Cambiare lo stato della carta
+        for (int i=0; i<3; i++){
+            if (weaponCards[i]==weaponCard) {
+                weaponCards[i].changeState(StateCard.HOLDING);
+                weaponCards[i]=null;
+            }
         }
     }
 
     @Override
-    public ArrayList<AbstractWeaponCard> getWeaponCards() {
+    public AbstractWeaponCard[] getWeaponCards() {
         return weaponCards;
     }
 
     public int numOfWeaponCards(){
-
-        return weaponCards.size();
+        int cont =0;
+        for (int i=0; i<3; i++){
+            if (weaponCards[i]!=null) cont++;
+        }
+        return cont;
     }
 
 
     @Override
-    public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards) {
+    public void setWeaponCards(AbstractWeaponCard[] weaponCards) {
         this.weaponCards=weaponCards;
     }
 
     @Override
     public void putNewWeaponCard(AbstractWeaponCard weaponCard) {
-        if (weaponCards.size()<3){
-            weaponCards.add(weaponCard);
+        if (numOfWeaponCards()<3){
+            for (int i=0; i<3; i++){
+                if (weaponCards[i]== null) weaponCards[i]= weaponCard;
+            }
         }
 
     }

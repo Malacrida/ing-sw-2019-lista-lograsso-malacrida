@@ -3,10 +3,17 @@ package it.polimi.isw2019.model;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 
+
+/**
+ * Class represents the squares where there are ammo tile
+ * @author Sara Malacrida
+ */
 public class SquareAmmo extends Square {
 
     private AmmoTile ammoTile;
     private boolean canUseAmmo;
+
+
 
     SquareAmmo() {
         super( false);
@@ -37,6 +44,8 @@ public class SquareAmmo extends Square {
         }
         else throw new AmmoTileUseException();
     }
+
+
 
 
 }

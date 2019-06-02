@@ -10,8 +10,8 @@ public class RunMove extends PlayerMove{
     }
 
     @Override
-    public void visit(VisitorController singleMoveController) {
-            singleMoveController.visitControllerRun(this);
+    public void accept(VisitorController visitorController) {
+            visitorController.visitControllerRun(this);
     }
 
     public void setMovement(int[][] movement){

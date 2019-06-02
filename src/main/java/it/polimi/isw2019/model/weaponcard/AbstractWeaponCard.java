@@ -10,7 +10,7 @@ import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
-public abstract class AbstractWeaponCard{
+public abstract class AbstractWeaponCard implements Cloneable{
     protected int id;
     protected String name;
     protected ColorCube color;
@@ -32,7 +32,8 @@ public abstract class AbstractWeaponCard{
         this.maxPossibleEffects = maxPossibleEffects;
     }
 
-    //Methods
+
+//Methods
 
 
     public int getID(){
@@ -276,5 +277,33 @@ public abstract class AbstractWeaponCard{
 
         return visiblePlayers.contains(firstPlayer) && visiblePlayers.contains(secondPlayer) && visiblePlayers.contains(thirdPlayer);
 
+    }
+
+    public void setWeaponCardDescription(){
+        int numOfCubes = rechargeCube.length;
+        weaponCardDescription = new String[6][];
+        weaponCardDescription[0][0] = String.valueOf(id);
+        weaponCardDescription[1][0] = name;
+        weaponCardDescription[2][0] = color.getColorCubeRepresentation();
+        for(int i=0; i<rechargeCube.length;i++)
+            weaponCardDescription[3][i] = rechargeCube[i].getColorCubeRepresentation();
+        for(int i=0;i<infoEffect.length; i++)
+            weaponCardDescription[4][i] = infoEffect[i];
+        weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
+
+
+    }
+
+    public String[][] getWeaponCardDescription() {
+        return weaponCardDescription;
+    }
+
+    public void changeStateRepresentation(StateCard stateCard){
+        weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
