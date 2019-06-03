@@ -28,8 +28,6 @@ public class Electroscythe extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
@@ -60,8 +58,6 @@ public class Electroscythe extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
@@ -90,8 +86,6 @@ public class Electroscythe extends AbstractWeaponCard {
     /**
      * This effect doesn't exist
      * @throws NoEffectException there isn't this effect
-     *
-     * @æuthor Davide Lista
      */
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException {

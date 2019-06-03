@@ -28,8 +28,6 @@ public class PlasmaGun extends AbstractWeaponCard{
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
     @Override
@@ -47,8 +45,6 @@ public class PlasmaGun extends AbstractWeaponCard{
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
     @Override
@@ -67,7 +63,14 @@ public class PlasmaGun extends AbstractWeaponCard{
         }
     }
 
-
+    /**
+     *
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
+     * @throws ErrorEffectException there is a problem during effect
+     */
 
     @Override
     public void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {

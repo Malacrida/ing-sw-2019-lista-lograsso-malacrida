@@ -1,10 +1,6 @@
 package it.polimi.isw2019.network;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 public class ClientConnectionSocket {
 
@@ -17,7 +13,7 @@ public class ClientConnectionSocket {
         System.out.println("Creating socket to '" + host + "' on port " + portNumber);
 
         while (isActive) {
-            Socket newClientSocket = new Socket(host, portNumber); //da mettere nella classe server
+            /*Socket newClientSocket = new Socket(host, portNumber); //da mettere nella classe server
             BufferedReader br = new BufferedReader(new InputStreamReader(newClientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(newClientSocket.getOutputStream(), true);
 
@@ -32,7 +28,7 @@ public class ClientConnectionSocket {
 
             if ("exit".equalsIgnoreCase(userInput)) {
                 newClientSocket.close();
-                break;
+                break;*/
             }
         }
     }
@@ -43,4 +39,4 @@ public class ClientConnectionSocket {
     }*/
 
 
-}
+

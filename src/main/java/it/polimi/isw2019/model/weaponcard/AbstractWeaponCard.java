@@ -90,8 +90,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
     public abstract void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
@@ -104,8 +102,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
 
     public abstract void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
@@ -119,8 +115,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
 
     public abstract void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;

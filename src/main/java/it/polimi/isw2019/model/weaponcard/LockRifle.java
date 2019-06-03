@@ -29,8 +29,6 @@ public class LockRifle extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
 
@@ -59,8 +57,6 @@ public class LockRifle extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
 
@@ -93,8 +89,6 @@ public class LockRifle extends AbstractWeaponCard {
     /**
      * This effect doesn't exist
      * @throws NoEffectException there isn't this effect
-     *
-     * @æuthor Davide Lista
      */
 
 
