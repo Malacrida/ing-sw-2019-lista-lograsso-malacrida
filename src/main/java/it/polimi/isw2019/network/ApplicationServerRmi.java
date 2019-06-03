@@ -25,13 +25,13 @@ public class ApplicationServerRmi {
         //creazione del server
         server = new ServerRmi();
 
-        System.out.println("Registro: ");
+        System.out.println("Register: ");
 
         try {
             LocateRegistry.createRegistry(port);
         }
         catch (RemoteException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         try {
@@ -39,11 +39,11 @@ public class ApplicationServerRmi {
         }
         catch (RemoteException e) {
             System.out.println("Error remote");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         catch (MalformedURLException e) {
-            System.out.println("Malfunzionamento url");
-            e.printStackTrace();
+            System.out.println("Malfunction url");
+            //e.printStackTrace();
         }
 
         System.out.println("server START");

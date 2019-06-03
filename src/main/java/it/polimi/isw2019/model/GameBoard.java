@@ -21,6 +21,7 @@ public class GameBoard{
     private ArrayList<AmmoTile> ammoTiles;
     private Arena gameArena=null;
     private static GameBoard instance;
+    private KillShotTrack killShotTrack;
 
     public GameBoard (){
 
@@ -59,6 +60,7 @@ public class GameBoard{
         for (int i =0; i<3;i++){
             deck[i]= weaponCards.get(0);
             deck[i].changeState(StateCard.ON_BOARD);
+            weaponCards.remove(0);
         }
         return deck;
     }
@@ -191,9 +193,14 @@ public class GameBoard{
     }
 
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public KillShotTrack getKillShotTrack() {
+        return killShotTrack;
     }
+
+    public void setKillShotTrack(KillShotTrack killShotTrack) {
+        this.killShotTrack = killShotTrack;
+    }
+
+
 
 }

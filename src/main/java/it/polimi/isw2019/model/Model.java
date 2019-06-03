@@ -1,9 +1,7 @@
 package it.polimi.isw2019.model;
 
 
-//import it.polimi.isw2019.controller.VisitorAction; -> problemi con git
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.ColorChoosen;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
@@ -39,8 +37,6 @@ public class Model extends Observable {
      *
      * @param mod type of game mod
      */
-
-
     public void setKillShotTrack (int mod){
         killShotTrack = new KillShotTrack(mod);
     }
@@ -49,32 +45,6 @@ public class Model extends Observable {
     public Player getCurrentPlayer(){
         return this.currentPlayer;
     }
-
-    public void createGamePlay(){
-        //metodo che ti permette di creare l'istanza del gioco
-    }
-
-    public void setUpGameBoard(){
-        //richiamare tutti i metodi che settano la gameBoard
-    }
-
-
-    public void restoreBoardPlayer (PlayerBoard playerBoard){
-        //resettarla quando si finisce il turno
-    }
-
-    public void calculationTemporaryScore(){
-
-        //quando qualcuno muore, alla fine di chi ha ucciso una determinata persona, viene calcolato il punteggio.
-        //il modo con cui viene fatto è strano
-
-    }
-
-    public void calculationScore(){
-        //termine dell'ultimo turno nella modalità freenzy
-    }
-
-
 
 
 
@@ -129,19 +99,98 @@ public class Model extends Observable {
         //notify del nickname!!!!!!! che lo deve reinserire
 
     }
+    //
+    public void updateTurnPlayer(){
 
-    public void updateTurn(){
+        if(gameBoard.getKillShotTrack().getNumSkull()<8) {
+            if (currentPlayer.getPlayerID() == players.size()) {
+                turn = 0;
+            } else
+                turn = turn + 1;
 
-        if(currentPlayer.getPlayerID() == players.size()){
-            turn = 0;
+            currentPlayer = players.get(turn);
         }
-        else
-            turn = turn + 1;
-
-        currentPlayer = players.get(turn);
+        else{
+            // controllare frenzy
+            // l'ultimo turno!
+        }
 
     }
 
+    public void sendUpdateMessage(){
+        //notify mex di update
+        //cambiare il player
+
+    }
+
+    public void setCorrectActionChoosenMessages(){
+
+        ActionMessage actionMessage = new ActionMessage(currentPlayer.getName());
+        if(!currentPlayer.isFrenzy() && ! currentPlayer.isFrenzy()){
+            if(currentPlayer.playerDamage()<=2)
+                actionMessage.setNormalAction();
+            else if (currentPlayer.playerDamage()<= 4)
+                actionMessage.setFirstPoweredAction();
+            else
+                actionMessage.setFrenzyFirstPlayerAction();
+        }
+        else if (currentPlayer.isFrenzy() && !currentPlayer.isFirstPlayer()){
+            actionMessage.setFrenzyAction();
+        }
+        else{
+            actionMessage.setFrenzyFirstPlayerAction();
+        }
+
+        notifyObservers(actionMessage);
+    }
+
+    public int numMovementCanBePerformedRun(){
+        if(!currentPlayer.isFrenzy())
+            return 3;
+
+        else
+            return 4;
+
+    }
+
+    public int numMovementCanBePerformedRunGrab(){
+        if(!currentPlayer.isFrenzy()){
+            if(currentPlayer.playerDamage()<=2)
+                return 1;
+            else
+                return 2;
+        }
+        else{
+            if(!currentPlayer.isFirstPlayer())
+                return 2;
+            else
+                return 3;
+        }
+    }
+
+    public void setWeaponCard(){
+
+        int[] effectForWeaponCard = new int [3];
+
+        for(AbstractWeaponCard abstractWeaponCard :currentPlayer.getWeaponCards()){
+            effectForWeaponCard[0] = abstractWeaponCard.getMaxPossibleEffects();
+            //manca num coordinate, num
+        }
+
+        notifyObservers(new UseWeaponCardMessage(currentPlayer.getName(), effectForWeaponCard));
+    }
+
+
+    public void sendCorrectActionMessage(int actionChoose){
+        switch (actionChoose){
+            case 0:
+                notifyObservers(new RunMessage(currentPlayer.getName(),numMovementCanBePerformedRun()));
+                break;
+            case 1:
+                notifyObservers(new RunGrabMessage(currentPlayer.getName(),numMovementCanBePerformedRunGrab()));
+                break;
+        }
+    }
 
     //Colore scelto dal giocatore è ancora disponibile
     public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
@@ -336,29 +385,7 @@ public class Model extends Observable {
     }
     //
 
-    public int numMovementCanBePerformedRunGrab(){
-        int numDamage = currentPlayer.playerDamage();
-        if(numDamage <= 2 && !currentPlayer.isFrenzy())
-            return 1;
-        else if(numDamage > 2 && !currentPlayer.isFrenzy())
-            return 2;
-        else if(currentPlayer.isFrenzy() && !currentPlayer.isFirstPlayer())
-            return 2;
-        else if(currentPlayer.isFrenzy())
-            return 3;
-        else
-            return -1;
-    }
 
-    public int numMovementCanBePerformedRun(){
-        int numDamage = currentPlayer.playerDamage();
-        if(!currentPlayer.isFrenzy())
-            return 3;
-        else if(currentPlayer.isFrenzy())
-            return 4;
-        else
-            return -1;
-    }
 
 
     public void sendErrorMessage(Player player, String error){
@@ -409,7 +436,7 @@ public class Model extends Observable {
         else {
 
             int numPlayerInRoom = gameBoard.playersInOneSquare(movement[movement.length-1][0],movement[movement.length-1][1],currentPlayer).size();
-           // gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
+            //gameBoard.getGameArena().updateArenaRepresentation(movement[movement.length-1][0],movement[movement.length-1][1],numPlayerInRoom + 1);
             //migliorare l'update
            //metodo che viene invocato!!!!!
            // notifyObservers(new UpdateMessage(currentPlayer.getName()));
@@ -449,6 +476,10 @@ public class Model extends Observable {
 
     public void handlePayment(int[] cubes){
 
+    }
+
+    public void addPlayer (Player player){
+        players.add(player);
     }
 
 

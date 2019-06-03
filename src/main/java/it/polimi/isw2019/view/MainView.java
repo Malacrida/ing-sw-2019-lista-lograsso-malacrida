@@ -5,6 +5,7 @@ import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.utilities.Observer;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {
@@ -72,6 +73,35 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         this.gameBoard = gameBoard;
     }
 
+    public void printWeaponCard(int i){
+            System.out.println("Weapon card "+ (i+1) + " : ");
+            for(int j = 0; i < weaponCard[i].length; j++){
+                System.out.println(weaponCard[i][j]);
+            }
+
+    }
+
+    public void printWeaponsCard(){
+        for(int i = 0; i< weaponCard.length; i++)
+            printWeaponCard(i);
+    }
+
+    @Override
+    public void weaponCardChoice(UseWeaponCardMessage useWeaponCardMessage) {
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("choose one of the following WeaponCard : ");
+        printWeaponsCard();
+        int cardChoosen = input.nextInt();
+
+        System.out.println("You've choosen the following card : \n" );
+        printWeaponCard(cardChoosen);
+
+
+
+
+    }
+
     public void setActionHero(String actionHero) {
         this.actionHero = actionHero;
     }
@@ -114,11 +144,6 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         String colorChoosen = input.next();
 
-
-
-
-
-
     }
     @Override
     public void update(MoveMessage message) {
@@ -139,8 +164,21 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
 
     @Override
-    public void visitActionView(MoveMessage moveMessage) {
+    public void visitActionView(ActionMessage actionMessage) {
+            Scanner input = new Scanner(System.in);
+            int actionChoosen = -1;
 
+            do{
+
+                for (String action : actionMessage.getActionYouCanPerform()) {
+                    System.out.println(action);
+                }
+
+                System.out.println("Choose one of the following action to be performed");
+                actionChoosen = input.nextInt();
+            }while(actionChoosen< 0 || actionChoosen>actionMessage.getActionYouCanPerform().size());
+
+        notifyObservers(new ChooseActionMove(nicknamePlayer,actionChoosen));
     }
 
     @Override
@@ -149,9 +187,9 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
     }
 
     public int[][] insertMovement(int numMovement){
+
         int[][] tmpMovement = new int[numMovement][2];
         Scanner input = new Scanner(System.in);
-        //check se ne vuoi fare meno di quelli segnati
         //display gameboard
 
         for(int i=0;i<numMovement;i++){
@@ -171,6 +209,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         char cardChoice = input.next().charAt(0);
         char weaponChoice = 'A';
         if(cardChoice == 'W'){
+            //check
             System.out.println("Select B-C-D to take one of the following weapon card :");
             //print delle tue weapon card
             weaponChoice = input.next().charAt(0);
@@ -213,15 +252,60 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         c = input.next().charAt(0);
         runGrabMove.setPositionWeaponCard(positionWeaponCard);
         notifyObservers(runGrabMove);
+
     }
 
     @Override
     public void visitReload(ReloadMessage reloadMessage) {
 
-    }
+            Scanner input = new Scanner(System.in);
+            printWeaponsCard();
+            //check per i per i payment
+            System.out.println("Choose the weapon card you want to reload or -1 to terminate (insert position) ");
+            int cardChoosen = input.nextInt();
+
+            ReloadMove reloadMove = new ReloadMove(getNicknamePlayer());
+
+            //num di weapon card
+            //manca
+            int j = 0;
+            int paymentChoose  = 0, k = 0;
+            String[][] choice = new String[reloadMessage.getNumWeaponCard()][];
+            while(cardChoosen!= -1 || j < reloadMessage.getNumWeaponCard()) {
+                k = 0;
+                System.out.println("Choose if you want to pay with (1) PowerUp or with (2)Cubes or -1 to exit : \n");
+                paymentChoose = input.nextInt();
+                while (paymentChoose != -1 || k < reloadMessage.getNumCubesForRecharge()[cardChoosen]) {
+
+                    if (paymentChoose == '1') {
+                        System.out.println("Insert the color of the cubes you want to pay with : \n");
+                        choice[cardChoosen][k] = input.next();
+
+                    } else {
+                        System.out.println("Insert the number idPowerUp or -1 to terminate : \n");
+                        choice[cardChoosen][k] = String.valueOf(input.nextInt());
+                    }
+
+                    k++;
+
+                    System.out.println("Choose if you want to pay with (1) PowerUp or with (2)Cubes or -1 to exit : \n");
+                    paymentChoose = input.nextInt();
+
+                }
+
+                j++;
+
+                System.out.println("Choose the weapon card you want to reload");
+                cardChoosen = input.nextInt();
+             }
+            reloadMove.setPayment(choice);
+            notifyObservers(reloadMove);
+            }
 
     @Override
     public void visitTurnView(TurnMessage turnMessage) {
 
     }
+
+
 }

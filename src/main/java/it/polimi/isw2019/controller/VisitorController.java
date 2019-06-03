@@ -7,8 +7,7 @@ public interface VisitorController {
 
     public abstract void visitControllerSetUpPlayer(SetUpMove setUpMove);
 
-    //cancellare
-    public abstract void visitControllerAction(ActionMove actionMove);
+    public abstract void visitControllerActionChoosen(ChooseActionMove chooseActionMove);
 
     public abstract void visitControllerRun(RunMove runMove);
 
@@ -19,5 +18,8 @@ public interface VisitorController {
     public abstract void visitControllerRegisterPlayer(FirstMessage firstMessage);
 
     public abstract void visitColorChoosen(ColorChoosen colorChoosen);
+
+    public abstract void visitReload(ReloadMove reloadMove);
+
 
 }

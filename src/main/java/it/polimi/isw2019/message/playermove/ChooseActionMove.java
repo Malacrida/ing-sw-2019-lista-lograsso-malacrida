@@ -21,7 +21,7 @@ public class ChooseActionMove extends PlayerMove{
     }
 
     @Override
-    public void accept(VisitorController singleMoveController) {
+    public void accept(VisitorController visitorController) {
 
     }
 }

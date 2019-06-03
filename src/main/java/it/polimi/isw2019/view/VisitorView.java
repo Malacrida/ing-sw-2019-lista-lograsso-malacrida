@@ -7,7 +7,7 @@ public interface VisitorView{
 
     public abstract void visitSetupView(SetUpMessage setUpMessage);
 
-    public abstract void visitActionView(MoveMessage moveMessage);
+    public abstract void visitActionView(ActionMessage actionMessage);
 
     public abstract  void errorMessageView(MoveMessage moveMessage);
 
@@ -24,4 +24,6 @@ public interface VisitorView{
     public abstract void visitOkRegistration(RegistrationPlayer registrationPlayer);
 
     public abstract void waitForStart(EndRegistration endRegistration);
+
+    public abstract void weaponCardChoice(UseWeaponCardMessage useWeaponCardMessage);
 }

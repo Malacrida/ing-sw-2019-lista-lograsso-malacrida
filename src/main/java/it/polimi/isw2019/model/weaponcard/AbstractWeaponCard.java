@@ -10,7 +10,7 @@ import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
-public abstract class AbstractWeaponCard implements Cloneable{
+public abstract class AbstractWeaponCard{
     protected int id;
     protected String name;
     protected ColorCube color;
@@ -39,6 +39,10 @@ public abstract class AbstractWeaponCard implements Cloneable{
 
 //Methods
 
+
+    public int getMaxPossibleEffects() {
+        return maxPossibleEffects;
+    }
 
     public int getID(){
         return id;
@@ -306,8 +310,4 @@ public abstract class AbstractWeaponCard implements Cloneable{
         weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }

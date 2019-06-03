@@ -1,6 +1,5 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.view.VisitorView;
 
 public abstract class MoveMessage implements VisitableMessageMove{
 
@@ -16,15 +15,10 @@ public abstract class MoveMessage implements VisitableMessageMove{
         this.idPlayer = idPlayer;
     }
 
+
     public MoveMessage(String nicknamePlayer){
         this.nicknamePlayer= nicknamePlayer;
     }
-
-
-    public String getIdMoveMessage(){
-        return idMoveMessage;
-    }
-
 
     public String getNicknamePlayer(){
         return nicknamePlayer;

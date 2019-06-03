@@ -15,9 +15,9 @@ import static org.junit.Assert.*;
 public class ArenaTest {
 
     Arena arena;
-    ArrayList<AbstractWeaponCard> weaponCards1= new ArrayList<>();;
-    ArrayList<AbstractWeaponCard> weaponCards2= new ArrayList<>();;
-    ArrayList<AbstractWeaponCard> weaponCards3= new ArrayList<>();;
+    AbstractWeaponCard[] weaponCards1= new AbstractWeaponCard[3];
+    AbstractWeaponCard[] weaponCards2= new AbstractWeaponCard[3];
+    AbstractWeaponCard[] weaponCards3= new AbstractWeaponCard[3];
     AbstractWeaponCard weaponCard1;
     AbstractWeaponCard weaponCard2;
     AbstractWeaponCard weaponCard3;
@@ -43,23 +43,24 @@ public class ArenaTest {
     public void setUp() throws Exception {
         weaponCard1= new Electroscythe();
         weaponCard2= new GrenadeLauncher();
-        weaponCard3= new Furnace();
+        weaponCard3= new ShotGun();
         weaponCard4= new GrenadeLauncher();
         weaponCard5= new HeatSeeker();
         weaponCard6= new GrenadeLauncher();
-        weaponCard7= new Furnace();
+        weaponCard7= new ShotGun();
         weaponCard8= new Electroscythe();
         weaponCard9= new GrenadeLauncher();
 
-        weaponCards1.add(weaponCard1);
-        weaponCards1.add(weaponCard2);
-        weaponCards1.add(weaponCard3);
-        weaponCards2.add(weaponCard4);
-        weaponCards2.add(weaponCard5);
-        weaponCards2.add(weaponCard6);
-        weaponCards3.add(weaponCard7);
-        weaponCards3.add(weaponCard8);
-        weaponCards3.add(weaponCard9);
+        weaponCards1[0]= weaponCard1;
+        weaponCards1[1]= weaponCard2;
+        weaponCards1[2]= weaponCard3;
+        weaponCards2[0]= weaponCard4;
+        weaponCards2[1]= weaponCard5;
+        weaponCards2[2]= weaponCard6;
+        weaponCards3[0]= weaponCard7;
+        weaponCards3[1]= weaponCard8;
+        weaponCards3[2]= weaponCard9;
+
 
         ammoTile= new AmmoTile(1,null, null, null);
         for (int i=0; i<12; i++){
