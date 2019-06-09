@@ -47,8 +47,6 @@ public class MachineGun extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
     @Override
@@ -72,8 +70,6 @@ public class MachineGun extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
 
     @Override
@@ -96,8 +92,6 @@ public class MachineGun extends AbstractWeaponCard {
      * @param defenders are players attacked
      * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException there is a problem during effect
-     *
-     * @æuthor Davide Lista
      */
     /*DA SISTEMARE QUESTO EFFETTO*/
     @Override
