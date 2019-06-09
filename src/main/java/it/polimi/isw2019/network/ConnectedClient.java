@@ -6,8 +6,7 @@ public class ConnectedClient {
     private String nameClient;
     private boolean isInactive;
 
-    public ConnectedClient(int idClient, String nameClient){
-        this.idClient = idClient;
+    public ConnectedClient(String nameClient){
         this.nameClient = nameClient;
     }
 

@@ -39,11 +39,6 @@ public abstract class AbstractWeaponCard{
 
 //Methods
 
-
-    public int getMaxPossibleEffects() {
-        return maxPossibleEffects;
-    }
-
     public int getID(){
         return id;
     }
@@ -66,7 +61,9 @@ public abstract class AbstractWeaponCard{
         return stateCard;
     }
 
-    public int getMaxPossibleEffects() {return maxPossibleEffects;}
+    public int getMaxPossibleEffects() {
+        return maxPossibleEffects;
+    }
 
     public int getMaxPossibleCoordinates() {return maxPossibleCoordinates; }
 
