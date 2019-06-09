@@ -31,7 +31,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void update(PlayerMove playerMove){
-        //playerMove.accept(this);
+        playerMove.accept(this);
     }
 
 
@@ -96,15 +96,15 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.sendCorrectActionMessage();
             return;
         }
-            if(grabMove.getCardSelection()== 'W'){
+        /*if(grabMove.getCardSelection()== 'W'){
 
                 //check if is spawnPoint
                 //model.getGameBoard().getGameArena().getSquare()
                // model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
-            }
-            else if(grabMove.getCardSelection() == 'A'){
+         }
+         else if(grabMove.getCardSelection() == 'A'){
                // model.grabAmmoCard(grabMove.getCardSelection());
-            }
+            }*/
         }
 
     @Override
@@ -130,10 +130,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
-        if(powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size() || powerUpChoice.getCardChoosen() < 0 ){
+      /*  if(powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size() || powerUpChoice.getCardChoosen() < 0 ){
             //mex di errore
         }
-        else if(model.getCurrentPlayer().isRespawn() || model.getCurrentPlayer().isFirstTurn()){
+         if(model.getCurrentPlayer().isRespawn() || model.getCurrentPlayer().isFirstTurn()){
                 //fillare con una powerUpCard dal deck (se ce ne sono ancora)
                 //aggiungerla al deck
                 //handleRespawnPowerUp
@@ -143,7 +143,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             //restituita la powerUp con le varie cose da pagare e gli effetti
         else{
 
-        }
+        }*/
     }
 
     @Override

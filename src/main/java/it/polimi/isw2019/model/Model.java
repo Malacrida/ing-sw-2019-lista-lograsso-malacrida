@@ -3,11 +3,8 @@ package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
-import it.polimi.isw2019.model.exception.EndAction;
-import it.polimi.isw2019.model.exception.EndSingleAction;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
@@ -113,8 +110,7 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-    public void sendUpdateMessage()/* throws EndAction, EndSingleAction */{
-        //try {
+    public void sendUpdateMessage(){
             if (messageToBeSent <= moveMessagesToBeSent.length) {
                 notifyObservers(new UpdateMessage(currentPlayer.getName(), gameBoard.getGameBoardInterface(), getPlayersInterface()));
             }
@@ -474,7 +470,7 @@ public class Model extends Observable implements ModelInterface {
             tmpSquare = gameBoard.getGameArena().getSquare(movement[i][0], movement[i][1]);
         }
 
-        gameBoard.changePositionPlayer(currentPlayer,movement[movement.length-1][0],movement[movement.length-1][1]);
+            gameBoard.changePositionPlayer(currentPlayer,movement[movement.length-1][0],movement[movement.length-1][1]);
 
             sendUpdateMessage();
         }
@@ -503,15 +499,15 @@ public class Model extends Observable implements ModelInterface {
             }
             else if(getCurrentPlayer().getWeaponCards().size() <3) {
                 //chiedere a davi se il metodo è quello corretto
-                for (int i = 1, j = 0; i < weaponCard.getRechargecube().length; i++, j++) {
-                    if (weaponCard.getRechargecube()[i].getColorCubeRepresentation().compareTo(payment[j]) != 1) {
+                /*for (int i = 1, j = 0; i < weaponCard.getRechargecube().length; i++, j++) {
+                    /*if (weaponCard.getRechargecube()[i].getColorCubeRepresentation().compareTo(payment[j]) != 1) {
                         //aggiornare il messaggio di erroe e notificare il player
                         return;
                     }
                     else {
                         paymentCubes[i] = weaponCard.getRechargecube()[i];
-                    }
-                }
+                    }*/
+               // }
 
                 try {
                     currentPlayer.getRealPlayerBoard().updateCubes(paymentCubes);
@@ -554,5 +550,8 @@ public class Model extends Observable implements ModelInterface {
         tmpPlayer.setNicknameAndActionHeroComment(nickName,actionHeroComment);
     }
 
+    public void addPlayer(Player player){
+        players.add(player);
+    }
 
 }

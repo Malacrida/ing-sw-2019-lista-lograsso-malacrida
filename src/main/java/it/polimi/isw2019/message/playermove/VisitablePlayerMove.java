@@ -6,5 +6,5 @@ import it.polimi.isw2019.model.exception.EndSingleAction;
 
 public interface VisitablePlayerMove {
 
-    public abstract void accept(VisitorController visitorController) throws EndAction, EndSingleAction;
+    public abstract void accept(VisitorController visitorController);
 }

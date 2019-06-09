@@ -30,7 +30,7 @@ public abstract class Observable<T> {
 
     public void notifyObservers(T message){
         for(Observer o: this.observers){
-           // o.update(message);
+            o.update(message);
         }
     }
 }
