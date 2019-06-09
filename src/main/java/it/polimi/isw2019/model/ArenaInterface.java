@@ -1,4 +1,8 @@
 package it.polimi.isw2019.model;
 
-public class ArenaInterface {
+public interface ArenaInterface {
+
+    public ArenaInterface getArenaInterface();
+
+    public String[][] getArenaRepresentation();
 }

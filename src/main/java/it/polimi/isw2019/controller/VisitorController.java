@@ -1,25 +1,30 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.playermove.*;
+import it.polimi.isw2019.model.exception.EndAction;
+import it.polimi.isw2019.model.exception.EndSingleAction;
 
 
 public interface VisitorController {
 
     public abstract void visitControllerSetUpPlayer(SetUpMove setUpMove);
 
-    public abstract void visitControllerActionChoosen(ChooseActionMove chooseActionMove);
+    void visitControllerActionChoosen(ChooseActionMove chooseActionMove);
 
-    public abstract void visitControllerRun(RunMove runMove);
+    void visitControllerRun(RunMove runMove) throws EndAction, EndSingleAction;
 
-    public abstract void visitControllerRunGrab(RunGrabMove runGrabMove);
+    void visitControllerGrab(GrabMove grabMove);
 
-    public abstract void visitControllerChooseAction(ChooseActionMove chooseActionMove);
+    void visitControllerChooseAction(ChooseActionMove chooseActionMove);
 
-    public abstract void visitControllerRegisterPlayer(FirstMessage firstMessage);
+    void visitControllerRegisterPlayer(FirstMessage firstMessage);
 
-    public abstract void visitColorChoosen(ColorChoosen colorChoosen);
+    void visitColorChoosen(ColorChoosen colorChoosen);
 
-    public abstract void visitReload(ReloadMove reloadMove);
+    void visitReload(ReloadMove reloadMove);
 
+    void powerUpChoice(PowerUpChoice powerUpChoice);
+
+    void usePowerUpCard(UsePowerUpCard usePowerUpCard);
 
 }

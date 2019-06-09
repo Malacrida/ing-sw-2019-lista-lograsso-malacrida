@@ -5,7 +5,6 @@ import it.polimi.isw2019.controller.VisitorController;
 import java.util.ArrayList;
 
 public class ReloadMove  extends PlayerMove{
-    private String nickName;
     private String[][] payment;
     private int[] weaponCardToReload;
 
@@ -14,15 +13,12 @@ public class ReloadMove  extends PlayerMove{
     }
 
     public ReloadMove(String nickName){
-        this.nickName = nickName;
+        super(nickName);
         payment = new String[3][];
         weaponCardToReload = new int[3];
     }
 
 
-    public String getNickName() {
-        return nickName;
-    }
 
     public String[][] getPayment() {
         return payment;

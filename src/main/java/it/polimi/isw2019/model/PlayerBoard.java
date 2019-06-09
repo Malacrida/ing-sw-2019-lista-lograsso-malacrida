@@ -5,7 +5,7 @@ import it.polimi.isw2019.model.exception.OutOfBoundsException;
 
 import java.util.ArrayList;
 
-public class PlayerBoard {
+public class PlayerBoard implements PlayerBoardInterface{
 
     protected ColorPlayer color;
     private int playerSkulls;
@@ -16,9 +16,14 @@ public class PlayerBoard {
    // protected ColorPlayer [] damageTokens= new ColorPlayer[12];
     //private int numOfDamages =0;
     private ArrayList<ColorPlayer> markTokens= new ArrayList<>();
+
     private ArrayList<ColorCube> redCubes= new ArrayList<>();
     private ArrayList<ColorCube> yellowCubes= new ArrayList<>();
     private ArrayList<ColorCube> blueCubes= new ArrayList<>();
+
+   // private ArrayList<ColorCube> redCubesNotAvailable = new ArrayList<>();
+   // private ArrayList<ColorCube> blueCubesNotAvailable = new ArrayList<>();
+   // private ArrayList<ColorCube> yellowCubesNotAvailable = new ArrayList<>();
 
     private String[] skullsRepresentation;
     private String[] markRepresentation;
@@ -207,6 +212,19 @@ public class PlayerBoard {
         else return null;
     }
 
+    public void updateCubes(ColorCube[] payment) throws OutOfBoundsException {
+        for(int i = 0; i < payment.length; i++){
+            if(payment[i].equals(ColorCube.RED))
+                removeRedCubes(1);
+            else if(payment[i].equals(ColorCube.YELLOW)){
+                removeYellowCubes(1);
+            }
+            else if(payment[i].equals(ColorCube.BLUE)){
+                removeBlueCubes(1);
+            }
+        }
+
+    }
     public String[] getSkullsRepresentation() {
         return skullsRepresentation;
     }
@@ -311,5 +329,8 @@ public class PlayerBoard {
         }
     }
 
-
+    @Override
+    public PlayerBoardInterface getPlayerBoardInterface() {
+        return this;
+    }
 }

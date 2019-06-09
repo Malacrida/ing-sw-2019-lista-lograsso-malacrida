@@ -10,7 +10,7 @@ import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
-public abstract class AbstractWeaponCard{
+public abstract class AbstractWeaponCard implements WeaponCardInterface{
     protected int id;
     protected String name;
     protected ColorCube color;
@@ -40,9 +40,6 @@ public abstract class AbstractWeaponCard{
 //Methods
 
 
-    public int getMaxPossibleEffects() {
-        return maxPossibleEffects;
-    }
 
     public int getID(){
         return id;
@@ -66,9 +63,11 @@ public abstract class AbstractWeaponCard{
         return stateCard;
     }
 
-    public int getMaxPossibleEffects() {return maxPossibleEffects;}
+    public int getMaxPossibleEffects() {
+        return maxPossibleEffects;
+    }
 
-    public int getMaxPossibleCoordinates() {return maxPossibleCoordinates; }
+    public int getMaxPossibleCoordinates() { return maxPossibleCoordinates; }
 
     public int getMaxPossibleDefenders() {return  maxPossibleDefenders; }
 
@@ -308,6 +307,7 @@ public abstract class AbstractWeaponCard{
 
     }
 
+    @Override
     public String[][] getWeaponCardDescription() {
         return weaponCardDescription;
     }
@@ -316,4 +316,8 @@ public abstract class AbstractWeaponCard{
         weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
     }
 
+    @Override
+    public WeaponCardInterface getWeaponCard() {
+        return this;
+    }
 }

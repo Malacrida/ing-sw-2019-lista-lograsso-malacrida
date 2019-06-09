@@ -12,10 +12,13 @@ import java.util.Map;
 
 public class MainController implements Observer<PlayerMove>, VisitorController {
 
-    Model model;
-    ArrayList<String> colorAvailable;
 
-    Map<Integer, MainView> views;
+    private Model model;
+    private ArrayList<String> colorAvailable;
+
+    private Map<Integer, MainView> views;
+
+    private int numAction;
 
 
     private int numIdPlayer;
@@ -27,8 +30,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     @Override
-    public void update(PlayerMove playerMove) {
-        playerMove.accept(this);
+    public void update(PlayerMove playerMove){
+        //playerMove.accept(this);
     }
 
 
@@ -45,81 +48,64 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitControllerActionChoosen(ChooseActionMove chooseActionMove){
-
-         model.sendCorrectActionMessage(chooseActionMove.getNumAction());
-
+        model.setMoveMessagesToBeSent(chooseActionMove.getNumAction());
     }
 
+    //NUMBER
     public boolean checkInputCorrect(int[][] matrix){
 
         int numMovement = matrix.length;
 
         for(int i=0;i<numMovement;i++){
             if(matrix[i][0]<0 || matrix[i][0] >2 || matrix[i][1]<0 || matrix[i][1] >3)
-                model.sendErrorMessage(model.getCurrentPlayer(), "The index you've inserted are wrong!" + matrix[i][0] + matrix[i][1]);
+                //model.sendCorrectActionMessage(0, "The index you've inserted are wrong!" + matrix[i][0] + matrix[i][1]);
             return false;
         }
         return true;
     }
+
+
     // rivedere probabilmente
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
+
            views.put(numIdPlayer,firstMessage.getMainView());
            numIdPlayer ++;
            model.registerObserver(firstMessage.getMainView());
-           model.checkNickname(firstMessage.getNickname(), firstMessage.getActionHero(),numIdPlayer);
+           model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
 
     }
 
+    //verifico !!!
     @Override
-    public void visitControllerRun(RunMove runMove) {
-        if(!checkInputCorrect(runMove.getMovement()))
-            return;
-        else
-            model.run(runMove.getMovement(),true);
+    public void visitControllerRun(RunMove runMove){
+
+        for(int i=0;i<runMove.getMovement().length;i++) {
+            if (runMove.getMovement()[i][0] < 0 || runMove.getMovement()[i][0] > 2 || runMove.getMovement()[i][1] < 0 || runMove.getMovement()[i][1] > 3) {
+                //model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("The index you've inserted are wrong!" + runMove.getMovement()[i][0] + runMove.getMovement()[i][1]);
+                //model.sendCorrectActionMessage();
+            }
+        }
     }
 
     @Override
-    public void visitControllerRunGrab(RunGrabMove runGrabMove) {
+    public void visitControllerGrab(GrabMove grabMove) {
 
-        if(runGrabMove.getCardSelection()!= 'A' || runGrabMove.getCardSelection()!= 'W' || runGrabMove.getCardSelection() != '0') {
-            model.sendErrorMessage(model.getCurrentPlayer(),"Wrong Selection" + runGrabMove.getCardSelection());
+        if(grabMove.getCardSelection()!= 'A' || grabMove.getCardSelection()!= 'W' || grabMove.getCardSelection() != '0') {
+            model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + grabMove.getCardSelection());
+            model.sendCorrectActionMessage();
             return;
         }
+            if(grabMove.getCardSelection()== 'W'){
 
-        else{
-            int movement[][] = new int[1][1];
-
-            if(runGrabMove.getMovement().length == 0){
-                movement[0][0] = model.getCurrentPlayer().getX();
-                movement[0][1] = model.getCurrentPlayer().getY();
-            }
-            else{
-                movement = runGrabMove.getMovement();
-            }
-
-            if(!checkInputCorrect(runGrabMove.getMovement()))
-                return;
-            else {
-                model.run(movement, false);
-            }
-
-            if(runGrabMove.getCardSelection()== 'W'){
                 //check if is spawnPoint
+                //model.getGameBoard().getGameArena().getSquare()
                // model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
             }
-            else if(runGrabMove.getCardSelection() == 'A'){
-                model.grabAmmoCard(movement);
-                //check che in quella posizione la ammocard NON sia stata usata
-                //aggiornarli le munizioni in base alla ammo
-                //mettere la ammo nel deck
+            else if(grabMove.getCardSelection() == 'A'){
+               // model.grabAmmoCard(grabMove.getCardSelection());
             }
         }
-    }
-
-    public void checkCorrectnessInputColor(String color){
-
-    }
 
     @Override
     public void visitColorChoosen(ColorChoosen colorChoosen){
@@ -130,12 +116,38 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             return;
             }
 
-        model.sendErrorMessage(model.getCurrentPlayer(),"the color is not available" + colorChoosen.getColorChoosen());
+        //model.sendErrorMessage(model.getCurrentPlayer(),"the color is not available" + colorChoosen.getColorChoosen());
 
     }
 
     @Override
     public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
+        if(chooseActionMove.getNumAction()<0 || chooseActionMove.getNumAction()>model.getMoveMessagesToBeSent().length){
+            //send message
+        }
         //model.sendMessage(chooseActionMove.getNumAction());
+    }
+
+    @Override
+    public void powerUpChoice(PowerUpChoice powerUpChoice) {
+        if(powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size() || powerUpChoice.getCardChoosen() < 0 ){
+            //mex di errore
+        }
+        else if(model.getCurrentPlayer().isRespawn() || model.getCurrentPlayer().isFirstTurn()){
+                //fillare con una powerUpCard dal deck (se ce ne sono ancora)
+                //aggiungerla al deck
+                //handleRespawnPowerUp
+               // model.movePlayerToRespawnSquare(model.getCurrentPlayer(),model.);
+
+            }
+            //restituita la powerUp con le varie cose da pagare e gli effetti
+        else{
+
+        }
+    }
+
+    @Override
+    public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
+        //check input corretto
     }
 }

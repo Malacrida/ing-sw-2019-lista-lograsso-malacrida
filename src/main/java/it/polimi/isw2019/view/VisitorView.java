@@ -5,25 +5,25 @@ import it.polimi.isw2019.message.movemessage.*;
 
 public interface VisitorView{
 
-    public abstract void visitSetupView(SetUpMessage setUpMessage);
+    void visitSetupView(SetUpMessage setUpMessage);
 
-    public abstract void visitActionView(ActionMessage actionMessage);
+    void visitActionView(ActionMessage actionMessage);
 
-    public abstract  void errorMessageView(MoveMessage moveMessage);
+    void visitRun(RunMessage runMessage);
 
-    public abstract void visitRun(RunMessage runMessage);
+    void visitGrab(GrabMessage grabMessage);
 
-    public abstract void visitRunGrab(RunGrabMessage runGrabMessage);
+    void visitReload(ReloadMessage reloadMessage);
 
-    public abstract void visitReload(ReloadMessage reloadMessage);
+    void visitUpdateView(UpdateMessage updateMessage);
 
-    public abstract void visitTurnView(TurnMessage turnMessage);
+    void visitOkRegistration(RegistrationPlayer registrationPlayer);
 
-    public abstract void visitUpdateView(UpdateMessage updateMessage);
+    void waitForStart(EndRegistration endRegistration);
 
-    public abstract void visitOkRegistration(RegistrationPlayer registrationPlayer);
+    void weaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
-    public abstract void waitForStart(EndRegistration endRegistration);
+    void powerUpChoice(ChoicePowerUpCard choicePowerUpCard);
 
-    public abstract void weaponCardChoice(UseWeaponCardMessage useWeaponCardMessage);
+    void visitStartTurn(StartTurn startTurn);
 }

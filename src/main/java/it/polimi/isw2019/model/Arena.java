@@ -8,7 +8,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Arena {
+public class Arena implements ArenaInterface{
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -236,6 +236,18 @@ public class Arena {
         }
     }
 
+    public void movePlayerRespawnSquare(Player player, ColorRoom colorRoom){
+        if(colorRoom.equals(ColorRoom.YELLOW)){
+            movePlayer(player,3,2);
+        }
+        else if(colorRoom.equals(ColorRoom.BLUE)){
+            movePlayer(player,2,0);
+        }
+        else if(colorRoom.equals(ColorRoom.RED)){
+            movePlayer(player,1,0);
+        }
+    }
+
     public void teleporterMove(Player player, int x, int y) {
 
         if (isPlayerChangeRoom(player, x, y)) {
@@ -313,9 +325,6 @@ public class Arena {
     }
 
 
-    public String[][] getArenaRepresentation() {
-        return arenaRepresentation;
-    }
 
 
     public void setArenaRepresentation() {
@@ -323,9 +332,18 @@ public class Arena {
             for (int j = 0; j < squares[i].length; j++) {
                 squares[i][j].setSquareRepresentation(getColorRoom(squares[i][j]).getColorRoomRepresentation());
             }
+
         }
     }
 
+    @Override
+    public String[][] getArenaRepresentation() {
+        return arenaRepresentation;
+    }
 
+    @Override
+    public ArenaInterface getArenaInterface() {
+        return this;
+    }
 }
 

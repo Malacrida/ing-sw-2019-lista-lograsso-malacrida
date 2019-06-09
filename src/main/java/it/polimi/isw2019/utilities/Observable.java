@@ -1,5 +1,8 @@
 package it.polimi.isw2019.utilities;
 
+import it.polimi.isw2019.model.exception.EndAction;
+import it.polimi.isw2019.model.exception.EndSingleAction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public abstract class Observable<T> {
 
     public void notifyObservers(T message){
         for(Observer o: this.observers){
-            o.update(message);
+           // o.update(message);
         }
     }
 }

@@ -1,13 +1,17 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.EndTurnException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
+import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements PlayerInterface {
     private String name;
     private String actionHeroComment; //frase effetto
     private int playerID;
@@ -30,6 +34,11 @@ public class Player {
     private boolean isTerminator;
     private boolean moveTerminator;
 
+    public int numAction;
+
+    public boolean respawn;
+
+    public boolean firstTurn;
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
@@ -39,6 +48,9 @@ public class Player {
         x=-1;
         y=-1;
         colorRoom= null;
+        //it just been created. Must respawn!
+        respawn = true;
+        firstTurn = true;
     }
 
     public void setName(String name) {
@@ -77,21 +89,26 @@ public class Player {
     public Player getPlayer() {
       return this;
    }
+
     public String getName() {
       return this.name;
    }
+
     public ColorPlayer getColor(){
       return this.color;
    }
+
     public int getY() {
         return y;
     }
     public int getX() {
         return x;
     }
+
     public ColorRoom getColorRoom() {
         return colorRoom;
     }
+
     public int getScore() {
         return score;
     }
@@ -99,6 +116,21 @@ public class Player {
         return playerID;
     }
 
+    public boolean isRespawn() {
+        return respawn;
+    }
+
+    public void setRespawned(boolean respawn) {
+        this.respawn = respawn;
+    }
+
+    public boolean isFirstTurn() {
+        return firstTurn;
+    }
+
+    public void setFirstTurn(boolean firstTurn) {
+        this.firstTurn = firstTurn;
+    }
     //Nel model un metodo che unisce questo del player e quello con la gameboard
     //Dalla playerMove la carta da scartare
     //Ricordarsi il cambio di stato
@@ -266,5 +298,47 @@ public class Player {
         return this.powerUpCards;
     }
 
+    public void updateAction() throws EndTurnException {
+        if(numAction < 2)
+            numAction ++;
+        else if(numAction == 2)
+            throw new EndTurnException();
 
+    }
+
+    public PlayerBoard getRealPlayerBoard(){
+        return playerBoard;
+    }
+    @Override
+    public String getActionHeroComment() {
+        return actionHeroComment;
+    }
+
+    @Override
+    public PlayerBoardInterface getPlayerBoard () {
+        return playerBoard.getPlayerBoardInterface();
+    }
+
+    @Override
+    public ArrayList<InterfacePowerUpCard> getPowerUpCard() {
+        ArrayList<InterfacePowerUpCard> powerUpCardInterfaces = new ArrayList<>();
+        for(PowerUpCard powerUp: powerUpCards){
+            powerUpCardInterfaces.add(powerUp.getPowerUpCard());
+        }
+        return powerUpCardInterfaces;
+    }
+
+    @Override
+    public PlayerInterface getPlayerInterface() {
+        return this;
+    }
+
+    @Override
+    public ArrayList<WeaponCardInterface> getWeaponCard() {
+        ArrayList<WeaponCardInterface> weaponCardInterfaces = new ArrayList<>();
+        for(AbstractWeaponCard weaponCard : weaponCards){
+            weaponCardInterfaces.add(weaponCard.getWeaponCard());
+        }
+        return weaponCardInterfaces;
+    }
 }

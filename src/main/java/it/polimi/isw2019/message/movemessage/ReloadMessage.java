@@ -19,6 +19,10 @@ public class ReloadMessage extends MoveMessage{
         this.numWeaponCard = numWeaponCard;
     }
 
+    public ReloadMessage(String nicknamePlayer){
+        super(nicknamePlayer);
+    }
+
     public int[] getNumCubesForRecharge() {
         return numCubesForRecharge;
     }
