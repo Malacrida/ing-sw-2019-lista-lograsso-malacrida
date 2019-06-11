@@ -222,6 +222,18 @@ public class GameBoard implements GameBoardInterface{
             return weaponCardsYellow[index].getWeaponCard();
     }
 
+    public AbstractWeaponCard[] getWeaponCardsRed() {
+        return weaponCardsRed;
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsBlue() {
+        return weaponCardsBlue;
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsYellow() {
+        return weaponCardsYellow;
+    }
+
     @Override
     public ArrayList<WeaponCardInterface> getWeaponCard(ColorCube color) {
         ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();

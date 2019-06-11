@@ -34,8 +34,6 @@ public class Player implements PlayerInterface {
     private boolean isTerminator;
     private boolean moveTerminator;
 
-    public int numAction;
-
     public boolean respawn;
 
     public boolean firstTurn;
@@ -298,14 +296,6 @@ public class Player implements PlayerInterface {
         return this.powerUpCards;
     }
 
-    public void updateAction() throws EndTurnException {
-        if(numAction < 2)
-            numAction ++;
-        else if(numAction == 2)
-            throw new EndTurnException();
-
-    }
-
     public PlayerBoard getRealPlayerBoard(){
         return playerBoard;
     }
@@ -340,5 +330,14 @@ public class Player implements PlayerInterface {
             weaponCardInterfaces.add(weaponCard.getWeaponCard());
         }
         return weaponCardInterfaces;
+    }
+
+    public int numActionCanPerform() {
+        if(!frenzy && !firstPlayer)
+            return 3;
+        else if(frenzy && !firstPlayer)
+            return 2;
+        else
+            return 1;
     }
 }

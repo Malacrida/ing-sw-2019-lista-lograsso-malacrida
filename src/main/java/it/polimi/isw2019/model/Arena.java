@@ -248,6 +248,13 @@ public class Arena implements ArenaInterface{
         }
     }
 
+    public boolean isRespawnSquare(int x, int y){
+        if((x == 3 && y == 2) || (x == 2 && y == 0) ||(x ==1 && y == 0))
+            return true;
+        else
+            return false;
+    }
+
     public void teleporterMove(Player player, int x, int y) {
 
         if (isPlayerChangeRoom(player, x, y)) {

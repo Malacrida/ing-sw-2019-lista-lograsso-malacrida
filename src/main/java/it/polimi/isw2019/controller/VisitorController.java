@@ -7,7 +7,7 @@ import it.polimi.isw2019.model.exception.EndSingleAction;
 
 public interface VisitorController {
 
-    public abstract void visitControllerSetUpPlayer(SetUpMove setUpMove);
+    void visitControllerSetUpPlayer(SetUpMove setUpMove);
 
     void visitControllerActionChoosen(ChooseActionMove chooseActionMove);
 
@@ -27,4 +27,7 @@ public interface VisitorController {
 
     void usePowerUpCard(UsePowerUpCard usePowerUpCard);
 
+    void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice);
+
+    void useWeaponCard(UseWeaponCard useWeaponCard);
 }

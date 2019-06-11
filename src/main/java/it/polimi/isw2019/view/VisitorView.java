@@ -23,7 +23,11 @@ public interface VisitorView{
 
     void weaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
+    void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
+
     void powerUpChoice(ChoicePowerUpCard choicePowerUpCard);
+
+    void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
     void visitStartTurn(StartTurn startTurn);
 }

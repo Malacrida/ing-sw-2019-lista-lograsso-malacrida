@@ -110,13 +110,31 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-    public void sendUpdateMessage(){
-            if (messageToBeSent <= moveMessagesToBeSent.length) {
+    public void sendActionUpdateMessage(){
+            if (messageToBeSent < moveMessagesToBeSent.length && numAction < currentPlayer.numActionCanPerform()) {
                 notifyObservers(new UpdateMessage(currentPlayer.getName(), gameBoard.getGameBoardInterface(), getPlayersInterface()));
+                //notifyPlayer con l'azione sucessiva da performare
+                messageToBeSent++;
             }
-            else{
+            else if(messageToBeSent == moveMessagesToBeSent.length && numAction < currentPlayer.numActionCanPerform()){
+                messageToBeSent = 0;
+                //notifyObserver con update
+                //notifyPlayer con chooseAction
+                numAction ++;
+            }
+            else if(messageToBeSent == moveMessagesToBeSent.length && numAction == currentPlayer.numActionCanPerform()){
+                numAction = 0;
+                //inviare al giocatore
             }
         }
+
+     //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
+     public void sendUpdateMessage(){
+            //powerUp e reload IN azione singola
+
+            //update reload -> endTurn -> exception
+
+     }
 
 
     //testare
@@ -431,13 +449,7 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-    public void grabAmmoCard(int[][] movement){
-        if(!isSpawnPoint(movement[0][0], movement[0][1])){
-            //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
 
-
-        }
-    }
 
     public boolean checkVicinity(ArrayList<Square> squares, Square tmpSquare) {
         for (Square square : squares)
@@ -472,7 +484,7 @@ public class Model extends Observable implements ModelInterface {
 
             gameBoard.changePositionPlayer(currentPlayer,movement[movement.length-1][0],movement[movement.length-1][1]);
 
-            sendUpdateMessage();
+            sendActionUpdateMessage();
         }
 
     //introduco un flag in cui bypasso i controlli se la viene inserita un'altra weapon card DOPO il warning
@@ -482,6 +494,13 @@ public class Model extends Observable implements ModelInterface {
         return messageToBeSent;
     }
 
+    public void grabAmmoCard(int[][] movement){
+        if(!isSpawnPoint(movement[0][0], movement[0][1])){
+            //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
+
+
+        }
+    }
     //verificare che il pagamento venga fatto tramite powerup card oppure tramite cubi
     public void grabWeaponCard(AbstractWeaponCard weaponCard, int[][] movement,String[] payment) throws OutOfBoundsException {
 
@@ -542,7 +561,7 @@ public class Model extends Observable implements ModelInterface {
     }
 
 
-    public void handlePayment(int[] cubes){
+    public void handlePayment(){
 
     }
 
