@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model;
 
 public class KillShotTrack {
+
     private int numSkull;
     private boolean finalFrenzy;
     private ColorPlayer[][] damageToken;

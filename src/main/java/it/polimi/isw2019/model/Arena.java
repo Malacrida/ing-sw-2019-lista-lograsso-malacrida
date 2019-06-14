@@ -8,7 +8,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Arena{
+public class Arena implements ArenaInterface{
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -17,7 +17,6 @@ public class Arena{
     Arena() {
 
     }
-
 
 
     public ArrayList<Room> getRooms() {
@@ -237,6 +236,25 @@ public class Arena{
         }
     }
 
+    public void movePlayerRespawnSquare(Player player, ColorRoom colorRoom){
+        if(colorRoom.equals(ColorRoom.YELLOW)){
+            movePlayer(player,3,2);
+        }
+        else if(colorRoom.equals(ColorRoom.BLUE)){
+            movePlayer(player,2,0);
+        }
+        else if(colorRoom.equals(ColorRoom.RED)){
+            movePlayer(player,1,0);
+        }
+    }
+
+    public boolean isRespawnSquare(int x, int y){
+        if((x == 3 && y == 2) || (x == 2 && y == 0) ||(x ==1 && y == 0))
+            return true;
+        else
+            return false;
+    }
+
     public void teleporterMove(Player player, int x, int y) {
 
         if (isPlayerChangeRoom(player, x, y)) {
@@ -282,18 +300,18 @@ public class Arena{
         return squares;
     }
 
-    public ArrayList<Square> squaresAvailable(int x, int y){
+    public ArrayList<Square> squaresAvailable(int x, int y) {
         return squares[x][y].squaresAvailable();
     }
 
-    public Square getSquare(int x, int y){
+    public Square getSquare(int x, int y) {
         return squares[x][y];
     }
 
-    public ColorRoom getColorRoom(Square square){
+    public ColorRoom getColorRoom(Square square) {
         ColorRoom colorRoom = null;
-        for(Room room : rooms){
-            if(room.containsSquare(square)){
+        for (Room room : rooms) {
+            if (room.containsSquare(square)) {
                 colorRoom = room.getColorRoom();
                 break;
             }
@@ -302,21 +320,18 @@ public class Arena{
         return colorRoom;
     }
 
-    public int[] coordinateOfSquare(Square square){
+    public int[] coordinateOfSquare(Square square) {
         int[] index = new int[2];
-        for(int i=0;i<3;i++)
-            for(int j=0; i<4; j++)
-                if(square.equals(squares[i][j])){
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; i < 4; j++)
+                if (square.equals(squares[i][j])) {
                     index[0] = i;
                     index[1] = j;
                 }
         return index;
-        }
-
-
-    public String[][] getArenaRepresentation() {
-        return arenaRepresentation;
     }
+
+
 
 
     public void setArenaRepresentation() {
@@ -324,14 +339,18 @@ public class Arena{
             for (int j = 0; j < squares[i].length; j++) {
                 squares[i][j].setSquareRepresentation(getColorRoom(squares[i][j]).getColorRoomRepresentation());
             }
+
         }
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public String[][] getArenaRepresentation() {
+        return arenaRepresentation;
+    }
+
+    @Override
+    public ArenaInterface getArenaInterface() {
+        return this;
     }
 }
-
-
 

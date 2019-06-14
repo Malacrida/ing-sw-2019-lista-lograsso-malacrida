@@ -6,11 +6,12 @@ import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 
 import java.util.ArrayList;
 
-public class GameBoard{
+public class GameBoard implements GameBoardInterface{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
@@ -21,6 +22,7 @@ public class GameBoard{
     private ArrayList<AmmoTile> ammoTiles;
     private Arena gameArena=null;
     private static GameBoard instance;
+    private KillShotTrack killShotTrack;
 
     public GameBoard (){
 
@@ -192,9 +194,64 @@ public class GameBoard{
     }
 
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public KillShotTrack getKillShotTrack() {
+        return killShotTrack;
     }
 
+    public void setKillShotTrack(KillShotTrack killShotTrack) {
+        this.killShotTrack = killShotTrack;
+    }
+
+    @Override
+    public GameBoardInterface getGameBoardInterface() {
+        return this;
+    }
+
+    @Override
+    public ArenaInterface getArenaInterface() {
+        return  gameArena.getArenaInterface();
+    }
+
+    @Override
+    public WeaponCardInterface getWeaponCard(ColorCube color, int index) {
+        if(color.equals(ColorCube.BLUE))
+            return weaponCardsBlue[index].getWeaponCard();
+        else if(color.equals(ColorCube.RED))
+            return weaponCardsRed[index].getWeaponCard();
+        else
+            return weaponCardsYellow[index].getWeaponCard();
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsRed() {
+        return weaponCardsRed;
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsBlue() {
+        return weaponCardsBlue;
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsYellow() {
+        return weaponCardsYellow;
+    }
+
+    @Override
+    public ArrayList<WeaponCardInterface> getWeaponCard(ColorCube color) {
+        ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();
+
+        if(color.equals(ColorCube.BLUE)){
+            for(AbstractWeaponCard weaponCard: weaponCardsBlue){
+                tmpWeaponCards.add(weaponCard.getWeaponCard());
+            }
+        }
+        else if(color.equals(ColorCube.RED)){
+            for(AbstractWeaponCard weaponCard : weaponCardsRed)
+                tmpWeaponCards.add(weaponCard.getWeaponCard());
+        }
+        else if(color.equals(ColorCube.YELLOW)) {
+            for (AbstractWeaponCard weaponCard : weaponCardsYellow)
+                tmpWeaponCards.add(weaponCard.getWeaponCard());
+        }
+
+        return tmpWeaponCards;
+    }
 }

@@ -1,24 +1,25 @@
 package it.polimi.isw2019.message.movemessage;
 
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
 
-public class TurnMessage extends MoveMessage {
+public class StartTurn extends MoveMessage {
 
     private boolean respawn;
-    private ArrayList<Integer> powerUpCard;
-    private String idPlayer;
+    private ArrayList<InterfacePowerUpCard> powerUpCard;
+    private String nickname;
 
-    public TurnMessage(String idPlayer, boolean respawn){
+    public StartTurn(String idPlayer, boolean respawn){
         super(idPlayer);
         this.respawn = respawn;
     }
 
 
 
-    public TurnMessage(String idMoveMessage, int idPlayer, boolean respawn, ArrayList<Integer> powerUpCard){
-        super(idMoveMessage,idPlayer);
+    public StartTurn(String nickname, String error, boolean respawn, ArrayList<InterfacePowerUpCard> powerUpCard){
+        super(nickname,error);
         this.respawn = respawn;
         this.powerUpCard = powerUpCard;
     }
@@ -29,7 +30,7 @@ public class TurnMessage extends MoveMessage {
         return this.respawn;
     }
 
-    public ArrayList<Integer> getPowerUpCard(){
+    public ArrayList<InterfacePowerUpCard> getPowerUpCard(){
         return this.powerUpCard;
     }
 

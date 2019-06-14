@@ -10,7 +10,7 @@ import it.polimi.isw2019.model.exception.NoEffectException;
 
 import java.util.ArrayList;
 
-public abstract class AbstractWeaponCard implements Cloneable{
+public abstract class AbstractWeaponCard implements WeaponCardInterface {
     protected int id;
     protected String name;
     protected ColorCube color;
@@ -39,7 +39,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
 
 //Methods
 
-
     public int getID(){
         return id;
     }
@@ -62,7 +61,9 @@ public abstract class AbstractWeaponCard implements Cloneable{
         return stateCard;
     }
 
-    public int getMaxPossibleEffects() {return maxPossibleEffects;}
+    public int getMaxPossibleEffects() {
+        return maxPossibleEffects;
+    }
 
     public int getMaxPossibleCoordinates() {return maxPossibleCoordinates; }
 
@@ -90,8 +91,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
     public abstract void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
 
@@ -104,8 +103,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
 
     public abstract void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
@@ -119,8 +116,6 @@ public abstract class AbstractWeaponCard implements Cloneable{
      * @throws ErrorEffectException there is a problem during effect
      * @throws NoEffectException there is not the effect
      * @throws DamageTrackException there is a problem with Damage Track
-     *
-     * @æuthor Davide Lista
      */
 
     public abstract void thirdEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws NoEffectException, ErrorEffectException, DamageTrackException;
@@ -304,16 +299,30 @@ public abstract class AbstractWeaponCard implements Cloneable{
 
     }
 
-    public String[][] getWeaponCardDescription() {
-        return weaponCardDescription;
-    }
-
     public void changeStateRepresentation(StateCard stateCard){
         weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public int getNumCubes(){
+        return rechargeCube.length;
     }
+    public WeaponCardInterface getWeaponCard(){
+        return this;
+    }
+    public String[][] getWeaponCardDescription(){
+        return weaponCardDescription;
+    }
+
+    public int getNumMaxEffect(){
+        return maxPossibleEffects;
+    }
+    public int getNumMaxDefenders(){
+        return maxPossibleDefenders;
+    }
+    public int getNumMaxCoordinates(){
+        return maxPossibleCoordinates;
+    }
+
+
+
 }
