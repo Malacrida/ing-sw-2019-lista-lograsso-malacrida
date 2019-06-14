@@ -12,4 +12,5 @@ public interface ClientInterfaceRmi {
     void startRound () throws RemoteException;
 
 
+
 }

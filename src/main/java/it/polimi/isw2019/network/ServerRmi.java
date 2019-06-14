@@ -1,5 +1,7 @@
 package it.polimi.isw2019.network;
 
+import it.polimi.isw2019.controller.MainController;
+import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 
 import java.rmi.RemoteException;
@@ -10,7 +12,7 @@ import java.util.HashMap;
 public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRMI{
 
 
-
+    private VisitorController controller= new MainController();
     private HashMap<String,ClientInterfaceRmi> clientConnected = new HashMap<>();
 
 
