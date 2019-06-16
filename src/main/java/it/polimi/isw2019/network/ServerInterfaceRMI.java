@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 
 public interface ServerInterfaceRMI {
 
-    void addToTheServer(String name, ClientInterfaceRmi clientInterfaceRmi) throws RemoteException;
+    void addToTheServer(String name, ClientInterface clientInterface) throws RemoteException;
 
     void removeToTheClient(String name) throws RemoteException;
 

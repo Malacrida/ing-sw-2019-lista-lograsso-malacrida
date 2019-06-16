@@ -13,7 +13,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
 
 
     private VisitorController controller= new MainController();
-    private HashMap<String,ClientInterfaceRmi> clientConnected = new HashMap<>();
+    private HashMap<String,ClientInterface> clientConnected = new HashMap<>();
 
 
     public ServerRmi ()throws RemoteException {
@@ -21,9 +21,9 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
     }
 
     @Override
-    public void addToTheServer(String name, ClientInterfaceRmi clientInterfaceRmi)throws RemoteException {
+    public void addToTheServer(String name, ClientInterface clientInterface)throws RemoteException {
         if (!clientConnected.containsKey(name)) {
-            clientConnected.put(name, clientInterfaceRmi);
+            clientConnected.put(name, clientInterface);
         }
         System.out.println("Aggiunto: "+name);
     }

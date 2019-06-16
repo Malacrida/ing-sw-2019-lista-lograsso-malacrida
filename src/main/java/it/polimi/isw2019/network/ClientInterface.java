@@ -2,7 +2,7 @@ package it.polimi.isw2019.network;
 
 import java.rmi.RemoteException;
 
-public interface ClientInterfaceRmi {
+public interface ClientInterface {
 
 
     //per fargli fare la scelta della modalità di gioco e mappa
