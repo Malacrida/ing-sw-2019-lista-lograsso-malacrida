@@ -182,10 +182,11 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         setActionHero(registrationPlayer.getActionHero());
         setNicknamePlayer(registrationPlayer.getNicknamePlayer());
 
+        /*
         while (true) {
             //timestamp che ad ogni tot fa il printf
             System.out.println("Your registered!");
-        }
+        }*/
 
     }
 
@@ -252,7 +253,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
             payment[j] = input.next();
 
             String tmpPowerUp;
-            if (payment[j].compareTo("PU") == 1) {
+            if (payment[j].compareTo("PU") > 0) {
                 inputOk = false;
 
                 do {
@@ -328,7 +329,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                     "otherwise press out");
             tmpInput= input.next();
 
-            if(tmpInput.compareTo("out") == 1){
+            if(tmpInput.compareTo("out") > 0){
                 endInsertment = true;
             }
             else {
@@ -368,15 +369,15 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                     System.out.println("Press Y if you want to use the effect number " + numEffect + "otherwise press N");
                     tmpInput = input.next();
 
-                    if(tmpInput.compareTo("N") == 1|| tmpInput.compareTo("Y") == 1) {
+                    if(tmpInput.compareTo("N") > 0|| tmpInput.compareTo("Y")> 0) {
                         inputOk = true;
                     }
                     } while (!inputOk);
                     inputOk = false;
-                    if (tmpInput.compareTo("N") == 1) {
+                    if (tmpInput.compareTo("N") > 0) {
                         numEffect++;
 
-                    } else if (tmpInput.compareTo("Y") == 1) {
+                    } else if (tmpInput.compareTo("Y") > 0) {
 
                         if(numEffect == 1) {
                             handleInsertment(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, useWeaponCardMessage.getPlayersToAttack());
@@ -574,12 +575,12 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
                 tmpChoice = input.next();
 
-                if (tmpChoice.compareTo("Y") == 1 || tmpChoice.compareTo("N") == 1)
+                if (tmpChoice.compareTo("Y") > 0 || tmpChoice.compareTo("N")> 0)
                     inputOk = true;
 
             } while (!inputOk);
 
-            if(tmpChoice.compareTo("Y") == 1){
+            if(tmpChoice.compareTo("Y") > 0){
                 //loop per inserire dal giocatore il pagamento
                 System.out.println("Insert cubes-color or powerUp-color to pay");
                 payment[i][0] = input.next();

@@ -34,9 +34,9 @@ public class Player implements PlayerInterface {
     private boolean isTerminator;
     private boolean moveTerminator;
 
-    public boolean respawn;
+    private boolean respawn;
 
-    public boolean firstTurn;
+    private boolean firstTurn;
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;

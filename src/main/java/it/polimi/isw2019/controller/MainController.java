@@ -100,6 +100,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
+        /*
         if((powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size()) || (powerUpChoice.getCardChoosen() < 0 )){
             //mex di errore
         }
@@ -114,7 +115,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         //restituita la powerUp con le varie cose da pagare e gli effetti
         else{
 
-        }
+        }*/
     }
 
     @Override
@@ -124,6 +125,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
+        /*
         if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
             if(weaponCardChoice.isGrab()){
                 if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
@@ -156,7 +158,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                     //setErrorMessage -> index out of bound
                 }
             }
-        }
+        }*/
     }
 
     @Override
