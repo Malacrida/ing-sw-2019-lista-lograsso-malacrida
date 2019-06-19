@@ -5,7 +5,7 @@ import it.polimi.isw2019.view.VisitorView;
 import java.util.ArrayList;
 
 public class RegistrationPlayer extends MoveMessage{
-    private String nicknamePlayer;
+
     private String actionHero;
     private ArrayList<String> colors;
 
@@ -17,10 +17,6 @@ public class RegistrationPlayer extends MoveMessage{
         return actionHero;
     }
 
-    @Override
-    public String getNicknamePlayer() {
-        return nicknamePlayer;
-    }
 
     public RegistrationPlayer(String nicknamePlayer, String actionHero, ArrayList<String> colors) {
         super(nicknamePlayer);

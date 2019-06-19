@@ -1,12 +1,9 @@
 package it.polimi.isw2019.model.powerupcard;
 
-import it.polimi.isw2019.model.ColorCube;
+import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.GameBoard;
-import it.polimi.isw2019.model.Player;
-import it.polimi.isw2019.model.StateCard;
 
-public class PowerUpCard implements PowerUpCardInterface , Cloneable {
+public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
     /* Attributes */
 
@@ -138,8 +135,32 @@ public class PowerUpCard implements PowerUpCardInterface , Cloneable {
         powerUpDescription[4][0] = stateCard.getStateCardRepresentation();
     }
 
+    public String[][] getPowerUpDescription() {
+        return powerUpDescription;
+    }
+
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public String[][] getPowerUpCardRepresentation() {
+        return powerUpDescription;
+    }
+
+    @Override
+    public int getNumberColorPayment() {
+        return 0;
+    }
+
+    @Override
+    public int getIdPowerUpCard() {
+        return id;
+    }
+
+    @Override
+    public InterfacePowerUpCard getPowerUpCard() {
+        return this;
+    }
+
+    @Override
+    public ColorRoom getPowerUpColor() {
+        return null;
     }
 }

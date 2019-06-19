@@ -2,12 +2,16 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 
-public class RunGrabMove extends PlayerMove {
+public class GrabMove extends PlayerMove {
 
     private int[][] movement;
     private char cardSelection;
     private int positionWeaponCard;
-    private char payment;
+    private String payment;
+
+    public GrabMove(String player){
+        super(player);
+    }
 
     public void setMovement(int[][] movement){
 
@@ -22,7 +26,7 @@ public class RunGrabMove extends PlayerMove {
         this.positionWeaponCard = positionWeaponCard;
     }
 
-    public void setPayment(char payment){
+    public void setPayment(String payment){
         this.payment = payment;
     }
 
@@ -38,12 +42,12 @@ public class RunGrabMove extends PlayerMove {
         return this.movement;
     }
 
-    public char getPayment(){
+    public String getPayment(){
         return this.payment;
     }
 
     @Override
     public void accept(VisitorController visitorController) {
-        visitorController.visitControllerRunGrab(this);
+        visitorController.visitControllerGrab(this);
     }
 }

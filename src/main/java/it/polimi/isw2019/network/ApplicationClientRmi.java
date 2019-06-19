@@ -23,7 +23,7 @@ public class ApplicationClientRmi {
         client = new ClientRmi();
 
 
-        ClientInterfaceRmi remoteClient = (ClientInterfaceRmi) UnicastRemoteObject.exportObject(client,0);
+        ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(client,0);
 
         server.addToTheServer("nomeClient", remoteClient);
 

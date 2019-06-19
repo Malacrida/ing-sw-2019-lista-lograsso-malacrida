@@ -1,5 +1,6 @@
 package it.polimi.isw2019.message.movemessage;
 
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
@@ -7,20 +8,21 @@ import java.util.ArrayList;
 public class ReloadMessage extends MoveMessage{
 
     private int[] numCubesForRecharge;
-    private int numWeaponCard;
+    private ArrayList<WeaponCardInterface> weaponCardInterfaces;
 
-    public int getNumWeaponCard() {
-        return numWeaponCard;
-    }
 
-    public ReloadMessage(String nicknamePlayer, int[] numCubesForRecharge, int numWeaponCard){
+    public ReloadMessage(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces){
         super(nicknamePlayer);
-        this.numCubesForRecharge = numCubesForRecharge;
-        this.numWeaponCard = numWeaponCard;
+        this.weaponCardInterfaces = weaponCardInterfaces;
     }
 
-    public int[] getNumCubesForRecharge() {
-        return numCubesForRecharge;
+    public ReloadMessage(String nicknamePlayer){
+        super(nicknamePlayer);
+    }
+
+
+    public ArrayList<WeaponCardInterface> getWeaponCardInterfaces() {
+        return weaponCardInterfaces;
     }
 
     @Override

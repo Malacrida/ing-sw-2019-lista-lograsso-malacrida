@@ -1,31 +1,37 @@
 package it.polimi.isw2019.message.movemessage;
 
+import it.polimi.isw2019.model.PlayerInterface;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.view.VisitorView;
+
+import java.util.ArrayList;
 
 
 public class UseWeaponCardMessage extends MoveMessage{
 
-    private String nickNamePlayer;
+    private WeaponCardInterface weaponCard;
 
-    private int[] weaponCard;
+    private ArrayList<PlayerInterface> playersToAttack;
 
-
-
-    public UseWeaponCardMessage(String nicknamePlayer, int [] weaponCard) {
+    public UseWeaponCardMessage(String nicknamePlayer) {
         super(nicknamePlayer);
-        this.weaponCard = weaponCard;
     }
 
-    public String getNickNamePlayer() {
-        return nickNamePlayer;
-    }
-
-    public int[] getWeaponCard(){
+    public WeaponCardInterface getWeaponCard() {
         return weaponCard;
     }
 
+    public void setWeaponCard(WeaponCardInterface weaponCard) {
+        this.weaponCard = weaponCard;
+    }
+
+    public ArrayList<PlayerInterface> getPlayersToAttack(){
+        return playersToAttack;
+    }
     @Override
     public void accept(VisitorView visitorview) {
-            visitorview.weaponCardChoice(this);
+            visitorview.useWeaponCard(this);
     }
+
+
 }
