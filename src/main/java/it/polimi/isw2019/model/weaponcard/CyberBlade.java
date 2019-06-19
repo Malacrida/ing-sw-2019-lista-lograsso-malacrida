@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class CyberBlade extends AbstractWeaponCard{
 
+    /**
+     * Implementation of CyberBlade
+     */
+
     public CyberBlade(){
         super(16, "Cyber Blade", ColorCube.YELLOW, 3, 2, 2);
 

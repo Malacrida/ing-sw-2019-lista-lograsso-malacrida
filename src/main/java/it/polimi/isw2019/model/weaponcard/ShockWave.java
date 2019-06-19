@@ -22,7 +22,7 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * choose up to 3 targets on different squares, each exactly 1 move away deal 1 damage to each target.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -50,7 +50,7 @@ public class ShockWave extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 1 damage to all targets that are exactly 1 move away
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

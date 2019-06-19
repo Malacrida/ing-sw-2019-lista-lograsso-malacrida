@@ -29,7 +29,7 @@ public class RailGun extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a cardinal direction and 1 target in that direction deal 3 damage to it
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -59,7 +59,7 @@ public class RailGun extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a cardinal direction and 1 or 2 targets in that direction deal 2 damage to each
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

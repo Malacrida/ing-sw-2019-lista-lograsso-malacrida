@@ -15,7 +15,7 @@ public class VortexCannon extends AbstractWeaponCard {
         super(8, "Vortex Cannon", ColorCube.RED, 1, 6, 3);
         this.infoEffect[0] = "FIRST EFFECT: Choose a square you can see, but not your square. Call it the vortex. Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage";
         this.infoEffect[1] = "SECOND EFFECT: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.";
-        this.infoEffect[2] = "THIRD EFFECT: ";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist";
         this.infoEffect[3] = "NOTES: The 3 targets must be different, but some might start on the same square. It is legal to choose targets on your square, on the vortex, or even on squares you can't see. They all end up on the vortex.";
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.RED;
@@ -23,7 +23,7 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a square you can see, but not your square. Call it the vortex. Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -59,7 +59,7 @@ public class VortexCannon extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

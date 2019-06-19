@@ -23,7 +23,7 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 1 damage and 2 marks to 1 target you can see.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -53,7 +53,7 @@ public class ZX_2 extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose up to 3 targets you can see and deal 1 mark to each.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

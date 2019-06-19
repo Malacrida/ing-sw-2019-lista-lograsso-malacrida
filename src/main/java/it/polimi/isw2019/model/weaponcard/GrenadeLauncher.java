@@ -22,7 +22,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 1 damage to 1 target you can see. Then you may move the target 1 square.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -61,7 +61,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
 
     /**
-     *
+     * Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

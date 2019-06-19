@@ -15,4 +15,9 @@ public class ClientRmi implements ClientInterfaceRmi, Remote {
     public void startRound() throws RemoteException{
 
     }
+
+    @Override
+    public void run() {
+
+    }
 }
