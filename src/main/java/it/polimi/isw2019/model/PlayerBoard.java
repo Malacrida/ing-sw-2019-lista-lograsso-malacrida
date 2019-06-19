@@ -12,6 +12,7 @@ public class PlayerBoard implements PlayerBoardInterface{
     private int playerBoardID; // no caratterizzazione con il colore
     private boolean usePlayerBoard;
     private boolean frenzy;
+
     protected ArrayList<ColorPlayer> damageTokens= new ArrayList<>();
    // protected ColorPlayer [] damageTokens= new ColorPlayer[12];
     //private int numOfDamages =0;
@@ -36,6 +37,13 @@ public class PlayerBoard implements PlayerBoardInterface{
         return damageTokens.size();
     }
 
+    public boolean isFrenzy() {
+        return frenzy;
+    }
+
+    public void setFrenzy(boolean frenzy) {
+        this.frenzy = frenzy;
+    }
     public PlayerBoard(ColorPlayer color){
         this.color=color;
        // this.playerBoardID=playerBoardID;

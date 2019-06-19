@@ -132,6 +132,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
+        /*
         if((powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size()) || (powerUpChoice.getCardChoosen() < 0 )){
             //mex di errore
         }
@@ -146,16 +147,17 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         //restituita la powerUp con le varie cose da pagare e gli effetti
         else{
 
-        }
+        }*/
     }
 
     @Override
-    public void visitControllerActionChoosen(ChooseActionMove chooseActionMove){
-        model.setMoveMessagesToBeSent(chooseActionMove.getNumAction());
+    public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
+        model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
     }
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
+        /*
         if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
             if(weaponCardChoice.isGrab()){
                 if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
@@ -188,7 +190,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                     //setErrorMessage -> index out of bound
                 }
             }
-        }
+        }*/
     }
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
@@ -196,19 +198,19 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         int[][] coordinates = new int[3][];
         if(useWeaponCard.getPlayerAttackedFirstEffect()!= null) {
             if (!checkPlayers(useWeaponCard.getPlayerAttackedFirstEffect())) {
-                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + tmpPlayer);
                 return;
             }
         }
         else if(useWeaponCard.getPlayerAttackedSecondEffect()!= null) {
             if (!checkPlayers(useWeaponCard.getPlayerAttackedSecondEffect())) {
-                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + tmpPlayer);
                 return;
             }
         }
         else if(useWeaponCard.getPlayerAttackedThirdEffect()!= null) {
             if ((!checkPlayers(useWeaponCard.getPlayerAttackedThirdEffect()))) {
-                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + tmpPlayer);
                 return;
             }
         }
@@ -240,7 +242,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             for(int i =0 ; i<reloadMove.getCubes().length; i++){
                 if(reloadMove.getCubes()[i]!= null) {
                     if (!checkPayment(reloadMove.getCubes()[i])) {
-                        model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + reloadMove.getCubes() + "is wrong!");
+                        model.getCurrentPlayer().getMessageToBeSent().get(0).setError("the input" + reloadMove.getCubes() + "is wrong!");
                         return;
                     }
                 }
@@ -251,7 +253,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                     for(int j=0; j< reloadMove.getPowerUp()[i].length; j++) {
                         if(!checkPowerUpCard(reloadMove.getPowerUp()[i][j])){
                             //errore : carta non esiste
-                            model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + reloadMove.getPowerUp()[i][j].getPowerUpCardRepresentation() + "is NOT yours!");
+                            model.getCurrentPlayer().getMessageToBeSent().get(0).setError("the input" + reloadMove.getPowerUp()[i][j].getPowerUpCardRepresentation() + "is NOT yours!");
                             return;
                         }
                     }
@@ -267,8 +269,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
         for(int i=0;i<runMove.getMovement().length;i++) {
             if (runMove.getMovement()[i][0] < 0 || runMove.getMovement()[i][0] > 2 || runMove.getMovement()[i][1] < 0 || runMove.getMovement()[i][1] > 3) {
-                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("The index you've inserted are wrong!" + runMove.getMovement()[i][0] + runMove.getMovement()[i][1]);
-                model.sendCorrectActionMessage();
+                model.getCurrentPlayer().getMessageToBeSent().get(0).setError("The index you've inserted are wrong!" + runMove.getMovement()[i][0] + runMove.getMovement()[i][1]);
+                model.sendCorrectActionMessage(model.getCurrentPlayer().getSingleMessageToBeSent());
                 return;
             }
         }
@@ -280,8 +282,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void visitControllerGrab(GrabMove grabMove) {
 
         if(grabMove.getCardSelection()!= 'A' || grabMove.getCardSelection()!= 'W' || grabMove.getCardSelection() != '0') {
-            model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + grabMove.getCardSelection());
-            model.sendCorrectActionMessage();
+            model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + grabMove.getCardSelection());
+            model.sendCorrectActionMessage(model.getCurrentPlayer().getSingleMessageToBeSent());
             return;
         }
         else if(grabMove.getCardSelection()== 'W'){
@@ -298,7 +300,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
-        if(chooseActionMove.getNumAction()<0 || chooseActionMove.getNumAction() > model.getMoveMessagesToBeSent().length){
+        if(chooseActionMove.getNumAction()<0 || chooseActionMove.getNumAction() > model.getCurrentPlayer().getMessageToBeSent().size()){
 
         }
     }
@@ -306,5 +308,16 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
         //check input corretto
+    }
+
+    @Override
+    public void firstTurn() {
+        model.chooseFirstPlayer();
+
+    }
+
+    @Override
+    public void respawnPlayer() {
+
     }
 }

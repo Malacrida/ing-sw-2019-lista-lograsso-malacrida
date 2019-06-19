@@ -21,6 +21,8 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
     private String[][] powerUpDescription;
 
+    private boolean canBeUsed;
+
     /* Costruttore */
     public PowerUpCard (int id, String name, String color, String infoEffect, ColorCube colorCard){
 
@@ -119,6 +121,10 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
             default:
                 //lancio eccezione
         }
+    }
+
+    public boolean isCanBeUsed() {
+        return canBeUsed;
     }
 
     public void setPowerUpDescription(){

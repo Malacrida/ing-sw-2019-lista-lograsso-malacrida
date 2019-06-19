@@ -10,7 +10,7 @@ public class SetUpMessage extends MoveMessage {
 
 
     public SetUpMessage(String idMoveMessage, int idPlayer, ArrayList<String> colorAvailable) {
-        super(idMoveMessage, idPlayer);
+        super(idMoveMessage);
         this.colorAvailable = colorAvailable;
     }
     public ArrayList<String> getColorAvailable() {

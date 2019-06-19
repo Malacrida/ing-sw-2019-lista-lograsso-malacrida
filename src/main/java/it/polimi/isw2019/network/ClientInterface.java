@@ -2,7 +2,7 @@ package it.polimi.isw2019.network;
 
 import java.rmi.RemoteException;
 
-public interface ClientInterfaceRmi {
+public interface ClientInterface {
 
 
     //per fargli fare la scelta della modalità di gioco e mappa
@@ -10,6 +10,7 @@ public interface ClientInterfaceRmi {
 
     //per attivare il giocatore nel suo turno
     void startRound () throws RemoteException;
+
 
 
 }

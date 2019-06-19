@@ -13,6 +13,7 @@ public class UseWeaponCardMessage extends MoveMessage{
 
     private ArrayList<PlayerInterface> playersToAttack;
 
+
     public UseWeaponCardMessage(String nicknamePlayer) {
         super(nicknamePlayer);
     }

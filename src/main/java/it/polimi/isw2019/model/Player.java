@@ -1,11 +1,11 @@
 package it.polimi.isw2019.model;
 
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.EndTurnException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
@@ -16,6 +16,8 @@ public class Player implements PlayerInterface {
     private String actionHeroComment; //frase effetto
     private int playerID;
     private ColorPlayer color;
+    private int indexPlayer;
+
     private boolean firstPlayer;
     private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>(); // cariche?
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
@@ -34,9 +36,13 @@ public class Player implements PlayerInterface {
     private boolean isTerminator;
     private boolean moveTerminator;
 
-    public boolean respawn;
+    private boolean respawn;
 
-    public boolean firstTurn;
+    private boolean firstTurn;
+
+    private int numActionPerformed;
+    private int numActionToBePerformed;
+    private ArrayList<MoveMessage> messageToBeSent;
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
@@ -49,6 +55,30 @@ public class Player implements PlayerInterface {
         //it just been created. Must respawn!
         respawn = true;
         firstTurn = true;
+    }
+
+    public int getNumActionPerformed() {
+        return numActionPerformed;
+    }
+
+    public int getNumActionToBePerformed() {
+        return numActionToBePerformed;
+    }
+
+    public ArrayList<MoveMessage> getMessageToBeSent() {
+        return messageToBeSent;
+    }
+
+    public MoveMessage getSingleMessageToBeSent(){
+        return messageToBeSent.get(0);
+    }
+
+    public int getIndexPlayer() {
+        return indexPlayer;
+    }
+
+    public void setIndexPlayer(int indexPlayer) {
+        this.indexPlayer = indexPlayer;
     }
 
     public void setName(String name) {
@@ -299,6 +329,7 @@ public class Player implements PlayerInterface {
     public PlayerBoard getRealPlayerBoard(){
         return playerBoard;
     }
+
     @Override
     public String getActionHeroComment() {
         return actionHeroComment;
@@ -332,6 +363,7 @@ public class Player implements PlayerInterface {
         return weaponCardInterfaces;
     }
 
+    @Deprecated
     public int numActionCanPerform() {
         if(!frenzy && !firstPlayer)
             return 3;
@@ -340,4 +372,172 @@ public class Player implements PlayerInterface {
         else
             return 1;
     }
+
+    public boolean canAddPowerUp(){
+        for(PowerUpCard powerUpCard : powerUpCards){
+            if(powerUpCard.isCanBeUsed()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean reloadedWeaponCard(){
+        for(AbstractWeaponCard weaponCard : weaponCards){
+            if(weaponCard.getStateCard().equals(StateCard.HOLDING)){
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public boolean notReloadedWeaponCard(){
+        for(AbstractWeaponCard weaponCard : weaponCards){
+            if(weaponCard.getStateCard().equals(StateCard.DISCHARGE)){
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn){
+
+        ActionMessage actionMessage = new ActionMessage(getName());
+
+        actionMessage.setRunAction(3);
+
+        if(!endTurn) {
+            if (playerDamage() < 2)
+                actionMessage.setRunAndGrab(1);
+            else
+                actionMessage.setRunAndGrab(2);
+
+            if (powerUpCards.size() != 0 && canAddPowerUp()) {
+                actionMessage.setPowerUpAction();
+            }
+
+            if (weaponCards.size() != 0) {
+                if (reloadedWeaponCard()) {
+                    actionMessage.setUseWeaponCard();
+                    if (playerDamage() >= 5)
+                        actionMessage.setRunUseWeaponCardAction();
+                }
+                if (notReloadedWeaponCard()) {
+                    actionMessage.setReloadWeaponCard();
+                }
+            }
+            numActionPerformed = 3;
+            numActionToBePerformed = 0;
+        }
+        if(endTurn){
+
+            if (powerUpCards.size() != 0 && canAddPowerUp()) {
+                actionMessage.setPowerUpAction();
+            }
+            if (notReloadedWeaponCard()) {
+                actionMessage.setReloadWeaponCard();
+            }
+
+        }
+        return actionMessage;
+    }
+
+
+    public ActionMessage setCorrectFrenzyActionChooseMessage(boolean afterFirstPlayer){
+
+        ActionMessage actionMessage = new ActionMessage(getName());
+
+        if(!afterFirstPlayer){
+
+            if(weaponCards.size() != 0 && reloadedWeaponCard()) {
+                actionMessage.setRunReloadAndUseWeaponCard(1);
+            }
+            actionMessage.setRunAction(4);
+            actionMessage.setRunAndGrab(3);
+
+            numActionPerformed = 2;
+        }
+
+        else{
+            if(weaponCards.size() != 0 && reloadedWeaponCard()) {
+                actionMessage.setRunReloadAndUseWeaponCard(2);
+            }
+            actionMessage.setRunAndGrab(3);
+            numActionPerformed = 1 ;
+        }
+
+        numActionToBePerformed = 0;
+
+        return actionMessage;
+    }
+
+    //da testare
+
+    public void setMessagesToBeSent(int idAction) {
+
+        switch (idAction){
+            case 0:
+                messageToBeSent.add(new RunMessage(name));
+
+                break;
+            case 1:
+
+                messageToBeSent.add(new RunMessage(name));
+                messageToBeSent.add(new GrabMessage(name));
+
+                break;
+            case 2:
+
+                messageToBeSent.add(new UseWeaponCardMessage(name));
+
+                break;
+            case 3:
+
+                messageToBeSent.add(new RunMessage(name));
+                messageToBeSent.add(new UseWeaponCardMessage(name));
+                break;
+
+            case 4:
+
+                messageToBeSent.add(new RunMessage(name));
+                messageToBeSent.add(new ReloadMessage(name));
+                messageToBeSent.add(new UseWeaponCardMessage(name));
+
+                break;
+
+            case 5:
+                messageToBeSent.add(new ReloadMessage(name));
+                break;
+            case 6:
+
+                messageToBeSent.add(new UsePowerUpCardMessage(name));
+
+                break;
+        }
+
+    }
+
+    public MoveMessage updatePlayerMessageStatus() throws EndTurnException {
+
+        if(messageToBeSent.isEmpty()){
+            messageToBeSent.remove(0);
+            return messageToBeSent.get(0);
+        }
+
+        else if(numActionPerformed < numActionToBePerformed){
+                numActionPerformed++;
+                return setCorrectNormalActionChooseMessages(false);
+            }
+        else if (numActionPerformed == numActionToBePerformed){
+                ActionMessage tmpActionMessage = setCorrectNormalActionChooseMessages(true);
+                if(tmpActionMessage.getActionPlayerCanPerform().size()==0){
+                    throw new EndTurnException();
+                }
+                else{
+                    return tmpActionMessage;
+                }
+            }
+        return null;
+    }
+
 }

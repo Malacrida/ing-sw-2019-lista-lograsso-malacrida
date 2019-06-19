@@ -59,42 +59,16 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
             return;
     }
 
-    public void insertPayment(String nameAction, ArrayList<String> cubes, ArrayList<InterfacePowerUpCard> powerUp, ArrayList<WeaponCardInterface> weaponCard, ArrayList<InterfacePowerUpCard> powerUpCards) {
-
-        Scanner input = new Scanner(System.in);
-        boolean endInsertment = false;
-        String tmpInput;
-
-        if (nameAction.compareTo("reload") == 0 || nameAction.compareTo("useWeaponCard") == 0) {
-            printWeaponCards(weaponCard);
-        } else {
-            printPowerUpCards(powerUpCards);
-        }
-        // printPowerUpCard
-        // printCubesAvailable
-        do {
-            System.out.println("Insert 1 to pay with cubes or 2 to pay with powerUp or 0 to conclude the payment");
-            tmpInput = input.next();
-
-            if (Integer.parseInt(tmpInput) == 1) {
-                System.out.println("Insert the color of the cubes you want to pay with");
-                cubes.add(input.next());
-            } else if (Integer.parseInt(tmpInput) == 2) {
-                System.out.println("Insert the index of the powerUpCard you want to use : ");
-                tmpInput = input.next();
-                if (Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput) < powerUpCards.size()) {
-                    powerUp.add(powerUpCards.get(Integer.parseInt(tmpInput)));
-                } else if (Integer.parseInt(tmpInput) == 0) {
-                    endInsertment = true;
-                }
-            }
-        } while (!endInsertment);
-
-    }
-
     @Override
     public void update(MoveMessage message) {
-        message.accept(this);
+        if(message.getNicknamePlayer() == null) {
+            message.accept(this);
+            return;
+        }
+        else if(message.getNicknamePlayer().equals(nicknamePlayer)) {
+                message.accept(this);
+                return;
+            }
     }
 
     public void updateGameBoard(GameBoardInterface gameBoard) {
@@ -156,6 +130,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
     }
 
     public void printGameBoard(GameBoardInterface gameBoard) {
+
         printArena(gameBoard.getArenaInterface());
 
         for (WeaponCardInterface weapon : gameBoard.getWeaponCard(ColorCube.BLUE))
@@ -183,9 +158,12 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
     public void printPlayerFeatures(PlayerInterface player) {
 
         printPlayerBoard(player.getPlayerBoard());
-        printPowerUpCards(player.getPowerUpCard());
         printWeaponCards(player.getWeaponCard());
-        System.out.println(player.getScore());
+
+        if(player.getName().compareTo(nicknamePlayer) == 0) {
+            printPowerUpCards(player.getPowerUpCard());
+            System.out.println(player.getScore());
+        }
 
     }
 
@@ -215,10 +193,11 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         setActionHero(registrationPlayer.getActionHero());
         setNicknamePlayer(registrationPlayer.getNicknamePlayer());
 
+        /*
         while (true) {
             //timestamp che ad ogni tot fa il printf
             System.out.println("Your registered!");
-        }
+        }*/
 
     }
 
@@ -285,7 +264,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
             payment[j] = input.next();
 
             String tmpPowerUp;
-            if (payment[j].compareTo("PU") == 1) {
+            if (payment[j].compareTo("PU") > 0) {
                 inputOk = false;
 
                 do {
@@ -309,7 +288,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         }
     }
 
-    public void handleInsertment(ArrayList<PlayerInterface> playerToAttack, ArrayList<Integer> coordinates, ArrayList<String> cubes, ArrayList<InterfacePowerUpCard> powerUp, ArrayList<PlayerInterface> playersToAttack, ArrayList<WeaponCardInterface> weaponCard) {
+    public void handleInsert(ArrayList<PlayerInterface> playerToAttack, ArrayList<Integer> coordinates, ArrayList<String> payment, ArrayList<InterfacePowerUpCard> powerUpCardPayment, ArrayList<PlayerInterface> playersToAttack){
 
         Scanner input = new Scanner(System.in);
 
@@ -318,11 +297,10 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         int tmopIndex = 0;
         int count = 0;
         String tmpInput;
-        String tmpX, tmpY;
+        String tmpX,tmpY;
 
-        System.out.println("for the effect number" + numEffect + " :");
+        System.out.println("for the effect number"+ numEffect+" :");
         endInsertment = false;
-
         do {
             System.out.println("If you want to attack one or more player , insert the index of them " +
                     "If you want to end the action/ don't want to insert no one, insert -1");
@@ -333,7 +311,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                 count++;
             }
 
-            if (Integer.parseInt(tmpInput) == -1) {
+            if(Integer.parseInt(tmpInput) == -1){
                 endInsertment = true;
             }
 
@@ -345,84 +323,111 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                     "If you want to end the action/ don't want to insert no one, insert -1 ");
             tmpX = input.next();
             tmpY = input.next();
-            if (Integer.parseInt(tmpX) >= 0 && Integer.parseInt(tmpX) <= 2 && Integer.parseInt(tmpY) >= 0 && Integer.parseInt(tmpY) <= 3) {
+            if (Integer.parseInt(tmpX) >= 0 && Integer.parseInt(tmpX) <=2 && Integer.parseInt(tmpY) >= 0 && Integer.parseInt(tmpY)<=3) {
                 coordinates.add(Integer.parseInt(tmpX));
                 coordinates.add(Integer.parseInt(tmpY));
             }
 
-            if (Integer.parseInt(tmpX) == -1 || Integer.parseInt(tmpY) == -1) {
+            if(Integer.parseInt(tmpX) == -1 || Integer.parseInt(tmpY) == -1){
                 endInsertment = true;
             }
 
         } while (!endInsertment);
 
         endInsertment = false;
+        do {
+            System.out.println("Insert 1 if you want to insert a cube or 2 if you want to insert a powerUp if you have to pay for this effect" +
+                    "otherwise press 0");
+            tmpInput= input.next();
 
-        insertPayment("UseWeaponCard", cubes, powerUp, weaponCard, null);
+            if(Integer.parseInt(tmpInput)== 0){
+                endInsertment = true;
+            }
+            else if(Integer.parseInt(tmpInput) == 1) {
+                System.out.println("Insert the color of the cube :");
+                payment.add(tmpInput);
+            }
+            else if(Integer.parseInt(tmpInput)== 2) {
+                if (powerUpCards.size() == 0) {
+                    System.out.println("you don't have a card you can pay with!");
+                } else {
+                    int tmp = -1;
+                    boolean end = false;
+                    printPowerUpCards(powerUpCards);
+                    do {
+                        System.out.println("Insert the index of the powerUp you want to use");
+                        tmpInput = input.next();
+                        if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)< powerUpCards.size()){
+                            powerUpCardPayment.add(powerUpCards.get(Integer.parseInt(tmpInput)));
+                            end = true;
+                        }
+                    } while (!end);
+                }
+            }
+
+        } while (!endInsertment);
     }
-
     @Override
     public void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
 
-        boolean inputOk = false;
-        int numEffect = 1;
-        Scanner input = new Scanner(System.in);
+            boolean inputOk = false;
+            int numEffect = 1;
+            Scanner input = new Scanner(System.in);
 
-        ArrayList<PlayerInterface> playerToAttackFirstEffect = new ArrayList<>();
-        ArrayList<Integer> coordinatesFirstEffect = new ArrayList<>();
-        ArrayList<String> paymentFirstEffect = new ArrayList<>();
-        ArrayList<InterfacePowerUpCard> paymentFirstEffectPowerUp = new ArrayList<>();
-        ArrayList<PlayerInterface> playerToAttackSecondEffect = new ArrayList<>();
-        ArrayList<Integer> coordinatesSecondEffect = new ArrayList<>();
-        ArrayList<String> paymentSecondEffect = new ArrayList<>();
-        ArrayList<InterfacePowerUpCard> paymentSecondEffectPowerUp = new ArrayList<>();
-        ArrayList<PlayerInterface> playerToAttackThirdEffect = new ArrayList<>();
-        ArrayList<Integer> coordinatesThirdEffect = new ArrayList<>();
-        ArrayList<InterfacePowerUpCard> paymentThirdEffectPowerUp = new ArrayList<>();
-        ArrayList<String> paymentThirdEffect = new ArrayList<>();
+            ArrayList<PlayerInterface> playerToAttackFirstEffect = new ArrayList<>();
+            ArrayList<Integer> coordinatesFirstEffect = new ArrayList<>();
+            ArrayList<String> paymentFirstEffect = new ArrayList<>();
+            ArrayList<InterfacePowerUpCard> paymentFirstEffectPowerUp = new ArrayList<>();
+            ArrayList<PlayerInterface> playerToAttackSecondEffect = new ArrayList<>();
+            ArrayList<Integer> coordinatesSecondEffect = new ArrayList<>();
+            ArrayList<String> paymentSecondEffect = new ArrayList<>();
+            ArrayList<InterfacePowerUpCard> paymentSecondEffectPowerUp = new ArrayList<>();
+            ArrayList<PlayerInterface> playerToAttackThirdEffect = new ArrayList<>();
+            ArrayList<Integer> coordinatesThirdEffect = new ArrayList<>();
+            ArrayList<String> paymentThirdEffect = new ArrayList<>();
+            ArrayList<InterfacePowerUpCard> paymentThirdEffectPowerUp = new ArrayList<>();
+            UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer, useWeaponCardMessage.getWeaponCard());
 
-        ArrayList<WeaponCardInterface> weaponCards = new ArrayList<>();
-        weaponCards.add(useWeaponCardMessage.getWeaponCard());
-        UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer, useWeaponCardMessage.getWeaponCard());
+            useWeaponCard.initializeMessage();
 
-        useWeaponCard.initializeMessage();
+            String tmpInput;
 
-        String tmpInput;
+            printWeaponCard(useWeaponCardMessage.getWeaponCard());
 
-        printWeaponCard(useWeaponCardMessage.getWeaponCard());
+            do{
+                do {
 
-        do {
-            do {
+                    System.out.println("Press Y if you want to use the effect number " + numEffect + "otherwise press N");
+                    tmpInput = input.next();
 
-                System.out.println("Press Y if you want to use the effect number " + numEffect + "otherwise press N");
-                tmpInput = input.next();
+                    if(tmpInput.compareTo("N") > 0|| tmpInput.compareTo("Y")> 0) {
+                        inputOk = true;
+                    }
+                    } while (!inputOk);
+                    inputOk = false;
+                    if (tmpInput.compareTo("N") > 0) {
+                        numEffect++;
 
-                if (tmpInput.compareTo("N") == 1 || tmpInput.compareTo("Y") == 1) {
-                    inputOk = true;
-                }
-            } while (!inputOk);
-            inputOk = false;
-            if (tmpInput.compareTo("N") == 1) {
-                numEffect++;
+                    } else if (tmpInput.compareTo("Y") > 0) {
 
-            } else if (tmpInput.compareTo("Y") == 1) {
+                        if(numEffect == 1) {
+                            handleInsert(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, paymentFirstEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            useWeaponCard.setFirstEffect(playerToAttackFirstEffect,coordinatesFirstEffect,paymentFirstEffect, paymentFirstEffectPowerUp);
+                        }
+                        else if(numEffect == 2) {
+                            handleInsert(playerToAttackSecondEffect, coordinatesSecondEffect, paymentSecondEffect, paymentSecondEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            useWeaponCard.setSecondEffect(playerToAttackSecondEffect,coordinatesSecondEffect,paymentSecondEffect,paymentSecondEffectPowerUp);
+                        }
+                        else if(numEffect == 3) {
+                            handleInsert(playerToAttackThirdEffect, coordinatesThirdEffect, paymentThirdEffect, paymentThirdEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            useWeaponCard.setThirdEffect(playerToAttackThirdEffect,coordinatesThirdEffect,paymentThirdEffect, paymentThirdEffectPowerUp);
+                        }
+                    }
+                }while(numEffect < useWeaponCardMessage.getWeaponCard().getNumMaxEffect());
 
-                if (numEffect == 1) {
-                    handleInsertment(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, paymentFirstEffectPowerUp, useWeaponCardMessage.getPlayersToAttack(), weaponCards);
-                    useWeaponCard.setFirstEffect(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, paymentFirstEffectPowerUp);
-                } else if (numEffect == 2) {
-                    handleInsertment(playerToAttackSecondEffect, coordinatesSecondEffect, paymentSecondEffect, paymentSecondEffectPowerUp, useWeaponCardMessage.getPlayersToAttack(), weaponCards);
-                    useWeaponCard.setSecondEffect(playerToAttackSecondEffect, coordinatesSecondEffect, paymentSecondEffect, paymentSecondEffectPowerUp);
-                } else if (numEffect == 3) {
-                    handleInsertment(playerToAttackThirdEffect, coordinatesThirdEffect, paymentThirdEffect, paymentThirdEffectPowerUp, useWeaponCardMessage.getPlayersToAttack(), weaponCards);
-                    useWeaponCard.setThirdEffect(playerToAttackThirdEffect, coordinatesThirdEffect, paymentThirdEffect, paymentThirdEffectPowerUp);
-                }
+                notifyObservers(useWeaponCard);
+
             }
-        } while (numEffect < useWeaponCardMessage.getWeaponCard().getNumMaxEffect());
-
-        notifyObservers(useWeaponCard);
-
-    }
 
     @Override
     public void powerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
@@ -474,7 +479,8 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         updateGameBoard(updateMessage.getGameBoard());
         updatePlayers(updateMessage.getPlayers());
         printGameBoard(updateMessage.getGameBoard());
-
+        for(PlayerInterface player : players)
+            printPlayerFeatures(player);
 
     }
 
@@ -495,7 +501,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         do {
 
-            for (String action : actionMessage.getActionYouCanPerform()) {
+            for (String action : actionMessage.getActionPlayerCanPerform()) {
                 System.out.println(action);
             }
 
@@ -508,12 +514,12 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                 //settare una reload move vuota
                 notifyObservers(new ReloadMove(nicknamePlayer));
                 return;
-            } else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionYouCanPerform().length)
+            } else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionPlayerCanPerform().size())
                 okInput = true;
 
         } while (!okInput);
 
-        notifyObservers(new ChooseActionMove(nicknamePlayer, actionChoosen));
+        notifyObservers(new ChooseActionMove(nicknamePlayer, actionMessage.getIntIdAction().get(actionChoosen)));
     }
 
     @Override
@@ -585,51 +591,41 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         Scanner input = new Scanner(System.in);
         printWeaponCards(reloadMessage.getWeaponCardInterfaces());
-
-        ReloadMove reloadMove = new ReloadMove(nicknamePlayer);
-
         //check per i per i payment
         boolean inputOk = false;
-        String tmp;
-
-        int count = 0;
-
-        String[][] cubesReload = new String[reloadMessage.getWeaponCardInterfaces().size()][3];
-        InterfacePowerUpCard[][] powerUpCard = new InterfacePowerUpCard[reloadMessage.getWeaponCardInterfaces().size()][3];
-        ArrayList<String> cubes = new ArrayList<>();
-        ArrayList<InterfacePowerUpCard> powerUpCards = new ArrayList<>();
+        int cardChoosen = -1;
+        char choice;
+        String tmpChoice;
+        //metterci il numero giusto di cubi
+        String[][] payment = new String[reloadMessage.getWeaponCardInterfaces().size()][];
 
 
         for (int i = 0; i < reloadMessage.getWeaponCardInterfaces().size(); i++) {
-            printWeaponCard(reloadMessage.getWeaponCardInterfaces().get(i));
-            System.out.println("Insert Y if you want to reload this weaponCard, N otherwise");
-            tmp = input.next();
+            do {
+                System.out.println("Insert Y if you want to reload the following weapon card, otherwise insert N");
+                printWeaponCard(reloadMessage.getWeaponCardInterfaces().get(i));
 
-            if (tmp.compareTo("Y") == 0) {
-                System.out.println("Choose your weapon card to reload");
-                tmp = input.next();
-                if (Integer.parseInt(tmp) >= 0 || Integer.parseInt(tmp) < reloadMessage.getWeaponCardInterfaces().size()) {
+                tmpChoice = input.next();
 
-                    reloadMove.addWeaponCardToReload(reloadMessage.getWeaponCardInterfaces().get(Integer.parseInt(tmp)));
+                if (tmpChoice.compareTo("Y") > 0 || tmpChoice.compareTo("N")> 0)
+                    inputOk = true;
 
-                    insertPayment("reload", cubes, powerUpCards, reloadMessage.getWeaponCardInterfaces(), null);
+            } while (!inputOk);
 
-                    for (int j = 0; j < cubes.size(); j++){
-                        cubesReload[i][j] = cubes.get(i);
-                    }
-
-                    for( int j = 0; j < powerUpCards.size(); j++){
-                        powerUpCard[i][j] = powerUpCards.get(i);
-                    }
-
-                    reloadMove.setPayment(cubesReload,powerUpCard);
-                }
-
+            if(tmpChoice.compareTo("Y") > 0){
+                //loop per inserire dal giocatore il pagamento
+                System.out.println("Insert cubes-color or powerUp-color to pay");
+                payment[i][0] = input.next();
             }
-            count++;
+            else{
+                payment[i][0] = null;
+            }
+            notifyObservers(new ReloadMove(getNicknamePlayer()));
 
         }
-        notifyObservers(reloadMove);
-    }
-}
 
+
+    }
+
+
+}

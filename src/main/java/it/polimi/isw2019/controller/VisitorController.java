@@ -9,7 +9,7 @@ public interface VisitorController {
 
     void visitControllerSetUpPlayer(SetUpMove setUpMove);
 
-    void visitControllerActionChoosen(ChooseActionMove chooseActionMove);
+    void visitControllerActionChoose(ChooseActionMove chooseActionMove);
 
     void visitControllerRun(RunMove runMove) throws EndAction, EndSingleAction;
 
@@ -30,4 +30,9 @@ public interface VisitorController {
     void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice);
 
     void useWeaponCard(UseWeaponCard useWeaponCard);
+
+    //method invoked by server when the game is started
+    void firstTurn();
+
+    void respawnPlayer();
 }

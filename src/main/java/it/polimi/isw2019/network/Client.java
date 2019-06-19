@@ -1,9 +1,8 @@
 package it.polimi.isw2019.network;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public class Client implements ClientInterfaceRmi {
+public class Client implements ClientInterface {
     @Override
     public void selectModeGameAndMap() throws RemoteException {
         

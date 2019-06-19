@@ -37,7 +37,7 @@ public class ServerImplementationSocket implements Runnable {
     @Override
     public void run() {
         Socket newConnection = null;
-        ClientInterfaceRmi newClient;
+        ClientInterface newClient;
         ObjectOutputStream output;
         LOGGER.info("Creazione di un nuovo thread con id: " + Thread.currentThread().getId() + "\nIn ascolto sulla porta: " + port);
         try {
@@ -61,7 +61,7 @@ public class ServerImplementationSocket implements Runnable {
 
         ObjectInputStream input;
         ObjectOutputStream output;
-        ClientInterfaceRmi newClient;
+        ClientInterface newClient;
         String nickname;
 
         Boolean reconnected;
