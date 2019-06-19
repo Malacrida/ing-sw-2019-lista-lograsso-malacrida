@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ReloadMessage extends MoveMessage{
 
-    private int[] numCubesForRecharge;
+    //armi scariche
     private ArrayList<WeaponCardInterface> weaponCardInterfaces;
 
 

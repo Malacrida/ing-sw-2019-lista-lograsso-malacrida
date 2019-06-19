@@ -28,6 +28,7 @@ public class Model extends Observable implements ModelInterface {
 
     private Player tmpPlayer;
 
+    //vengono attivati con l'update
     private MoveMessage[] moveMessagesToBeSent;
     private int messageToBeSent;
 
@@ -37,8 +38,11 @@ public class Model extends Observable implements ModelInterface {
         return colorAvailable;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
-    //manca una MAP per mappare le posizioni dei giocatori all'interno del model
+//manca una MAP per mappare le posizioni dei giocatori all'interno del model
 
     //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
     public GameBoard getGameBoard(){
@@ -49,6 +53,7 @@ public class Model extends Observable implements ModelInterface {
      *
      * @param mod type of game mod
      */
+
     public void setKillShotTrack (int mod){
         killShotTrack = new KillShotTrack(mod);
     }
@@ -80,7 +85,8 @@ public class Model extends Observable implements ModelInterface {
     }
 
     public void setFrenzyPlayers(){
-            //guardare il regolamento
+
+
 
     }
 
@@ -112,6 +118,7 @@ public class Model extends Observable implements ModelInterface {
 
     public void sendActionUpdateMessage(){
             if (messageToBeSent < moveMessagesToBeSent.length && numAction < currentPlayer.numActionCanPerform()) {
+
                 notifyObservers(new UpdateMessage(currentPlayer.getName(), gameBoard.getGameBoardInterface(), getPlayersInterface()));
                 //notifyPlayer con l'azione sucessiva da performare
                 messageToBeSent++;
@@ -124,7 +131,7 @@ public class Model extends Observable implements ModelInterface {
             }
             else if(messageToBeSent == moveMessagesToBeSent.length && numAction == currentPlayer.numActionCanPerform()){
                 numAction = 0;
-                //inviare al giocatore
+                //inviare al giocatore solo reload e useWeaponCard
             }
         }
 
@@ -494,6 +501,9 @@ public class Model extends Observable implements ModelInterface {
         return messageToBeSent;
     }
 
+    public void reload(){
+
+    }
     public void grabAmmoCard(int[][] movement){
         if(!isSpawnPoint(movement[0][0], movement[0][1])){
             //model.getGameBoard().getAmmoTileOnSquare(movement[0][0], movement[0][1]){
@@ -572,5 +582,7 @@ public class Model extends Observable implements ModelInterface {
     public void addPlayer(Player player){
         players.add(player);
     }
+
+    public void useWeaponCard(){}
 
 }

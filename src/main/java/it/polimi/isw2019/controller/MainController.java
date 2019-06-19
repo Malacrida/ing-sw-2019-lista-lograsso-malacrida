@@ -1,11 +1,9 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.ColorCube;
-import it.polimi.isw2019.model.Model;
-import it.polimi.isw2019.model.StateCard;
+import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.model.SetUpGame;
 import it.polimi.isw2019.view.MainView;
 
 import java.util.ArrayList;
@@ -18,10 +16,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     private Model model;
     private ArrayList<String> colorAvailable;
 
+    private PlayerInterface tmpPlayer;
     private Map<Integer, MainView> views;
 
     private int numAction;
-
 
     private int numIdPlayer;
 
@@ -29,6 +27,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         views = new HashMap<>();
         SetUpGame.setPlayerBoard();
 
+    }
+
+    @Override
+    public void update(PlayerMove playerMove){
+        playerMove.accept(this);
     }
 
     public boolean checkPayment(String[] payment){
@@ -41,9 +44,20 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
                 case "ammo-yellow":
                     return true;
+                default:
+                    return false;
             }
         }
         return false;
+    }
+
+    public boolean checkPowerUpCard(InterfacePowerUpCard powerUpCard){
+        for(InterfacePowerUpCard powerUp : model.getCurrentPlayer().getPowerUpCard()){
+            if(powerUpCard.equals(powerUp)){
+                return true;
+            }
+        }
+        return  false;
     }
 
     public ArrayList<ColorCube> translateInputIntoCubes(String[] payment){
@@ -64,9 +78,27 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         return tmpColorCube;
         }
 
-    @Override
-    public void update(PlayerMove playerMove){
-        playerMove.accept(this);
+    public boolean checkPlayer(PlayerInterface playerInterface){
+        for(PlayerInterface playerInterface1 : model.getPlayersInterface()){
+            if(playerInterface1.equals(playerInterface))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean checkPlayers(ArrayList<PlayerInterface> playerInterfaces){
+        for(PlayerInterface playerInterface: playerInterfaces)
+            if(!checkPlayer(playerInterface)) {
+                tmpPlayer = playerInterface;
+                return false;
+            }
+        return true;
+    }
+
+    public void insertCoordinate(ArrayList<Integer> coordinates, int[] tmpCoordinates){
+        for(int i=0 , j = 0;i<coordinates.size();i++, j++){
+            tmpCoordinates[j] = coordinates.get(i);
+        }
     }
 
     @Override
@@ -158,28 +190,70 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }
     }
-
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
-        for(Integer effectUsed: useWeaponCard.getEffectUsed()){
-           /* if(effectUsed == 1){
 
+        int[][] coordinates = new int[3][];
+        if(useWeaponCard.getPlayerAttackedFirstEffect()!= null) {
+            if (!checkPlayers(useWeaponCard.getPlayerAttackedFirstEffect())) {
+                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                return;
             }
-            else if(effectUsed == 2){
-
-            }
-            else if(effectUsed == 3){
-
-            }*/
         }
+        else if(useWeaponCard.getPlayerAttackedSecondEffect()!= null) {
+            if (!checkPlayers(useWeaponCard.getPlayerAttackedSecondEffect())) {
+                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                return;
+            }
+        }
+        else if(useWeaponCard.getPlayerAttackedThirdEffect()!= null) {
+            if ((!checkPlayers(useWeaponCard.getPlayerAttackedThirdEffect()))) {
+                model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("WRONG INPUT" + tmpPlayer);
+                return;
+            }
+        }
+
+        // check se sono divisibili per due!!
+
+        if(useWeaponCard.getSquareToAttackFirstEffect()!= null){
+           insertCoordinate(useWeaponCard.getSquareToAttackFirstEffect(), coordinates[0]);
+        }
+
+        if(useWeaponCard.getSquareToAttackSecondEffect()!= null){
+            insertCoordinate(useWeaponCard.getSquareToAttackSecondEffect(), coordinates[1]);
+        }
+
+
+        if(useWeaponCard.getSquareToAttackThirdEffect()!= null){
+            insertCoordinate(useWeaponCard.getSquareToAttackThirdEffect(), coordinates[2]);
+        }
+
+        //check payment
+
+        //invocare il metodo useWeaponCard!!
+
     }
 
     @Override
     public void visitReload(ReloadMove reloadMove) {
-            for(int i =0 ; i<reloadMove.getPayment().length; i++){
-                if(reloadMove.getPayment()[i]!= null) {
-                    if (!checkPayment(reloadMove.getPayment()[i])) {
-                        model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + reloadMove.getPayment() + "is wrong!");
+
+            for(int i =0 ; i<reloadMove.getCubes().length; i++){
+                if(reloadMove.getCubes()[i]!= null) {
+                    if (!checkPayment(reloadMove.getCubes()[i])) {
+                        model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + reloadMove.getCubes() + "is wrong!");
+                        return;
+                    }
+                }
+            }
+
+            for(int i=0; i< reloadMove.getPowerUp().length; i++){
+                if(reloadMove.getPowerUp()[i]!= null){
+                    for(int j=0; j< reloadMove.getPowerUp()[i].length; j++) {
+                        if(!checkPowerUpCard(reloadMove.getPowerUp()[i][j])){
+                            //errore : carta non esiste
+                            model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + reloadMove.getPowerUp()[i][j].getPowerUpCardRepresentation() + "is NOT yours!");
+                            return;
+                        }
                     }
                 }
             }
