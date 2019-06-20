@@ -1,5 +1,7 @@
 package it.polimi.isw2019.network;
 
+import it.polimi.isw2019.network.network_interface.ClientInterface;
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
