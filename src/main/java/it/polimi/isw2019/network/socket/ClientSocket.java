@@ -37,4 +37,14 @@ public class ClientSocket extends Thread implements ClientInterface {
     public Boolean isYourTurn() throws RemoteException {
         return true;
     }
+
+    @Override
+    public void selectModeGameAndMap() throws RemoteException {
+
+    }
+
+    @Override
+    public void startRound() throws RemoteException {
+
+    }
 }

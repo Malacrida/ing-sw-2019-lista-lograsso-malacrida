@@ -12,4 +12,11 @@ public interface ClientInterface extends Remote {
 
     public Boolean isYourTurn() throws RemoteException;
 
+    //per fargli fare la scelta della modalità di gioco e mappa
+    void selectModeGameAndMap () throws RemoteException;
+
+    //per attivare il giocatore nel suo turno
+    void startRound () throws RemoteException;
+
+
 }

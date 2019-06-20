@@ -40,10 +40,12 @@ public class GathererSocket implements Runnable, GathererInterface {
 
         try {
             newConnection = serverSocket.accept();
+            output = new ObjectOutputStream(newConnection.getOutputStream());
+            LOGGER.info("output: " + output);
 
             /*Istanzio un nuovo Thread*/
-            Thread thread = new Thread(this);
-            thread.start();
+            /*Thread thread = new Thread(this);
+            thread.start();*/
 
             clientHandlerSocket(newConnection);
 
@@ -60,16 +62,19 @@ public class GathererSocket implements Runnable, GathererInterface {
         String nickname;
 
         try{
-
-            input = new ObjectInputStream(connection.getInputStream());
+            LOGGER.info("ClientHandler");
             output = new ObjectOutputStream(connection.getOutputStream());
+            input = new ObjectInputStream(connection.getInputStream());
+            LOGGER.info("Sto attendendo un messaggio \n");
+            String messageInput = (String) input.readObject();
+            LOGGER.info("Mi è arrivato il messaggio: " + messageInput);
 
-            newClientInterface = new ClientSocket(output, input);
+            //newClientInterface = new ClientSocket(output, input);
+            String outputString = "REGISTRAZIONE AVVENUTA";
+            output.writeObject(outputString);
 
-            output.writeObject("REGISTRAZIONE AVVENUTA CON SUCCESSO! HAI FATTO L'ACCESSO COME: " + output);
 
-
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.getCause();
         }
 
