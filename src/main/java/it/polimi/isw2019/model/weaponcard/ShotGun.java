@@ -23,7 +23,7 @@ public class ShotGun extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -47,7 +47,7 @@ public class ShotGun extends AbstractWeaponCard {
 
 
         /**
-         *
+         * Deal 2 damage to 1 target on any square exactly one move away.
          * @param gameBoard is the Gameboard where players play
          * @param attacker is the player who use Weapon card
          * @param defenders are players attacked

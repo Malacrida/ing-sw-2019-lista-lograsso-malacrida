@@ -22,7 +22,7 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Deal 2 damage to 1 target you can see.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -39,7 +39,7 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Move 1 or 2 squares. This effect can be used either before or after the basic effect.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -64,7 +64,7 @@ public class PlasmaGun extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Deal 1 additional damage to 1 additional damage to your target. You have to pay a BLUE cube.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

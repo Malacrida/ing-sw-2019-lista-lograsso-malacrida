@@ -22,7 +22,7 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Move a target 0,1 or 2 squares to a square you can see, and give it 1 damage.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -56,7 +56,7 @@ public class TractorBeam extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a target 0,1 or 2 moves away from you. Move the target to your square and deal 3 damage to it.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

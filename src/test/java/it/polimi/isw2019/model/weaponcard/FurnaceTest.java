@@ -9,18 +9,20 @@ import java.util.ArrayList;
 
 public class FurnaceTest {
 
-    Player attacker, firstDefender, secondDefender;
+    Player attacker, firstDefender, secondDefender, thirdDefender, fourDefender;
     GameBoard gameBoard;
-    PlayerBoard pba, pb1, pb2;
-    ShotGun card = new ShotGun();
+    PlayerBoard pba, pb1, pb2, pb3, pb4;
+    Furnace card = new Furnace();
     ArrayList<Player> defenders = new ArrayList<>();
     int [] coordinates = new int[4];
 
     @Before
     public void setUp() throws Exception {
         attacker = new Player("Alba", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Davide", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Paola", "Tanto attaccano sempre Alba", 3);
+        firstDefender = new Player("Lion", "Tanto attaccano sempre me", 2);
+        secondDefender = new Player("Sara", "Tanto attaccano sempre Alba", 3);
+        thirdDefender = new Player("Alessia",  "ma chi sono?", 4);
+        //fourDefender = new Player("Giuseppino",  "ma chi sono?", 4);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
@@ -30,28 +32,38 @@ public class FurnaceTest {
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
         secondDefender.setPlayerBoardAndColor(pb2, ColorPlayer.GREEN);
+        thirdDefender.setPlayerBoardAndColor(pb3, ColorPlayer.VIOLET);
+        //fourDefender.setPlayerBoardAndColor(pb4, ColorPlayer.GREY);
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+        gameBoard.insertPlayer(thirdDefender, ColorRoom.RED);
+        //gameBoard.insertPlayer(fourDefender, ColorRoom.RED);
 
-        coordinates[2] = 2;
-        coordinates[3] = 3;
 
+        firstDefender.changePosition(0, 1, ColorRoom.BLUE);
+        secondDefender.changePosition(0,1, ColorRoom.BLUE);
+        thirdDefender.changePosition(0,0, ColorRoom.RED);
+        //fourDefender.changePosition(0, 3, ColorRoom.GREEN);
+
+        coordinates[0] = 1;
+        coordinates[1] = 0;
+        coordinates[2] = 0;
+        coordinates[3] = 0;
+        coordinates[4] = 3;
+        coordinates[5] = 0;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
+        defenders.add(thirdDefender);
+        //defenders.add(fourDefender);
 
     }
 
     @After
     public void tearDown() throws Exception {
     }
-
-    /*@Test
-    public void testDamageAndMarkFurnace(){
-
-    }*/
 
     @Test
     public void testFirstEffect() {

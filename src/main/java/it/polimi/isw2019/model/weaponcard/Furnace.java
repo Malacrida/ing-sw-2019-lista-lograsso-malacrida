@@ -22,6 +22,14 @@ public class Furnace extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
     }
 
+    /**
+     * Add 1 damage to all players in one square
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param x1 first coordinate of square
+     * @param y1 second coordinate of square
+     */
+
     private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
@@ -38,6 +46,14 @@ public class Furnace extends AbstractWeaponCard {
         }
 
     }
+
+    /**
+     * Add 1 damage and 1 mark to all players in one square
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param x1 first coordinate of square
+     * @param y1 second coordinate of square
+     */
 
     private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
 
@@ -57,7 +73,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -91,7 +107,7 @@ public class Furnace extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

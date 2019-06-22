@@ -9,7 +9,7 @@ import it.polimi.isw2019.model.Player;
 
 import java.util.ArrayList;
 
-public class Whisper extends AbstractWeaponCard {
+public class    Whisper extends AbstractWeaponCard {
 
     public Whisper() {
         super(5, "Whisper", ColorCube.BLUE, 1, 0, 1);
@@ -25,7 +25,7 @@ public class Whisper extends AbstractWeaponCard {
 
 
     /**
-     *
+     * Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

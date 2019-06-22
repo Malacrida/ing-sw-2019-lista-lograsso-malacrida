@@ -24,7 +24,7 @@ public class HeatSeeker extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose 1 target you cannot see and deal 3 damage to it.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

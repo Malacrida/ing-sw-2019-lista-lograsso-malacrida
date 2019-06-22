@@ -13,9 +13,9 @@ public class PowerGlove extends AbstractWeaponCard {
 
     public PowerGlove() {
         super(19, "Power Glove", ColorCube.YELLOW, 1, 4, 2);
-        this.infoEffect[0] = "FIRST EFFECT: choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks";
+        this.infoEffect[0] = "FIRST EFFECT: choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks.";
         this.infoEffect[1] = "SECOND EFFECT: Choose a square exactly 1 move away.";
-        this.infoEffect[2] = "THIRD EFFECT: Move onto that square you may deal 2 damage to 1 target there if you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well)";
+        this.infoEffect[2] = "THIRD EFFECT: This effect doesn't exist";
         this.infoEffect[3] = "NOTES: In rocket fist mode, you're flying squares in a straight line, punching person per square";
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.YELLOW;
@@ -23,7 +23,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -49,7 +49,7 @@ public class PowerGlove extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Choose a square exactly 1 move away.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

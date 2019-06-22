@@ -22,7 +22,7 @@ public class Thor extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Deal 2 damage to 1 target you can see.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -39,7 +39,7 @@ public class Thor extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Deal 1 damage to a second target that your first target can see. You have to pay a BLUE cube.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -71,7 +71,7 @@ public class Thor extends AbstractWeaponCard{
     }
 
     /**
-     *
+     * Deal 2 damage to a third target that your second target can see. You have to pay a BLUE cube. You cannot use this effect unless you first use the chain reaction
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

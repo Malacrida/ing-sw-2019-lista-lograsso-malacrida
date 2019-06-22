@@ -22,8 +22,13 @@ public class MachineGun extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.RED;
     }
 
-
-
+    /**
+     *
+     * @param gameBoard
+     * @param attacker
+     * @param defender
+     * @throws ErrorEffectException
+     */
     private void ifIsVisibleOneDamage(GameBoard gameBoard, Player attacker, Player defender) throws ErrorEffectException {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
@@ -100,7 +105,7 @@ public class MachineGun extends AbstractWeaponCard {
         /*PAGO UN BLU*/
 
         if (defenders.get(1) != null){
-            if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
+            if (!oneDamageIfFirstIsValid(attacker, defenders.get(1), firstIsValid)){
                 throw new ErrorEffectException();
             }
             if(defenders.get(2) != null){

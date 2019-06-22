@@ -23,7 +23,7 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 2 damage and 1 mark to 1 target you can see.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
@@ -51,7 +51,7 @@ public class LockRifle extends AbstractWeaponCard {
     }
 
     /**
-     *
+     * Deal 1 mark to a different target you can see. You have to pay a RED cube.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked

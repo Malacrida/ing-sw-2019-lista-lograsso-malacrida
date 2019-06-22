@@ -6,7 +6,6 @@ import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Arena implements ArenaInterface{
 
@@ -23,6 +22,12 @@ public class Arena implements ArenaInterface{
         return rooms;
     }
 
+    /**
+     * This method is used to choose on which arena do you want play
+     * @param numArena is an identifier of type arena
+     * @throws OutOfBoundsException
+     */
+
     public void chooseArena(int numArena) throws OutOfBoundsException {
         try {
             squares = CreateArena.chooseMap(numArena);
@@ -32,6 +37,13 @@ public class Arena implements ArenaInterface{
         }
 
     }
+
+    /**
+     * setter weapon card on arena
+     * @param weaponCardsRed weapon cards on red spawn
+     * @param weaponCardsBlue weapon cards on blue spawn
+     * @param weaponCardsYellow weapon cards on yellow spawn
+     */
 
     //I colori indicano i punti di spawn
     public void setWeaponsCardOnSquareSpawn(AbstractWeaponCard[] weaponCardsRed, AbstractWeaponCard[] weaponCardsBlue, AbstractWeaponCard[] weaponCardsYellow) {
@@ -57,7 +69,10 @@ public class Arena implements ArenaInterface{
         return squares[x][y].getWeaponCards();
     }
 
-
+    /**
+     * setter ammo tiles on arena
+     * @param ammoTiles ammo tiles
+     */
     public void setAmmoTilesOnSquare(ArrayList<AmmoTile> ammoTiles) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -104,6 +119,14 @@ public class Arena implements ArenaInterface{
         return playersInRoom;
     }
 
+    /**
+     * list of player in a square
+     * @param x coordinate of square
+     * @param y coordinate of square
+     * @param player you use the player to identify the square
+     * @return arraylist of players
+     */
+
     public ArrayList<Player> playersInOneSquareOnArena(int x, int y, Player player) {
         ArrayList<Player> players = squares[x][y].getPlayers();
         if (players.contains(player)) {
@@ -112,9 +135,9 @@ public class Arena implements ArenaInterface{
         return players;
     }
 
-    /**
-     * @param player
-     * @return
+    /** list of players that one player can see
+     * @param player who want know which players see
+     * @return arraylist of players
      */
     public ArrayList<Player> playerWhoSeeOnArena(Player player) {
 
@@ -166,6 +189,10 @@ public class Arena implements ArenaInterface{
         return playersWhoSee;
     }
 
+    /** list of players in the square near player
+     * @param player who want know which players are in the room
+     * @return arraylist of players
+     */
 
     public ArrayList<Player> playerInTheRoomNear(Player player) {
         ArrayList<Player> playersInTheRoom = new ArrayList<>();
@@ -195,6 +222,11 @@ public class Arena implements ArenaInterface{
         return playersInTheRoom;
     }
 
+    /**
+     * this method spawn player on arena
+     * @param colorRoomToSpawn color of spawn
+     * @param player who spawn
+     */
 
     //Controllo sul colore scelto dal giocatore dove spownare
     public void spawnPlayer(ColorRoom colorRoomToSpawn, Player player) {
@@ -222,6 +254,13 @@ public class Arena implements ArenaInterface{
         }
 
     }
+
+    /**
+     * change player's position
+     * @param player who has to move
+     * @param x first coordinate
+     * @param y second coordinate
+     */
 
     //per spostare di posizione il giocaotre
     public void movePlayer(Player player, int x, int y) {
@@ -255,6 +294,12 @@ public class Arena implements ArenaInterface{
             return false;
     }
 
+    /**
+     * teleport player who use this method
+     * @param player who use teleporter card
+     * @param x first coordinate
+     * @param y second coordiante
+     */
     public void teleporterMove(Player player, int x, int y) {
 
         if (isPlayerChangeRoom(player, x, y)) {
@@ -271,6 +316,7 @@ public class Arena implements ArenaInterface{
         return squaresAvailable.contains(squares[x][y]);
     }
 
+
     public boolean isSpawnSquare(int x, int y) {
         return squares[x][y].isSpawnPoint();
     }
@@ -284,6 +330,12 @@ public class Arena implements ArenaInterface{
         return true;
     }
 
+    /**
+     * change player's room
+     * @param player who change room
+     * @param x first coordinate
+     * @param y second coordinate
+     */
     public void playerChangeRoom(Player player, int x, int y) {
         for (int i = 0; i < rooms.size(); i++) {
             if (rooms.get(i).containsSquare(squares[player.getX()][player.getY()])) {

@@ -18,46 +18,52 @@ public class GrenadeLauncherTest {
     Player attacker, firstDefender, secondDefender, thirdDefender, fourDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3, pb4;
-    GrenadeLauncher card = new GrenadeLauncher();
-    int [] coordinates = new int[4];
-
+    ShotGun card = new ShotGun();
     ArrayList<Player> defenders = new ArrayList<>();
+    int [] coordinates = new int[4];
 
     @Before
     public void setUp() throws Exception {
-
-        attacker = new Player("Alba", "Tanto attaccano sempre me", 1);
-        firstDefender = new Player("Stavri", "Accipigna", 2);
+        attacker = new Player("Alba", "Speriamo che sto test vada", 1);
+        firstDefender = new Player("Lion", "Tanto attaccano sempre me", 2);
         secondDefender = new Player("Sara", "Tanto attaccano sempre Alba", 3);
-        thirdDefender = new Player("Alessio", "Ma non facevo Automatica?", 4);
-        fourDefender = new Player("Asdrubale", "Che nome del piffero", 5);
+        thirdDefender = new Player("Rebecca",  "ma chi sono questi?", 4);
+        //fourDefender = new Player("Giuseppino",  "ma chi sono?", 4);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
-        pb3 = new PlayerBoard(ColorPlayer.GREY);
-        pb4 = new PlayerBoard(ColorPlayer.VIOLET);
         gameBoard = new GameBoard();
-        gameBoard.chooseArena(1);
+        gameBoard.chooseArena(4);
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
         secondDefender.setPlayerBoardAndColor(pb2, ColorPlayer.GREEN);
-        thirdDefender.setPlayerBoardAndColor(pb3, ColorPlayer.GREY);
-        fourDefender.setPlayerBoardAndColor(pb4, ColorPlayer.GREY);
+        thirdDefender.setPlayerBoardAndColor(pb3, ColorPlayer.VIOLET);
+        //fourDefender.setPlayerBoardAndColor(pb4, ColorPlayer.GREY);
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
-        gameBoard.insertPlayer(firstDefender, ColorRoom.YELLOW);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.YELLOW);
+        gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
         gameBoard.insertPlayer(thirdDefender, ColorRoom.RED);
-        gameBoard.insertPlayer(fourDefender, ColorRoom.YELLOW);
+        //gameBoard.insertPlayer(fourDefender, ColorRoom.RED);
 
-        coordinates[2] = 2;
-        coordinates[3] = 3;
+
+        firstDefender.changePosition(0, 1, ColorRoom.BLUE);
+        secondDefender.changePosition(0,1, ColorRoom.BLUE);
+        thirdDefender.changePosition(0,0, ColorRoom.RED);
+        //fourDefender.changePosition(0, 3, ColorRoom.GREEN);
+
+        coordinates[0] = 1;
+        coordinates[1] = 0;
+        coordinates[2] = 0;
+        coordinates[3] = 0;
+        coordinates[4] = 3;
+        coordinates[5] = 0;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
-        defenders.add(fourDefender);
+        //defenders.add(fourDefender);
     }
 
     @After
@@ -115,7 +121,7 @@ public class GrenadeLauncherTest {
             assertEquals(1, pb4.numOfDamages());
 
 
-        } catch (ErrorEffectException e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
 

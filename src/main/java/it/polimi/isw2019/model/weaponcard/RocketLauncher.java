@@ -26,6 +26,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
 
     /**
+     * Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square.
      * @param gameBoard   is the Gameboard where players play
      * @param attacker    is the player who use Weapon card
      * @param defenders   are players attacked
@@ -59,6 +60,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
 
     /**
+     * Move 1 or 2 squares. This effect can be used either before or after the basic effect.
      * @param gameBoard   is the Gameboard where players play
      * @param attacker    is the player who use Weapon card
      * @param defenders   are players attacked
@@ -88,7 +90,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
 
     /**
-     *
+     * During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it.
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
      * @param defenders are players attacked
