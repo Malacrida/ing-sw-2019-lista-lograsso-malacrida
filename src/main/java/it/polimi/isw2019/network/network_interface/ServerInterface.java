@@ -14,8 +14,6 @@ public interface ServerInterface<T> extends Remote {
 
     public void write(Object object) throws IOException;
 
-    public Object read() throws IOException, ClassNotFoundException;
-
     public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException;
 
     public Boolean reconnectClient(T client, String nickname) throws RemoteException;

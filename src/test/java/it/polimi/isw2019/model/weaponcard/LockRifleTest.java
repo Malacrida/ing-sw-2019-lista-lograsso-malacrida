@@ -38,7 +38,7 @@ public class LockRifleTest {
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
         coordinates = new int[]{-1, -1, 3, 2};
 
         defenders.add(firstDefender);
@@ -57,9 +57,7 @@ public class LockRifleTest {
 
             assertTrue(visiblePlayers.contains(firstDefender));
 
-        } catch (ErrorEffectException e) {
-            e.printStackTrace();
-        } catch (DamageTrackException e) {
+        } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
         try {
@@ -74,7 +72,14 @@ public class LockRifleTest {
     @Test
     public void testSecondEffect() {
        try {
-           // assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
+           card.firstEffect(gameBoard, attacker, defenders, coordinates);
+           card.secondEffect(gameBoard,attacker,defenders,coordinates);
+           System.out.println(defenders.get(1).getName());
+           ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+           assertTrue(visiblePlayers.contains(defenders.get(1)));
+
+           assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
 
         } catch (Exception e) {
             e.printStackTrace();

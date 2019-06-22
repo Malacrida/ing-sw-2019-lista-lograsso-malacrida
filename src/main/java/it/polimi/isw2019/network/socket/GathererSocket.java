@@ -44,8 +44,8 @@ public class GathererSocket implements Runnable, GathererInterface {
             LOGGER.info("output: " + output);
 
             /*Istanzio un nuovo Thread*/
-            /*Thread thread = new Thread(this);
-            thread.start();*/
+            Thread thread = new Thread(this);
+            thread.start();
 
             clientHandlerSocket(newConnection);
 
@@ -70,8 +70,11 @@ public class GathererSocket implements Runnable, GathererInterface {
             LOGGER.info("Mi è arrivato il messaggio: " + messageInput);
 
             //newClientInterface = new ClientSocket(output, input);
+            output.reset();
             String outputString = "REGISTRAZIONE AVVENUTA";
             output.writeObject(outputString);
+            output.flush();
+
 
 
         } catch (IOException | ClassNotFoundException e) {

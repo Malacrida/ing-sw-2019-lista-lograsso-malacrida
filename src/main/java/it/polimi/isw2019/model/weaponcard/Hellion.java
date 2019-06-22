@@ -61,7 +61,7 @@ public class Hellion extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if((defenders.get(0) != null) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
+        if(!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY())){ //se ha inserito almeno un difensore e si trova in una cella almeno distante 1
 
             hellionEffects(gameBoard, attacker, defenders, 1);
         }

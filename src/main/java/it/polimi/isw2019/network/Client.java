@@ -72,8 +72,12 @@ public class Client {
                 serverInterface.write(messageOutput);
 
                 System.out.println("\nSono in attesa di un messaggio: \n");
-                String messageInput = (String) serverInterface.read();
-                System.out.println(messageInput);
+
+                //ObjectInputStream messageInput = new ObjectInputStream(serverInterface.getInputStream)
+
+
+                //Object messageInput = (String) messageInput.readObject();
+                //System.out.println(messageInput);
 
                 boolean isRunning = true;
 
@@ -84,8 +88,6 @@ public class Client {
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

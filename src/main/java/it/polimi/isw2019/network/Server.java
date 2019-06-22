@@ -18,6 +18,13 @@ public class Server {
 
     }
 
+    /*public void startServer(){
+        while(isRunning){
+            Conn c = servsock.accept();
+            Thread t = new Thread(r -> register(c)).start();
+        }
+    }*/
+
     private void start(GathererInterface... gathererSocket){
         this.executor = Executors.newFixedThreadPool(128);
 

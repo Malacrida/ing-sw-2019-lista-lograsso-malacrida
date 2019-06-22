@@ -45,12 +45,6 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public Object read() throws IOException, ClassNotFoundException {
-        return this.input.readObject();
-
-    }
-
-    @Override
     public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException {
         //send(heartbeatMessage);
     }
