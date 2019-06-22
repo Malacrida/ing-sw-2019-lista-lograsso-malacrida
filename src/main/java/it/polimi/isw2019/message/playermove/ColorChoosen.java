@@ -13,7 +13,7 @@ public class ColorChoosen extends PlayerMove {
 
     @Override
     public void accept(VisitorController visitorController) {
-        visitorController.visitColorChoosen(this);
+        visitorController.visitColorChoose(this);
     }
 
     public String getColorChoosen() {

@@ -1,19 +1,18 @@
 package it.polimi.isw2019.controller;
 
-import it.polimi.isw2019.message.playermove.RunMove;
 import it.polimi.isw2019.model.Model;
-import it.polimi.isw2019.view.MainView;
+import it.polimi.isw2019.view.CLIView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MainControllerTest {
-    MainView view;
+    CLIView view;
     Model model;
     MainController controller;
     @Before
     public void setUp() throws Exception {
-        view = new MainView();
+        view = new CLIView();
         view.setNicknamePlayer("Alba");
         model = new Model();
         controller = new MainController();

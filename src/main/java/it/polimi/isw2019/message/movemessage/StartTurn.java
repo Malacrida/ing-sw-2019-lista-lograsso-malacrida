@@ -1,6 +1,7 @@
 package it.polimi.isw2019.message.movemessage;
 
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
@@ -32,6 +33,10 @@ public class StartTurn extends MoveMessage {
 
     public ArrayList<InterfacePowerUpCard> getPowerUpCard(){
         return this.powerUpCard;
+    }
+
+    public void setPowerUpCard(ArrayList<InterfacePowerUpCard> powerUpCard){
+        this.powerUpCard = powerUpCard;
     }
 
     @Override

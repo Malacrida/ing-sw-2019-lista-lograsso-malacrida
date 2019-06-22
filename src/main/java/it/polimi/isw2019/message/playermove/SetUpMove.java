@@ -1,18 +1,18 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.view.MainView;
+import it.polimi.isw2019.view.CLIView;
 
 public class SetUpMove extends PlayerMove{
     private String phrase;
     private char gameMood;
-    private MainView viewPlayer;
+    private CLIView viewPlayer;
 
-    public MainView getViewPlayer() {
+    public CLIView getViewPlayer() {
         return viewPlayer;
     }
 
-    public SetUpMove(MainView viewPlayer, String nickname, String phrase, char gameMood){
+    public SetUpMove(CLIView viewPlayer, String nickname, String phrase, char gameMood){
         super(nickname);
         this.viewPlayer= viewPlayer;
         this.phrase = phrase;

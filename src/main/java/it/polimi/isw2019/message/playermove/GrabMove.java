@@ -9,12 +9,13 @@ public class GrabMove extends PlayerMove {
     private int positionWeaponCard;
     private String payment;
 
+    //arrayList String!
+
     public GrabMove(String player){
         super(player);
     }
 
     public void setMovement(int[][] movement){
-
         this.movement = movement;
     }
 

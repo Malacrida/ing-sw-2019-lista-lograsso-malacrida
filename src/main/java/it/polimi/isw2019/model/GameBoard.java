@@ -7,6 +7,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.utilities.Database;
 
 
 import java.util.ArrayList;
@@ -15,16 +16,34 @@ public class GameBoard implements GameBoardInterface{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
+
     private AbstractWeaponCard[] weaponCardsRed= new AbstractWeaponCard[3];
     private AbstractWeaponCard[] weaponCardsBlue= new AbstractWeaponCard[3];
     private AbstractWeaponCard[] weaponCardsYellow= new AbstractWeaponCard[3];
+
+    private ArrayList<AbstractWeaponCard> weaponCardsDischarged;
+
     private ArrayList<PowerUpCard> powerUpCards;
+    private ArrayList<PowerUpCard> usedPowerUpCards;
+
     private ArrayList<AmmoTile> ammoTiles;
+    private ArrayList<AmmoTile> grabedAmmoTiles;
+
     private Arena gameArena=null;
     private static GameBoard instance;
     private KillShotTrack killShotTrack;
 
+    private Database db;
+
     public GameBoard (){
+        //shuffle
+        db = new Database();
+        ammoTiles = db.loadAmmoTiles();
+        powerUpCards = db.loadPowerUpCards();
+        usedPowerUpCards = new ArrayList<>();
+        grabedAmmoTiles = new ArrayList<>();
+
+
 
     }
 
@@ -33,6 +52,7 @@ public class GameBoard implements GameBoardInterface{
     public void chooseArena (int num) throws InstanceArenaException, OutOfBoundsException {
 
         gameArena= new Arena();
+
         try {
             gameArena.chooseArena(num);
         }
@@ -99,7 +119,7 @@ public class GameBoard implements GameBoardInterface{
         if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
             return gameArena.getWeaponCardsOnSquares(x,y);
         }
-        else throw new OutOfBoundsException("Non hai selezionato una casella di spawn");
+        else throw new OutOfBoundsException("not a spawn square!");
     }
 
     public int sizeWeaponCards (){

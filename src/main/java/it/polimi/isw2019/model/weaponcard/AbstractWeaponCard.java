@@ -4,9 +4,8 @@ import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.ErrorEffectException;
-import it.polimi.isw2019.model.exception.NoEffectException;
+import it.polimi.isw2019.model.exception.*;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 
 import java.util.ArrayList;
 
@@ -47,7 +46,7 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         return name;
     }
 
-    public ColorCube[] getRechargecube(){ return rechargeCube; }
+    public ColorCube[] getRechargeCube(){ return rechargeCube; }
 
     public ColorCube getColor(){
         return color;
@@ -323,6 +322,22 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         return maxPossibleCoordinates;
     }
 
+    /* public void handlePaymentPerEffect(Player player,int number, ArrayList<PowerUpCard> powerUpCards, ArrayList<ColorCube> colorCubes){
 
+    }
 
+    public void handleRecharge(Player player, ArrayList<PowerUpCard> powerUpCards, ArrayList<ColorCube> colorCubes) throws InvalidInsert, NoCubesException {
+        if((powerUpCards.size() + colorCubes.size()) > rechargeCube.length){
+            throw new InvalidInsert("you've inserted too many cubes");
+        }
+        else if((powerUpCards.size() + colorCubes.size()) < rechargeCube.length){
+            throw new InvalidInsert("you've inserted too few cubes");
+        }
+
+        else{
+            player.getRealPlayerBoard().removeCube(colorCubes);
+           // player.getRealPlayerBoard().payment
+        }
+    }
+*/
 }

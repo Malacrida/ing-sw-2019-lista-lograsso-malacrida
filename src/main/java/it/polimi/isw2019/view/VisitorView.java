@@ -30,4 +30,6 @@ public interface VisitorView{
     void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
     void visitStartTurn(StartTurn startTurn);
+
+    void failRegistration(FailRegistration failRegistration);
 }

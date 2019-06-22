@@ -2,13 +2,14 @@ package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
+import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.MainView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainController implements Observer<PlayerMove>, VisitorController {
 
@@ -17,21 +18,24 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     private ArrayList<String> colorAvailable;
 
     private PlayerInterface tmpPlayer;
-    private Map<Integer, MainView> views;
+    private InterfacePowerUpCard tmpPowerUp;
+    private String cubeInserted;
+
 
     private int numAction;
 
     private int numIdPlayer;
 
     public MainController() {
-        views = new HashMap<>();
-        SetUpGame.setPlayerBoard();
+        model = new Model();
+       // SetUpGame.setPlayerBoard();
 
     }
 
     @Override
     public void update(PlayerMove playerMove){
-        playerMove.accept(this);
+      //  if(playerMove.getPlayer().equals(model.getCurrentPlayer().getName()) ) {
+            playerMove.accept(this);
     }
 
     public boolean checkPayment(String[] payment){
@@ -51,33 +55,41 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         return false;
     }
 
-    public boolean checkPowerUpCard(InterfacePowerUpCard powerUpCard){
-        for(InterfacePowerUpCard powerUp : model.getCurrentPlayer().getPowerUpCard()){
-            if(powerUpCard.equals(powerUp)){
-                return true;
-            }
-        }
-        return  false;
-    }
 
-    public ArrayList<ColorCube> translateInputIntoCubes(String[] payment){
+    public ArrayList<ColorCube> translateInputIntoCubes(ArrayList<String> payment){
         ArrayList<ColorCube> tmpColorCube = new ArrayList<>();
-        for(int i=0;i<payment.length;i++){
-            switch (payment[i]){
-                case "cube-blue" :
+        for(String singlePayment : payment){
+            switch (singlePayment){
+                case "blue" :
                     tmpColorCube.add(ColorCube.BLUE);
                     break;
-                case "cube-red" :
+                case "red" :
                     tmpColorCube.add(ColorCube.RED);
                     break;
-                case "cube-yellow":
+                case "yellow":
                     tmpColorCube.add(ColorCube.YELLOW);
                     break;
             }
         }
         return tmpColorCube;
         }
-
+    public ColorCube[] translateInputIntoCubes(String[] payment){
+        ColorCube[] tmpColorCube = new ColorCube[payment.length];
+        for(int i =0 ; i< payment.length; i++){
+            switch (payment[i]){
+                case "blue" :
+                    tmpColorCube[i] = ColorCube.BLUE;
+                    break;
+                case "red" :
+                    tmpColorCube[i] = ColorCube.RED;
+                    break;
+                case "yellow":
+                    tmpColorCube[i] = ColorCube.YELLOW;
+                    break;
+            }
+        }
+        return tmpColorCube;
+    }
     public boolean checkPlayer(PlayerInterface playerInterface){
         for(PlayerInterface playerInterface1 : model.getPlayersInterface()){
             if(playerInterface1.equals(playerInterface))
@@ -95,6 +107,99 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         return true;
     }
 
+    public boolean checkPaymentCube(String cube){
+        switch (cube){
+            case "blue":
+
+            case "red":
+
+            case "yellow":
+                return true;
+            default:
+                cubeInserted = cube;
+                return false;
+        }
+    }
+
+    public boolean checkPaymentCubes(ArrayList<String> cubes){
+        for(String cube : cubes){
+            if(!checkPaymentCube(cube))
+                return false;
+        }
+        return true;
+    }
+
+    public boolean checkPowerUpCard(InterfacePowerUpCard powerUpCard){
+        if(model.getCurrentPlayer().getPowerUpCard().contains(powerUpCard)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean checkPowerUpCards(ArrayList<InterfacePowerUpCard> powerUpCard) {
+        for (InterfacePowerUpCard powerUpCard1 : powerUpCard) {
+            if(!checkPowerUpCard(powerUpCard1)){
+                tmpPowerUp = powerUpCard1;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Player fromPlayerInterfaceToPlayer(PlayerInterface playerInterface){
+        for(int i=0; i< model.getPlayers().size(); i++){
+            if(model.getPlayers().get(i).getPlayerInterface().equals(playerInterface)){
+                return model.getPlayers().get(i);
+            }
+        }
+        return null;
+    }
+
+    public AbstractWeaponCard fromInterfaceToAbstractWeaponCard(WeaponCardInterface weaponCardInterface){
+        for(AbstractWeaponCard weaponCard: model.getCurrentPlayer().getWeaponCards()){
+            if(weaponCard.getWeaponCard().equals(weaponCardInterface)){
+                return weaponCard;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Player> translateInterfacePlayerIntoPlayers(ArrayList<PlayerInterface> playerInterface){
+        Player tmp;
+        ArrayList<Player> players = new ArrayList<>();
+        for(PlayerInterface playerInterface1 : playerInterface){
+            tmp = fromPlayerInterfaceToPlayer(playerInterface1);
+            if(tmp!= null){
+                players.add(tmp);
+            }
+        }
+        return players;
+    }
+
+    public PowerUpCard fromSinglePowerUpInterfaceToPowerUp(InterfacePowerUpCard powerUpCard){
+        for(PowerUpCard powerUpCard1 : model.getCurrentPlayer().getPowerUpCards()){
+            if(powerUpCard1.getPowerUpCard().equals(powerUpCard)){
+                return powerUpCard1;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<PowerUpCard> fromPowerUpInterfaceToPowerUp(ArrayList<InterfacePowerUpCard> interfacePowerUpCard){
+        ArrayList<PowerUpCard> tmpPowerUpCard = new ArrayList<>();
+        PowerUpCard tmpPowerUpCard1;
+        for(InterfacePowerUpCard powerUpCard :interfacePowerUpCard){
+            tmpPowerUpCard1= fromSinglePowerUpInterfaceToPowerUp(powerUpCard);
+            if(tmpPowerUpCard1 != null){
+                tmpPowerUpCard.add(tmpPowerUpCard1);
+            }
+        }
+        return tmpPowerUpCard;
+    }
+
+
     public void insertCoordinate(ArrayList<Integer> coordinates, int[] tmpCoordinates){
         for(int i=0 , j = 0;i<coordinates.size();i++, j++){
             tmpCoordinates[j] = coordinates.get(i);
@@ -109,15 +214,18 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
-        views.put(numIdPlayer,firstMessage.getMainView());
-        numIdPlayer ++;
-        model.registerObserver(firstMessage.getMainView());
-        model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+        model.registerObserver(firstMessage.getCLIView());
+
+        try{
+            model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+        } catch(IndexOutOfBoundsException e){
+            model.unregisterObserver(firstMessage.getCLIView());
+        }
 
     }
 
     @Override
-    public void visitColorChoosen(ColorChoosen colorChoosen){
+    public void visitColorChoose(ColorChoosen colorChoosen){
 
         for(String color : model.getColorAvailable()){
             if(colorChoosen.getColorChoosen().equals(color))
@@ -157,7 +265,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
-        /*
+
         if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
             if(weaponCardChoice.isGrab()){
                 if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
@@ -166,9 +274,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 else{
                    if(weaponCardChoice.getIndexWeaponCard() < model.getGameBoard().getGameArena().getSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY()).getWeaponCards().length){
                                 if(!checkPayment(weaponCardChoice.getPayment())){
-                                    model.getMoveMessagesToBeSent()[model.getMessageToBeSent()].setError("the input" + weaponCardChoice.getPayment()+"is wrong!");
+                                    model.getCurrentPlayer().getSingleMessageToBeSent().setError("the input" + weaponCardChoice.getPayment()+"is wrong!");
                                     }
-                        ArrayList<ColorCube> payment = translateInputIntoCubes(weaponCardChoice.getPayment());
                        //grabWeaponCard
                    }
                    else{
@@ -178,24 +285,26 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
             else{
                 if(weaponCardChoice.getIndexWeaponCard() < model.getCurrentPlayer().getWeaponCards().size()) {
-                    if(model.getCurrentPlayer().getWeaponCards().get(weaponCardChoice.getIndexWeaponCard()).getStateCard().equals(StateCard.DISCHARGE)){
+                    if (model.getCurrentPlayer().getWeaponCards().get(weaponCardChoice.getIndexWeaponCard()).getStateCard().equals(StateCard.DISCHARGE)) {
                         //cannot use this weapon card : stop action or reload
+                    } else {
+    /*
+                        try {
+                           model.grabWeaponCard(weaponCardChoice.getIndexWeaponCard(), translateInputIntoCubes(weaponCardChoice.getPayment()));
+                        } catch (OutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                        */
                     }
-                    else{
-                        //mex -> UseWeaponCard with all the possibility
-                    }
-
-                }
-                else{
-                    //setErrorMessage -> index out of bound
                 }
             }
-        }*/
+        }
     }
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
 
         int[][] coordinates = new int[3][];
+
         if(useWeaponCard.getPlayerAttackedFirstEffect()!= null) {
             if (!checkPlayers(useWeaponCard.getPlayerAttackedFirstEffect())) {
                 model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + tmpPlayer);
@@ -216,24 +325,48 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         }
 
         // check se sono divisibili per due!!
+        // unirli in un unico if
+        if(useWeaponCard.getSquareToAttackFirstEffect()!= null && useWeaponCard.getSquareToAttackFirstEffect().size()%2 == 0) {
+            insertCoordinate(useWeaponCard.getSquareToAttackFirstEffect(), coordinates[0]);
 
-        if(useWeaponCard.getSquareToAttackFirstEffect()!= null){
-           insertCoordinate(useWeaponCard.getSquareToAttackFirstEffect(), coordinates[0]);
+            if (useWeaponCard.getSquareToAttackSecondEffect() != null && useWeaponCard.getSquareToAttackSecondEffect().size() % 2 == 0) {
+                insertCoordinate(useWeaponCard.getSquareToAttackSecondEffect(), coordinates[1]);
+
+                if (useWeaponCard.getSquareToAttackThirdEffect() != null && useWeaponCard.getSquareToAttackThirdEffect().size() % 2 == 0) {
+                    insertCoordinate(useWeaponCard.getSquareToAttackThirdEffect(), coordinates[2]);
+                } else {
+                    return;
+                }
+            } else {
+                return;
+            }
+        }
+        else{
+            return;
         }
 
-        if(useWeaponCard.getSquareToAttackSecondEffect()!= null){
-            insertCoordinate(useWeaponCard.getSquareToAttackSecondEffect(), coordinates[1]);
+        //input scorretto
+        if(!checkPaymentCubes(useWeaponCard.getPaymentFirstEffect()) || !checkPaymentCubes(useWeaponCard.getPaymentSecondEffect()) || !checkPaymentCubes(useWeaponCard.getPaymentThirdEffect()) ){
+            model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT " + cubeInserted);
+            return;
+        }
+        //la persona non ha la powerUpCard
+        if(!checkPowerUpCards(useWeaponCard.getPaymentFirstEffectPowerUp()) || !checkPowerUpCards(useWeaponCard.getPaymentSecondEffectPowerUp()) || !checkPowerUpCards(useWeaponCard.getPaymentThirdEffectPowerUp())){
+            model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT " + tmpPowerUp);
+            return;
         }
 
-
-        if(useWeaponCard.getSquareToAttackThirdEffect()!= null){
-            insertCoordinate(useWeaponCard.getSquareToAttackThirdEffect(), coordinates[2]);
+        //ok
+        model.useWeaponCard(1, fromInterfaceToAbstractWeaponCard(useWeaponCard.getWeaponCard()), translateInterfacePlayerIntoPlayers(useWeaponCard.getPlayerAttackedFirstEffect()), coordinates[0], translateInputIntoCubes(useWeaponCard.getPaymentFirstEffect()), fromPowerUpInterfaceToPowerUp(useWeaponCard.getPaymentFirstEffectPowerUp()), false);
+        if(useWeaponCard.getWeaponCard().getNumMaxEffect()<= 2) {
+            model.useWeaponCard(2, fromInterfaceToAbstractWeaponCard(useWeaponCard.getWeaponCard()), translateInterfacePlayerIntoPlayers(useWeaponCard.getPlayerAttackedSecondEffect()), coordinates[1],translateInputIntoCubes(useWeaponCard.getPaymentSecondEffect()), fromPowerUpInterfaceToPowerUp(useWeaponCard.getPaymentSecondEffectPowerUp()), true);
         }
-
-        //check payment
-
-        //invocare il metodo useWeaponCard!!
-
+        else{
+            if(useWeaponCard.getWeaponCard().getNumMaxEffect()== 2) {
+                model.useWeaponCard(2, fromInterfaceToAbstractWeaponCard(useWeaponCard.getWeaponCard()), translateInterfacePlayerIntoPlayers(useWeaponCard.getPlayerAttackedSecondEffect()), coordinates[1], translateInputIntoCubes(useWeaponCard.getPaymentSecondEffect()), fromPowerUpInterfaceToPowerUp(useWeaponCard.getPaymentSecondEffectPowerUp()), false);
+                model.useWeaponCard(3, fromInterfaceToAbstractWeaponCard(useWeaponCard.getWeaponCard()), translateInterfacePlayerIntoPlayers(useWeaponCard.getPlayerAttackedThirdEffect()), coordinates[2],translateInputIntoCubes(useWeaponCard.getPaymentThirdEffect()), fromPowerUpInterfaceToPowerUp(useWeaponCard.getPaymentThirdEffectPowerUp()), true);
+            }
+        }
     }
 
     @Override
@@ -248,6 +381,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 }
             }
 
+            //check poerupcard
             for(int i=0; i< reloadMove.getPowerUp().length; i++){
                 if(reloadMove.getPowerUp()[i]!= null){
                     for(int j=0; j< reloadMove.getPowerUp()[i].length; j++) {
@@ -259,7 +393,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                     }
                 }
             }
-            //invocazione alla reload
+
+
+
+            ArrayList<ColorCube> reload = new ArrayList<>();
+
+
+
 
     }
 
@@ -275,7 +415,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }
         model.run(runMove.getMovement());
-        return;
     }
 
     @Override
@@ -287,6 +426,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             return;
         }
         else if(grabMove.getCardSelection()== 'W'){
+                //model.grabWeaponCard(grabMove.getPositionWeaponCard(), grabMove.getPayment());
                 //check payment
                 //check index/player has that weapon card
                 //check if is spawnPoint
@@ -294,7 +434,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 //model.grabWeaponCard(model.getGameBoard().getGameArena().getWeaponCardsOnSquares(movement[0][0], movement[0][1]).get(runGrabMove.getPositionWeaponCard()),movement,runGrabMove.getPayment());
          }
          else if(grabMove.getCardSelection() == 'A'){
-               // model.grabAmmoCard(grabMove.getCardSelection());
+                model.grabAmmoCard();
             }
         }
 
@@ -313,7 +453,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void firstTurn() {
         model.chooseFirstPlayer();
-
     }
 
     @Override

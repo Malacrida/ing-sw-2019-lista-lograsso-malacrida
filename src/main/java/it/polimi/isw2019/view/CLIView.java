@@ -11,7 +11,7 @@ import it.polimi.isw2019.utilities.Observer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MainView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {
+public class CLIView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {
 
     private String nicknamePlayer;
     private String actionHero;
@@ -61,14 +61,14 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
     @Override
     public void update(MoveMessage message) {
-        if(message.getNicknamePlayer() == null) {
+      //  if(message.getNicknamePlayer() == null) {
             message.accept(this);
-            return;
-        }
-        else if(message.getNicknamePlayer().equals(nicknamePlayer)) {
-                message.accept(this);
-                return;
-            }
+         //   return;
+       // }
+       // else if(message.getNicknamePlayer().equals(nicknamePlayer)) {
+            //    message.accept(this);
+          //      return;
+         //   }
     }
 
     public void updateGameBoard(GameBoardInterface gameBoard) {
@@ -167,6 +167,42 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
     }
 
+    public int[][] insertCoordinates(int num){
+        int[][] tmpMovement = new int[num][];
+        int raw,column;
+        String tmpRaw, tmpColumn;
+        Scanner input = new Scanner(System.in);
+        boolean okInput = false;
+        boolean end = false;
+        int i = 0;
+        do {
+            do {
+                    System.out.println("Insert raw or -1 to terminate:");
+                    tmpRaw = input.nextLine();
+                    raw = Integer.parseInt(tmpRaw);
+                    System.out.println("Insert column  or -1 to terminate: ");
+                    tmpColumn = input.nextLine();
+                    column = Integer.parseInt(tmpColumn);
+
+                    if (raw >= 0 && raw <= 2 && column >= 0 && column <= 3){
+                        tmpMovement[i][0] = raw;
+                        tmpMovement[i][1] = column;
+                        okInput = true;
+                    }
+                    else if(raw == -1 || column == -1){
+                        tmpMovement[i][0] = 0;
+                        tmpMovement[i][1] = 0;
+                        okInput = true;
+                        end = true;
+                    }
+
+                } while (!okInput);
+
+        }while(i<num || !end);
+
+        return tmpMovement;
+    }
+
     public void setActionHero(String actionHero) {
         this.actionHero = actionHero;
     }
@@ -179,7 +215,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         String phrase;
         // nickname con eventualmente la connessione client server
         System.out.println("Insert nickname:");
-        nickname = input.next();
+        nickname = input.nextLine();
         System.out.println("Insert phrase:");
         phrase = input.nextLine();
 
@@ -193,6 +229,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         setActionHero(registrationPlayer.getActionHero());
         setNicknamePlayer(registrationPlayer.getNicknamePlayer());
 
+        System.out.println("ok registration, wait for other players to enter the game!");
         /*
         while (true) {
             //timestamp che ad ogni tot fa il printf
@@ -252,6 +289,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         } while (!inputOk);
 
+
         String[] payment = new String[choiceWeaponCard.getWeaponCards().get(cardChoosen).getNumCubes() - 2];
 
         for (int i = 1, j = 0; i < choiceWeaponCard.getWeaponCards().get(cardChoosen).getNumCubes(); i++, j++) {
@@ -288,7 +326,51 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         }
     }
 
-    public void handleInsert(ArrayList<PlayerInterface> playerToAttack, ArrayList<Integer> coordinates, ArrayList<String> payment, ArrayList<InterfacePowerUpCard> powerUpCardPayment, ArrayList<PlayerInterface> playersToAttack){
+    public void insertPayment(ArrayList<String> cubes, ArrayList<InterfacePowerUpCard> powerUpCardsPayment, int cardChoice){
+        Scanner input = new Scanner(System.in);
+
+        boolean endInsertment = false;
+        int numEffect = 1;
+        int tmopIndex = 0;
+        int count = 0;
+        String tmpInput;
+        String tmpX,tmpY;
+        endInsertment = false;
+
+        do {
+            System.out.println("Insert 1 if you want to insert a cube or 2 if you want to insert a powerUp if you have to pay for this effect" +
+                    "otherwise press 0");
+            tmpInput= input.next();
+
+            if(Integer.parseInt(tmpInput)== 0){
+                endInsertment = true;
+            }
+            else if(Integer.parseInt(tmpInput) == 1) {
+                System.out.println("Insert the color of the cube :");
+                cubes.add(tmpInput);
+            }
+            else if(Integer.parseInt(tmpInput)== 2) {
+                if (powerUpCards.isEmpty()) {
+                    System.out.println("you don't have a card you can pay with!");
+                } else {
+                    int tmp = -1;
+                    boolean end = false;
+                    do {
+                        System.out.println("Insert the index of the powerUp you want to use");
+                        tmpInput = input.next();
+                        if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)< powerUpCards.size() && Integer.parseInt(tmpInput)!= cardChoice){
+                            powerUpCardsPayment.add(powerUpCards.get(Integer.parseInt(tmpInput)));
+                            end = true;
+                        }
+                    } while (!end);
+                }
+            }
+
+        } while (!endInsertment);
+    }
+
+
+    public void handleInsertWeaponCard(ArrayList<PlayerInterface> playerToAttack, ArrayList<Integer> coordinates, ArrayList<String> payment, ArrayList<InterfacePowerUpCard> powerUpCardPayment, ArrayList<PlayerInterface> playersToAttack){
 
         Scanner input = new Scanner(System.in);
 
@@ -335,6 +417,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
         } while (!endInsertment);
 
         endInsertment = false;
+
         do {
             System.out.println("Insert 1 if you want to insert a cube or 2 if you want to insert a powerUp if you have to pay for this effect" +
                     "otherwise press 0");
@@ -348,7 +431,7 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                 payment.add(tmpInput);
             }
             else if(Integer.parseInt(tmpInput)== 2) {
-                if (powerUpCards.size() == 0) {
+                if (powerUpCards.isEmpty()) {
                     System.out.println("you don't have a card you can pay with!");
                 } else {
                     int tmp = -1;
@@ -367,13 +450,13 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         } while (!endInsertment);
     }
+
     @Override
     public void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
 
             boolean inputOk = false;
             int numEffect = 1;
             Scanner input = new Scanner(System.in);
-
             ArrayList<PlayerInterface> playerToAttackFirstEffect = new ArrayList<>();
             ArrayList<Integer> coordinatesFirstEffect = new ArrayList<>();
             ArrayList<String> paymentFirstEffect = new ArrayList<>();
@@ -396,6 +479,10 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
             do{
                 do {
+                    //riguardarlo, gli effetti possono essere inseriti in ordine sparso
+                    //ripenso!!
+                    //contatore!
+
 
                     System.out.println("Press Y if you want to use the effect number " + numEffect + "otherwise press N");
                     tmpInput = input.next();
@@ -404,22 +491,24 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
                         inputOk = true;
                     }
                     } while (!inputOk);
+
                     inputOk = false;
+
                     if (tmpInput.compareTo("N") > 0) {
                         numEffect++;
 
                     } else if (tmpInput.compareTo("Y") > 0) {
 
                         if(numEffect == 1) {
-                            handleInsert(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, paymentFirstEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            handleInsertWeaponCard(playerToAttackFirstEffect, coordinatesFirstEffect, paymentFirstEffect, paymentFirstEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
                             useWeaponCard.setFirstEffect(playerToAttackFirstEffect,coordinatesFirstEffect,paymentFirstEffect, paymentFirstEffectPowerUp);
                         }
                         else if(numEffect == 2) {
-                            handleInsert(playerToAttackSecondEffect, coordinatesSecondEffect, paymentSecondEffect, paymentSecondEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            handleInsertWeaponCard(playerToAttackSecondEffect, coordinatesSecondEffect, paymentSecondEffect, paymentSecondEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
                             useWeaponCard.setSecondEffect(playerToAttackSecondEffect,coordinatesSecondEffect,paymentSecondEffect,paymentSecondEffectPowerUp);
                         }
                         else if(numEffect == 3) {
-                            handleInsert(playerToAttackThirdEffect, coordinatesThirdEffect, paymentThirdEffect, paymentThirdEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
+                            handleInsertWeaponCard(playerToAttackThirdEffect, coordinatesThirdEffect, paymentThirdEffect, paymentThirdEffectPowerUp,useWeaponCardMessage.getPlayersToAttack());
                             useWeaponCard.setThirdEffect(playerToAttackThirdEffect,coordinatesThirdEffect,paymentThirdEffect, paymentThirdEffectPowerUp);
                         }
                     }
@@ -463,8 +552,54 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
     @Override
     public void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
+        displayErrorMessage(usePowerUpCardMessage.getError());
 
-    }
+        Scanner input = new Scanner(System.in);
+
+        String tmpCardChoosen;
+        int cardChoosen;
+
+        boolean inputOk = false;
+
+        ArrayList<String> cubes = new ArrayList<>();
+        ArrayList<InterfacePowerUpCard> powerUpCards = new ArrayList<>();
+
+        do{
+        System.out.println("choose one of the following PowerUp Card : ");
+
+        for (InterfacePowerUpCard powerUpCard : usePowerUpCardMessage.getPowerUpCard())
+            printPowerUpCard(powerUpCard);
+
+        tmpCardChoosen = input.nextLine();
+
+        cardChoosen = Integer.parseInt(tmpCardChoosen);
+
+        if (cardChoosen >= 0 && cardChoosen < usePowerUpCardMessage.getPowerUpCard().size())
+            inputOk = true;
+
+        } while (!inputOk);
+
+        System.out.println("the effect of the card is:");
+        System.out.println(usePowerUpCardMessage.getPowerUpCard().get(cardChoosen).infoEffect());
+        insertPayment(cubes,powerUpCards,cardChoosen);
+        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer,usePowerUpCardMessage.getPowerUpCard().get(cardChoosen));
+        usePowerUpCard.setCubes(cubes);
+        usePowerUpCard.setPowerUpCardInterfaces(powerUpCards);
+
+        switch (usePowerUpCardMessage.getPowerUpCard().get(cardChoosen).getName()) {
+            case "Newton":
+                usePowerUpCard.setCoordinates(insertCoordinates(2));
+                break;
+            case "Teleporter":
+                usePowerUpCard.setCoordinates(insertCoordinates(1));
+                break;
+            //attack e defend!
+        }
+
+        notifyObservers(usePowerUpCard);
+
+
+}
 
     @Override
     public void waitForStart(EndRegistration endRegistration) {
@@ -524,32 +659,9 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
     @Override
     public void visitRun(RunMessage runMessage) {
-        int[][] tmpMovement = new int[runMessage.getNumMovement()][2];
+        int[][] tmpMovement;
         Scanner input = new Scanner(System.in);
-        //display gameboard
-        String tmpRaw, tmpColumn;
-        int raw = 0, column = 0;
-
-        boolean okInput = false;
-        for (int i = 0; i < runMessage.getNumMovement(); i++) {
-
-            do {
-
-                System.out.println("Insert raw :");
-                tmpRaw = input.nextLine();
-                raw = Integer.parseInt(tmpRaw);
-                System.out.println("Insert column : ");
-                tmpColumn = input.nextLine();
-                column = Integer.parseInt(tmpColumn);
-
-                if (raw >= 0 && raw <= 2 && column >= 0 && column <= 3)
-                    okInput = true;
-
-            } while (!okInput);
-
-            tmpMovement[i][0] = raw;
-            tmpMovement[i][1] = column;
-        }
+        tmpMovement = insertCoordinates(runMessage.getNumMovement());
         notifyObservers(new RunMove(nicknamePlayer, tmpMovement));
     }
 
@@ -602,6 +714,11 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
         for (int i = 0; i < reloadMessage.getWeaponCardInterfaces().size(); i++) {
             do {
+
+                //p per le powerUpCards, c per i cubi, N per uscire
+                //powerUpCard id-colore
+                //cubi colore
+
                 System.out.println("Insert Y if you want to reload the following weapon card, otherwise insert N");
                 printWeaponCard(reloadMessage.getWeaponCardInterfaces().get(i));
 
@@ -627,5 +744,8 @@ public class MainView extends Observable<PlayerMove> implements Observer<MoveMes
 
     }
 
-
+    @Override
+    public void failRegistration(FailRegistration failRegistration) {
+        System.out.println("too many people : OUT");
+    }
 }

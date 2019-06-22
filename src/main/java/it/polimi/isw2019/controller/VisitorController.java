@@ -19,7 +19,7 @@ public interface VisitorController {
 
     void visitControllerRegisterPlayer(FirstMessage firstMessage);
 
-    void visitColorChoosen(ColorChoosen colorChoosen);
+    void visitColorChoose(ColorChoosen colorChoosen);
 
     void visitReload(ReloadMove reloadMove);
 

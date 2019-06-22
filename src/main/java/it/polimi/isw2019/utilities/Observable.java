@@ -22,12 +22,6 @@ public abstract class Observable<T> {
         this.observers.remove(o);
     }
 
-    /*public void notifyObservers(){
-        for(Observer o: this.observers){
-            o.update();
-        }
-    }*/
-
     public void notifyObservers(T message){
         for(Observer o: this.observers){
             o.update(message);
