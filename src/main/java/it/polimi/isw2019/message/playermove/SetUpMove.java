@@ -8,7 +8,7 @@ public class SetUpMove extends PlayerMove{
     private char gameMood;
     private CLIView viewPlayer;
 
-    public CLIView getViewPlayer() {
+    public CLIView getViewPlayer(){
         return viewPlayer;
     }
 

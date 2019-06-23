@@ -8,11 +8,10 @@ import java.util.ArrayList;
 public class ChoicePowerUpCard extends MoveMessage{
 
     private ArrayList<InterfacePowerUpCard> powerUpCards;
-    //phrase : respawn, firstTurn, scelta
-    private String phrase;
 
-    public ChoicePowerUpCard(String nicknamePlayer, String error, ArrayList<InterfacePowerUpCard> powerUpCard) {
-        super(nicknamePlayer, error);
+    public ChoicePowerUpCard(String nicknamePlayer) {
+        super(nicknamePlayer);
+        this.powerUpCards = new ArrayList<>();
     }
 
     @Override
@@ -22,5 +21,9 @@ public class ChoicePowerUpCard extends MoveMessage{
 
     public ArrayList<InterfacePowerUpCard> getPowerUpCards(){
         return powerUpCards;
+    }
+
+    public void addPowerUpCard(InterfacePowerUpCard powerUpCard){
+        powerUpCards.add(powerUpCard);
     }
 }

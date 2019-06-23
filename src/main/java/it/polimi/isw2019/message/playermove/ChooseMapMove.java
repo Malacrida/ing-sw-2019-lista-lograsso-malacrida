@@ -5,10 +5,9 @@ import it.polimi.isw2019.controller.VisitorController;
 public class ChooseMapMove extends PlayerMove{
 
     private int indexMap;
-    private String color;
+    private int color;
 
-
-    public ChooseMapMove(String player, int index, String color) {
+    public ChooseMapMove(String player, int index, int color) {
         super(player);
         this.indexMap = index;
         this.color = color;
@@ -18,7 +17,7 @@ public class ChooseMapMove extends PlayerMove{
         return indexMap;
     }
 
-    public String getIndexColor() {
+    public int getIndexColor() {
         return color;
     }
 

@@ -3,7 +3,6 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
 
 import java.util.ArrayList;
 
