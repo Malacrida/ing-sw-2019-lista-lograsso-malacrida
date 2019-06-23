@@ -42,7 +42,6 @@ public class Client {
             chooseOk = true;
         }*/
 
-        chooseOk = false;
         while(!chooseOk){
 
             System.out.println("\nInsert 0 to use SOCKET, 1 to use RMI");
