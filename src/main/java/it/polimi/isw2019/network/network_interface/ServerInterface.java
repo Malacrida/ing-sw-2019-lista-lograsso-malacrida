@@ -1,6 +1,6 @@
 package it.polimi.isw2019.network.network_interface;
 
-import sun.plugin2.message.HeartbeatMessage;
+//import sun.plugin2.message.HeartbeatMessage;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -14,7 +14,7 @@ public interface ServerInterface<T> extends Remote {
 
     public void write(Object object) throws IOException;
 
-    public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException;
+    //public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException;
 
     public Boolean reconnectClient(T client, String nickname) throws RemoteException;
 

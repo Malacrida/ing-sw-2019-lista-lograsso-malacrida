@@ -34,5 +34,6 @@ public interface VisitorController {
     //method invoked by server when the game is started
     void firstTurn();
 
+    void chooseMap(ChooseMapMove chooseMapMove);
     void respawnPlayer();
 }

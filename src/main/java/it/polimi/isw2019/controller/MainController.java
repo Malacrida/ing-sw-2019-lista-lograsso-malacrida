@@ -2,6 +2,7 @@ package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -55,7 +56,23 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         return false;
     }
 
+    public ColorPlayer returnColorPlayerFromString(String color){
 
+        switch (color){
+            case "blue" :
+                return ColorPlayer.BLUE;
+            case "red" :
+                return  ColorPlayer.VIOLET;
+            case "violet":
+                return ColorPlayer.YELLOW;
+            case"grey":
+                return ColorPlayer.GREY;
+            case"green":
+                return ColorPlayer.GREEN;
+
+        }
+    return null;
+    }
     public ArrayList<ColorCube> translateInputIntoCubes(ArrayList<String> payment){
         ArrayList<ColorCube> tmpColorCube = new ArrayList<>();
         for(String singlePayment : payment){
@@ -225,13 +242,30 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     @Override
+    public void chooseMap(ChooseMapMove chooseMapMove) {
+        //modify the index of map!
+
+        if(chooseMapMove.getIndex() >= 0 && chooseMapMove.getIndex() <= 4){
+            //error
+        }
+
+        //colore e' presente!!! fare il check
+
+        else{
+            model.associateMapToGameboard(chooseMapMove.getIndex());
+
+            try {
+                model.setPlayerWithPlayerBoard(model.getCurrentPlayer(),returnColorPlayerFromString(chooseMapMove.getIndexColor()));
+            } catch (ColorNotAvailableException e) {
+                //normally impossible!
+            }
+        }
+    }
+
+    @Override
     public void visitColorChoose(ColorChoosen colorChoosen){
 
-        for(String color : model.getColorAvailable()){
-            if(colorChoosen.getColorChoosen().equals(color))
-                model.assignPlayerBoardToPlayer(model.getCurrentPlayer(), colorChoosen.getColorChoosen());
-            return;
-        }
+        // model.assignPlayerBoardToPlayer(model.getCurrentPlayer(), colorChoosen.getColorChoosen());
 
         //model.sendErrorMessage(model.getCurrentPlayer(),"the color is not available" + colorChoosen.getColorChoosen());
 
@@ -459,4 +493,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void respawnPlayer() {
 
     }
+
+
 }

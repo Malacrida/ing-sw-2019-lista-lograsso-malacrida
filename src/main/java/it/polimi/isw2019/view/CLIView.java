@@ -75,6 +75,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         this.gameBoard = gameBoard;
     }
 
+
     public void updatePlayers(ArrayList<PlayerInterface> players) {
         this.players = players;
     }
@@ -235,6 +236,51 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             //timestamp che ad ogni tot fa il printf
             System.out.println("Your registered!");
         }*/
+
+    }
+
+    @Override
+    public void firstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
+        System.out.println("Choose one of the following Arena :");
+        System.out.println(firstMessageFirstPlayer.getPossibleMaps());
+
+        boolean inputOk = false;
+        int i = 0;
+
+        int indexMap=0, indexColor=0;
+        do {
+
+
+            Scanner input = new Scanner(System.in);
+
+            String tmpInput = input.next();
+
+            if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)<= firstMessageFirstPlayer.getPossibleMaps().length){
+                indexMap = Integer.parseInt(tmpInput);
+                inputOk = true;
+            }
+        } while(!inputOk);
+
+        inputOk = false;
+        System.out.println("Choose one of the following color :");
+        do {
+            Scanner input = new Scanner(System.in);
+
+            String tmpInput = input.next();
+
+            if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)<= firstMessageFirstPlayer.getColorAvailable().size()){
+                indexColor = Integer.parseInt(tmpInput);
+                inputOk = true;
+            }
+        } while(!inputOk);
+
+        notifyObservers( new ChooseMapMove(nicknamePlayer,indexMap, firstMessageFirstPlayer.getColorAvailable().get(indexColor)));
+
+
+    }
+
+    @Override
+    public void colorChoice() {
 
     }
 
@@ -552,6 +598,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
+
         displayErrorMessage(usePowerUpCardMessage.getError());
 
         Scanner input = new Scanner(System.in);
@@ -603,7 +650,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void waitForStart(EndRegistration endRegistration) {
-        //chooseColor
         System.out.println("waiting for other player to enter the game!");
     }
 

@@ -21,28 +21,25 @@ public class GameBoard implements GameBoardInterface{
     private AbstractWeaponCard[] weaponCardsBlue= new AbstractWeaponCard[3];
     private AbstractWeaponCard[] weaponCardsYellow= new AbstractWeaponCard[3];
 
-    private ArrayList<AbstractWeaponCard> weaponCardsDischarged;
+    private ArrayList<AbstractWeaponCard> weaponCardsDischarged = new ArrayList<>();
 
-    private ArrayList<PowerUpCard> powerUpCards;
-    private ArrayList<PowerUpCard> usedPowerUpCards;
+    private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
+    private ArrayList<PowerUpCard> usedPowerUpCards = new ArrayList<>();
 
     private ArrayList<AmmoTile> ammoTiles;
-    private ArrayList<AmmoTile> grabedAmmoTiles;
+    private ArrayList<AmmoTile> grabedAmmoTiles = new ArrayList<>();
 
     private Arena gameArena=null;
     private static GameBoard instance;
-    private KillShotTrack killShotTrack;
+    private KillShotTrack killShotTrack ;
 
-    private Database db;
+   // private Database db;
 
     public GameBoard (){
         //shuffle
-        db = new Database();
-        ammoTiles = db.loadAmmoTiles();
-        powerUpCards = db.loadPowerUpCards();
-        usedPowerUpCards = new ArrayList<>();
-        grabedAmmoTiles = new ArrayList<>();
-
+        //db = new Database();
+        //ammoTiles = db.loadAmmoTiles();
+        //powerUpCards = db.loadPowerUpCards();
 
 
     }

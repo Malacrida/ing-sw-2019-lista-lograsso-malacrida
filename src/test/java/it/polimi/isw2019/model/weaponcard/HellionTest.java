@@ -23,6 +23,7 @@ public class HellionTest {
 
     @Before
     public void setUp() throws Exception {
+
         attacker = new Player("Alba", "Speriamo che sto test vada", 1);
         firstDefender = new Player("Lion", "Tanto attaccano sempre me", 2);
         secondDefender = new Player("Giovanni", "Tanto attaccano sempre Alba", 3);

@@ -42,17 +42,16 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
     public AmmoTile(int id, String firstElement, String secondElement, String thirdElement){
 
         this.id = id;
-        this.firstElement = firstElement;
-        firstColor = setColor(firstElement);
+        //thirdColor = setColor(thirdElement);
         this.secondElement = secondElement;
-        secondColor = setColor(secondElement);
-        this.thirdElement = thirdElement;
-        if(thirdElement.equals("powerup"))
+        //secondColor = setColor(secondElement);
+        this.firstElement = firstElement;
+       /* if(firstElement.equals("powerup"))
             this.powerUpCard = true;
         else{
             this.powerUpCard = false;
-            thirdColor = setColor(thirdElement);
-        }
+            firstColor = setColor(firstElement);
+        }*/
 
     }
 
@@ -67,6 +66,7 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
 
             case "BLUE":
                 return ColorCube.BLUE;
+
             default:
                 //lancio eccezione
                 return null;

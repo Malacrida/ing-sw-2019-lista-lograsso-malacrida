@@ -2,6 +2,7 @@ package it.polimi.isw2019.model;
 
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.ChooseMapMove;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
@@ -11,6 +12,8 @@ import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Model extends Observable implements ModelInterface {
@@ -28,17 +31,35 @@ public class Model extends Observable implements ModelInterface {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
+
     private ArrayList<String> colorAvailable;
+
 
 
     //vengono attivati con l'update
     public Model(){
         players = new ArrayList<>();
+
         //gameBoard = new GameBoard();
         //killShotTrack = new KillShotTrack(5);
     }
+
     public void gameSetting (){
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
+
+    }
+
+
+    public void associateMapToGameboard(int indexMap){
+
+        try {
+            getGameBoard().chooseArena(indexMap);
+
+        } catch (InstanceArenaException e) {
+
+        } catch (OutOfBoundsException e) {
+
+        }
 
     }
 
@@ -50,6 +71,14 @@ public class Model extends Observable implements ModelInterface {
         return players;
     }
 
+    public void firstMessage(){
+        FirstMessageFirstPlayer firstMessageFirstPlayer = new FirstMessageFirstPlayer(currentPlayer.getName());
+        colorAvailable();
+        firstMessageFirstPlayer.setColorAvailable(colorAvailable);
+        String[] arena = {"map1", "map2", "map3", "map4"};
+        firstMessageFirstPlayer.setArenaInterfaces(arena);
+        notifyObservers(firstMessageFirstPlayer);
+    }
 
     public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
@@ -259,7 +288,7 @@ public class Model extends Observable implements ModelInterface {
     }
 
 
-    public ArrayList<String> colorAvailable(){
+    public void colorAvailable(){
         ArrayList <String> colorAvailable = new ArrayList<>();
 
         for(PlayerBoard playerBoardAvailable : playerBoardsAvailable){
@@ -268,7 +297,6 @@ public class Model extends Observable implements ModelInterface {
 
         this.colorAvailable = colorAvailable;
 
-        return colorAvailable;
     }
 
     public void assignPlayerBoardToPlayer(Player player, String color){
