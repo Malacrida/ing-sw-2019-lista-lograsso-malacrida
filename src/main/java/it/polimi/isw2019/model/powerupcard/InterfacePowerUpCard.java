@@ -4,13 +4,19 @@ import it.polimi.isw2019.model.ColorRoom;
 
 public interface InterfacePowerUpCard {
 
-    public String[][] getPowerUpCardRepresentation();
+    String[][] getPowerUpCardRepresentation();
 
-    public InterfacePowerUpCard getPowerUpCard();
+    InterfacePowerUpCard getPowerUpCard();
 
-    public int getNumberColorPayment();
+    String infoEffect();
 
-    public int getIdPowerUpCard();
+    String getName();
+
+    int getNumberColorPayment();
+
+    int getIdPowerUpCard();
 
     ColorRoom getPowerUpColor();
+
+
 }

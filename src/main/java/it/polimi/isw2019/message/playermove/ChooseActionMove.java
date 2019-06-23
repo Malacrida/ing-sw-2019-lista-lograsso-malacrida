@@ -17,6 +17,6 @@ public class ChooseActionMove extends PlayerMove{
 
     @Override
     public void accept(VisitorController visitorController) {
-        visitorController.visitControllerActionChoosen(this);
+        visitorController.visitControllerActionChoose(this);
     }
 }

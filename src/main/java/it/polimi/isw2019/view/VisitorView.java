@@ -1,6 +1,7 @@
 package it.polimi.isw2019.view;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.FirstMessage;
 
 
 public interface VisitorView{
@@ -30,4 +31,10 @@ public interface VisitorView{
     void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
     void visitStartTurn(StartTurn startTurn);
+
+    void firstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
+
+    void colorChoice();
+
+    void failRegistration(FailRegistration failRegistration);
 }

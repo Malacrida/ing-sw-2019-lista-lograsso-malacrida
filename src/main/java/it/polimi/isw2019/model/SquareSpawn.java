@@ -59,4 +59,5 @@ public class SquareSpawn extends Square {
         }
 
     }
+
 }

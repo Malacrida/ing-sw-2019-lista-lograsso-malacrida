@@ -1,7 +1,11 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.NoCubesException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
+import it.polimi.isw2019.model.exception.TooManyCubes;
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 
 import java.util.ArrayList;
 
@@ -12,6 +16,7 @@ public class PlayerBoard implements PlayerBoardInterface{
     private int playerBoardID; // no caratterizzazione con il colore
     private boolean usePlayerBoard;
     private boolean frenzy;
+
     protected ArrayList<ColorPlayer> damageTokens= new ArrayList<>();
    // protected ColorPlayer [] damageTokens= new ColorPlayer[12];
     //private int numOfDamages =0;
@@ -34,6 +39,14 @@ public class PlayerBoard implements PlayerBoardInterface{
 
     public int numOfDamages (){
         return damageTokens.size();
+    }
+
+    public boolean isFrenzy() {
+        return frenzy;
+    }
+
+    public void setFrenzy(boolean frenzy) {
+        this.frenzy = frenzy;
     }
 
     public PlayerBoard(ColorPlayer color){
@@ -62,11 +75,50 @@ public class PlayerBoard implements PlayerBoardInterface{
         return yellowCubes.size();
     }
 
+   /* public void addCube(ColorCube colorCube) throws OutOfBoundsException{
+        if(colorCube.equals(ColorCube.BLUE))
+            this.addBlueCubes();
+        else if(colorCube.equals(ColorCube.RED))
+            this.addRedCubes();
+        else if(colorCube.equals(ColorCube.YELLOW))
+            this.addYellowCubes();
+    }*/
+
+/*    public void removeCube(ArrayList<ColorCube> colorCube) throws NoCubesException {
+
+        for(ColorCube cube : colorCube) {
+            if((colorCube.equals(ColorCube.BLUE))) {
+                try {
+                    this.removeBlueCubes(1);
+                } catch (OutOfBoundsException e) {
+                    throw  new NoCubesException("Blue cubes ended");
+                }
+            }
+
+            else if (colorCube.equals(ColorCube.RED)) {
+                try {
+                    this.removeRedCubes(1);
+                } catch (OutOfBoundsException e) {
+                    throw new NoCubesException("Red cubes ended");
+                }
+            }
+
+            else if (colorCube.equals(ColorCube.YELLOW)) {
+                try {
+                    this.removeYellowCubes(1);
+                } catch (OutOfBoundsException e) {
+                    throw new NoCubesException("Yellow cubes ended");
+                }
+            }
+        }
+    }*/
+
+
     public void addRedCubes () throws OutOfBoundsException {
         if (redCubes.size()<3){
             redCubes.add(ColorCube.RED);
         }
-        else throw new OutOfBoundsException("Non puoi aggiungere più cubi rossi");
+        else throw new OutOfBoundsException("Cannot add red cubes");
     }
 
     public void addYellowCubes () throws OutOfBoundsException {
@@ -74,14 +126,14 @@ public class PlayerBoard implements PlayerBoardInterface{
             yellowCubes.add(ColorCube.RED);
 
         }
-        else throw new OutOfBoundsException("Non puoi aggiungere più cubi gialli");
+        else throw new OutOfBoundsException("Cannot add yellow cubes");
     }
 
     public void addBlueCubes () throws OutOfBoundsException {
         if (blueCubes.size()<3){
                 blueCubes.add(ColorCube.RED);
         }
-        else throw new OutOfBoundsException("Non puoi aggiungere più cubi blu");
+        else throw new OutOfBoundsException("Cannot add blue cubes");
     }
 
     /**
@@ -124,6 +176,63 @@ public class PlayerBoard implements PlayerBoardInterface{
             }
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi blu!");
+    }
+
+    /**
+     * @param colorCube
+     */
+    public void removeCube(ColorCube colorCube) throws NoCubesException {
+
+        if((colorCube.equals(ColorCube.BLUE))) {
+            try {
+                this.removeBlueCubes(1);
+            } catch (OutOfBoundsException e) {
+                throw  new NoCubesException("Blue cubes ended");
+            }
+        }
+
+        else if (colorCube.equals(ColorCube.RED)) {
+            try {
+                this.removeRedCubes(1);
+            } catch (OutOfBoundsException e) {
+                throw new NoCubesException("Red cubes ended");
+            }
+        }
+
+        else if (colorCube.equals(ColorCube.YELLOW)) {
+            try {
+                this.removeYellowCubes(1);
+            } catch (OutOfBoundsException e) {
+                throw new NoCubesException("Yellow cubes ended");
+            }
+        }
+    }
+
+    public void addCube(ColorCube colorCube) throws TooManyCubes {
+
+        if((colorCube.equals(ColorCube.BLUE))) {
+            try {
+                this.addBlueCubes();
+            } catch (OutOfBoundsException e) {
+                throw  new TooManyCubes("Blue cubes full");
+            }
+        }
+
+        else if (colorCube.equals(ColorCube.RED)) {
+            try {
+                this.addRedCubes();
+            } catch (OutOfBoundsException e) {
+                throw  new TooManyCubes("Red cubes full");
+            }
+        }
+
+        else if (colorCube.equals(ColorCube.YELLOW)) {
+            try {
+                this.addYellowCubes();
+            } catch (OutOfBoundsException e) {
+                throw  new TooManyCubes("Yellow cubes full");
+            }
+        }
     }
 
 
@@ -240,6 +349,8 @@ public class PlayerBoard implements PlayerBoardInterface{
         }
 
     }
+
+
     public String[] getSkullsRepresentation() {
         return skullsRepresentation;
     }

@@ -1,5 +1,6 @@
 package it.polimi.isw2019.model.ammotile;
 
+import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.StateCard;
 
 public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
@@ -11,6 +12,14 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
     private String secondElement;
 
     private String thirdElement;
+
+    private ColorCube firstColor;
+
+    private ColorCube secondColor;
+
+    private ColorCube thirdColor;
+
+    private boolean powerUpCard;
 
     private StateCard checkState = StateCard.DECK;
 
@@ -33,12 +42,36 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
     public AmmoTile(int id, String firstElement, String secondElement, String thirdElement){
 
         this.id = id;
-        this.firstElement = firstElement;
+        //thirdColor = setColor(thirdElement);
         this.secondElement = secondElement;
-        this.thirdElement = thirdElement;
+        //secondColor = setColor(secondElement);
+        this.firstElement = firstElement;
+       /* if(firstElement.equals("powerup"))
+            this.powerUpCard = true;
+        else{
+            this.powerUpCard = false;
+            firstColor = setColor(firstElement);
+        }*/
 
     }
 
+    public ColorCube setColor(String color){
+        switch (color) {
+
+            case "YELLOW":
+                return ColorCube.YELLOW;
+
+            case "RED":
+                return ColorCube.RED;
+
+            case "BLUE":
+                return ColorCube.BLUE;
+
+            default:
+                //lancio eccezione
+                return null;
+        }
+    }
 
     /* Methods */
     public int getId() {
@@ -55,6 +88,22 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
 
     public String getThirdElement() {
         return thirdElement;
+    }
+
+    public ColorCube getFirstColor() {
+        return firstColor;
+    }
+
+    public ColorCube getSecondColor() {
+        return secondColor;
+    }
+
+    public ColorCube getThirdColor() {
+        return thirdColor;
+    }
+
+    public boolean isPowerUpCard(){
+        return this.powerUpCard;
     }
 
     public StateCard getCheckState(){

@@ -1,15 +1,15 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.view.MainView;
+import it.polimi.isw2019.view.CLIView;
 
 public class FirstMessage extends PlayerMove{
     private String actionHero;
-    private MainView mainView;
+    private CLIView CLIView;
 
-    public FirstMessage(MainView mainView,String nickname, String actionHero){
+    public FirstMessage(CLIView CLIView, String nickname, String actionHero){
         super(nickname);
-        this.mainView = mainView;
+        this.CLIView = CLIView;
         this.actionHero = actionHero;
     }
 
@@ -22,7 +22,7 @@ public class FirstMessage extends PlayerMove{
         return actionHero;
     }
 
-    public MainView getMainView() {
-        return mainView;
+    public CLIView getCLIView() {
+        return CLIView;
     }
 }

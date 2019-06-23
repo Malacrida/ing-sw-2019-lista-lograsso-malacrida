@@ -105,7 +105,7 @@ public class MachineGun extends AbstractWeaponCard {
         /*PAGO UN BLU*/
 
         if (defenders.get(1) != null){
-            if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){
+            if (!oneDamageIfFirstIsValid(attacker, defenders.get(1), firstIsValid)){
                 throw new ErrorEffectException();
             }
             if(defenders.get(2) != null){

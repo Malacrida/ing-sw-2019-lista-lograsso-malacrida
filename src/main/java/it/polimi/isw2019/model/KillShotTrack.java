@@ -7,6 +7,7 @@ public class KillShotTrack {
     private ColorPlayer[][] damageToken;
     private int lengthDamageToken;
 
+    //introdurre exception del frenzy!!
 
     KillShotTrack (int mod){
         if (mod==1) numSkull=5;
@@ -52,6 +53,7 @@ public class KillShotTrack {
         }
         return cont;
     }
+
 
 
 

@@ -2,6 +2,10 @@ package it.polimi.isw2019.model.powerupcard;
 
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.InvalidInsert;
+import it.polimi.isw2019.model.exception.OutOfBoundsException;
+
+import java.util.ArrayList;
 
 public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
@@ -11,30 +15,35 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
     private String name;
 
-    private String color;
-
     private String infoEffect;
 
     private ColorCube colorCard;
+
+    private String color;
 
     private StateCard checkState = StateCard.DECK;
 
     private String[][] powerUpDescription;
 
+    private boolean canBeUsed;
+
+
     /* Costruttore */
-    public PowerUpCard (int id, String name, String color, String infoEffect, ColorCube colorCard){
+    public PowerUpCard (int id, String name, String color, String infoEffect/*, ColorCube colorCard*/){
 
         this.id = id;
         this.name = name;
+        if(name.equals("Newton") || name.equals("Teleporter")){
+            canBeUsed = true;
+        }
+        else{
+            canBeUsed = false;
+        }
         this.color = color;
+        setColor(color);
         this.infoEffect = infoEffect;
-        this.colorCard = colorCard;
 
     }
-
-    public PowerUpCard(int id, String name, String color, String infoEffect) {
-    }
-
     /* Methods */
 
     /* GET*/
@@ -46,12 +55,13 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
         return name;
     }
 
-    public String getColor() {
-        return color;
-    }
-
     public ColorCube getColorCard(){
         return colorCard;
+    }
+
+    @Override
+    public String getColor() {
+        return color;
     }
 
     public String getInfoEffect(){
@@ -121,6 +131,10 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
         }
     }
 
+    public boolean isCanBeUsed() {
+        return canBeUsed;
+    }
+
     public void setPowerUpDescription(){
         powerUpDescription = new String[5][];
 
@@ -162,5 +176,10 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
     @Override
     public ColorRoom getPowerUpColor() {
         return null;
+    }
+
+    @Override
+    public String infoEffect() {
+        return infoEffect;
     }
 }
