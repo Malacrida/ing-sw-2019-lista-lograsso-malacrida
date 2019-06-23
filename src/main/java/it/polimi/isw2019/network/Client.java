@@ -33,14 +33,14 @@ public class Client {
 
         chooseOk = false;
 
-        while(!chooseOk){
+        /*while(!chooseOk){
             System.out.println("\nInsert 0 to use Console, 1 to use GUI");
             typeView = input.nextLine();
 
             if (typeView.equals("0") || typeView.equals("1"))
 
             chooseOk = true;
-        }
+        }*/
 
         chooseOk = false;
         while(!chooseOk){
@@ -60,14 +60,32 @@ public class Client {
             System.out.println("Starting SOCKET");
 
             try {
-                serverInterface = new ServerImplementationSocket();
                 Socket socket = new Socket("localhost", 1111);
+                System.out.println("new Socket");
+                serverInterface = new ServerImplementationSocket(socket);
+
+                System.out.println("New serverImplementationSocket");
                 serverInterface.registerNewClient(socket, nickname);
+
+                System.out.println("Sto mandando un messaggio\n");
+                String messageOutput = "Messaggio di prova";
+                serverInterface.write(messageOutput);
+
+                System.out.println("\nSono in attesa di un messaggio: \n");
+                String messageInput = (String) serverInterface.read();
+                System.out.println(messageInput);
+
+                boolean isRunning = true;
+
+
+
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

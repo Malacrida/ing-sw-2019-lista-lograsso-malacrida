@@ -18,4 +18,5 @@ public interface ClientInterface extends Remote {
     //per attivare il giocatore nel suo turno
     void startRound () throws RemoteException;
 
+
 }

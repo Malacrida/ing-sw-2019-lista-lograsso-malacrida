@@ -1,6 +1,7 @@
 package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.message.playermove.PlayerMove;
+import it.polimi.isw2019.network.network_interface.ClientInterface;
 
 import java.rmi.RemoteException;
 

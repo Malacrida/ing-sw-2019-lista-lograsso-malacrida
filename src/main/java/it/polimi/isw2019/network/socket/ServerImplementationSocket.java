@@ -11,20 +11,43 @@ import java.rmi.RemoteException;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
 
+    private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private String message;
 
 
-    @Override
-    public Boolean registerNewClient(Socket client, String nickname) throws RemoteException {
-        try {
-            this.output = new ObjectOutputStream(client.getOutputStream());
-            System.out.println("Si è registrato " + nickname);
-        }catch (IOException e){
-            e.getCause();
+    public ServerImplementationSocket(Socket socket) throws IOException {
+        this.socket = socket;
+        System.out.println("this.socket");
+
+            output = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("output");
+            input = new ObjectInputStream(socket.getInputStream());
+            System.out.println("input");
+
+
         }
+
+
+    @Override
+    public Boolean registerNewClient(Socket client, String nickname) throws IOException {
+        System.out.println("Si è registrato " + nickname);
+        write(nickname);
         return true;
+    }
+
+    @Override
+    public void write(Object object) throws IOException {
+        this.output.writeObject(object);
+        output.flush();
+        output.reset();
+    }
+
+    @Override
+    public Object read() throws IOException, ClassNotFoundException {
+        return this.input.readObject();
+
     }
 
     @Override
@@ -36,4 +59,6 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public Boolean reconnectClient(Socket client, String nickname) throws RemoteException {
         return true;
     }
+
+
 }
