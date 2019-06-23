@@ -1,8 +1,6 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.view.VisitorView;
 

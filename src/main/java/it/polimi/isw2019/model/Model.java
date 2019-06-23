@@ -2,7 +2,6 @@ package it.polimi.isw2019.model;
 
 
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.ChooseMapMove;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
@@ -12,18 +11,17 @@ import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 
 public class Model extends Observable implements ModelInterface {
 
     private Player currentPlayer;
-    private Player tmpPlayer;
     private int turn;
     private GameBoard gameBoard;
     private KillShotTrack killShotTrack;
     private Database db;
+    private int shift;
 
     //assume that the player are in order!!
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
@@ -34,7 +32,37 @@ public class Model extends Observable implements ModelInterface {
 
     private ArrayList<String> colorAvailable;
 
+    public ArrayList<String> getColorAvailable() {
+        return colorAvailable;
+    }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public GameBoard getGameBoard(){
+        return this.gameBoard;
+    }
+
+    @Override
+    public ArrayList<PlayerInterface> getPlayersInterface() {
+        ArrayList <PlayerInterface> playerInterface = new ArrayList<>();
+        for(Player player: players)
+            playerInterface.add(player.getPlayerInterface());
+        return playerInterface;
+
+    }
+
+    public Player getCurrentPlayer(){
+        return this.currentPlayer;
+    }
+    /**
+     *
+     * @param mod type of game mod
+     */
+    public void setKillShotTrack (int mod){
+        killShotTrack = new KillShotTrack(mod);
+    }
 
     //vengono attivati con l'update
     public Model(){
@@ -46,9 +74,59 @@ public class Model extends Observable implements ModelInterface {
 
     public void gameSetting (){
         playerBoardsAvailable= SetUpGame.setPlayerBoard();
+    }
+
+    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException{
+
+        //tmpPlayer.setNicknameAndActionHeroComment(nickName,actionHeroComment);
+
+        if(players.size()<5) {
+            players.add(new Player(nickName, actionHeroComment));
+            notifyObservers(new EndRegistration(nickName));
+        }
+        else{
+            notifyObservers(new FailRegistration(nickName));
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    //used for the tests
+    public void addPlayer(Player player){
+        players.add(player);
+    }
+
+    public void chooseFirstPlayer(){
+
+        Random rand = new Random();
+
+        shift = rand.nextInt(players.size());
+
+        players.get(shift).setFirstPlayer(true);
+
+        for(int i = shift , j = 0; i < players.size() ; i++, j++){
+            players.get(i).setIndexPlayer(j);
+        }
+
+        for(int i = 0, j = players.size() - shift ; i < shift ; i++ , j ++){
+            players.get(i).setIndexPlayer(j);
+        }
+
+        currentPlayer = players.get(shift);
 
     }
 
+    public void firstMessage(){
+
+        FirstMessageFirstPlayer firstMessageFirstPlayer = new FirstMessageFirstPlayer(currentPlayer.getName());
+        colorAvailable();
+        firstMessageFirstPlayer.setColorAvailable(colorAvailable);
+        if(currentPlayer.isFirstPlayer()) {
+            //migliorare la map
+            String[] arena = {"map1", "map2", "map3", "map4"};
+            firstMessageFirstPlayer.setArenaInterfaces(arena);
+        }
+        notifyObservers(firstMessageFirstPlayer);
+    }
 
     public void associateMapToGameboard(int indexMap){
 
@@ -63,21 +141,17 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-    public ArrayList<String> getColorAvailable() {
-        return colorAvailable;
-    }
+    public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
+        try {
+            player.setPlayerBoardAndColor(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)), colorPlayer);
+            playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)));
+        }
+        catch (ColorNotAvailableException e){
+            throw new ColorNotAvailableException();
+            //Manda un messaggio di scelta sbagliata -> Update!!
+            // al posto di rilanciare l'eccezione
+        }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void firstMessage(){
-        FirstMessageFirstPlayer firstMessageFirstPlayer = new FirstMessageFirstPlayer(currentPlayer.getName());
-        colorAvailable();
-        firstMessageFirstPlayer.setColorAvailable(colorAvailable);
-        String[] arena = {"map1", "map2", "map3", "map4"};
-        firstMessageFirstPlayer.setArenaInterfaces(arena);
-        notifyObservers(firstMessageFirstPlayer);
     }
 
     public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
@@ -87,6 +161,16 @@ public class Model extends Observable implements ModelInterface {
         throw new ColorNotAvailableException();
     }
 
+    public void colorAvailable(){
+        ArrayList <String> colorAvailable = new ArrayList<>();
+
+        for(PlayerBoard playerBoardAvailable : playerBoardsAvailable){
+            colorAvailable.add(playerBoardAvailable.getColor().getColorPlayerRepresentation());
+        }
+
+        this.colorAvailable = colorAvailable;
+
+    }
 
     public int positionPlayerBoardAvailable (ColorPlayer color) throws ColorNotAvailableException {
         for (int i=0; i<playerBoardsAvailable.size(); i++){
@@ -109,129 +193,62 @@ public class Model extends Observable implements ModelInterface {
             return ColorPlayer.GREY;
     }
 
-    //rendere questo oggetto clonato in modo che non viene ritornato un riferimento di questo oggetto alla view
-    public GameBoard getGameBoard(){
-        return this.gameBoard;
-    }
 
-    /**
-     *
-     * @param mod type of game mod
-     */
+    public void changePlayer(){
 
-    public void setKillShotTrack (int mod){
-        killShotTrack = new KillShotTrack(mod);
-    }
+        //notifyObservers(new EndTurn(currentPlayer.getName()));
 
-
-    @Override
-    public ArrayList<PlayerInterface> getPlayersInterface() {
-        ArrayList <PlayerInterface> playerInterface = new ArrayList<>();
-        for(Player player: players)
-            playerInterface.add(player.getPlayerInterface());
-        return playerInterface;
-
-    }
-
-    public Player getCurrentPlayer(){
-        return this.currentPlayer;
-    }
-
-
-    //done by server
-    // FIRST MOVE
-
-
-    public void chooseFirstPlayer(){
-
-        Random rand = new Random();
-
-        int n = rand.nextInt(players.size());
-
-        players.get(n).setFirstPlayer(true);
-
-        ArrayList<Player> tmpPlayer = new ArrayList<>();
-
-        for(int i = n; i < players.size(); i++){
-            tmpPlayer.add(players.get(i));
-            tmpPlayer.get(i).setIndexPlayer(i);
-        }
-
-        for (int i = 0; i< n; i++){
-            tmpPlayer.add(players.get(i));
-            tmpPlayer.get(i).setIndexPlayer(i);
-        }
-
-        players = tmpPlayer;
-
-        currentPlayer = players.get(0);
-
-
-    }
-
-    public void changePlayer(/*ActionMessage actionMessage*/){
-
-        notifyObservers(new EndTurn(currentPlayer.getName()));
-
-        if(currentPlayer.getIndexPlayer() == players.size() -1){
+        int index = players.indexOf(currentPlayer);
+        if(index == players.size() - 1){
             currentPlayer = players.get(0);
         }
+
         else{
-            int i = currentPlayer.getIndexPlayer();
-            currentPlayer = players.get(i+1);
+            currentPlayer = players.get(index+1);
+        }
+        /*
+        if(currentPlayer.getRealPlayerBoard() == null){
+            firstMessage();
         }
 
-
-        if(!currentPlayer.isFirstTurn() || ! currentPlayer.isRespawn()){
+        else if(!currentPlayer.isFirstTurn() || ! currentPlayer.isRespawn()){
             notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
         }
-
-        else{
-            ArrayList<InterfacePowerUpCard> tmpPowerUpCards = new ArrayList<>();
-            tmpPowerUpCards.add(getGameBoard().takePowerUpCard());
+        */
+        //null pointer exception per il test
+       /* else{
+            ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(currentPlayer.getName());
+            choicePowerUpCard.addPowerUpCard(gameBoard.takePowerUpCard());
             if(currentPlayer.isRespawn()) {
-                notifyObservers(new StartTurn(currentPlayer.getName(), null, true, tmpPowerUpCards));
+                currentPlayer.setRespawned(false);
+                notifyObservers(choicePowerUpCard);
             }
             else{
-                tmpPowerUpCards.add(getGameBoard().takePowerUpCard());
-                notifyObservers(new StartTurn(currentPlayer.getName(), null, false, tmpPowerUpCards));
+                currentPlayer.setFirstTurn(false);
+                choicePowerUpCard.addPowerUpCard(gameBoard.takePowerUpCard());
+                notifyObservers(choicePowerUpCard);
             }
-        }
+        }*/
 
     }
 
 
-
-    public void setFrenzyMood(int i) {
-        //reorderArray
-        ArrayList<Player> tmpPlayer = new ArrayList<>();
-        for (int j = i +1; i < players.size(); j++) {
-            tmpPlayer.add(players.get(j));
-            if (tmpPlayer.get(j).getRealPlayerBoard().damageTokens.isEmpty()) {
-                //useful during the calculation of score
-                //only 2 2 1 1
-                tmpPlayer.get(j).getRealPlayerBoard().setFrenzy(true);
-
-            }
-            tmpPlayer.get(j).setIndexPlayer(j);
-            tmpPlayer.get(j).setCorrectFrenzyActionChooseMessage(false);
-        }
-
-
-            for (int j = 0; j <= i; j++) {
-                tmpPlayer.add(players.get(j));
-
-                if (tmpPlayer.get(j).getRealPlayerBoard().damageTokens.isEmpty()) {
-                    //useful during the calculation of score
-                    //only 2 2 1 1
-                    tmpPlayer.get(j).getRealPlayerBoard().setFrenzy(true);
+    public void setFrenzyMood() {
+        for(int i = players.indexOf(currentPlayer); i< players.size(); i++) {
+                if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
+                    players.get(i).getRealPlayerBoard().setFrenzy(true);
 
                 }
-                tmpPlayer.get(j).setCorrectFrenzyActionChooseMessage(true);
-                tmpPlayer.get(j).setIndexPlayer(j);
+                players.get(i).setCorrectFrenzyActionChooseMessage(true);
             }
 
-        players = tmpPlayer;
+        for(int i = 0; i< players.indexOf(currentPlayer); i++) {
+            if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
+                players.get(i).getRealPlayerBoard().setFrenzy(true);
+
+            }
+            players.get(i).setCorrectFrenzyActionChooseMessage(false);
+            }
         }
 
     public boolean isSpawnPoint(int x, int y){
@@ -272,10 +289,6 @@ public class Model extends Observable implements ModelInterface {
 
      //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
      public void sendUpdateMessage(){
-            //powerUp e reload IN azione singola
-
-            //update reload -> endTurn -> exception
-
             notifyObservers(new UpdateMessage(null,gameBoard.getGameBoardInterface(),getPlayersInterface()));
 
      }
@@ -288,17 +301,6 @@ public class Model extends Observable implements ModelInterface {
     }
 
 
-    public void colorAvailable(){
-        ArrayList <String> colorAvailable = new ArrayList<>();
-
-        for(PlayerBoard playerBoardAvailable : playerBoardsAvailable){
-            colorAvailable.add(playerBoardAvailable.getColor().getColorPlayerRepresentation());
-        }
-
-        this.colorAvailable = colorAvailable;
-
-    }
-
     public void assignPlayerBoardToPlayer(Player player, String color){
         try {
             setPlayerWithPlayerBoard(player, translateColorToColorPlayer(color));
@@ -306,20 +308,6 @@ public class Model extends Observable implements ModelInterface {
         }catch(ColorNotAvailableException c){
         }
     }
-
-    public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
-        try {
-            player.setPlayerBoardAndColor(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)), colorPlayer);
-            playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)));
-        }
-        catch (ColorNotAvailableException e){
-            throw new ColorNotAvailableException();
-            //Manda un messaggio di scelta sbagliata -> Update!!
-            // al posto di rilanciare l'eccezione
-        }
-
-    }
-
 
 
     public int [][] setDamageRanking (Player playerDeath) {
@@ -614,23 +602,8 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException{
 
-        //tmpPlayer.setNicknameAndActionHeroComment(nickName,actionHeroComment);
 
-        if(players.size()<5) {
-            players.add(new Player(nickName, actionHeroComment));
-            notifyObservers(new EndRegistration(nickName));
-        }
-        else{
-            notifyObservers(new FailRegistration(nickName));
-            throw new IndexOutOfBoundsException();
-        }
-    }
-
-    public void addPlayer(Player player){
-        players.add(player);
-    }
 
     public void useWeaponCard(int numEffect, AbstractWeaponCard weaponCard, ArrayList<Player> defenders, int[] coordinates, ArrayList<ColorCube> payment, ArrayList<PowerUpCard> powerUpCards, boolean notify){
 
@@ -677,6 +650,8 @@ public class Model extends Observable implements ModelInterface {
                 changePlayer();
             }
         }
+
+
 
 
 

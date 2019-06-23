@@ -30,11 +30,7 @@ public interface VisitorView{
 
     void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
-    void visitStartTurn(StartTurn startTurn);
-
     void firstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
-
-    void colorChoice();
 
     void failRegistration(FailRegistration failRegistration);
 }

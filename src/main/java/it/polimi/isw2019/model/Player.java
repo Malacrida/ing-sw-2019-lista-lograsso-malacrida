@@ -42,6 +42,7 @@ public class Player implements PlayerInterface {
     private int numActionPerformed;
     private int numActionToBePerformed;
     private int numActionCancelled;
+
     private boolean correctAction;
 
     private ArrayList<MoveMessage> messageToBeSent;

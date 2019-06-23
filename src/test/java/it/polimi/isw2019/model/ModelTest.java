@@ -1,9 +1,13 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +21,10 @@ public class ModelTest {
     PlayerBoard playerBoard5;
     Player player1, player2, player3, player4, player5;
     KillShotTrack killShotTrack;
-
+    PowerUpCard powerUpCard;
+    ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
+    GameBoard gameBoard;
+    
     @Before
     public void setUp() throws Exception {
         model = new Model();
@@ -51,7 +58,13 @@ public class ModelTest {
         model.addPlayer(player4);
         model.addPlayer(player5);
 
+        gameBoard = new GameBoard();
 
+        gameBoard.chooseArena(3);
+
+        for (int i=0; i <26; i++){
+            powerUpCards.add(powerUpCard);
+        }
 
 
     }
@@ -65,6 +78,58 @@ public class ModelTest {
 
     }
 
+    @Test
+    public void chooseFirstPlayer(){
+        model.chooseFirstPlayer();
+        for (Player player : model.getPlayers()) {
+            System.out.println(player.getName());
+            System.out.println(player.getIndexPlayer());
+        }
+    }
+
+    @Test
+    public void changePlayer(){
+
+        model.chooseFirstPlayer();
+
+        int oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+
+        System.out.println(oldCurrentPlayer);
+
+        model.changePlayer();
+
+        if(oldCurrentPlayer == (model.getPlayers().size()-1))
+            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+        else
+              assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+
+        model.changePlayer();
+        model.changePlayer();
+
+        oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+
+        model.changePlayer();
+
+
+        if(oldCurrentPlayer == (model.getPlayers().size()-1))
+            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+        else
+            assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+
+
+        oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+        model.changePlayer();
+
+        if(oldCurrentPlayer == (model.getPlayers().size()-1))
+            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+        else
+            assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+    }
+
+    @Test
+    public void setFrenzyMood(){
+
+    }
 
 
     //riesco a prendere quella playerboard. NON FUNZIONA

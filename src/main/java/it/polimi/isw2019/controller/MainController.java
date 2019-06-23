@@ -241,21 +241,30 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    public void startGame(){
+
+        model.chooseFirstPlayer();
+        model.firstMessage();
+
+    }
+
     @Override
     public void chooseMap(ChooseMapMove chooseMapMove) {
         //modify the index of map!
-
-        if(chooseMapMove.getIndex() >= 0 && chooseMapMove.getIndex() <= 4){
-            //error
+        if(model.getCurrentPlayer().isFirstPlayer()) {
+            if (chooseMapMove.getIndex() >= 0 && chooseMapMove.getIndex() <= 4) {
+                //error
+            }
+            else{
+                model.associateMapToGameboard(chooseMapMove.getIndex());
+            }
         }
-
         //colore e' presente!!! fare il check
 
         else{
-            model.associateMapToGameboard(chooseMapMove.getIndex());
-
             try {
-                model.setPlayerWithPlayerBoard(model.getCurrentPlayer(),returnColorPlayerFromString(chooseMapMove.getIndexColor()));
+                model.setPlayerWithPlayerBoard(model.getCurrentPlayer(),returnColorPlayerFromString(model.getColorAvailable().get(chooseMapMove.getIndexColor())));
+                model.changePlayer();
             } catch (ColorNotAvailableException e) {
                 //normally impossible!
             }
@@ -263,18 +272,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     @Override
-    public void visitColorChoose(ColorChoosen colorChoosen){
-
-        // model.assignPlayerBoardToPlayer(model.getCurrentPlayer(), colorChoosen.getColorChoosen());
-
-        //model.sendErrorMessage(model.getCurrentPlayer(),"the color is not available" + colorChoosen.getColorChoosen());
-
-    }
-
-
-    @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
-        /*
+
         if((powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size()) || (powerUpChoice.getCardChoosen() < 0 )){
             //mex di errore
         }
@@ -289,7 +288,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         //restituita la powerUp con le varie cose da pagare e gli effetti
         else{
 
-        }*/
+        }
     }
 
     @Override
@@ -493,6 +492,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void respawnPlayer() {
 
     }
+
+
 
 
 }
