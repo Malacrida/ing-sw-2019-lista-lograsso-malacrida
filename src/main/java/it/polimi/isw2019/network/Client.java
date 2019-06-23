@@ -1,16 +1,23 @@
 package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
+
+    private static ServerInterfaceRMI serverRmi;
+
     public static void main(String[] args) throws UnknownHostException {
 
         InetAddress ip;
@@ -89,6 +96,18 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        if (typeServer==1){
+            try {
+                serverRmi = (ServerInterfaceRMI) Naming.lookup("rmi://localhost:1234/ServerRmi");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (NotBoundException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }

@@ -1,4 +1,4 @@
-package it.polimi.isw2019.network;
+package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
@@ -7,14 +7,16 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRMI{
+public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRMI {
 
 
     private VisitorController controller= new MainController();
     private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
+    private ArrayList<VirtualView> virtualViews= new ArrayList<>();
 
 
     public ServerRmi ()throws RemoteException {
@@ -45,11 +47,18 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
     }
 
     @Override
-    public void reciveMove(PlayerMove playerMove) {
+    public void receiveMove(PlayerMove playerMove) {
 
     }
 
-
+    @Override
+    public void receiveChooseActionMove(String nickname, String idPlayer, int numAction) {
+        for (int i=0; i<virtualViews.size(); i++){
+            if(virtualViews.get(i).getNickname().equals(nickname)){
+                virtualViews.get(i).createChooseActionMove(idPlayer, numAction);
+            }
+        }
+    }
 
 
 }

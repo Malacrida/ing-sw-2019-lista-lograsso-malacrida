@@ -1,4 +1,6 @@
-package it.polimi.isw2019.network;
+package it.polimi.isw2019.network.rmi;
+
+import it.polimi.isw2019.network.Client;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

@@ -1,4 +1,4 @@
-package it.polimi.isw2019.network;
+package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
@@ -16,8 +16,8 @@ public interface ServerInterfaceRMI {
 
     //per ricevere la mossa fatta dal player forse è meglio farne più di uno
     //Forse come parametro in ingresso mettere una plyer move in modo da semplificarmi la vita
-    void reciveMove (PlayerMove playerMove);
+    void receiveMove(PlayerMove playerMove);
 
-    //Possiamo mettere un metodo che manda messa
+    void receiveChooseActionMove(String nickname, String idPlayer, int numAction);
 
 }
