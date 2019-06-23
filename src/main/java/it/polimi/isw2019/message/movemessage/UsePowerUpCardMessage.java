@@ -12,7 +12,6 @@ public class UsePowerUpCardMessage extends MoveMessage {
 
     public UsePowerUpCardMessage(String nicknamePlayer) {
         super(nicknamePlayer);
-        this.powerUpCard = powerUpCard;
     }
 
     public ArrayList<InterfacePowerUpCard> getPowerUpCard() {

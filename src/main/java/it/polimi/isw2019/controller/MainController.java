@@ -90,6 +90,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         }
         return tmpColorCube;
         }
+
     public ColorCube[] translateInputIntoCubes(String[] payment){
         ColorCube[] tmpColorCube = new ColorCube[payment.length];
         for(int i =0 ; i< payment.length; i++){
@@ -103,6 +104,9 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 case "yellow":
                     tmpColorCube[i] = ColorCube.YELLOW;
                     break;
+                default :
+                    //to be reviewed
+                    tmpColorCube[i] = null;
             }
         }
         return tmpColorCube;
@@ -274,7 +278,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
 
-        if((powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size()) || (powerUpChoice.getCardChoosen() < 0 )){
+        if(powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size() && (powerUpChoice.getCardChoosen() < 0 )){
             //mex di errore
         }
         else if(model.getCurrentPlayer().isRespawn() || model.getCurrentPlayer().isFirstTurn()){
@@ -299,7 +303,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
 
-        if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
+        /*if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
             if(weaponCardChoice.isGrab()){
                 if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
                     //setUp error message, you're NOT in a respawn square : or try to grab an ammo card or you'action will be ended!
@@ -328,10 +332,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                             e.printStackTrace();
                         }
                         */
-                    }
+                 /*   }
                 }
             }
-        }
+        }*/
     }
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
@@ -492,8 +496,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void respawnPlayer() {
 
     }
-
-
 
 
 }

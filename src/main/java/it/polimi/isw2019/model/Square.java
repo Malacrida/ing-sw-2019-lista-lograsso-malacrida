@@ -161,8 +161,4 @@ public abstract class Square{
         else return 'A';
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }
