@@ -24,7 +24,7 @@ public class ModelTest {
     PowerUpCard powerUpCard;
     ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
     GameBoard gameBoard;
-    
+
     @Before
     public void setUp() throws Exception {
         model = new Model();
