@@ -1,6 +1,9 @@
 package it.polimi.isw2019.network.rmi;
 
-public interface NetworkHandlerInterface {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    public void createActionMessage(String nickname);
+public interface NetworkHandlerInterface extends Remote {
+
+    public void createActionMessage(String nickname) throws RemoteException;
 }

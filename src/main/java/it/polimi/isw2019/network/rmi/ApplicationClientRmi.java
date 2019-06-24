@@ -19,9 +19,7 @@ public class ApplicationClientRmi {
 
     public static void main (String[] args) throws RemoteException, NotBoundException, MalformedURLException {
 
-
-
-        server = (ServerInterfaceRMI) Naming.lookup("rmi://localhost:1234/ServerRmi");
+        server = (ServerInterfaceRMI) Naming.lookup("rmi://localhost:1234/registryServer");
 
         client = new ClientRmi();
 

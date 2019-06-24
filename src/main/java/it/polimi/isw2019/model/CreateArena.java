@@ -79,7 +79,7 @@ public class CreateArena {
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], squares[2][2], null);
         squares[1][3].setSquareAdjacent(squares[0][3],null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= null; //stanza non disponibile
+        squares[2][0]= null; //squares not available
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(squares[1][2], squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
@@ -119,7 +119,7 @@ public class CreateArena {
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]= null;//stanza non disponibile
+        squares[0][3]= null;//squares not available
 
         squares[1][0].setSquareAdjacent(squares[0][0], null, squares[0][1],null);
         squares[1][1].setSquareAdjacent(squares[0][1], squares[1][2], squares[2][1], null);
@@ -166,14 +166,14 @@ public class CreateArena {
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]=null; // stanza non disponibile
+        squares[0][3]=null; //squares not available
 
         squares[1][0].setSquareAdjacent(squares[0][0], squares[1][1], null,null);
         squares[1][1].setSquareAdjacent(null, squares[1][2], squares[2][1], squares[1][0]);
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], null, squares[1][1]);
         squares[1][3].setSquareAdjacent(null,null,squares[2][3], squares[1][2]);
 
-        squares[2][0]=null; // stanza non disponibile
+        squares[2][0]=null; //squares not available
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(null, squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);

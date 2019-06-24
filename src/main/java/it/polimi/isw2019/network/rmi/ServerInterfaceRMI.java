@@ -1,23 +1,37 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.network.network_interface.ClientInterface;
+import it.polimi.isw2019.message.playermove.*;
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-public interface ServerInterfaceRMI {
+public interface ServerInterfaceRMI extends Remote {
 
-    void addToTheServer(String name, ClientInterface clientInterface) throws RemoteException;
+    void addToTheServer(String name, NetworkHandlerInterface networkHandler) throws RemoteException;
 
     void removeToTheClient(String name) throws RemoteException;
 
-    //Per connettere alla partita
-    void addGame ();
+    void receiveChooseActionMove(String player, int numAction) throws RemoteException;
 
-    //per ricevere la mossa fatta dal player forse è meglio farne più di uno
-    //Forse come parametro in ingresso mettere una plyer move in modo da semplificarmi la vita
-    void receiveMove(PlayerMove playerMove);
+    void receiveChooseMap(String player, int index, int color) throws RemoteException;
 
-    void receiveChooseActionMove(String nickname, String idPlayer, int numAction);
+    void receiveRun(String player,int[][] movement) throws RemoteException;
+
+    void receiveGrab(String player)throws RemoteException;
+
+    void receiveRegisterPlayer(FirstMessage firstMessage) throws RemoteException;
+
+    void receiveReload(String player) throws RemoteException;
+
+    void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException;
+
+    void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException;
+
+    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException;
+
+    void receiveUseWeaponCard(String player, WeaponCardInterface weaponCard) throws RemoteException;
 
 }

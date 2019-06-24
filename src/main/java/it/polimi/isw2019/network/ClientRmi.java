@@ -22,8 +22,5 @@ public class ClientRmi implements ClientInterface, Remote {
 
     }
 
-    @Override
-    public void run() {
 
-    }
 }

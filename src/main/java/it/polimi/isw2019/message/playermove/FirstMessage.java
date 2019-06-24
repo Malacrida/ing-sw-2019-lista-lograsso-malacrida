@@ -1,6 +1,7 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 
 public class FirstMessage extends PlayerMove{
@@ -16,6 +17,11 @@ public class FirstMessage extends PlayerMove{
     @Override
     public void accept(VisitorController visitorController) {
         visitorController.visitControllerRegisterPlayer(this);
+    }
+
+    @Override
+    public void accept(NetworkHandlerVisitorInterface networkHandler) {
+
     }
 
     public String getActionHero() {

@@ -1,6 +1,8 @@
 package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandler;
+import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 
@@ -12,6 +14,7 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client {
@@ -109,6 +112,28 @@ public class Client {
             }
 
         }
+
+        startViewProvv(nickname);
+
+    }
+
+    private static void startViewProvv (String nickname){
+        ViewProvvisioria viewProv = new ViewProvvisioria (nickname);
+        NetworkHandler networkHandler = new NetworkHandler(nickname);
+
+
+        try {
+            NetworkHandlerInterface remoteClient = (NetworkHandlerInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+            serverRmi.addToTheServer(nickname, remoteClient);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.out.println("registrazione completata");
+
+        viewProv.registerObserver(networkHandler);
+        networkHandler.registerObserver(viewProv);
+
+        viewProv.createChooseAction();
 
     }
 }

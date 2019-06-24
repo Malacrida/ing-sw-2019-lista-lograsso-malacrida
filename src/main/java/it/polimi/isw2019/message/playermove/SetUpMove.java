@@ -1,6 +1,7 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 
 public class SetUpMove extends PlayerMove{
@@ -32,5 +33,10 @@ public class SetUpMove extends PlayerMove{
     @Override
     public void accept(VisitorController visitorController) {
         visitorController.visitControllerSetUpPlayer(this);
+    }
+
+    @Override
+    public void accept(NetworkHandlerVisitorInterface networkHandler) {
+
     }
 }
