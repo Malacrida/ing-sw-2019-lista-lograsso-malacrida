@@ -29,6 +29,6 @@ public class ChooseMapMove extends PlayerMove{
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendChooseMap(this);
     }
 }

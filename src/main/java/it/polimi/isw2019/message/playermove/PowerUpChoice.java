@@ -33,6 +33,6 @@ public class PowerUpChoice extends PlayerMove{
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendPowerUpChoice(this);
     }
 }

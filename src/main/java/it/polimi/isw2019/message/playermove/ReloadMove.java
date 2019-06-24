@@ -51,6 +51,6 @@ public class ReloadMove  extends PlayerMove{
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendReload(this);
     }
 }

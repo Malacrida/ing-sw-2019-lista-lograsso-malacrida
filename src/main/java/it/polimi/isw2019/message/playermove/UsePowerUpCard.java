@@ -29,7 +29,7 @@ public class UsePowerUpCard extends PlayerMove {
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendUsePowerUpCard(this);
     }
 
     public int[][] getCoordinates() {

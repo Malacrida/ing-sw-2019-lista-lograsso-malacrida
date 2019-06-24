@@ -147,6 +147,6 @@ public class UseWeaponCard extends PlayerMove {
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendUseWeaponCard(this);
     }
 }

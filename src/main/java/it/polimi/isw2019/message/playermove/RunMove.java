@@ -20,7 +20,7 @@ public class RunMove extends PlayerMove{
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendRun(this);
     }
 
     public void setMovement(int[][] movement){

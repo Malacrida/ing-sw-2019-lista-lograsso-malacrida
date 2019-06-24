@@ -55,6 +55,6 @@ public class GrabMove extends PlayerMove {
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendGrab(this);
     }
 }
