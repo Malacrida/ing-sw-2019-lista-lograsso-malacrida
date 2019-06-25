@@ -1,8 +1,10 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.movemessage.ActionMessage;
-import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
+import it.polimi.isw2019.model.GameBoardInterface;
+import it.polimi.isw2019.model.PlayerInterface;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.ClientRmi;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
@@ -12,6 +14,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class NetworkHandler extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerInterface, Remote, NetworkHandlerVisitorInterface {
 
@@ -42,13 +45,6 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
     public void update(PlayerMove message) {
         System.out.println("notifica dalla VP");
         message.accept(this);
-    }
-
-    @Override
-    public void createActionMessage(String nickname) {
-        System.out.println("ricevo move message");
-        ActionMessage actionMessage= new ActionMessage(nickname);
-        notifyObservers(actionMessage);
     }
 
 
@@ -145,4 +141,80 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
         }
 
     }
+
+
+
+    @Override
+    public void createActionMessage(String nickname) {
+        System.out.println("ricevo move message");
+        ActionMessage actionMessage= new ActionMessage(nickname);
+        notifyObservers(actionMessage);
+    }
+
+    @Override
+    public void createSetupView(String idMoveMessage, int idPlayer, ArrayList<String> colorAvailable) {
+
+    }
+
+    @Override
+    public void createRun(String nicknamePlayer, String error, int numMovement) {
+
+    }
+
+    @Override
+    public void createGrab(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) {
+
+    }
+
+    @Override
+    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
+
+    }
+
+    @Override
+    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) {
+
+    }
+
+    @Override
+    public void createWaitForStart(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
+
+    }
+
+    @Override
+    public void createUseWeaponCard(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createPowerUpChoice(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createUsePowerUpCard(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createFirstPlayerChooseMap(String nicknamePlayer) {
+
+    }
+
+    @Override
+    public void createFailRegistration(String nicknamePlayer) {
+
+    }
+
+
 }

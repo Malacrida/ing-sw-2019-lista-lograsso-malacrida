@@ -1,5 +1,6 @@
 package it.polimi.isw2019.message.movemessage;
 
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
 public class RunMessage extends MoveMessage {
@@ -26,5 +27,10 @@ public class RunMessage extends MoveMessage {
     @Override
     public void accept(VisitorView visitorView) {
             visitorView.visitRun(this);
+    }
+
+    @Override
+    public void accept(VirtualViewVisitorInterface virtualView) {
+        virtualView.sendRun(this);
     }
 }

@@ -1,7 +1,6 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.movemessage.ActionMessage;
-import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -12,7 +11,7 @@ import it.polimi.isw2019.utilities.Observer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage> {
+public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private String nickname;
     private NetworkHandlerInterface networkHandler;
@@ -37,7 +36,8 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(chooseActionMove);
 
 
-        sendActionMessage();
+        ActionMessage actionMessage= new ActionMessage(player);
+        sendActionView(actionMessage);
     }
 
     public void createChooseMap(String player, int index, int color){
@@ -85,9 +85,15 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
 
-    public void sendActionMessage (){
+    @Override
+    public void sendSetupView(SetUpMessage setUpMessage) {
+
+    }
+
+    @Override
+    public void sendActionView(ActionMessage actionMessage) {
         System.out.println("invio la move message");
-        ActionMessage actionMessage= new ActionMessage (nickname);
+
         try {
             networkHandler.createActionMessage(actionMessage.getNicknamePlayer());
         }
@@ -96,5 +102,63 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         }
     }
 
+    @Override
+    public void sendRun(RunMessage runMessage) {
 
+    }
+
+    @Override
+    public void sendGrab(GrabMessage grabMessage) {
+
+    }
+
+    @Override
+    public void sendReload(ReloadMessage reloadMessage) {
+
+    }
+
+    @Override
+    public void sendUpdateView(UpdateMessage updateMessage) {
+
+    }
+
+    @Override
+    public void sendOkRegistration(RegistrationPlayer registrationPlayer) {
+
+    }
+
+    @Override
+    public void sendWaitForStart(EndRegistration endRegistration) {
+
+    }
+
+    @Override
+    public void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
+
+    }
+
+    @Override
+    public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
+
+    }
+
+    @Override
+    public void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+
+    }
+
+    @Override
+    public void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
+
+    }
+
+    @Override
+    public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
+
+    }
+
+    @Override
+    public void sendFailRegistration(FailRegistration failRegistration) {
+
+    }
 }

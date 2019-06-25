@@ -4,31 +4,31 @@ import it.polimi.isw2019.message.movemessage.*;
 
 public interface VirtualViewVisitorInterface {
 
-    void visitSetupView(SetUpMessage setUpMessage);
+    void sendSetupView(SetUpMessage setUpMessage);
 
-    void visitActionView(ActionMessage actionMessage);
+    void sendActionView(ActionMessage actionMessage);
 
-    void visitRun(RunMessage runMessage);
+    void sendRun(RunMessage runMessage);
 
-    void visitGrab(GrabMessage grabMessage);
+    void sendGrab(GrabMessage grabMessage);
 
-    void visitReload(ReloadMessage reloadMessage);
+    void sendReload(ReloadMessage reloadMessage);
 
-    void visitUpdateView(UpdateMessage updateMessage);
+    void sendUpdateView(UpdateMessage updateMessage);
 
-    void visitOkRegistration(RegistrationPlayer registrationPlayer);
+    void sendOkRegistration(RegistrationPlayer registrationPlayer);
 
-    void waitForStart(EndRegistration endRegistration);
+    void sendWaitForStart(EndRegistration endRegistration);
 
-    void weaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
+    void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
-    void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
+    void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 
-    void powerUpChoice(ChoicePowerUpCard choicePowerUpCard);
+    void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard);
 
-    void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
+    void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
-    void firstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
+    void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
 
-    void failRegistration(FailRegistration failRegistration);
+    void sendFailRegistration(FailRegistration failRegistration);
 }

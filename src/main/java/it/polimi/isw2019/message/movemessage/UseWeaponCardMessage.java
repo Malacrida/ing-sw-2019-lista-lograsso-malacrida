@@ -2,6 +2,7 @@ package it.polimi.isw2019.message.movemessage;
 
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
@@ -32,6 +33,11 @@ public class UseWeaponCardMessage extends MoveMessage{
     @Override
     public void accept(VisitorView visitorview) {
             visitorview.useWeaponCard(this);
+    }
+
+    @Override
+    public void accept(VirtualViewVisitorInterface virtualView) {
+        virtualView.sendUseWeaponCard(this);
     }
 
 

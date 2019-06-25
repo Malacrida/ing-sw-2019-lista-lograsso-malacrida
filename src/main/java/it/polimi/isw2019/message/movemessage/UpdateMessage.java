@@ -2,6 +2,7 @@ package it.polimi.isw2019.message.movemessage;
 
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ public class UpdateMessage extends MoveMessage {
     @Override
     public void accept(VisitorView visitorview) {
         visitorview.visitUpdateView(this);
+    }
+
+    @Override
+    public void accept(VirtualViewVisitorInterface virtualView) {
+        virtualView.sendUpdateView(this);
     }
 
     public GameBoardInterface getGameBoard() {

@@ -38,6 +38,6 @@ public class FirstMessageFirstPlayer extends MoveMessage {
 
     @Override
     public void accept(VirtualViewVisitorInterface virtualView) {
-
+        virtualView.sendFirstPlayerChooseMap(this);
     }
 }
