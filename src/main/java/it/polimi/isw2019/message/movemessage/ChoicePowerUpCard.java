@@ -25,6 +25,10 @@ public class ChoicePowerUpCard extends MoveMessage{
         virtualView.sendPowerUpChoice(this);
     }
 
+    /**
+     * Getter of Power Up cards
+     * @return power up cards in deck
+     */
     public ArrayList<InterfacePowerUpCard> getPowerUpCards(){
         return powerUpCards;
     }

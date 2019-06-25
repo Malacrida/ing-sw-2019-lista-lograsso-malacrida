@@ -55,6 +55,12 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
 
     }
 
+    /**
+     * Convert String in ColorCube
+     * @param color String with name of color
+     * @return Color Cube
+     */
+
     public ColorCube setColor(String color){
         switch (color) {
 
@@ -74,37 +80,82 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
     }
 
     /* Methods */
+
+    /**
+     * getter id of ammo tile
+     * @return
+     */
     public int getId() {
         return id;
     }
+
+    /**
+     * Get first element of ammo tile
+     * @return first element
+     */
 
     public String getFirstElement() {
         return firstElement;
     }
 
+    /**
+     * Get second element of ammo tile
+     * @return second element
+     */
+
     public String getSecondElement() {
         return secondElement;
     }
+
+    /**
+     * Get third element of ammo tile
+     * @return third element
+     */
 
     public String getThirdElement() {
         return thirdElement;
     }
 
+
+    /**
+     * Get first color of ammo tile
+     * @return first color
+     */
+
     public ColorCube getFirstColor() {
         return firstColor;
     }
 
+    /**
+     * Get Second color of ammo tile
+     * @return second color
+     */
     public ColorCube getSecondColor() {
         return secondColor;
     }
+
+    /**
+     * Get third color of ammo tile
+     * @return third color
+     */
 
     public ColorCube getThirdColor() {
         return thirdColor;
     }
 
+    /**
+     * it is a boolean to check if an element is a power up card
+     * @return boolean
+     */
+
     public boolean isPowerUpCard(){
         return this.powerUpCard;
     }
+
+    /**
+     * state of card
+     * @return state
+     */
 
     public StateCard getCheckState(){
         return checkState;

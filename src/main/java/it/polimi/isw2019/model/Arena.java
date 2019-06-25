@@ -90,10 +90,24 @@ public class Arena implements ArenaInterface{
         squares[x][y].setAmmoTile(ammoTile);
     }
 
+    /**
+     * get ammo tile which is in one square
+     * @param x first coordinate about square
+     * @param y second coordinate about square
+     * @return ammo tile
+     */
+
     public AmmoTile getAmmoTileOnSquare(int x, int y) {
         return squares[x][y].getAmmoTile();
     }
 
+    /**
+     * insert an ammo tile in one square
+     * @param x first coordinate about square
+     * @param y second coordinate about square
+     * @return ammo tile
+     * @throws AmmoTileUseException
+     */
     public AmmoTile takeAmmoTileOnSquare(int x, int y) throws AmmoTileUseException {
         try {
             return squares[x][y].takeAmmoTile();
@@ -102,9 +116,23 @@ public class Arena implements ArenaInterface{
         }
     }
 
+    /**
+     * method to grab ammo tile in one square
+     * @param x first coordinate about square
+     * @param y second coordinate about square
+     * @return ammo tile
+     */
+
     public boolean useAmmoTileOnSquare(int x, int y) {
         return squares[x][y].isCanUseAmmo();
     }
+
+    /**
+     * getter of players in one room
+     * @param colorRoom room's identifier
+     * @param player player in that room
+     * @return list of players
+     */
 
     public ArrayList<Player> playersInOneRoom(ColorRoom colorRoom, Player player) {
         ArrayList<Player> playersInRoom = new ArrayList<>();
@@ -348,17 +376,42 @@ public class Arena implements ArenaInterface{
         }
     }
 
+    /**
+     * getter of squares
+     * @return list of squares
+     */
+
     public Square[][] getSquares() {
         return squares;
     }
+
+    /**
+     * getter of squares which are connected by a port or which are in the same room
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return list of squares
+     */
 
     public ArrayList<Square> squaresAvailable(int x, int y) {
         return squares[x][y].squaresAvailable();
     }
 
+    /**
+     * getter of square
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return square
+     */
+
     public Square getSquare(int x, int y) {
         return squares[x][y];
     }
+
+    /**
+     * get color room from square
+     * @param square attribute to get color room
+     * @return color room
+     */
 
     public ColorRoom getColorRoom(Square square) {
         ColorRoom colorRoom = null;
@@ -372,6 +425,11 @@ public class Arena implements ArenaInterface{
         return colorRoom;
     }
 
+    /**
+     * get of coordinate of one square
+     * @param square attribute to get x and y
+     * @return coordinates
+     */
     public int[] coordinateOfSquare(Square square) {
         int[] index = new int[2];
         for (int i = 0; i < 3; i++)
