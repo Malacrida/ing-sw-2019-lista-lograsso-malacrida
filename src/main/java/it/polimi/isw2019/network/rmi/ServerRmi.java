@@ -9,6 +9,7 @@ import it.polimi.isw2019.message.playermove.WeaponCardChoice;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
+import it.polimi.isw2019.view.VisitorView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,20 +24,21 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
     private VisitorController controller= new MainController();
     private HashMap<String, NetworkHandlerInterface> clientConnected = new HashMap<>();
     private ArrayList<VirtualView> virtualViews= new ArrayList<>();
-
+    private MainController mainController;
 
     public ServerRmi ()throws RemoteException {
-
+        mainController= new MainController();
     }
 
     @Override
     public void addToTheServer(String name, NetworkHandlerInterface networkHandler)throws RemoteException {
         if (!clientConnected.containsKey(name)) {
             clientConnected.put(name, networkHandler);
+            VirtualView virtualView = new VirtualView(name, networkHandler);
+            virtualViews.add(virtualView);
         }
         System.out.println("Aggiunto: "+name);
-        VirtualView virtualView = new VirtualView(name, networkHandler);
-        virtualViews.add(virtualView);
+
     }
 
 
@@ -89,7 +91,14 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
 
 
     @Override
-    public void receiveRegisterPlayer(FirstMessage firstMessage) {
+    public void receiveRegisterPlayer(String player, String actionHero) {
+        System.out.println("ricevo una registrazione da: "+player);
+        for (int i=0; i<virtualViews.size(); i++){
+            if(virtualViews.get(i).getNickname().equals(player)){
+                virtualViews.get(i).createRegisterPlayer(player,actionHero);
+                virtualViews.get(i).registerObserver(mainController);
+            }
+        }
 
     }
 

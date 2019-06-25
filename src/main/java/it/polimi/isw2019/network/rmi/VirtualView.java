@@ -7,6 +7,7 @@ import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
+import it.polimi.isw2019.view.VisitorView;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void update(MoveMessage message) {
-
+        message.accept(this);
     }
 
     public void createChooseActionMove (String player, int numAction){
@@ -55,8 +56,15 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(grabMove);
     }
 
-    public void createRegisterPlayer(FirstMessage firstMessage){
+    public void createRegisterPlayer( String player, String actionHero){
+        System.out.println("ricreo una registrazione");
+        FirstMessage firstMessage = new FirstMessage(this, player, actionHero );
+        notifyObservers(firstMessage);
 
+        System.out.println("forzo rinvio");
+
+        RegistrationPlayer registrationPlayer= new RegistrationPlayer(player,actionHero, null);
+        sendOkRegistration(registrationPlayer);
     }
 
     public void createReload(String player){
@@ -87,7 +95,12 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendSetupView(SetUpMessage setUpMessage) {
-
+        try {
+            networkHandler.createSetupView(setUpMessage.getNicknamePlayer(), setUpMessage.getColorAvailable());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -104,12 +117,22 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendRun(RunMessage runMessage) {
-
+        try {
+            networkHandler.createRun(runMessage.getNicknamePlayer(), runMessage.getError(), runMessage.getNumMovement());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void sendGrab(GrabMessage grabMessage) {
-
+        try {
+            networkHandler.createGrab(grabMessage.getNicknamePlayer());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -125,11 +148,24 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     @Override
     public void sendOkRegistration(RegistrationPlayer registrationPlayer) {
 
+        try {
+            System.out.println("invio conferma");
+            networkHandler.createOkRegistration(registrationPlayer.getNicknamePlayer(),registrationPlayer.getActionHero(),registrationPlayer.getColors());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
-
+        try {
+            networkHandler.createWaitForStart(endRegistration.getNicknamePlayer());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -159,6 +195,12 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendFailRegistration(FailRegistration failRegistration) {
+        try {
+            networkHandler.createFailRegistration(failRegistration.getNicknamePlayer());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 }

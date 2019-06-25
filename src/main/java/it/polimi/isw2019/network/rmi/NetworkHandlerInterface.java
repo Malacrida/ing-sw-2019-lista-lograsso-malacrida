@@ -13,7 +13,7 @@ public interface NetworkHandlerInterface extends Remote {
 
     public void createActionMessage(String nickname) throws RemoteException;
 
-    public void createSetupView(String idMoveMessage, int idPlayer, ArrayList<String> colorAvailable) throws RemoteException;
+    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException;
 
     public void createRun(String nicknamePlayer, String error, int numMovement) throws RemoteException;
 

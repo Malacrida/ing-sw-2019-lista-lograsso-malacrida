@@ -3,6 +3,7 @@ package it.polimi.isw2019.network.rmi;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.view.VisitorView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -22,7 +23,7 @@ public interface ServerInterfaceRMI extends Remote {
 
     void receiveGrab(String player)throws RemoteException;
 
-    void receiveRegisterPlayer(FirstMessage firstMessage) throws RemoteException;
+    void receiveRegisterPlayer( String player, String actionHero) throws RemoteException;
 
     void receiveReload(String player) throws RemoteException;
 
