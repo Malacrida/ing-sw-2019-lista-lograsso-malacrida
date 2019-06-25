@@ -10,6 +10,10 @@ public interface ClientInterface extends Remote {
 
     //altre info
 
+    public void setNickname(String nickname);
+
+    public String getNickname();
+
     public Boolean isYourTurn() throws RemoteException;
 
     //per fargli fare la scelta della modalità di gioco e mappa

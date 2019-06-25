@@ -45,7 +45,12 @@ public class GameBoard implements GameBoardInterface{
     }
 
 
-
+    /**
+     * method to choose arena
+     * @param num
+     * @throws InstanceArenaException
+     * @throws OutOfBoundsException
+     */
     public void chooseArena (int num) throws InstanceArenaException, OutOfBoundsException {
 
         gameArena= new Arena();
