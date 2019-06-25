@@ -8,6 +8,16 @@ import java.rmi.RemoteException;
 public class ClientRmi implements ClientInterface, Remote {
 
     @Override
+    public void setNickname(String nickname) {
+
+    }
+
+    @Override
+    public String getNickname() {
+        return null;
+    }
+
+    @Override
     public Boolean isYourTurn() throws RemoteException {
         return null;
     }

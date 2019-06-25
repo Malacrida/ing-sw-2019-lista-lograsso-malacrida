@@ -14,13 +14,15 @@ public class ClientSocket extends Thread implements ClientInterface {
     private Socket clientSocket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private String nickname;
     private boolean isReady = false;
-    private InetAddress ip = clientSocket.getInetAddress();
+    private InetAddress ip;
 
     public ClientSocket(Socket clientSocket) throws IOException{
         this.clientSocket = clientSocket;
         this.input = new ObjectInputStream(clientSocket.getInputStream());
         this.output = new ObjectOutputStream(clientSocket.getOutputStream());
+        this.ip = clientSocket.getInetAddress();
     }
 
     public ClientSocket (ObjectOutputStream output, ObjectInputStream input) throws IOException{ //aggiugere anche la lobby
@@ -32,6 +34,16 @@ public class ClientSocket extends Thread implements ClientInterface {
         return ip.toString();
     }
 
+
+    @Override
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Override
+    public String getNickname() {
+        return this.nickname;
+    }
 
     @Override
     public Boolean isYourTurn() throws RemoteException {
@@ -46,5 +58,13 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void startRound() throws RemoteException {
 
+    }
+
+    public ObjectOutputStream getObjectOutputStream(){
+        return this.output;
+    }
+
+    public ObjectInputStream getObjectInputStream(){
+        return this.input;
     }
 }

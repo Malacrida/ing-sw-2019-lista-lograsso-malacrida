@@ -7,6 +7,7 @@ import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.Socket;
@@ -82,14 +83,11 @@ public class Client {
 
                 System.out.println("\nSono in attesa di un messaggio: \n");
 
-                //ObjectInputStream messageInput = new ObjectInputStream(serverInterface.getInputStream)
+                ObjectInputStream messageInput = new ObjectInputStream(socket.getInputStream());
 
 
-                //Object messageInput = (String) messageInput.readObject();
-                //System.out.println(messageInput);
-
-                boolean isRunning = true;
-
+                Object messageInput1 = (String) messageInput.readObject();
+                System.out.println(messageInput1);
 
 
             } catch (RemoteException e) {
@@ -97,6 +95,8 @@ public class Client {
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -110,10 +110,10 @@ public class Client {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
+            startViewProvv(nickname);
         }
 
-        startViewProvv(nickname);
+
 
     }
 

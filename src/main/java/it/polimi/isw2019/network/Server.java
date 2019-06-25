@@ -7,10 +7,12 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private ExecutorService executor;
+    private Lobby lobby = new Lobby();
 
     private static boolean isRunning = true;
 
     public static void main(String[] args){
+
         GathererInterface gathererSocket = new GathererSocket(1111);
 
         Server server = new Server();
@@ -25,11 +27,11 @@ public class Server {
         }
     }*/
 
-    private void start(GathererInterface... gathererSocket){
+    private void start(GathererInterface... gatherers){
         this.executor = Executors.newFixedThreadPool(128);
-
-        for(GathererInterface aGathererSocket : gathererSocket){
-            executor.submit(aGathererSocket);
+        for(GathererInterface aGatherer : gatherers){
+            aGatherer.setLobby(lobby);
+            executor.submit(aGatherer);
         }
     }
 
