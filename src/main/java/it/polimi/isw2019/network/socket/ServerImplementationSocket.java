@@ -1,5 +1,7 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 //import sun.plugin2.message.HeartbeatMessage;
 
@@ -8,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
 
@@ -31,10 +34,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
 
     @Override
-    public Boolean registerNewClient(Socket client, String nickname) throws IOException {
+    public void registerNewClient(Socket client, String nickname) throws IOException {
         System.out.println("Si è registrato " + nickname);
         write(nickname);
-        return true;
+
     }
 
     @Override
@@ -50,8 +53,63 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }*/
 
     @Override
-    public Boolean reconnectClient(Socket client, String nickname) throws RemoteException {
-        return true;
+    public void reconnectClient(Socket client, String nickname) throws RemoteException {
+
+    }
+
+    @Override
+    public void removeToTheClient(String name) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveChooseActionMove(String player, int numAction) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveChooseMap(String player, int index, int color) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveRun(String player, int[][] movement) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveGrab(String player) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveRegisterPlayer(String player, String actionHero) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveReload(String player) throws RemoteException {
+
+    }
+
+    @Override
+    public void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException {
+
+    }
+
+    @Override
+    public void receiveUseWeaponCard(String player, WeaponCardInterface weaponCard) throws RemoteException {
+
     }
 
 

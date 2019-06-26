@@ -25,7 +25,7 @@ public class ApplicationServerRmi {
     public static void runServer ()throws RemoteException {
 
         //creazione del server
-        server = new ServerRmi();
+        server = new ServerRmi(1234);
 
         System.out.println("Register: ");
 

@@ -1,13 +1,19 @@
 package it.polimi.isw2019.network;
 
+import it.polimi.isw2019.network.rmi.ServerRmi;
 import it.polimi.isw2019.network.socket.GathererSocket;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
     private ExecutorService executor;
     private Lobby lobby = new Lobby();
+    private ServerRmi serverRmi;
 
     private static boolean isRunning = true;
 
@@ -15,8 +21,17 @@ public class Server {
 
         GathererInterface gathererSocket = new GathererSocket(1111);
 
+        GathererInterface gathererRmi= null;
+        try {
+             gathererRmi = new ServerRmi(1234);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+
         Server server = new Server();
-        server.start(gathererSocket);
+        server.start(gathererSocket, gathererRmi);
 
     }
 
@@ -33,7 +48,10 @@ public class Server {
             aGatherer.setLobby(lobby);
             executor.submit(aGatherer);
         }
+
     }
+
+
 
     //inserire start
     //inserire main

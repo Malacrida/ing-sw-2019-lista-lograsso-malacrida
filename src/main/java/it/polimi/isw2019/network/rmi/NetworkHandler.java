@@ -5,7 +5,7 @@ import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
-import it.polimi.isw2019.network.ClientRmi;
+
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 import it.polimi.isw2019.view.CLIView;
@@ -24,7 +24,7 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     static ServerInterfaceRMI server;
     static int id;
-    static ClientRmi client;
+
     static String nameNetworkHandler;
     static String insert;
 
