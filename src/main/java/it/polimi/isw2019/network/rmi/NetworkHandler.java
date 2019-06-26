@@ -5,9 +5,10 @@ import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
-import it.polimi.isw2019.network.ClientRmi;
+
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
+import it.polimi.isw2019.view.CLIView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -23,7 +24,7 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     static ServerInterfaceRMI server;
     static int id;
-    static ClientRmi client;
+
     static String nameNetworkHandler;
     static String insert;
 
@@ -43,7 +44,7 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     @Override
     public void update(PlayerMove message) {
-        System.out.println("notifica dalla VP");
+        System.out.println("vedo la playermove");
         message.accept(this);
     }
 
@@ -87,6 +88,12 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     @Override
     public void sendRegisterPlayer(FirstMessage firstMessage) {
+        try {
+            System.out.println("invio la registrazione");
+            server.receiveRegisterPlayer (firstMessage.getPlayer(), firstMessage.getActionHero());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -152,23 +159,27 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
     }
 
     @Override
-    public void createSetupView(String idMoveMessage, int idPlayer, ArrayList<String> colorAvailable) {
-
+    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) {
+        SetUpMessage setUpMessage = new SetUpMessage(idMoveMessage,0,colorAvailable);
+        notifyObservers(setUpMessage);
     }
 
     @Override
     public void createRun(String nicknamePlayer, String error, int numMovement) {
-
+        RunMessage runMessage = new RunMessage(nicknamePlayer, error, numMovement);
+        notifyObservers(runMessage);
     }
 
     @Override
     public void createGrab(String nicknamePlayer) {
-
+        GrabMessage grabMessage= new GrabMessage(nicknamePlayer);
+        notifyObservers(grabMessage);
     }
 
     @Override
     public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) {
-
+        ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer,weaponCardInterfaces);
+        notifyObservers(reloadMessage);
     }
 
     @Override
@@ -178,7 +189,9 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     @Override
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) {
-
+        System.out.println("ricreo la registrazione");
+        RegistrationPlayer registrationPlayer = new RegistrationPlayer(nicknamePlayer,actionHero, colors);
+        notifyObservers(registrationPlayer);
     }
 
     @Override
@@ -208,12 +221,15 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     @Override
     public void createFirstPlayerChooseMap(String nicknamePlayer) {
+        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer);
+        notifyObservers(firstMessageFirstPlayer);
 
     }
 
     @Override
     public void createFailRegistration(String nicknamePlayer) {
-
+        FailRegistration failRegistration = new FailRegistration(nicknamePlayer);
+        notifyObservers(failRegistration);
     }
 
 

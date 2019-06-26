@@ -2,43 +2,48 @@ package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.message.playermove.ChooseActionMove;
-import it.polimi.isw2019.message.playermove.FirstMessage;
-import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.message.playermove.WeaponCardChoice;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.network.GathererInterface;
+import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
+import it.polimi.isw2019.network.network_interface.ServerInterface;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRMI, Remote {
+public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<ClientInterface>, Remote, GathererInterface {
 
 
     private VisitorController controller= new MainController();
     private HashMap<String, NetworkHandlerInterface> clientConnected = new HashMap<>();
     private ArrayList<VirtualView> virtualViews= new ArrayList<>();
+    private MainController mainController;
+    private int port;
 
-
-    public ServerRmi ()throws RemoteException {
-
+    public ServerRmi(int port) throws RemoteException {
+        this.port=port;
     }
+
 
     @Override
-    public void addToTheServer(String name, NetworkHandlerInterface networkHandler)throws RemoteException {
-        if (!clientConnected.containsKey(name)) {
-            clientConnected.put(name, networkHandler);
-        }
-        System.out.println("Aggiunto: "+name);
-        VirtualView virtualView = new VirtualView(name, networkHandler);
-        virtualViews.add(virtualView);
+    public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
+
     }
 
+
+
+    @Override
+    public void reconnectClient(ClientInterface client, String nickname) throws RemoteException {
+    }
 
 
     @Override
@@ -89,7 +94,14 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
 
 
     @Override
-    public void receiveRegisterPlayer(FirstMessage firstMessage) {
+    public void receiveRegisterPlayer(String player, String actionHero) {
+        System.out.println("ricevo una registrazione da: "+player);
+        for (int i=0; i<virtualViews.size(); i++){
+            if(virtualViews.get(i).getNickname().equals(player)){
+                virtualViews.get(i).createRegisterPlayer(player,actionHero);
+                virtualViews.get(i).registerObserver(mainController);
+            }
+        }
 
     }
 
@@ -139,6 +151,36 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterfaceRM
     }
 
 
+    @Override
+    public void write(Object object) throws IOException, RemoteException {
+
+    }
+
+    @Override
+    public void setLobby(Lobby lobby) {
+
+    }
 
 
+    @Override
+    public void run() {
+        try {
+            LocateRegistry.createRegistry(port);
+        }
+        catch (RemoteException e){
+            //e.printStackTrace();
+        }
+
+        try {
+            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
+        }
+        catch (RemoteException e) {
+            System.out.println("Error remote");
+            //e.printStackTrace();
+        }
+        catch (MalformedURLException e) {
+            System.out.println("Malfunction url");
+            //e.printStackTrace();
+        }
+    }
 }
