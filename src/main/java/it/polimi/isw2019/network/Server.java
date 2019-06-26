@@ -19,7 +19,7 @@ public class Server {
 
     public static void main(String[] args){
 
-        GathererInterface gathererSocket = new GathererSocket(1111);
+        GathererInterface gathererSocket= new GathererSocket(1111);
 
         GathererInterface gathererRmi= null;
         try {
@@ -50,8 +50,13 @@ public class Server {
         }
 
     }
+    
 
-
+    public void setVirtualViewOnServer (GathererInterface... gatherers){
+        for(GathererInterface aGatherer : gatherers){
+            aGatherer.setVirtualViews(lobby.getVirtualViews());
+        }
+    }
 
     //inserire start
     //inserire main

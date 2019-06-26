@@ -2,8 +2,9 @@ package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
-import it.polimi.isw2019.network.rmi.NetworkHandler;
+
 import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
 import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
@@ -112,19 +113,44 @@ public class Client {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-           // startView(nickname);
+            startView(nickname);
         }
 
 
     }
 
-    private static void startViewProvv (String nickname){
-        ViewProvvisioria viewProv = new ViewProvvisioria (nickname);
-        NetworkHandler networkHandler = new NetworkHandler(nickname);
+
+    private static void startView (String nickname){
+        CLIView view = new CLIView();
+        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
 
         try {
-            NetworkHandlerInterface remoteClient = (NetworkHandlerInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+            serverRmi.registerNewClient(remoteClient, nickname);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("registrazione completata");
+
+
+        view.registerObserver(networkHandler);
+        networkHandler.registerObserver(view);
+
+        view.startView();
+    }
+
+
+
+    private static void startViewProvv (String nickname){
+        ViewProvvisioria viewProv = new ViewProvvisioria (nickname);
+        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
+
+
+        try {
+            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
             serverRmi.registerNewClient( remoteClient, nickname);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -139,23 +165,4 @@ public class Client {
         viewProv.createChooseAction();
 
     }
-/*
-    private static void startView (String nickname){
-        CLIView view = new CLIView();
-        ClientInterface networkHandler = new NetworkHandler(nickname);
-
-
-        try {
-            NetworkHandlerInterface remoteClient = (NetworkHandlerInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient(remoteClient, nickname);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        System.out.println("registrazione completata");
-
-        view.registerObserver(networkHandler);
-        networkHandler.registerObserver(view);
-
-        view.startView();
-    }*/
 }

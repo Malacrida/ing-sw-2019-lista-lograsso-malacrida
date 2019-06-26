@@ -28,18 +28,29 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     private ArrayList<VirtualView> virtualViews= new ArrayList<>();
     private MainController mainController;
     private int port;
+    private Lobby lobby;
 
     public ServerRmi(int port) throws RemoteException {
         this.port=port;
     }
 
+    @Override
+    public void setLobby(Lobby lobby) {
+        this.lobby= lobby;
+    }
 
     @Override
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
+        System.out.println("richiesta di login: "+ nickname);
+        if (lobby.addClientConnected(nickname,client))
+            client.logInCorrect();
+        else client.logInFail();
 
     }
 
-
+    public void setVirtualViews(ArrayList<VirtualView> virtualViews) {
+        this.virtualViews = virtualViews;
+    }
 
     @Override
     public void reconnectClient(ClientInterface client, String nickname) throws RemoteException {
@@ -156,10 +167,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     }
 
-    @Override
-    public void setLobby(Lobby lobby) {
 
-    }
 
 
     @Override
@@ -168,7 +176,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
             LocateRegistry.createRegistry(port);
         }
         catch (RemoteException e){
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         try {
@@ -176,11 +184,11 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
         catch (RemoteException e) {
             System.out.println("Error remote");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         catch (MalformedURLException e) {
             System.out.println("Malfunction url");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

@@ -5,6 +5,8 @@ import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.network.Client;
+import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 import it.polimi.isw2019.view.VisitorView;
@@ -15,12 +17,13 @@ import java.util.ArrayList;
 public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private String nickname;
-    private NetworkHandlerInterface networkHandler;
+    private ClientInterface networkHandler;
 
-    VirtualView (String nickname, NetworkHandlerInterface networkHandler){
+    public VirtualView (String nickname, ClientInterface networkHandler){
         this.nickname=nickname;
-        this.networkHandler= networkHandler;
+        this.networkHandler = networkHandler;
     }
+
 
     public String getNickname() {
         return nickname;

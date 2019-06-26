@@ -6,6 +6,8 @@ import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
+import it.polimi.isw2019.network.network_interface.ClientInterface;
+import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 import it.polimi.isw2019.view.CLIView;
@@ -17,20 +19,20 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class NetworkHandler extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerInterface, Remote, NetworkHandlerVisitorInterface {
+public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observer<PlayerMove>, ClientInterface, Remote, NetworkHandlerVisitorInterface {
 
 //forse va qui il riferimento al registro
 
 
-    static ServerInterfaceRMI server;
+    static ServerInterface server;
     static int id;
 
     static String nameNetworkHandler;
     static String insert;
 
-    public NetworkHandler (String nickname){
+    public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterfaceRMI) Naming.lookup("rmi://localhost:1234/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://localhost:1234/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -41,6 +43,16 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
         nameNetworkHandler= nickname;
     }
 
+
+    @Override
+    public void logInCorrect() throws RemoteException {
+        System.out.println("registrazione corretta");
+    }
+
+    @Override
+    public void logInFail() throws RemoteException {
+        System.out.println("registrazione corretta");
+    }
 
     @Override
     public void update(PlayerMove message) {
@@ -149,8 +161,6 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
 
     }
 
-
-
     @Override
     public void createActionMessage(String nickname) {
         System.out.println("ricevo move message");
@@ -231,6 +241,33 @@ public class NetworkHandler extends Observable<MoveMessage> implements Observer<
         FailRegistration failRegistration = new FailRegistration(nicknamePlayer);
         notifyObservers(failRegistration);
     }
+
+    @Override
+    public void setNickname(String nickname) {
+
+    }
+
+    @Override
+    public String getNickname() {
+        return null;
+    }
+
+    @Override
+    public Boolean isYourTurn() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public void selectModeGameAndMap() throws RemoteException {
+
+    }
+
+    @Override
+    public void startRound() throws RemoteException {
+
+    }
+
+
 
 
 }
