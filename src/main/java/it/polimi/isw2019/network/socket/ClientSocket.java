@@ -66,6 +66,16 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
+    public void logInCorrect() throws RemoteException {
+
+    }
+
+    @Override
+    public void logInFail() throws RemoteException {
+
+    }
+
+    @Override
     public void createActionMessage(String nickname) throws RemoteException {
 
     }

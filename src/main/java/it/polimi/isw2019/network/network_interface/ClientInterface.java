@@ -16,18 +16,21 @@ public interface ClientInterface extends Remote {
 
     //altre info
 
-    public void setNickname(String nickname);
+    public void setNickname(String nickname) throws RemoteException;
 
-    public String getNickname();
+    public String getNickname() throws RemoteException;
 
     public Boolean isYourTurn() throws RemoteException;
 
     //per fargli fare la scelta della modalità di gioco e mappa
-    void selectModeGameAndMap () throws RemoteException;
+    public void selectModeGameAndMap () throws RemoteException;
 
     //per attivare il giocatore nel suo turno
-    void startRound () throws RemoteException;
+    public void startRound () throws RemoteException;
 
+    public void logInCorrect () throws RemoteException;
+
+    public void logInFail () throws RemoteException;
 
     public void createActionMessage(String nickname) throws RemoteException;
 
