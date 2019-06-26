@@ -27,6 +27,7 @@ public class CreateArena {
             default:
                 throw new OutOfBoundsException();
         }
+
         return squares;
     }
 
@@ -254,7 +255,6 @@ public class CreateArena {
         rooms.add(violetRooms);
         rooms.add(greyRoom);
         rooms.add(yellowRoom);
-
 
     }
 

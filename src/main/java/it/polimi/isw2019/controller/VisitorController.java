@@ -15,7 +15,7 @@ public interface VisitorController {
 
     void visitControllerActionChoose(ChooseActionMove chooseActionMove);
 
-    void visitControllerRun(RunMove runMove) throws EndAction, EndSingleAction;
+    void visitControllerRun(RunMove runMove);
 
     void visitControllerGrab(GrabMove grabMove);
 

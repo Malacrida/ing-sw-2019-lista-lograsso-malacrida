@@ -4,25 +4,33 @@ import it.polimi.isw2019.controller.VisitorController;
 
 public class PowerUpChoice extends PlayerMove{
 
-    private int idPowerUp;
-    private int cardChoosen;
-
+    private int idPowerUpDischarge;
+    private int idPowerUpTake;
+    private String messageToPrint;
 
     public PowerUpChoice(String player, int idPowerUp) {
         super(player);
-        this.idPowerUp = idPowerUp;
+        this.idPowerUpDischarge = idPowerUp;
     }
 
-    public int getIdPowerUp() {
-        return idPowerUp;
+    public int getIdPowerUpDischarge() {
+        return idPowerUpDischarge;
     }
 
-    public int getCardChoosen() {
-        return cardChoosen;
+    public int getIdPowerUpTake() {
+        return idPowerUpTake;
     }
 
-    public void setCardChoosen(int cardChoosen) {
-        this.cardChoosen = cardChoosen;
+    public void setIdPowerUpTake(int idPowerUpTake) {
+        this.idPowerUpTake = idPowerUpTake;
+    }
+
+    public String getMessageToPrint() {
+        return messageToPrint;
+    }
+
+    public void setMessageToPrint(String messageToPrint) {
+        this.messageToPrint = messageToPrint;
     }
 
     @Override

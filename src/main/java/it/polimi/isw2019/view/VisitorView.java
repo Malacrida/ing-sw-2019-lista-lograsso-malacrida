@@ -18,8 +18,6 @@ public interface VisitorView{
 
     void visitUpdateView(UpdateMessage updateMessage);
 
-    void visitOkRegistration(RegistrationPlayer registrationPlayer);
-
     void waitForStart(EndRegistration endRegistration);
 
     void weaponCardChoice(ChoiceWeaponCard choiceWeaponCard);

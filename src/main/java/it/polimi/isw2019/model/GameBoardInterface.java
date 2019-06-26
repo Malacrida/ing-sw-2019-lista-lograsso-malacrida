@@ -13,7 +13,7 @@ public interface GameBoardInterface {
     public WeaponCardInterface getWeaponCard(ColorCube color, int index);
 
     //ti restituisce le varie carte in base ai punti di spawn
-    public ArrayList<WeaponCardInterface> getWeaponCard(ColorCube color);
+    public ArrayList<WeaponCardInterface> getWeaponCard(ColorRoom color);
 
     //aggiungere i vari getter e vari toString
 

@@ -3,14 +3,15 @@ package it.polimi.isw2019.controller;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
-import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainController implements Observer<PlayerMove>, VisitorController {
 
@@ -29,13 +30,18 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     public MainController() {
         model = new Model();
-       // SetUpGame.setPlayerBoard();
+        Database db = new Database();
+        //model.setPlayerBoards(SetUpGame.setPlayerBoard());
+        //model.setWeaponCards(SetUpGame.setWeaponCards());
+
+        //model.getGameBoard().setPowerUpCards(db.loadPowerUpCards());
+        //model.getGameBoard().setAmmoTiles(db.loadAmmoTiles());
+
 
     }
 
     @Override
     public void update(PlayerMove playerMove){
-      //  if(playerMove.getPlayer().equals(model.getCurrentPlayer().getName()) ) {
             playerMove.accept(this);
     }
 
@@ -246,65 +252,49 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     public void startGame(){
+        Random rand = new Random();
 
-        model.chooseFirstPlayer();
+        model.chooseFirstPlayer(rand.nextInt(model.getPlayers().size()));
         model.firstMessage();
 
     }
 
     @Override
     public void chooseMap(ChooseMapMove chooseMapMove) {
-        //modify the index of map!
-        if(model.getCurrentPlayer().isFirstPlayer()) {
-            if (chooseMapMove.getIndex() >= 0 && chooseMapMove.getIndex() <= 4) {
-                //error
-            }
-            else{
-                model.associateMapToGameboard(chooseMapMove.getIndex());
-            }
-        }
-        //colore e' presente!!! fare il check
 
-        else{
+        if(model.getCurrentPlayer().isFirstPlayer()) {
+            model.setGame(chooseMapMove.getIndex());
+            }
             try {
                 model.setPlayerWithPlayerBoard(model.getCurrentPlayer(),returnColorPlayerFromString(model.getColorAvailable().get(chooseMapMove.getIndexColor())));
                 model.changePlayer();
             } catch (ColorNotAvailableException e) {
                 //normally impossible!
             }
-        }
     }
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
 
-        if(powerUpChoice.getCardChoosen() > model.getCurrentPlayer().getPowerUpCards().size() && (powerUpChoice.getCardChoosen() < 0 )){
-            //mex di errore
-        }
-        else if(model.getCurrentPlayer().isRespawn() || model.getCurrentPlayer().isFirstTurn()){
-            //fillare con una powerUpCard dal deck (se ce ne sono ancora)
-            //aggiungerla al deck
-            //handleRespawnPowerUp
-            // model.movePlayerToRespawnSquare(model.getCurrentPlayer(),model.);
+        if(powerUpChoice.getIdPowerUpTake() < model.getTmpPowerUpCard().size() && (powerUpChoice.getIdPowerUpTake() >= 0 )){
 
+            model.movePlayerToRespawnSquare(powerUpChoice.getIdPowerUpTake());
         }
 
-        //restituita la powerUp con le varie cose da pagare e gli effetti
-        else{
-
-        }
+        //che se ne ha piu di tre ( da controllare prima) selezionarne una tfra quelle che ha da scartare
     }
 
     @Override
     public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
         model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
+        model.sendCorrectActionMessage();
     }
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
 
         /*if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
-            if(weaponCardChoice.isGrab()){
+            if(weaponCardChoice.isGrabWeapon()){
                 if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
                     //setUp error message, you're NOT in a respawn square : or try to grab an ammo card or you'action will be ended!
                 }
@@ -443,23 +433,46 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     //verifico !!!
     @Override
     public void visitControllerRun(RunMove runMove){
-
-        for(int i=0;i<runMove.getMovement().length;i++) {
-            if (runMove.getMovement()[i][0] < 0 || runMove.getMovement()[i][0] > 2 || runMove.getMovement()[i][1] < 0 || runMove.getMovement()[i][1] > 3) {
+        int i = 0;
+        boolean endCycle = false;
+        boolean terminateInput = false;
+       do {
+            if(runMove.getMovement()[i][0] == -1 || runMove.getMovement()[i][1] == -1){
+                terminateInput = true;
+                endCycle = true;
+            }
+            else if (runMove.getMovement()[i][0] < 0 || runMove.getMovement()[i][0] > 2 || runMove.getMovement()[i][1] < 0 || runMove.getMovement()[i][1] > 3) {
                 model.getCurrentPlayer().getMessageToBeSent().get(0).setError("The index you've inserted are wrong!" + runMove.getMovement()[i][0] + runMove.getMovement()[i][1]);
-                model.sendCorrectActionMessage(model.getCurrentPlayer().getSingleMessageToBeSent());
+                model.sendCorrectActionMessage();
                 return;
             }
-        }
-        model.run(runMove.getMovement());
+            if(i == runMove.getMovement().length)
+                endCycle = true;
+
+            i++;
+
+        }while(!endCycle);
+
+       int[][] coordinates ;
+       if(terminateInput){
+           coordinates = new int[i][2];
+           for(int j = 0; j < i ; j++){
+               coordinates[j]= runMove.getMovement()[j];
+           }
+
+       }
+       else
+           coordinates = runMove.getMovement();
+        System.out.println("ok");
+        model.run(coordinates);
     }
 
     @Override
     public void visitControllerGrab(GrabMove grabMove) {
 
-        if(grabMove.getCardSelection()!= 'A' || grabMove.getCardSelection()!= 'W' || grabMove.getCardSelection() != '0') {
+       /* if(grabMove.getCardSelection()!= 'A' || grabMove.getCardSelection()!= 'W' || grabMove.getCardSelection() != '0') {
             model.getCurrentPlayer().getMessageToBeSent().get(0).setError("WRONG INPUT" + grabMove.getCardSelection());
-            model.sendCorrectActionMessage(model.getCurrentPlayer().getSingleMessageToBeSent());
+            model.sendCorrectActionMessage();
             return;
         }
         else if(grabMove.getCardSelection()== 'W'){
@@ -472,14 +485,15 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
          }
          else if(grabMove.getCardSelection() == 'A'){
                 model.grabAmmoCard();
-            }
-        }
+            }*/
+
+    }
 
     @Override
     public void visitControllerChooseAction(ChooseActionMove chooseActionMove) {
-        if(chooseActionMove.getNumAction()<0 || chooseActionMove.getNumAction() > model.getCurrentPlayer().getMessageToBeSent().size()){
 
-        }
+       model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
+       model.sendCorrectActionMessage();
     }
 
     @Override
@@ -489,7 +503,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void firstTurn() {
-        model.chooseFirstPlayer();
+        //model.chooseFirstPlayer();
     }
 
     @Override

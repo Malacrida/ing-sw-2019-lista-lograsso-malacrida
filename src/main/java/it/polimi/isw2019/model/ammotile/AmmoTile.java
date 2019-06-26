@@ -42,16 +42,16 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
     public AmmoTile(int id, String firstElement, String secondElement, String thirdElement){
 
         this.id = id;
-        //thirdColor = setColor(thirdElement);
+        thirdColor = setColor(thirdElement);
         this.secondElement = secondElement;
-        //secondColor = setColor(secondElement);
+        secondColor = setColor(secondElement);
         this.firstElement = firstElement;
-       /* if(firstElement.equals("powerup"))
+        if(firstElement.equals("powerup"))
             this.powerUpCard = true;
         else{
             this.powerUpCard = false;
             firstColor = setColor(firstElement);
-        }*/
+        }
 
     }
 

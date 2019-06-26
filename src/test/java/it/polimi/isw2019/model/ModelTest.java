@@ -1,7 +1,9 @@
 package it.polimi.isw2019.model;
 
+import it.polimi.isw2019.model.exception.ColorNotAvailableException;
 import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
+import it.polimi.isw2019.view.CLIView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,91 +81,118 @@ public class ModelTest {
     }
 
     @Test
-    public void chooseFirstPlayer(){
-        model.chooseFirstPlayer();
+    public void testChooseFirstPlayer(){
+        model.chooseFirstPlayer(3);
         for (Player player : model.getPlayers()) {
             System.out.println(player.getName());
             System.out.println(player.getIndexPlayer());
         }
+        assertEquals(3, model.getPlayers().indexOf(model.getCurrentPlayer()));
     }
 
     @Test
-    public void changePlayer(){
+    public void testFirstMessage(){
 
-        model.chooseFirstPlayer();
+        model.chooseFirstPlayer(3);
+        model.firstMessage();
 
-        int oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+    }
+
+    @Test
+    public void testChangePlayer(){
+
+        model.chooseFirstPlayer(3);
+
+        int oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
 
         System.out.println(oldCurrentPlayer);
 
         model.changePlayer();
 
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
-            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+            assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
-              assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+              assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
 
         model.changePlayer();
         model.changePlayer();
 
-        oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+        oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
 
         model.changePlayer();
 
 
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
-            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+            assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
-            assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
 
 
-        oldCurrentPlayer= model.getCurrentPlayer().getIndexPlayer();
+        oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
         model.changePlayer();
-
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
-            assertEquals(0,model.getCurrentPlayer().getIndexPlayer());
+            assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
-            assertEquals(oldCurrentPlayer + 1,model.getCurrentPlayer().getIndexPlayer());
+            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
     }
 
     @Test
-    public void setFrenzyMood(){
+    public void testSetFrenzyMood(){
+
+        model.chooseFirstPlayer(3);
+
+        model.changePlayer();
+        model.changePlayer();
+
+        System.out.println(model.getPlayers().indexOf(model.getCurrentPlayer()));
+
+        model.setFrenzyMood();
+
+        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
+        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
+
+        model.chooseFirstPlayer(0);
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.setFrenzyMood();
+
+        assertEquals(1 ,model.getCurrentPlayer().getNumActionToBePerformed());
+        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
+
+        model.chooseFirstPlayer(0);
+        model.setCurrentPlayer(model.getPlayers().get(0));
+        model.changePlayer();
+
+        model.setFrenzyMood();
+
+        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
+        assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformed());
+        assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformed());
 
     }
-
 
     //riesco a prendere quella playerboard. NON FUNZIONA
     @Test
     public void testContainsColor() {
-        /*try{
 
-            assertEquals(model.containsColor(colorPlayer2), true);
-            assertNotEquals(model.containsColor(colorPlayer1), true);
-            model.setPlayerWithPlayerBoard(player1, colorPlayer1);
-
-        }catch(ColorNotAvailableException e){
-            fail();
-        }
         try{
 
-            model.setPlayerWithPlayerBoard(player2, colorPlayer1);
+            assertEquals(false,model.containsColor(ColorPlayer.BLUE));
+            assertNotEquals(true,model.containsColor(ColorPlayer.GREEN));
             fail();
-
         }catch(ColorNotAvailableException e){
 
-        }*/
+        }
 
     }
 
     @Test
-    public void tstPositionPlayerBoardAvailable() {
-        /*try{
-            model.setPlayerWithPlayerBoard(player2, colorPlayer2);
+    public void testPositionPlayerBoardAvailable() {
+        try{
             assertNotEquals(model.positionPlayerBoardAvailable(ColorPlayer.BLUE),2);
-        }catch(ColorNotAvailableException e){
-            //non dovrebbe fallire!!!
             fail();
-        }*/
+        }catch(ColorNotAvailableException e){
+
+        }
     }
 
     @Test

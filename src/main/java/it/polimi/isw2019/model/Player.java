@@ -1,7 +1,7 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.PlayerMove;
+import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -27,45 +27,60 @@ public class Player implements PlayerInterface {
     private int y;
     private ColorRoom colorRoom;
 
-    private String[][] weaponCard;
-    private String[][] powerUpCard;
-
     private boolean frenzy;
 
     private boolean isTerminator;
     private boolean moveTerminator;
+
+    private int runAndGrab;
+    private int run;
+    private int runAndUseWeaponCard;
 
     private boolean respawn;
 
     private boolean firstTurn;
 
     private int numActionPerformed;
-    private int numActionToBePerformed;
+    private final int numActionToBePerformed = 1;
+    private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
+
+    private ArrayList<PowerUpCard> tmpPowerUpCard = new ArrayList<>();
 
     private boolean correctAction;
 
-    private ArrayList<MoveMessage> messageToBeSent;
+    private ArrayList<MoveMessage> messageToBeSent = new ArrayList<>();
 
     private String error;
 
+    private String descriptionPlayer;
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
-       this.playerID=playerID;
+        this.playerID=playerID;
         //value out of range of play
         x=-1;
         y=-1;
         colorRoom= null;
-        //it just been created. Must respawn!
-        respawn = true;
+        //it just been created. Must respawn -> false!
+        respawn = false;
         firstTurn = true;
+
     }
 
 
     public Player(String name, String actionHeroComment) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
+
+        x=-1;
+        y=-1;
+        colorRoom= null;
+        //it just been created. Must respawn -> false!
+        respawn = false;
+        firstTurn = true;
+
+        score = 0;
     }
 
     public int getNumActionPerformed() {
@@ -211,8 +226,6 @@ public class Player implements PlayerInterface {
         powerUpCards.remove(powerUpCard);
     }
 
-    //non fare test
-    //da riguardare : non è detto che il primo colore coincide con il blu!
 
     public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
         int [] price = new int[3];
@@ -230,7 +243,6 @@ public class Player implements PlayerInterface {
         }
     }
 
-    //non fare test
     public void payEffect (int costRed, int costYellow, int costBlue) throws OutOfBoundsException {
         try {
             if (costRed > 0) {
@@ -256,6 +268,24 @@ public class Player implements PlayerInterface {
         }
         catch (OutOfBoundsException e){
             throw new OutOfBoundsException(e.getInfo());
+        }
+
+    }
+
+    public void takenAmmoTileColor(AmmoTile ammoTile){
+
+        if(!ammoTile.isPowerUpCard()){
+            try {
+                getRealPlayerBoard().addCube(ammoTile.getFirstColor());
+            } catch (TooManyCubes tooManyCubes) {
+            }
+        }
+        try {
+            getRealPlayerBoard().addCube(ammoTile.getSecondColor());
+            getRealPlayerBoard().addCube(ammoTile.getThirdColor());
+
+        } catch (TooManyCubes tooManyCubes) {
+
         }
 
     }
@@ -396,6 +426,7 @@ public class Player implements PlayerInterface {
     @Override
     public ArrayList<InterfacePowerUpCard> getPowerUpCard() {
         ArrayList<InterfacePowerUpCard> powerUpCardInterfaces = new ArrayList<>();
+
         for(PowerUpCard powerUp: powerUpCards){
             powerUpCardInterfaces.add(powerUp.getPowerUpCard());
         }
@@ -416,16 +447,7 @@ public class Player implements PlayerInterface {
         return weaponCardInterfaces;
     }
 
-    @Deprecated
-    public int numActionCanPerform() {
-        if(!frenzy && !firstPlayer)
-            return 3;
-        else if(frenzy && !firstPlayer)
-            return 2;
-        else
-            return 1;
-    }
-
+    //add a powerUp in the
     public boolean canAddPowerUp(){
         for(PowerUpCard powerUpCard : powerUpCards){
             if(powerUpCard.isCanBeUsed()){
@@ -457,31 +479,38 @@ public class Player implements PlayerInterface {
 
         ActionMessage actionMessage = new ActionMessage(getName());
 
-        actionMessage.setRunAction(3);
-
         if(!endTurn) {
-            if (playerDamage() < 2)
-                actionMessage.setRunAndGrab(1);
-            else
-                actionMessage.setRunAndGrab(2);
 
-            if (powerUpCards.size() != 0 && canAddPowerUp()) {
+            run = 3;
+            actionMessage.setRunAction(3);
+
+            if (playerDamage() < 2) {
+                runAndGrab = 1;
+                actionMessage.setRunAndGrab(1);
+            }
+            else {
+                runAndGrab = 2;
+                actionMessage.setRunAndGrab(2);
+            }
+            //tolto can add power up
+            if (!powerUpCards.isEmpty()) {
                 actionMessage.setPowerUpAction();
             }
 
-            if (weaponCards.size() != 0) {
+            if (!weaponCards.isEmpty()) {
                 if (reloadedWeaponCard()) {
                     actionMessage.setUseWeaponCard();
-                    if (playerDamage() >= 5)
+                    if (playerDamage() >= 5) {
+                        runAndUseWeaponCard = 1;
                         actionMessage.setRunUseWeaponCardAction();
+                    }
                 }
                 if (notReloadedWeaponCard()) {
                     actionMessage.setReloadWeaponCard();
                 }
             }
+
             messageToBeSent.clear();
-            numActionPerformed = 2;
-            numActionToBePerformed = 0;
             numActionCancelled = 0;
         }
         if(endTurn){
@@ -502,115 +531,137 @@ public class Player implements PlayerInterface {
 
         ActionMessage actionMessage = new ActionMessage(getName());
 
-        if(!afterFirstPlayer){
+        if(afterFirstPlayer){
 
-            if(weaponCards.size() != 0 && reloadedWeaponCard()) {
+            if(!weaponCards.isEmpty() && reloadedWeaponCard()) {
+                runAndUseWeaponCard = 1;
                 actionMessage.setRunReloadAndUseWeaponCard(1);
             }
             actionMessage.setRunAction(4);
+            run = 4;
             actionMessage.setRunAndGrab(3);
-
-            numActionPerformed = 2;
+            runAndGrab = 3;
+            numActionToBePerformedFrenzy = 1;
         }
 
         else{
-            if(weaponCards.size() != 0 && reloadedWeaponCard()) {
+            if(!weaponCards.isEmpty()&& reloadedWeaponCard()) {
+                runAndUseWeaponCard = 2;
                 actionMessage.setRunReloadAndUseWeaponCard(2);
             }
+            runAndGrab = 3;
+            numActionToBePerformedFrenzy = 2;
             actionMessage.setRunAndGrab(3);
-            numActionPerformed = 1 ;
         }
 
-        numActionCancelled = 0;
-        numActionToBePerformed = 0;
         messageToBeSent.clear();
+        numActionCancelled = 0;
+        numActionPerformed = 0;
+
         return actionMessage;
     }
 
-    //da testare
 
     public void setMessagesToBeSent(int idAction) {
 
-        switch (idAction){
-            case 0:
-                messageToBeSent.add(new RunMessage(name));
+        messageToBeSent.clear();
 
-                break;
-            case 1:
-
-                messageToBeSent.add(new RunMessage(name));
-                messageToBeSent.add(new GrabMessage(name));
-
-                break;
-            case 2:
-
-                messageToBeSent.add(new UseWeaponCardMessage(name));
-
-                break;
-            case 3:
-
-                messageToBeSent.add(new RunMessage(name));
-                messageToBeSent.add(new UseWeaponCardMessage(name));
-                break;
-
-            case 4:
-
-                messageToBeSent.add(new RunMessage(name));
-                messageToBeSent.add(new ReloadMessage(name));
-                messageToBeSent.add(new UseWeaponCardMessage(name));
-
-                break;
-
-            case 5:
-                messageToBeSent.add(new ReloadMessage(name));
-                break;
-            case 6:
-                messageToBeSent.add(new UsePowerUpCardMessage(name));
-                break;
+        if(idAction == 0) {
+            RunMessage runMessage = new RunMessage(name);
+            runMessage.setNumMovement(run);
+            messageToBeSent.add(runMessage);
+        }
+        else if(idAction == 1) {
+            RunMessage runMessage = new RunMessage(name);
+            runMessage.setNumMovement(run);
+            messageToBeSent.add(runMessage);
+            GrabMessage grabMessage = new GrabMessage(name);
+            //settare grab message
+            messageToBeSent.add(grabMessage);
+        }
+        else if(idAction == 2) {
+            UseWeaponCardMessage useWeaponCard = new UseWeaponCardMessage(name);
+            //rivedere cosa inserire (stringhe)
+            messageToBeSent.add(useWeaponCard);
+        } else if(idAction == 3) {
+            RunMessage runMessage = new RunMessage(name);
+            runMessage.setNumMovement(run);
+            messageToBeSent.add(runMessage);
+            UseWeaponCardMessage useWeaponCard = new UseWeaponCardMessage(name);
+            //rivedere cosa inserire (stringhe)
+            messageToBeSent.add(useWeaponCard);
+        }
+         else if(idAction == 4) {
+            RunMessage runMessage = new RunMessage(name);
+            runMessage.setNumMovement(run);
+            messageToBeSent.add(runMessage);
+            ReloadMessage reloadMessage = new ReloadMessage(name);
+            //modifiche
+            messageToBeSent.add(reloadMessage);
+            UseWeaponCardMessage useWeaponCard = new UseWeaponCardMessage(name);
+            //rivedere cosa inserire (stringhe)
+            messageToBeSent.add(useWeaponCard);
+        }
+        else  if(idAction == 5) {
+            ReloadMessage reloadMessage = new ReloadMessage(name);
+            //modifiche
+            messageToBeSent.add(reloadMessage);
+        }
+        else  if(idAction == 6) {
+            UsePowerUpCardMessage powerUpCardMessage = new UsePowerUpCardMessage(name);
+            //fare modifiche
+            messageToBeSent.add(powerUpCardMessage);
         }
 
 
     }
 
 
-    public MoveMessage updatePlayerStatusIncorrectAction() throws EndTurnException {
-        if(numActionCancelled <3 && ! correctAction){
-            messageToBeSent.get(0).setError("invalid insertment");
-            return messageToBeSent.get(0);
+    public boolean updatePlayerStatusIncorrectAction(String error) {
+
+        System.out.println("ko");
+
+        if(numActionCancelled <1){
+            numActionCancelled++;
+            messageToBeSent.get(0).setError(error);
+            return true;
         }
-        else if(numActionCancelled == 3 && ! correctAction){
-            messageToBeSent.clear();
+        else{
+            numActionCancelled = 0;
+           // messageToBeSent.clear();
             //throw new Failethird time that you've inserted an invalid action  : this action ends!dActionException("");
             //error = "third time that you've inserted an invalid action  : this action ends!";
             return updatePlayerMessageStatus();
         }
-       return null;
     }
 
-    public MoveMessage updatePlayerMessageStatus() throws EndTurnException {
+    public Boolean updatePlayerMessageStatus(){
+        //rimuovi -> ok azione
+        messageToBeSent.remove(0);
 
         if(!messageToBeSent.isEmpty()){
-            messageToBeSent.remove(0);
-            return messageToBeSent.get(0);
+            return true;
+        }
+        else {
+             if (numActionPerformed < numActionToBePerformed) {
+                 numActionPerformed++;
+                 System.out.println(" numAc :" + numActionPerformed);
+                 messageToBeSent.clear();
+                 messageToBeSent.add(setCorrectNormalActionChooseMessages(false));
+                 return true;
+            }
+             else {
+                 ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
+                if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
+                    System.out.println(" numAc end :" + numActionPerformed);
+                    return false;
+                } else {
+                    System.out.println("end 2");
+                    return messageToBeSent.add(tmpMessage);
+                }
+            }
         }
 
-        else if(numActionPerformed < numActionToBePerformed){
-                numActionPerformed++;
-                return setCorrectNormalActionChooseMessages(false);
-            }
-
-        else if (numActionPerformed == numActionToBePerformed ){
-                ActionMessage tmpActionMessage = setCorrectNormalActionChooseMessages(true);
-
-                if(tmpActionMessage.getActionPlayerCanPerform().isEmpty()){
-                    throw new EndTurnException();
-                }
-                else{
-                    return tmpActionMessage;
-                }
-            }
-
-        return null;
     }
 
     public int getNumActionCancelled() {
@@ -628,12 +679,13 @@ public class Player implements PlayerInterface {
             return null;
     }
 
-    public String getError() {
-        return error;
+    public String toString(){
+        descriptionPlayer = "Name : " + name ;
+        descriptionPlayer += "\n";
+        // descriptionPlayer += "Current position :" + x + " " + y + " " + colorRoom.getColorRoomRepresentation() + "\n";
+        descriptionPlayer += "Score : " + score + "\n";
+        return descriptionPlayer;
     }
 
-    public void setError(String error) {
-        this.error = error;
-    }
 
 }

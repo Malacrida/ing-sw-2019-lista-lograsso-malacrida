@@ -11,10 +11,9 @@ public class Arena implements ArenaInterface{
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
-    private String[][] arenaRepresentation;
+    private String arenaRepresentation;
 
     Arena() {
-
     }
 
 
@@ -32,6 +31,7 @@ public class Arena implements ArenaInterface{
         try {
             squares = CreateArena.chooseMap(numArena);
             rooms = CreateArena.chooseRoom(numArena);
+            setArenaRepresentation();
         } catch (OutOfBoundsException e) {
             throw new OutOfBoundsException("Number out of possible bounds");
         }
@@ -79,7 +79,6 @@ public class Arena implements ArenaInterface{
                 if ((!((i == 1 && j == 0) || (i == 0 && j == 2) || (i == 2 && j == 3))) && squares[i][j] != null) {
                     squares[i][j].setAmmoTile(ammoTiles.get(0));
                     ammoTiles.remove(0);
-                    //cambio di stato
                 }
             }
 
@@ -265,30 +264,38 @@ public class Arena implements ArenaInterface{
     //per spostare di posizione il giocaotre
     public void movePlayer(Player player, int x, int y) {
 
-        if (isSquaresAvailable(player, x, y)) {
+        if(player.getX() == -1 && player.getY() == -1){
+            squares[x][y].addPlayer(player);
+            player.changeSquare(x, y);
+        }
+        else if (isSquaresAvailable(player, x, y)) {
             if (isPlayerChangeRoom(player, x, y)) {
                 playerChangeRoom(player, x, y);
             }
             squares[player.getX()][player.getY()].removePlayers(player);
             squares[x][y].addPlayer(player);
-            player.changeSquare(x, y);
+            player.changeSquare(x,y);
         }
+
     }
 
     public void movePlayerRespawnSquare(Player player, ColorRoom colorRoom){
         if(colorRoom.equals(ColorRoom.YELLOW)){
-            movePlayer(player,3,2);
+            player.changeRoom(ColorRoom.YELLOW);
+            movePlayer(player,2,3);
         }
         else if(colorRoom.equals(ColorRoom.BLUE)){
-            movePlayer(player,2,0);
+            player.changeRoom(ColorRoom.BLUE);
+            movePlayer(player,0,2);
         }
         else if(colorRoom.equals(ColorRoom.RED)){
-            movePlayer(player,1,0);
+            player.changeRoom(ColorRoom.RED);
+            movePlayer(player,0,1);
         }
     }
 
     public boolean isRespawnSquare(int x, int y){
-        if((x == 3 && y == 2) || (x == 2 && y == 0) ||(x ==1 && y == 0))
+        if((x == 2 && y == 3) || (x == 0 && y == 2) ||(x ==0 && y == 1))
             return true;
         else
             return false;
@@ -385,24 +392,36 @@ public class Arena implements ArenaInterface{
 
 
 
-
     public void setArenaRepresentation() {
-        for (int i = 0; i < squares.length; i++) {
-            for (int j = 0; j < squares[i].length; j++) {
-                squares[i][j].setSquareRepresentation(getColorRoom(squares[i][j]).getColorRoomRepresentation());
+
+        arenaRepresentation = " ";
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(squares[i][j]!= null)
+                        arenaRepresentation += squares[i][j].toString() + " " ;
+                else
+                    arenaRepresentation +=  "X" + " " + "X" + "   ";
             }
-
+            arenaRepresentation+= "\n";
+            arenaRepresentation += " ";
         }
-    }
 
-    @Override
-    public String[][] getArenaRepresentation() {
+}
+
+    public String getArenaRepresentation() {
         return arenaRepresentation;
     }
 
     @Override
     public ArenaInterface getArenaInterface() {
         return this;
+    }
+
+    @Override
+    public String toString(){
+        setArenaRepresentation();
+        return getArenaRepresentation();
     }
 }
 

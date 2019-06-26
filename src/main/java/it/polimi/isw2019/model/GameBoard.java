@@ -3,10 +3,9 @@ package it.polimi.isw2019.model;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.InstanceArenaException;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
-import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
+import it.polimi.isw2019.model.weaponcard.*;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.utilities.Database;
 
 
@@ -17,9 +16,9 @@ public class GameBoard implements GameBoardInterface{
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
 
-    private AbstractWeaponCard[] weaponCardsRed= new AbstractWeaponCard[3];
-    private AbstractWeaponCard[] weaponCardsBlue= new AbstractWeaponCard[3];
-    private AbstractWeaponCard[] weaponCardsYellow= new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCardsRed = new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCardsBlue = new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCardsYellow = new AbstractWeaponCard[3];
 
     private ArrayList<AbstractWeaponCard> weaponCardsDischarged = new ArrayList<>();
 
@@ -29,26 +28,42 @@ public class GameBoard implements GameBoardInterface{
     private ArrayList<AmmoTile> ammoTiles;
     private ArrayList<AmmoTile> grabedAmmoTiles = new ArrayList<>();
 
-    private Arena gameArena=null;
+    private Arena gameArena;
     private static GameBoard instance;
     private KillShotTrack killShotTrack ;
 
-   // private Database db;
+    private String gameBoardDescription;
 
     public GameBoard (){
         //shuffle
-        //db = new Database();
-        //ammoTiles = db.loadAmmoTiles();
-        //powerUpCards = db.loadPowerUpCards();
+        weaponCards.add(new CyberBlade());
+        weaponCards.add(new Electroscythe());
+        weaponCards.add(new Flamethrower());
+        weaponCards.add(new Furnace());
+        weaponCards.add(new GrenadeLauncher());
+        weaponCards.add(new HeatSeeker());
+        weaponCards.add(new Hellion());
+        weaponCards.add(new LockRifle());
+        weaponCards.add(new MachineGun());
+        weaponCards.add(new PlasmaGun());
+        weaponCards.add(new PowerGlove());
+        weaponCards.add(new RailGun());
+        weaponCards.add(new RocketLauncher());
+        weaponCards.add(new ShockWave());
+        weaponCards.add(new ShotGun());
+        weaponCards.add(new SledgeHammer());
+        weaponCards.add(new Thor());
+        weaponCards.add(new TractorBeam());
+        weaponCards.add(new VortexCannon());
+        weaponCards.add(new Whisper());
+        weaponCards.add(new ZX_2());
 
-
+        gameArena= new Arena();
     }
 
 
 
     public void chooseArena (int num) throws InstanceArenaException, OutOfBoundsException {
-
-        gameArena= new Arena();
 
         try {
             gameArena.chooseArena(num);
@@ -89,7 +104,6 @@ public class GameBoard implements GameBoardInterface{
         weaponCardsRed = createDeckForSpawnSquares();
         weaponCardsBlue = createDeckForSpawnSquares();
         weaponCardsYellow = createDeckForSpawnSquares();
-
         gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsYellow);
     }
 
@@ -252,7 +266,7 @@ public class GameBoard implements GameBoardInterface{
     }
 
     @Override
-    public ArrayList<WeaponCardInterface> getWeaponCard(ColorCube color) {
+    public ArrayList<WeaponCardInterface> getWeaponCard(ColorRoom color) {
         ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();
 
         if(color.equals(ColorCube.BLUE)){
@@ -271,4 +285,37 @@ public class GameBoard implements GameBoardInterface{
 
         return tmpWeaponCards;
     }
+
+
+    public void addPowerUpCardDiscarded(PowerUpCard powerUpCard){
+        usedPowerUpCards.add(powerUpCard);
+    }
+
+    /*public void setGameBoardDescription(){
+        getGameArena().setArenaRepresentation();
+        gameBoardDescription = getGameArena().getArenaRepresentation();
+        gameBoardDescription += "Red Spawn : ";
+       // StringBuilder st = new StringBuilder();
+        //ci penso
+        for(int i = 0 ; i < weaponCardsRed.length; i++)
+            gameBoardDescription += weaponCardsRed[i].getName() + " ";
+        gameBoardDescription += "\n";
+        gameBoardDescription += "Blue Spawn : ";
+        for(int i = 0 ; i < weaponCardsBlue.length; i++)
+            gameBoardDescription += weaponCardsBlue[i].getName() + " ";
+        gameBoardDescription += "\n";
+        gameBoardDescription += "Yellow Spawn : ";
+        for(int i = 0 ; i < weaponCardsYellow.length; i++)
+            gameBoardDescription += weaponCardsYellow[i].getName() + " ";
+        gameBoardDescription += "\n";
+        //introdurre anche i vari danni
+        gameBoardDescription += "Num Skull : "+ killShotTrack.getNumSkull() + "\n";
+
+
+    }*/
+
+    public String getGameBoardDescription(){
+        return gameBoardDescription;
+    }
+
 }
