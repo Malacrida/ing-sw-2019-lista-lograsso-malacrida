@@ -110,10 +110,10 @@ public class Client {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            startViewProvv(nickname);
+
         }
 
-
+        startViewProvv(nickname);
 
     }
 
@@ -126,7 +126,7 @@ public class Client {
             NetworkHandlerInterface remoteClient = (NetworkHandlerInterface) UnicastRemoteObject.exportObject(networkHandler,0);
             serverRmi.addToTheServer(nickname, remoteClient);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         System.out.println("registrazione completata");
 

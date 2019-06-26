@@ -10,7 +10,7 @@ public interface ServerInterface<T> extends Remote {
 
     //notify
 
-    public Boolean registerNewClient(T client, String nickname) throws IOException;
+    public void registerNewClient(T client, String nickname) throws IOException;
 
     public void write(Object object) throws IOException;
 

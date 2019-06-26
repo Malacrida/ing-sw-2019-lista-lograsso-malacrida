@@ -31,10 +31,9 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
 
     @Override
-    public Boolean registerNewClient(Socket client, String nickname) throws IOException {
+    public void registerNewClient(Socket client, String nickname) throws IOException {
         System.out.println("Si è registrato " + nickname);
         write(nickname);
-        return true;
     }
 
     @Override

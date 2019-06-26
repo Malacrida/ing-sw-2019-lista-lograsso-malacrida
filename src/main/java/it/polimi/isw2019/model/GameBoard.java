@@ -47,7 +47,7 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * method to choose arena
-     * @param num
+     * @param num arena's identifier
      * @throws InstanceArenaException
      * @throws OutOfBoundsException
      */
@@ -65,18 +65,37 @@ public class GameBoard implements GameBoardInterface{
 
     }
 
+    /**
+     * set weapon cards
+     * @param weaponCards
+     */
+
     public void setWeaponCards(ArrayList<AbstractWeaponCard> weaponCards) {
         this.weaponCards = weaponCards;
     }
+
+    /**
+     * set power up
+     * @param powerUpCards
+     */
 
     public void setPowerUpCards(ArrayList<PowerUpCard> powerUpCards) {
         this.powerUpCards = powerUpCards;
     }
 
+    /**
+     * set ammo tile
+     * @param ammoTiles
+     */
+
     public void setAmmoTiles(ArrayList<AmmoTile> ammoTiles) {
         this.ammoTiles = ammoTiles;
     }
 
+    /**
+     * creeate weapon card deck
+     * @return deck
+     */
 
     public AbstractWeaponCard[] createDeckForSpawnSquares (){
         AbstractWeaponCard[] deck = new AbstractWeaponCard[3];
@@ -88,6 +107,10 @@ public class GameBoard implements GameBoardInterface{
         return deck;
     }
 
+    /**
+     * put weapon cad on board
+     */
+
     //settare le carte nei punti spawn
     public void setWeaponCardsOnBoard (){
 
@@ -98,6 +121,12 @@ public class GameBoard implements GameBoardInterface{
         gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsYellow);
     }
 
+    /**
+     * put another weapon card when one is grab
+     * @param x first coordinate
+     * @param y second  cordinate
+     */
+
     //rimpiazzare le carte armi pescate dai punti spawn
     public void placeAnotherWeaponCards (int x, int y){
         gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(0), x,y);
@@ -105,6 +134,14 @@ public class GameBoard implements GameBoardInterface{
 
     }
 
+    /**
+     * take a weapon card from gameboard
+     * @param weaponCard which player want grab
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return weapon card
+     * @throws OutOfBoundsException
+     */
     public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws OutOfBoundsException {
         if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
             gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
@@ -117,6 +154,14 @@ public class GameBoard implements GameBoardInterface{
         return weaponCard;
     }
 
+    /**
+     * list of weapon cards in a square
+     * @param x first coordinate
+     * @param y second cooridnate
+     * @return weapon cards
+     * @throws OutOfBoundsException
+     */
+
     public AbstractWeaponCard[] weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
         if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
             return gameArena.getWeaponCardsOnSquares(x,y);
@@ -124,15 +169,30 @@ public class GameBoard implements GameBoardInterface{
         else throw new OutOfBoundsException("not a spawn square!");
     }
 
+    /**
+     * lenght of weapon card's array
+     * @return size of weapon card
+     */
+
     public int sizeWeaponCards (){
         return weaponCards.size();
     }
+
+    /**
+     * take power up card
+     * @return power up
+     */
 
     public PowerUpCard takePowerUpCard (){
         PowerUpCard powerUpCard = powerUpCards.get(0);
         powerUpCards.remove(0);
         return powerUpCard;
     }
+
+    /**
+     * lenght of power up card's array
+     * @return size of power up card
+     */
 
     public int sizePowerUpCards (){
         return powerUpCards.size();
