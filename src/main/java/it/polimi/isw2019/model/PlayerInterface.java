@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public interface PlayerInterface {
 
+    public String toString();
+
     public String getName();
     public String getActionHeroComment();
     public PlayerBoardInterface getPlayerBoard();

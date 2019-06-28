@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class SquareSpawn extends Square {
 
-    private AbstractWeaponCard[] weaponCards= new AbstractWeaponCard[3];
+    private AbstractWeaponCard[] weaponCards;
 
     SquareSpawn() {
         super(true);
-
+        weaponCards =  new AbstractWeaponCard[3];
     }
 
     @Override
@@ -24,7 +24,7 @@ public class SquareSpawn extends Square {
     @Override
     public void takeWeapon (AbstractWeaponCard weaponCard){
         for (int i=0; i<3; i++){
-            if (weaponCards[i]==weaponCard) {
+            if (weaponCards[i].getID() == weaponCard.getID()) {
                 weaponCards[i].changeState(StateCard.HOLDING);
                 weaponCards[i]=null;
             }

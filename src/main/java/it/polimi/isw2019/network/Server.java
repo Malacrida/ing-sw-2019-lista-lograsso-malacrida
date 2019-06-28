@@ -44,6 +44,7 @@ public class Server {
 
     private void start(GathererInterface... gatherers){
         this.executor = Executors.newFixedThreadPool(128);
+        this.executor.submit(lobby);
         for(GathererInterface aGatherer : gatherers){
             aGatherer.setLobby(lobby);
             executor.submit(aGatherer);

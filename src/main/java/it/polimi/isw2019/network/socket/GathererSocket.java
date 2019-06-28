@@ -63,25 +63,24 @@ public class GathererSocket implements Runnable, GathererInterface {
         ObjectOutputStream output;
         ObjectInputStream input;
         ClientInterface newClientInterface = new ClientSocket(connection);
-        String nickname;
 
         try{
-            LOGGER.info("ClientHandler");
+
             output = ((ClientSocket) newClientInterface).getObjectOutputStream();
             input = ((ClientSocket) newClientInterface).getObjectInputStream();
-            LOGGER.info("Sto attendendo un messaggio \n");
-            String messageInput = (String) input.readObject();
-            LOGGER.info("Mi è arrivato il messaggio: " + messageInput);
-            newClientInterface.setNickname(messageInput);
-            lobby.addClient(newClientInterface);
 
-            for (int i = 0; i < lobby.getConnectedClients().size(); i++){
-                System.out.println(lobby.getConnectedClients());
+            String messageInput = (String) input.readObject();
+
+            newClientInterface.setNickname(messageInput);
+            lobby.addClientConnected(messageInput, newClientInterface);
+
+            for (int i = 0; i < lobby.getClientConnected().size(); i++){
+                System.out.println(lobby.getClientConnected());
             }
 
 
-            String outputString = "REGISTRAZIONE AVVENUTA";
-            output.writeObject(outputString);
+            String outputString = "REGISTRAZIONE AVVENUTA DA: ";
+            output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
 

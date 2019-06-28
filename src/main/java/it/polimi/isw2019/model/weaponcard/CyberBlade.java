@@ -25,6 +25,7 @@ public class CyberBlade extends AbstractWeaponCard{
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.YELLOW;
         this.rechargeCube[1] = ColorCube.RED;
+        setWeaponCardDescription();
     }
 
     /**

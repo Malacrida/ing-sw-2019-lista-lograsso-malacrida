@@ -8,7 +8,7 @@ public class ChooseActionMove extends PlayerMove{
     private int numAction;
 
     public ChooseActionMove(String idPlayer, int numAction){
-       super(idPlayer);
+        super(idPlayer);
         this.numAction = numAction;
     }
 

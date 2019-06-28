@@ -21,6 +21,7 @@ public class    Whisper extends AbstractWeaponCard {
         this.rechargeCube[0] = ColorCube.BLUE;
         this.rechargeCube[1] = ColorCube.BLUE;
         this.rechargeCube[2] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
 

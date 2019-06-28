@@ -6,10 +6,16 @@ import it.polimi.isw2019.view.VisitorView;
 public class RunMessage extends MoveMessage {
 
     private int numMovement;
+    private int[] featuresAvailable;
 
     public RunMessage(String nicknamePlayer, String error, int numMovement){
         super(nicknamePlayer,error);
         this.numMovement = numMovement;
+    }
+
+    public RunMessage(String nicknamePlayer, int[] featuresAvailable) {
+        super(nicknamePlayer);
+        this.featuresAvailable = featuresAvailable;
     }
 
     public RunMessage(String nicknamePlayer){
@@ -22,6 +28,14 @@ public class RunMessage extends MoveMessage {
 
     public void setNumMovement(int numMovement) {
         this.numMovement = numMovement;
+    }
+
+    public int[] getFeaturesAvailable() {
+        return featuresAvailable;
+    }
+
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+        this.featuresAvailable = featuresAvailable;
     }
 
     @Override

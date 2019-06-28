@@ -11,10 +11,10 @@ public class Arena implements ArenaInterface{
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
-    private String[][] arenaRepresentation;
+    private String arenaRepresentation;
+    private String[][] tmpArena = new String[7][24];
 
     Arena() {
-
     }
 
 
@@ -32,6 +32,8 @@ public class Arena implements ArenaInterface{
         try {
             squares = CreateArena.chooseMap(numArena);
             rooms = CreateArena.chooseRoom(numArena);
+            //setArenaRepresentation();
+            setTmpArena();
         } catch (OutOfBoundsException e) {
             throw new OutOfBoundsException("Number out of possible bounds");
         }
@@ -79,7 +81,6 @@ public class Arena implements ArenaInterface{
                 if ((!((i == 1 && j == 0) || (i == 0 && j == 2) || (i == 2 && j == 3))) && squares[i][j] != null) {
                     squares[i][j].setAmmoTile(ammoTiles.get(0));
                     ammoTiles.remove(0);
-                    //cambio di stato
                 }
             }
 
@@ -90,49 +91,18 @@ public class Arena implements ArenaInterface{
         squares[x][y].setAmmoTile(ammoTile);
     }
 
-    /**
-     * get ammo tile which is in one square
-     * @param x first coordinate about square
-     * @param y second coordinate about square
-     * @return ammo tile
-     */
-
     public AmmoTile getAmmoTileOnSquare(int x, int y) {
         return squares[x][y].getAmmoTile();
     }
 
-    /**
-     * insert an ammo tile in one square
-     * @param x first coordinate about square
-     * @param y second coordinate about square
-     * @return ammo tile
-     * @throws AmmoTileUseException
-     */
-    public AmmoTile takeAmmoTileOnSquare(int x, int y) throws AmmoTileUseException {
-        try {
+    public AmmoTile takeAmmoTileOnSquare(int x, int y) throws AmmoTileUseException{
+            System.out.println(squares[x][y].getSquareRepresentation());
             return squares[x][y].takeAmmoTile();
-        } catch (AmmoTileUseException e) {
-            throw new AmmoTileUseException();
-        }
     }
-
-    /**
-     * method to grab ammo tile in one square
-     * @param x first coordinate about square
-     * @param y second coordinate about square
-     * @return ammo tile
-     */
 
     public boolean useAmmoTileOnSquare(int x, int y) {
         return squares[x][y].isCanUseAmmo();
     }
-
-    /**
-     * getter of players in one room
-     * @param colorRoom room's identifier
-     * @param player player in that room
-     * @return list of players
-     */
 
     public ArrayList<Player> playersInOneRoom(ColorRoom colorRoom, Player player) {
         ArrayList<Player> playersInRoom = new ArrayList<>();
@@ -293,30 +263,38 @@ public class Arena implements ArenaInterface{
     //per spostare di posizione il giocaotre
     public void movePlayer(Player player, int x, int y) {
 
-        if (isSquaresAvailable(player, x, y)) {
+        if(player.getX() == -1 && player.getY() == -1){
+            squares[x][y].addPlayer(player);
+            player.changeSquare(x, y);
+        }
+        else if (isSquaresAvailable(player, x, y)) {
             if (isPlayerChangeRoom(player, x, y)) {
                 playerChangeRoom(player, x, y);
             }
             squares[player.getX()][player.getY()].removePlayers(player);
             squares[x][y].addPlayer(player);
-            player.changeSquare(x, y);
+            player.changeSquare(x,y);
         }
+
     }
 
     public void movePlayerRespawnSquare(Player player, ColorRoom colorRoom){
         if(colorRoom.equals(ColorRoom.YELLOW)){
-            movePlayer(player,3,2);
+            player.changeRoom(ColorRoom.YELLOW);
+            movePlayer(player,2,3);
         }
         else if(colorRoom.equals(ColorRoom.BLUE)){
-            movePlayer(player,2,0);
+            player.changeRoom(ColorRoom.BLUE);
+            movePlayer(player,0,2);
         }
         else if(colorRoom.equals(ColorRoom.RED)){
+            player.changeRoom(ColorRoom.RED);
             movePlayer(player,1,0);
         }
     }
 
     public boolean isRespawnSquare(int x, int y){
-        if((x == 3 && y == 2) || (x == 2 && y == 0) ||(x ==1 && y == 0))
+        if((x == 2 && y == 3) || (x == 0 && y == 2) ||(x ==0 && y == 1))
             return true;
         else
             return false;
@@ -376,42 +354,17 @@ public class Arena implements ArenaInterface{
         }
     }
 
-    /**
-     * getter of squares
-     * @return list of squares
-     */
-
     public Square[][] getSquares() {
         return squares;
     }
-
-    /**
-     * getter of squares which are connected by a port or which are in the same room
-     * @param x first coordinate
-     * @param y second coordinate
-     * @return list of squares
-     */
 
     public ArrayList<Square> squaresAvailable(int x, int y) {
         return squares[x][y].squaresAvailable();
     }
 
-    /**
-     * getter of square
-     * @param x first coordinate
-     * @param y second coordinate
-     * @return square
-     */
-
     public Square getSquare(int x, int y) {
         return squares[x][y];
     }
-
-    /**
-     * get color room from square
-     * @param square attribute to get color room
-     * @return color room
-     */
 
     public ColorRoom getColorRoom(Square square) {
         ColorRoom colorRoom = null;
@@ -425,11 +378,6 @@ public class Arena implements ArenaInterface{
         return colorRoom;
     }
 
-    /**
-     * get of coordinate of one square
-     * @param square attribute to get x and y
-     * @return coordinates
-     */
     public int[] coordinateOfSquare(Square square) {
         int[] index = new int[2];
         for (int i = 0; i < 3; i++)
@@ -443,24 +391,118 @@ public class Arena implements ArenaInterface{
 
 
 
-
     public void setArenaRepresentation() {
-        for (int i = 0; i < squares.length; i++) {
-            for (int j = 0; j < squares[i].length; j++) {
-                squares[i][j].setSquareRepresentation(getColorRoom(squares[i][j]).getColorRoomRepresentation());
+
+        arenaRepresentation = " ";
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(squares[i][j]!= null)
+                        arenaRepresentation += squares[i][j].getSquareRepresentation() ;
+                else
+                    arenaRepresentation +=  "X" + " " + "X" + "   ";
+            }
+            arenaRepresentation+= "\n";
+            arenaRepresentation += " ";
+        }
+
+        System.out.println("arena");
+        System.out.println(arenaRepresentation);
+        setTmpArena();
+
+    }
+
+    public void insertSquareInRepresentation(Square square,int startingPointRaw,int startingPointColumn){
+        if(square!= null) {
+            square.setSquareRepresentation();
+            for (int i = startingPointColumn, j = 0; i < startingPointColumn + 6; i++, j++) {
+                tmpArena[startingPointRaw - 1][i] = square.getRaw()[j];
+                tmpArena[startingPointRaw][i] = square.getCenter()[j];
+                tmpArena[startingPointRaw + 1][i] = square.getCenter()[j];
+            }
+        }
+        else{
+            for (int i = startingPointColumn, j = 0; i < startingPointColumn + 6; i++, j++) {
+                tmpArena[startingPointRaw - 1][i] = "_";
+                tmpArena[startingPointRaw][i] = " ";
+                tmpArena[startingPointRaw + 1][i] = "_";
+
             }
 
+            tmpArena[startingPointRaw - 1][startingPointColumn] = "|";
+            tmpArena[startingPointRaw][startingPointColumn] = "|";
+            tmpArena[startingPointRaw + 1][startingPointColumn] = "|";
+
+            tmpArena[startingPointRaw - 1][startingPointColumn + 5] = "|";
+            tmpArena[startingPointRaw][startingPointColumn+ 5] = "|";
+            tmpArena[startingPointRaw + 1][startingPointColumn+ 5] = "|";
         }
     }
 
-    @Override
-    public String[][] getArenaRepresentation() {
+
+    public void setTmpArena() {
+        int raw = 0, column = 0;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (j == 0) {
+                    System.out.println("ok");
+                    column = 0;
+                } else if (j == 1) {
+                    column = 6;
+                } else if (j == 2) {
+                    column = 12;
+                } else if (j == 3) {
+                    column = 18;
+                }
+                //righe
+                if (i == 0) {
+                    raw = 1;
+                } else if (i == 1) {
+                    raw = 3;
+                } else if (i == 2) {
+                    raw = 5;
+                }
+                insertSquareInRepresentation(squares[i][j], raw, column);
+            }
+
+        }
+
+        System.out.println("tmp arena");
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 24; j++) {
+               // System.out.print(tmpArena[i][j]);
+                arenaRepresentation += tmpArena[i][j];
+                if (j == 23) {
+                    arenaRepresentation += "\n";
+                    //System.out.println();
+                }
+            }
+        }
+
+        //System.out.println("arena rep");
+        //System.out.println(arenaRepresentation);
+
+        }
+
+
+
+
+    public String getArenaRepresentation() {
+        setTmpArena();
         return arenaRepresentation;
     }
 
     @Override
     public ArenaInterface getArenaInterface() {
         return this;
+    }
+
+    @Override
+    public String toString(){
+        //setArenaRepresentation();
+        setTmpArena();
+        return getArenaRepresentation();
     }
 }
 

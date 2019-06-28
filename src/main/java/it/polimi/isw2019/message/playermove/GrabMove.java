@@ -6,29 +6,24 @@ import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 public class GrabMove extends PlayerMove {
 
     private int[][] movement;
-    private char cardSelection;
     private int positionWeaponCard;
-    private String payment;
-
-    //arrayList String!
+    private int[] payment;
 
     public GrabMove(String player){
         super(player);
+        positionWeaponCard = -1;
     }
 
     public void setMovement(int[][] movement){
         this.movement = movement;
     }
 
-    public void setCardSelection(char cardSelection){
-        this.cardSelection= cardSelection;
-    }
 
     public void setPositionWeaponCard( int positionWeaponCard){
         this.positionWeaponCard = positionWeaponCard;
     }
 
-    public void setPayment(String payment){
+    public void setPayment(int[] payment){
         this.payment = payment;
     }
 
@@ -36,15 +31,11 @@ public class GrabMove extends PlayerMove {
         return this.positionWeaponCard;
     }
 
-    public char getCardSelection(){
-        return this.cardSelection;
-    }
-
     public int[][] getMovement(){
         return this.movement;
     }
 
-    public String getPayment(){
+    public int[] getPayment(){
         return this.payment;
     }
 

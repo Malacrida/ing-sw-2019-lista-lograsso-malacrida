@@ -19,6 +19,7 @@ public class SledgeHammer extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTES: Remember that moves go through doors, but not walls.\n";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
     /**

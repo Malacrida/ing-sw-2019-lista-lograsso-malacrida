@@ -19,6 +19,7 @@ public class TractorBeam extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTES: You can move a target even if you can't see it. The target ends up in a place where you can see and damage it. The moves do not have to be in the same direction.\n";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.BLUE;
+        setWeaponCardDescription();
     }
 
     /**

@@ -40,4 +40,14 @@ public class FirstMessageFirstPlayer extends MoveMessage {
     public void accept(VirtualViewVisitorInterface virtualView) {
         virtualView.sendFirstPlayerChooseMap(this);
     }
+
+    @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
+    }
 }

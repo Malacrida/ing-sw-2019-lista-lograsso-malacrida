@@ -8,16 +8,26 @@ public abstract class MoveMessage implements VisitableMessageMove{
     private int idPlayer;
     private String nicknamePlayer;
     private String error;
+    private boolean notifyAll = false;
 
 
     public MoveMessage(String nicknamePlayer){
         this.nicknamePlayer= nicknamePlayer;
     }
 
+    public MoveMessage(String nicknamePlayer,boolean notifyAll) {
+        this.nicknamePlayer= nicknamePlayer;
+        this.notifyAll = notifyAll;
+    }
     public MoveMessage(String nicknamePlayer, String error){
         this.nicknamePlayer= nicknamePlayer;
         this.error = error;
+        notifyAll = false;
     }
+
+    public abstract int[] getFeaturesAvailable();
+    public abstract void setFeaturesAvailable(int[] featuresAvailable);
+
     public String getNicknamePlayer(){
         return nicknamePlayer;
     }
@@ -30,4 +40,11 @@ public abstract class MoveMessage implements VisitableMessageMove{
         this.error = error;
     }
 
+    public boolean isNotifyAll() {
+        return notifyAll;
+    }
+
+    public void setNotifyAll(boolean notifyAll) {
+        this.notifyAll = notifyAll;
+    }
 }
