@@ -9,21 +9,20 @@ import java.util.ArrayList;
 
 public class GrabMessage extends MoveMessage {
 
-    //messe se sei in uno spawn
     private ArrayList<WeaponCardInterface> weaponCardAvailable;
     private ArrayList<InterfacePowerUpCard> yourPowerUpCard;
     private InterfacePowerUpCard powerUpCard;
-    //messe se NON sei in uno spawn
     private InterfaceAmmoTile ammoTile;
+    private int[] featuresAvailable;
     private boolean grabWeapon;
 
     public GrabMessage(String nicknamePlayer) {
         super(nicknamePlayer);
     }
 
-    public GrabMessage(String nicknamePlayer, boolean grabWeapon) {
+    public GrabMessage(String nicknamePlayer, int[] featuresAvailable) {
         super(nicknamePlayer);
-        this.grabWeapon = grabWeapon;
+        this.featuresAvailable = featuresAvailable;
     }
 
     public GrabMessage(String nicknamePlayer, String error) {
@@ -69,6 +68,14 @@ public class GrabMessage extends MoveMessage {
 
     public void setPowerUpCard(InterfacePowerUpCard powerUpCard) {
         this.powerUpCard = powerUpCard;
+    }
+
+    public int[] getFeaturesAvailable() {
+        return featuresAvailable;
+    }
+
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+        this.featuresAvailable = featuresAvailable;
     }
 
     @Override

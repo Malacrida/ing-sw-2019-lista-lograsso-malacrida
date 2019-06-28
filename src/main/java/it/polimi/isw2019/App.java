@@ -12,15 +12,13 @@ public class App
 {
     public static void main( String[] args )
     {
-        CLIView view = new CLIView();
-        CLIView view2 = new CLIView();
-
+        CLIView view = new CLIView("alba");
+        CLIView view2 = new CLIView("sara");
         MainController controller = new MainController();
 
 
         view.registerObserver(controller);
         view2.registerObserver(controller);
-
         view.startView();
         view2.startView();
 

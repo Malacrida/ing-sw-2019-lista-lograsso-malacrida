@@ -9,8 +9,6 @@ public interface VisitorController {
 
     void visitControllerSetUpPlayer(SetUpMove setUpMove);
 
-    void firstTurn();
-
     void chooseMap(ChooseMapMove chooseMapMove);
 
     void visitControllerActionChoose(ChooseActionMove chooseActionMove);
@@ -18,8 +16,6 @@ public interface VisitorController {
     void visitControllerRun(RunMove runMove);
 
     void visitControllerGrab(GrabMove grabMove);
-
-    void visitControllerChooseAction(ChooseActionMove chooseActionMove);
 
     void visitControllerRegisterPlayer(FirstMessage firstMessage);
 
@@ -34,5 +30,4 @@ public interface VisitorController {
     void useWeaponCard(UseWeaponCard useWeaponCard);
 
     //method invoked by server when the game is started
-    void respawnPlayer();
 }

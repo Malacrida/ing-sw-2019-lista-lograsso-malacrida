@@ -37,5 +37,15 @@ public class UpdateMessage extends MoveMessage {
     public ArrayList<PlayerInterface> getPlayers() {
         return players;
     }
+
+    @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
+    }
 }
 

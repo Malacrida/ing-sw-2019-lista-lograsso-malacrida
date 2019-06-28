@@ -53,6 +53,8 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
             firstColor = setColor(firstElement);
         }
 
+        setAmmoCardDescription();
+
     }
 
     public ColorCube setColor(String color){
@@ -118,6 +120,17 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
 
     @Override
     public String[] getAmmoTileDescription() {
+        setAmmoCardDescription();
         return ammoCardDescription;
+    }
+
+    public String toString(){
+        String rep = " ";
+        setAmmoCardDescription();
+        for(int i = 0 ; i < ammoCardDescription.length; i ++) {
+            rep += ammoCardDescription[i];
+            rep += "\n";
+        }
+        return rep;
     }
 }

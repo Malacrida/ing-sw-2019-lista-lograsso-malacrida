@@ -2,7 +2,6 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ public class ReloadMove  extends PlayerMove{
 
     private ArrayList<WeaponCardInterface> weaponCard;
     private InterfacePowerUpCard[][] powerUp;
-    private String[][] cubes;
+    private int[][] cubes;
 
     public ReloadMove(String nickName){
         super(nickName);
@@ -26,9 +25,8 @@ public class ReloadMove  extends PlayerMove{
         weaponCard.add(weaponCardInterface);
     }
 
-    public void setPayment(String[][] cubes, InterfacePowerUpCard[][] powerUpCard){
+    public void setPayment(int[][] cubes){
         this.cubes = cubes;
-        this.powerUp  = powerUpCard;
     }
 
     public ArrayList<WeaponCardInterface> getWeaponCard() {
@@ -39,7 +37,7 @@ public class ReloadMove  extends PlayerMove{
         return powerUp;
     }
 
-    public String[][] getCubes() {
+    public int[][] getCubes() {
         return cubes;
     }
 

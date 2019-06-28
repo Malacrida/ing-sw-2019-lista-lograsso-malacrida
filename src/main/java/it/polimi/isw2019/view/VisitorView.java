@@ -6,8 +6,6 @@ import it.polimi.isw2019.message.playermove.FirstMessage;
 
 public interface VisitorView{
 
-    void visitSetupView(SetUpMessage setUpMessage);
-
     void visitActionView(ActionMessage actionMessage);
 
     void visitRun(RunMessage runMessage);
@@ -19,8 +17,6 @@ public interface VisitorView{
     void visitUpdateView(UpdateMessage updateMessage);
 
     void waitForStart(EndRegistration endRegistration);
-
-    void weaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
     void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 

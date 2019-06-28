@@ -32,7 +32,7 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         this.maxPossibleEffects = maxPossibleEffects;
         this.maxPossibleCoordinates = maxPossibleCoordinates;
         this.maxPossibleDefenders = maxPossibleDefenders;
-        setWeaponCardDescription();
+
     }
 
 
@@ -306,11 +306,12 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         weaponCardDescription += "Id Value" + id + "\n";
         weaponCardDescription += "Color : " + color.getColorCubeRepresentation() + "\n";
         weaponCardDescription += "Recharge cubes : ";
-/*        for(int i=0; i<rechargeCube.length;i++)
-            weaponCardDescription += rechargeCube[i].getColorCubeRepresentation() + " ";
-        weaponCardDescription += "\n";*/
-        for(int i=0;i<infoEffect.length; i++)
-            weaponCardDescription += infoEffect[i]+ " ";
+        for(int i=0; i< getRechargeCube().length;i++)
+            weaponCardDescription += getRechargeCube()[i].getColorCubeRepresentation() + " ";
+        weaponCardDescription += "\n";
+
+        for(int i=0;i<getInfoEffect().length; i++)
+            weaponCardDescription += getInfoEffect()[i] + " ";
         weaponCardDescription += "\n";
     }
 

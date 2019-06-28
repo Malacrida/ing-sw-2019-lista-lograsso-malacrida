@@ -24,7 +24,7 @@ public class SquareSpawn extends Square {
     @Override
     public void takeWeapon (AbstractWeaponCard weaponCard){
         for (int i=0; i<3; i++){
-            if (weaponCards[i]==weaponCard) {
+            if (weaponCards[i].getID() == weaponCard.getID()) {
                 weaponCards[i].changeState(StateCard.HOLDING);
                 weaponCards[i]=null;
             }

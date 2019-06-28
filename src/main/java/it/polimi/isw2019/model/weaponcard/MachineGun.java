@@ -20,6 +20,7 @@ public class MachineGun extends AbstractWeaponCard {
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.BLUE;
         this.rechargeCube[1] = ColorCube.RED;
+        setWeaponCardDescription();
     }
 
     /**

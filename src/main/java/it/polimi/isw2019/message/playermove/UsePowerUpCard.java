@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class UsePowerUpCard extends PlayerMove {
 
     private InterfacePowerUpCard powerUpCardInterface;
-    private ArrayList<String> cubes;
+    private int[] cubes;
     private ArrayList<InterfacePowerUpCard> powerUpCardInterfaces;
     private int[][] coordinates;
     private boolean defend;
@@ -58,11 +58,11 @@ public class UsePowerUpCard extends PlayerMove {
         this.powerUpCardInterface = powerUpCardInterface;
     }
 
-    public ArrayList<String> getCubes() {
+    public int[] getCubes() {
         return cubes;
     }
 
-    public void setCubes(ArrayList<String> cubes) {
+    public void setCubes(int[] cubes) {
         this.cubes = cubes;
     }
 

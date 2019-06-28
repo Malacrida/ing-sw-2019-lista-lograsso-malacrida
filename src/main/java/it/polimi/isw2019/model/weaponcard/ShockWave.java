@@ -19,6 +19,7 @@ public class ShockWave extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTES: You can use only one effect.\n";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
     /**

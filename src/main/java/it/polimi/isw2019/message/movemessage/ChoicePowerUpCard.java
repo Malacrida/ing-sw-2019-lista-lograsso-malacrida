@@ -17,6 +17,16 @@ public class ChoicePowerUpCard extends MoveMessage{
     }
 
     @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
+    }
+
+    @Override
     public void accept(VisitorView visitorview) {
             visitorview.powerUpChoice(this);
     }

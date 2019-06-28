@@ -45,6 +45,8 @@ public class Player implements PlayerInterface {
     private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
 
+    private int[] featuresAvailable = new int[6];
+
     private ArrayList<PowerUpCard> tmpPowerUpCard = new ArrayList<>();
 
     private boolean correctAction;
@@ -96,8 +98,44 @@ public class Player implements PlayerInterface {
     }
 
     public MoveMessage getSingleMessageToBeSent(){
+
+        featuresAvailable();
+        messageToBeSent.get(0).setFeaturesAvailable(featuresAvailable);
+
+        if(messageToBeSent.get(0) instanceof  ReloadMessage){
+            updateMessage((ReloadMessage)(messageToBeSent.get(0)));
+        }
+        else if(messageToBeSent.get(0) instanceof UsePowerUpCardMessage){
+            updateMessage((UsePowerUpCardMessage) (messageToBeSent.get(0)));
+        }
+        else if(messageToBeSent.get(0) instanceof UseWeaponCardMessage){
+            updateMessage((UseWeaponCardMessage) (messageToBeSent.get(0)));
+        } else if(messageToBeSent.get(0) instanceof GrabMessage){
+            updateMessage((GrabMessage)(messageToBeSent.get(0)));
+        }
+
         return messageToBeSent.get(0);
     }
+
+    public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
+        usePowerUpCardMessage.setPowerUpCard(getPowerUpCard());
+    }
+
+    public void updateMessage(UseWeaponCardMessage useWeaponCardMessage){
+        useWeaponCardMessage.setWeaponCard(getWeaponCard());
+        useWeaponCardMessage.setPowerUpCards(getPowerUpCard());
+    }
+
+    public void updateMessage(ReloadMessage reloadMessage){
+        reloadMessage.setPowerUpCards(getPowerUpCard());
+        reloadMessage.setWeaponCardInterfaces(getWeaponCard());
+    }
+
+    public void updateMessage(GrabMessage grabMessage){
+        grabMessage.setYourPowerUpCard(getPowerUpCard());
+        grabMessage.setYourPowerUpCard(getPowerUpCard());
+    }
+
 
     public int getIndexPlayer() {
         return indexPlayer;
@@ -191,6 +229,7 @@ public class Player implements PlayerInterface {
     //Inserimento di una nuova carta
 
     public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
+
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
         }
@@ -198,6 +237,7 @@ public class Player implements PlayerInterface {
             weaponCards.remove(removeWeaponCard);
             weaponCards.add(insertWeaponCard);
         }
+
     }
 
     //nel model un metodo che unisce questo del player e quello con la gameboard
@@ -223,25 +263,11 @@ public class Player implements PlayerInterface {
     //rimozione che un utilizzo
     public void usePowerUpCard (PowerUpCard powerUpCard){
         //Uso della powerUp
+        //Cambio di stato
+        powerUpCard.changeStateCard(StateCard.DISCARD);
         powerUpCards.remove(powerUpCard);
     }
 
-
-    public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
-        int [] price = new int[3];
-        //price = weaponCard.getPrice ();
-        for (int i=0; i<3; i++){
-            if (i==0){
-                playerBoard.removeRedCubes(price[0]);
-            }
-            if (i==1){
-                playerBoard.removeYellowCubes(price[1]);
-            }
-            if (i==2){
-                playerBoard.removeBlueCubes(price[2]);
-            }
-        }
-    }
 
     public void payEffect (int costRed, int costYellow, int costBlue) throws OutOfBoundsException {
         try {
@@ -262,7 +288,7 @@ public class Player implements PlayerInterface {
             throw new OutOfBoundsException(e.getInfo());
         }
         try {
-            if (costBlue==2){
+            if (costBlue > 0){
                 playerBoard.removeBlueCubes(costBlue);
             }
         }
@@ -314,17 +340,8 @@ public class Player implements PlayerInterface {
 
     }
 
-    public void handlePaymentWithPowerUpCards(ArrayList<PowerUpCard> powerUpCards) throws NotPossesPowerUp {
-
-            for(PowerUpCard powerUpCard1 : powerUpCards) {
-                if(!isContainedPowerUp(powerUpCard1)){
-                    throw new NotPossesPowerUp("Do not have that power up");
-                }
-            }
-
-            for(PowerUpCard powerUpCard1 : powerUpCards){
-                fromPowerUpCardIntoCubes(powerUpCard1);
-            }
+    public void handlePaymentWithPowerUpCards(PowerUpCard powerUpCard) {
+            fromPowerUpCardIntoCubes(powerUpCard);
     }
 
     public void addScore (int point){
@@ -339,6 +356,7 @@ public class Player implements PlayerInterface {
      * @param numMark>=0 number of mark
      * @throws DamageTrackException if player, who take damage, have 11 or 12 damage token
      */
+
     public void sufferDamageOrMark (ColorPlayer colorPlayer, int numDamage, int numMark)throws DamageTrackException {
 
         try {
@@ -613,6 +631,7 @@ public class Player implements PlayerInterface {
             messageToBeSent.add(powerUpCardMessage);
         }
 
+        System.out.println("lenght mex :" + messageToBeSent.size());
 
     }
 
@@ -639,9 +658,13 @@ public class Player implements PlayerInterface {
         //rimuovi -> ok azione
         messageToBeSent.remove(0);
 
+        //System.out.println("lenght in unpdate : " + messageToBeSent.size());
+
         if(!messageToBeSent.isEmpty()){
+            System.out.println("ko");
             return true;
         }
+
         else {
              if (numActionPerformed < numActionToBePerformed) {
                  numActionPerformed++;
@@ -677,6 +700,21 @@ public class Player implements PlayerInterface {
             return this;
         else
             return null;
+    }
+
+    public void featuresAvailable(){
+        featuresAvailable[0] = playerBoard.numOfBlueCubes();
+        featuresAvailable[1] = playerBoard.numOfRedCubes();
+        featuresAvailable[2] = playerBoard.numOfYellowCubes();
+        int j = 3;
+        for(int i = 0 ; i < powerUpCards.size(); i++ , j++)
+            featuresAvailable[j] = powerUpCards.get(i).getId();
+        for(int i = j + 1; i < 6; i ++)
+            featuresAvailable[i] = -1;
+    }
+
+    public int[] getFeaturesAvailable() {
+        return featuresAvailable;
     }
 
     public String toString(){

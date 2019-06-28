@@ -19,6 +19,7 @@ public class Model extends Observable implements ModelInterface {
     private KillShotTrack killShotTrack;
     private int shift;
     private PowerUpCard tmp;
+    private AbstractWeaponCard tmpWeaponCard;
     private int numArena;
 
     //assume that the player are in order!!
@@ -354,8 +355,6 @@ public class Model extends Observable implements ModelInterface {
 
     }
 
-
-
     public void updateGameStatus(){
 
         //entireGameDescription = "GameBoard";
@@ -387,34 +386,68 @@ public class Model extends Observable implements ModelInterface {
 
 
     //testare
+    @Deprecated
     public void sendCorrectActionMessage() {
 
-        if (currentPlayer.getSingleMessageToBeSent() instanceof GrabMessage) {
+       // sendUpdateMessage();
+
+        System.out.println("ok send correct action");
+
+      /*  if (currentPlayer.getSingleMessageToBeSent() instanceof GrabMessage) {
             updateGrabMessage();
         }
 
-        notifyObservers(currentPlayer.getSingleMessageToBeSent());
+        else */
 
+        if(currentPlayer.updatePlayerMessageStatus())
+            notifyObservers(currentPlayer.getSingleMessageToBeSent());
+        else
+            changePlayer();
+
+    }
+    public void sendActionMessage(){
+
+       if (currentPlayer.getSingleMessageToBeSent() instanceof GrabMessage) {
+            updateGrabMessage();
+        }
+        else
+            notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 
     public void updateGrabMessage(){
 
                 if(!isSpawnPoint(currentPlayer.getX(),currentPlayer.getY())) {
                     try {
-                        AmmoTile ammo = getGameBoard().getGameArena().takeAmmoTileOnSquare(currentPlayer.getX(), currentPlayer.getY());
+                        System.out.println(getCurrentPlayer().getX() + " "+ " " + getCurrentPlayer().getY());
+                        AmmoTile ammo = getGameBoard().pickUpAmmoTile(currentPlayer.getX(), currentPlayer.getY());
+                        System.out.println(ammo.toString());
                         currentPlayer.takenAmmoTileColor(ammo);
+                        gameBoard.addAmmoTileDiscarded(ammo);
+                        gameBoard.placeAmmoTile(currentPlayer.getX(),currentPlayer.getY());
+
                         if (ammo.isPowerUpCard()) {
                             tmp = gameBoard.takePowerUpCard();
-                            ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setPowerUpCard(tmp.getPowerUpCard().getPowerUpCard());
-                            ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setYourPowerUpCard(currentPlayer.getPowerUpCard());
-                            ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(false);
+                            currentPlayer.takePowerUpCard(tmp, null);
                         }
+                        currentPlayer.updatePlayerMessageStatus();
+                        notifyObservers(currentPlayer.getSingleMessageToBeSent());
                     } catch (AmmoTileUseException a) {
-                        sendUpdateMessage();
+                        //"there's nothing to grab"
+                        //end action
+                    }
+                    catch (TooManyPowerUpCard tooManyPowerUpCard) {
+                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setPowerUpCard(tmp.getPowerUpCard().getPowerUpCard());
+                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setYourPowerUpCard(currentPlayer.getPowerUpCard());
+                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(false);
+                        notifyObservers(currentPlayer.getSingleMessageToBeSent());
                     }
                 }
                 else{
                     ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setWeaponCardAvailable(gameBoard.getWeaponCard(currentPlayer.getColorRoom()));
+                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setPowerUpCard(null);
+                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setYourPowerUpCard(currentPlayer.getPowerUpCard());
+                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(true);
+                    notifyObservers(currentPlayer.getSingleMessageToBeSent());
                 }
             }
 
@@ -427,7 +460,7 @@ public class Model extends Observable implements ModelInterface {
             getGameBoard().setPowerUpCards(db.loadPowerUpCards());
             getGameBoard().setAmmoTiles(db.loadAmmoTiles());
             gameBoard.setWeaponCardsOnBoard();
-            gameBoard.setUpAmmoTileOnArena(numArena);
+            gameBoard.setUpAmmoTileOnArena(indexMap);
 
         } catch (OutOfBoundsException e) {
 
@@ -591,8 +624,20 @@ public class Model extends Observable implements ModelInterface {
     }
 
     public void updateNotCorrectAction(String error){
+
         if(currentPlayer.updatePlayerStatusIncorrectAction(error))
             notifyObservers(getCurrentPlayer().getSingleMessageToBeSent());
+        else
+            changePlayer();
+    }
+
+    public void updateCorrectAction(){
+        if(currentPlayer.updatePlayerMessageStatus()){
+            if(getCurrentPlayer().getSingleMessageToBeSent() instanceof GrabMessage){
+                updateGrabMessage();
+            }
+            notifyObservers(getCurrentPlayer().getSingleMessageToBeSent());
+        }
         else
             changePlayer();
     }
@@ -627,121 +672,85 @@ public class Model extends Observable implements ModelInterface {
 
         }while(!endRun);
 ;
-            sendActionUpdateMessage();
+        updateCorrectAction();
+
         }
 
     //introduco un flag in cui bypasso i controlli se la viene inserita un'altra weapon card DOPO il warning
     //introdurre un metodo che vede che weapon card il giocatore puo prendere con le munizioni che ha, altrimenti (automaticamente) si conclude la mossa
 
-    public void reload(ArrayList<PowerUpCard> powerUpCards, ArrayList<ColorCube> colorCubes){
-    }
-    //verificare che il pagamento venga fatto tramite powerup card oppure tramite cubi
-
-    public void grabWeaponCard(AbstractWeaponCard weaponCard,int index, ColorCube[] payment) throws OutOfBoundsException {
-
-        ColorCube[] paymentCubes = new ColorCube[payment.length];
-
-        if(isSpawnPoint(currentPlayer.getX(),currentPlayer.getY())){
-            //controll that there is the card at that position
-            //assume that the index is OK
-            //AbstractWeaponCard weaponCard1 = getGameBoard().takeWeaponCard()
-            //NB : chiedere a sara come accedere alla weapon card
-            if(getCurrentPlayer().getWeaponCards().size() == 3){
-                //creare un warning in cui chiedi di inserire un'altra weapon card
-               // sendCorrectActionMessage(1,"you've got too many card, you cannot grab! ");
-               // sendMessage(1);
-            }
-            else if(getCurrentPlayer().getWeaponCards().size() <3) {
-                //chiedere a davi se il metodo è quello corretto
-                for (int i = 1, j = 0; i < weaponCard.getRechargeCube().length; i++, j++) {
-                    /*if (weaponCard.getRechargeCube()[i].getColorCubeRepresentation().compareTo(payment[j]) != 1) {
-                        //aggiornare il messaggio di erroe e notificare il player
-                        return;
-                    }
-                    else {
-                        paymentCubes[i] = weaponCard.getRechargeCube()[i];
-                    }*/
-               // }
+    public void handlePayment(int[] payment){
 
                 try {
-                    currentPlayer.getRealPlayerBoard().updateCubes(paymentCubes);
-                    currentPlayer.takeWeaponCards(weaponCard, null);
-                }catch (IndexOutOfBoundsException e){
-                    // sendErrorMessage(currentPlayer, "you don't have the cubes to pay for this weapon card!");
+                    currentPlayer.getRealPlayerBoard().removeBlueCubes(payment[0]);
+                    currentPlayer.getRealPlayerBoard().removeRedCubes(payment[1]);
+                    currentPlayer.getRealPlayerBoard().removeYellowCubes(payment[2]);
+                } catch (OutOfBoundsException e) {
                 }
-             }
-            }
-        }
-    }
 
-   /* public void grabAmmoCard(){
-        if(isSpawnPoint(currentPlayer.getX(), currentPlayer.getY())){
-            currentPlayer.getSingleMessageToBeSent().setError("Cannot grab : is not a spawn point" + currentPlayer.getX() + currentPlayer. getY());
-        }
-        else{
-            try {
-                AmmoTile tmpAmmoTile = getGameBoard().pickUpAmmoTile(currentPlayer.getX(), currentPlayer.getY());
-                currentPlayer.getRealPlayerBoard().addCube(tmpAmmoTile.getFirstColor());
-                currentPlayer.getRealPlayerBoard().addCube(tmpAmmoTile.getSecondColor());
-                if(tmpAmmoTile.isPowerUpCard()){
-                    currentPlayer.takePowerUpCard(getGameBoard().takePowerUpCard(),null);
-                }
-                else{
-                    currentPlayer.getRealPlayerBoard().addCube(tmpAmmoTile.getThirdColor());
-                }
-            } catch (AmmoTileUseException e) {
+        if(payment.length >3) {
+            for (int i = 3; i < payment.length; i++) {
+                PowerUpCard  tmp = currentPlayer.getPowerUpCards().get(payment[i]);
+                currentPlayer.handlePaymentWithPowerUpCards(currentPlayer.getPowerUpCards().get(payment[i]));
                 try {
-                    notifyObservers(currentPlayer.updatePlayerMessageStatus());
-                } catch (EndTurnException e1) {
-                    changePlayer();
+                    currentPlayer.getRealPlayerBoard().addCube(tmp.getColorCard());
+                } catch (TooManyCubes tooManyCubes) {
+
                 }
-            } catch (TooManyCubes tooManyCubes) {
-                //non succede nulla
-            } catch (TooManyPowerUpCard tooManyPowerUpCard) {
-                //inviare un messaggio di inserimento della carta
+                try {
+                    currentPlayer.getRealPlayerBoard().removeCube(tmp.getColorCard());
+                } catch (NoCubesException e) {
+                    //appena aggiunto -> impossibile
+                }
+                gameBoard.addPowerUpCardDiscarded(tmp);
+
             }
         }
-
     }
-*/
 
-    public void handlePayment(ArrayList<ColorCube> colors, ArrayList<PowerUpCard> powerUpCards){
+    public void reload(ArrayList<WeaponCardInterface> weaponCard, int[] payment){
 
-        int[] payment = new int[3];
+        //trasformare le powerUp in cubes!!!
 
-        try {
-            currentPlayer.handlePaymentWithPowerUpCards(powerUpCards);
-        } catch (NotPossesPowerUp notPossesPowerUp) {
-            notPossesPowerUp.printStackTrace();
+      if (payment.length > 3) {
+                    for (int i = 3; i < payment.length; i++) {
+                        if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.RED)) {
+                            payment[1]++;
+                        } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.YELLOW)) {
+                            payment[2]++;
+                        } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.BLUE)) {
+                            payment[0]++;
+                        }
+                }
         }
 
-        for(ColorCube color: colors){
-            if(color.equals(ColorCube.RED)){
-                payment[0] ++;
-            }
-            if(color.equals(ColorCube.YELLOW)){
-                payment[1] ++ ;
-            }
-            if(color.equals(ColorCube.BLUE)) {
-                payment[2]++;
+        for(AbstractWeaponCard weaponCard1 :currentPlayer.getWeaponCards()){
+            if(weaponCard1.getStateCard().equals(StateCard.HOLDING)) {
+                if (!checkValidityPayment(currentPlayer.getFeaturesAvailable(), weaponCard1.getRechargeCube())){
+                    handlePayment(fromCubesToInt(weaponCard1.getRechargeCube()));
+                    weaponCard1.changeState(StateCard.HOLDING);
+                }
             }
         }
+    }
 
+    public void grabWeaponCard(AbstractWeaponCard weaponCard) {
+        handlePayment(fromCubesToInt(weaponCard.getRechargeCube()));
         try {
-            currentPlayer.payEffect(payment[0],payment[1], payment[2]);
+            tmpWeaponCard = gameBoard.takeWeaponCard(weaponCard,getCurrentPlayer().getX(),getCurrentPlayer().getY());
         } catch (OutOfBoundsException e) {
 
-            updateNotCorrectAction("payment incorrect");
         }
-
+        currentPlayer.takeWeaponCards(tmpWeaponCard,null);
+        //gameBoard.getGameArena()
+        //mettere un'altra weapon card
+        updateCorrectAction();
     }
-
-
 
 
     public void useWeaponCard(int numEffect, AbstractWeaponCard weaponCard, ArrayList<Player> defenders, int[] coordinates, ArrayList<ColorCube> payment, ArrayList<PowerUpCard> powerUpCards, boolean notify){
 
-        if(numEffect == 1){
+      /*  if(numEffect == 1){
             try {
                 weaponCard.firstEffect(this.getGameBoard(),this.getCurrentPlayer(),defenders,coordinates);
             } catch (NoEffectException e) {
@@ -786,6 +795,43 @@ public class Model extends Observable implements ModelInterface {
 
 
         //due e per il tre
+        */
+       //rifare questo metodo
+    }
+
+    public int[] fromCubesToInt(ColorCube[] colorCube){
+        int[] toBePaid1 = new int[3];
+
+        for(ColorCube color : colorCube){
+            if(colorCube.equals(ColorCube.BLUE))
+                toBePaid1[0] ++;
+            else if(colorCube.equals(ColorCube.RED))
+                toBePaid1[1] ++;
+            else if(colorCube.equals(ColorCube.YELLOW))
+                toBePaid1[2] ++;
+        }
+        return toBePaid1;
+
+    }
+
+    public boolean checkValidityPayment(int[] payment, ColorCube[] toBePaid){
+
+        int[] toBePaid1 = fromCubesToInt(toBePaid);
+
+       for(int i = 0; i< 3; i++){
+           if(payment[i]-toBePaid1[i]<0){
+               return false;
+           }
+       }
+       return true;
+    }
+
+    public AbstractWeaponCard getTmpWeaponCard() {
+        return tmpWeaponCard;
+    }
+
+    public void setTmpWeaponCard(AbstractWeaponCard tmpWeaponCard) {
+        this.tmpWeaponCard = tmpWeaponCard;
     }
 
     public String getEntireGameDescription() {

@@ -25,6 +25,9 @@ public abstract class MoveMessage implements VisitableMessageMove{
         notifyAll = false;
     }
 
+    public abstract int[] getFeaturesAvailable();
+    public abstract void setFeaturesAvailable(int[] featuresAvailable);
+
     public String getNicknamePlayer(){
         return nicknamePlayer;
     }

@@ -56,7 +56,6 @@ public class PlayerBoard implements PlayerBoardInterface{
         redCubes.add(ColorCube.RED);
         yellowCubes.add(ColorCube.YELLOW);
         blueCubes.add(ColorCube.BLUE);
-
         setPlayerBoardRepresentation();
 
     }

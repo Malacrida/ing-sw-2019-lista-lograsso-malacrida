@@ -59,6 +59,7 @@ public class GameBoard implements GameBoardInterface{
         weaponCards.add(new ZX_2());
 
         gameArena= new Arena();
+        
     }
 
 
@@ -85,6 +86,7 @@ public class GameBoard implements GameBoardInterface{
 
     public void setAmmoTiles(ArrayList<AmmoTile> ammoTiles) {
         this.ammoTiles = ammoTiles;
+        //System.out.println(ammoTiles.get(0).getFirstElement());
     }
 
 
@@ -114,6 +116,18 @@ public class GameBoard implements GameBoardInterface{
 
     }
 
+    public AbstractWeaponCard takeWeaponCardFromSpawn(ColorRoom colorSpawn, int index){
+        if(colorSpawn.equals(ColorRoom.YELLOW)){
+            return weaponCardsYellow[index];
+        }
+        else if(colorSpawn.equals(ColorRoom.RED)){
+            return weaponCardsRed[index];
+        }
+        else{
+            return weaponCardsBlue[index];
+        }
+    }
+
     public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws OutOfBoundsException {
         if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
             gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
@@ -127,6 +141,7 @@ public class GameBoard implements GameBoardInterface{
     }
 
     public AbstractWeaponCard[] weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
+
         if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
             return gameArena.getWeaponCardsOnSquares(x,y);
         }
@@ -168,13 +183,19 @@ public class GameBoard implements GameBoardInterface{
                 ammoTiles.remove(0);
             }
         }
-        else throw new OutOfBoundsException();
+
+        else {
+            System.out.println(" ko ammo 1 ");
+            throw new OutOfBoundsException();
+        }
+
 
         gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }
 
-    public void placeAmmoTile (AmmoTile ammoTile, int x, int y){
-        gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
+    public void placeAmmoTile ( int x, int y){
+        gameArena.placeAnotherAmmoTileOnSquare(ammoTiles.get(0), x, y);
+        ammoTiles.remove(0);
     }
 
     public int sizeAmmoTiles (){
@@ -183,7 +204,9 @@ public class GameBoard implements GameBoardInterface{
 
     public AmmoTile pickUpAmmoTile (int x, int y) throws AmmoTileUseException {
         try {
-            return gameArena.takeAmmoTileOnSquare(x,y);
+            AmmoTile ammoTile = gameArena.takeAmmoTileOnSquare(x,y);
+            System.out.println(ammoTile.toString());
+            return ammoTile;
         }
         catch (AmmoTileUseException e){
             throw new AmmoTileUseException();
@@ -245,6 +268,7 @@ public class GameBoard implements GameBoardInterface{
 
     @Override
     public WeaponCardInterface getWeaponCard(ColorCube color, int index) {
+
         if(color.equals(ColorCube.BLUE))
             return weaponCardsBlue[index].getWeaponCard();
         else if(color.equals(ColorCube.RED))
@@ -268,21 +292,23 @@ public class GameBoard implements GameBoardInterface{
     @Override
     public ArrayList<WeaponCardInterface> getWeaponCard(ColorRoom color) {
         ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();
-
-        if(color.equals(ColorCube.BLUE)){
+        System.out.println("color " + color.getColorRoomRepresentation());
+        if(color.equals(ColorRoom.BLUE)){
             for(AbstractWeaponCard weaponCard: weaponCardsBlue){
                 tmpWeaponCards.add(weaponCard.getWeaponCard());
             }
         }
-        else if(color.equals(ColorCube.RED)){
+        else if(color.equals(ColorRoom.RED)){
+            System.out.println("ok red");
             for(AbstractWeaponCard weaponCard : weaponCardsRed)
                 tmpWeaponCards.add(weaponCard.getWeaponCard());
         }
-        else if(color.equals(ColorCube.YELLOW)) {
+        else if(color.equals(ColorRoom.YELLOW)) {
             for (AbstractWeaponCard weaponCard : weaponCardsYellow)
                 tmpWeaponCards.add(weaponCard.getWeaponCard());
         }
 
+        //System.out.println("size : " + tmpWeaponCards.size());
         return tmpWeaponCards;
     }
 
@@ -290,6 +316,10 @@ public class GameBoard implements GameBoardInterface{
     public void addPowerUpCardDiscarded(PowerUpCard powerUpCard){
         usedPowerUpCards.add(powerUpCard);
     }
+    public void addAmmoTileDiscarded(AmmoTile ammoTile){
+        grabedAmmoTiles.add(ammoTile);
+    }
+
 
     /*public void setGameBoardDescription(){
         getGameArena().setArenaRepresentation();
