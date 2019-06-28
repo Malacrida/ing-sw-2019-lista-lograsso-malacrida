@@ -53,5 +53,10 @@ public class UpdateMessage extends MoveMessage {
     public void setFeaturesAvailable(int[] featuresAvailable) {
 
     }
+
+    @Override
+    public boolean isNotifyAll() {
+        return super.isNotifyAll();
+    }
 }
 

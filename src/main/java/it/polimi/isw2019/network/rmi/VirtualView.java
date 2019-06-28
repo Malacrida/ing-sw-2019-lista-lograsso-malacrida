@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network.rmi;
 
+import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
@@ -24,6 +25,21 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         this.networkHandler = networkHandler;
     }
 
+    public void registrationController(MainController controller){
+        this.registerObserver(controller);
+        //System.out.println("start view di :" +networkHandler);
+        //startView();
+    }
+
+    public void startView (){
+        try {
+            networkHandler.startViewClient();
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public String getNickname() {
         return nickname;
@@ -61,13 +77,10 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     public void createRegisterPlayer( String player, String actionHero){
         System.out.println("ricreo una registrazione");
-        FirstMessage firstMessage = new FirstMessage(this, player, actionHero );
+        FirstMessage firstMessage = new FirstMessage(this, player, actionHero);
         notifyObservers(firstMessage);
 
         System.out.println("forzo rinvio");
-
-        RegistrationPlayer registrationPlayer= new RegistrationPlayer(player,actionHero, null);
-        sendOkRegistration(registrationPlayer);
     }
 
     public void createReload(String player){
@@ -90,20 +103,9 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(weaponCardChoice);
     }
 
-    public void createUseWeaponCard (String player, WeaponCardInterface weaponCard){
+    public void createUseWeaponCard (String player, int weaponCard){
         UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
         notifyObservers(useWeaponCard);
-    }
-
-
-    @Override
-    public void sendSetupView(SetUpMessage setUpMessage) {
-        try {
-            networkHandler.createSetupView(setUpMessage.getNicknamePlayer(), setUpMessage.getColorAvailable());
-        }
-        catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -145,35 +147,23 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendUpdateView(UpdateMessage updateMessage) {
-
-    }
-
-    @Override
-    public void sendOkRegistration(RegistrationPlayer registrationPlayer) {
-
         try {
-            System.out.println("invio conferma");
-            networkHandler.createOkRegistration(registrationPlayer.getNicknamePlayer(),registrationPlayer.getActionHero(),registrationPlayer.getColors());
+            networkHandler.createUpdateView(updateMessage.getNicknamePlayer(),updateMessage.getGameBoard(),updateMessage.getPlayers(),updateMessage.isNotifyAll());
         }
         catch (RemoteException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
         try {
+            System.out.println("ritorno endRegistration");
             networkHandler.createWaitForStart(endRegistration.getNicknamePlayer());
         }
         catch (RemoteException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
-
     }
 
     @Override
@@ -193,7 +183,11 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
-
+        try {
+            networkHandler.createFirstPlayerChooseMap(firstMessageFirstPlayer.getNicknamePlayer(),firstMessageFirstPlayer.getPossibleMaps(),firstMessageFirstPlayer.getColorAvailable());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

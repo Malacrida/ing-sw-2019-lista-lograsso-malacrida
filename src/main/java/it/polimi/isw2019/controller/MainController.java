@@ -31,6 +31,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void update(PlayerMove playerMove){
+            System.out.println(playerMove.getPlayer());
             playerMove.accept(this);
     }
 
@@ -59,9 +60,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
-        model.registerObserver(firstMessage.getCLIView());
+        model.registerObserver(firstMessage.getVirtualView());
 
         try{
+            System.out.println("ok");
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
             model.unregisterObserver(firstMessage.getCLIView());

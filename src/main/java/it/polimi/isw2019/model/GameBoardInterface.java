@@ -2,9 +2,10 @@ package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface GameBoardInterface {
+public interface GameBoardInterface extends Serializable {
 
     public GameBoardInterface getGameBoardInterface();
 

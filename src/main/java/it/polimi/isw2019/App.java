@@ -19,8 +19,8 @@ public class App
 
         view.registerObserver(controller);
         view2.registerObserver(controller);
-        view.startView();
-        view2.startView();
+        /*view.startView();
+        view2.startView();*/
 
         controller.startGame();
     }

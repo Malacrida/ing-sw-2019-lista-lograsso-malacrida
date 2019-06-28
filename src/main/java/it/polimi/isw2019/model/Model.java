@@ -135,6 +135,7 @@ public class Model extends Observable implements ModelInterface {
 
         if(players.size()<5) {
             players.add(new Player(nickName, actionHeroComment));
+            System.out.println("ok registration model");
             notifyObservers(new EndRegistration(nickName));
         }
         else{

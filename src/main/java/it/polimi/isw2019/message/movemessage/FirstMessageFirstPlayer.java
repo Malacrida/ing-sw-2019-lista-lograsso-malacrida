@@ -15,6 +15,13 @@ public class FirstMessageFirstPlayer extends MoveMessage {
         super(nicknamePlayer);
     }
 
+    public FirstMessageFirstPlayer (String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable){
+        super(nicknamePlayer);
+        this.possibleMaps= possibleMaps;
+        this.colorAvailable=colorAvailable;
+
+    }
+
     public String[] getPossibleMaps() {
         return possibleMaps;
     }

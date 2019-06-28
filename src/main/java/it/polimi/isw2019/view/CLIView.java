@@ -41,15 +41,14 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void update(MoveMessage message) {
 
-        System.out.println("update : " + nicknamePlayer);
+        System.out.println("update : " + message.getNicknamePlayer());
 
         if(message.isNotifyAll()){
             message.accept(this);
         }
-        else if(nicknamePlayer == message.getNicknamePlayer()) {
-            if (message.getNicknamePlayer().compareTo(nicknamePlayer) == 0) {
-                message.accept(this);
-            }
+        else if(nicknamePlayer.equals(message.getNicknamePlayer())) {
+            System.out.println("accetto la Movemessage");
+            message.accept(this);
         }
     }
 
@@ -243,7 +242,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     }
 
-    public void startView() {
+    public void visitStartView(StartMessage startMessage) {
 
         Scanner input = new Scanner(System.in);
         String phrase;

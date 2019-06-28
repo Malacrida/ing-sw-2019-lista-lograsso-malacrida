@@ -9,6 +9,7 @@ import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
@@ -111,7 +112,7 @@ public class Client {
 
 
     private static void startView (String nickname){
-        CLIView view = new CLIView();
+        CLIView view = new CLIView(nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
 
@@ -129,30 +130,7 @@ public class Client {
         view.registerObserver(networkHandler);
         networkHandler.registerObserver(view);
 
-        view.startView();
+      //  view.startView();
     }
 
-
-
-    private static void startViewProvv (String nickname){
-        ViewProvvisioria viewProv = new ViewProvvisioria (nickname);
-        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
-
-
-        try {
-            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient( remoteClient, nickname);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("registrazione completata");
-
-        viewProv.registerObserver(networkHandler);
-        networkHandler.registerObserver(viewProv);
-
-        viewProv.createChooseAction();
-
-    }
 }

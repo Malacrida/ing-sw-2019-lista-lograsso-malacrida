@@ -7,12 +7,12 @@ public class MainFrame {
     JPanel panelAction;
     JPanel panelShoot;
     JPanel panelRun;
+    JPanel panelGrab;
     JPanel panelDisabled;
+    JPanel panel;
     JFrame frame = new JFrame("Title");
 
     public MainFrame() {
-        setPanelDisabled();
-
 
         JFrame.setDefaultLookAndFeelDecorated(true);
         //set title
@@ -35,7 +35,8 @@ public class MainFrame {
     }
 
     public void setPanelDisabled() {
-        panelDisabled= new JPanel();
+        panel= new JPanel();
+
         ImageIcon imgDisabled = new ImageIcon("./src/main/resources/img/panelDisabled.png");
        /* Image img = leftButtonIcon.getImage() ;
         Image newImg = img .getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -43,7 +44,7 @@ public class MainFrame {
 
         JLabel label = new JLabel("", imgDisabled,JLabel.CENTER);
 
-        panelDisabled.add(label);
+        panel.add(label);
     }
 
     public void setPanelAction(int numPanel){
@@ -81,11 +82,27 @@ public class MainFrame {
     }
 
     public void setPanelRun (){
-        RunBotton runBotton = new RunBotton();
-        panelRun=runBotton.setRunButton();
+        RunAndGrabBotton runButton = new RunAndGrabBotton();
+        panel=runButton.setRunButton();
     }
 
     public void changeRun (){
+
+        frame.invalidate();
+        frame.remove(panelAction);
+        setPanelRun();
+        frame.add(panel);
+        frame.revalidate();
+        frame.setVisible(true);
+        frame.repaint();
+    }
+
+    public void setPanelGrab (){
+        RunAndGrabBotton grabBotton = new RunAndGrabBotton();
+        panelRun=grabBotton.setGrab();
+    }
+
+    public void changeGrab (){
 
         frame.invalidate();
         frame.remove(panelAction);
@@ -98,8 +115,9 @@ public class MainFrame {
 
     public void changePanelDisabled (){
         frame.invalidate();
-        frame.remove(panelRun);
-        frame.add(panelDisabled);
+        frame.remove(panel);
+        setPanelDisabled();
+        frame.add(panel);
         frame.revalidate();
         frame.setVisible(true);
         frame.repaint();
