@@ -1,4 +1,6 @@
-package it.polimi.isw2019.view.ViewGui;
+package it.polimi.isw2019.view.ViewGui.Map;
+
+import it.polimi.isw2019.view.ViewGui.FirstSceen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,12 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class FirstSceen {
+public class Map1 {
 
     private JFrame mainFrame;
     private JLabel statusLabel;
 
-    FirstSceen(){
+    public Map1(){
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         mainFrame = new JFrame("Java SWING Elements Examples");
@@ -24,26 +26,16 @@ public class FirstSceen {
 
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        //simple button
-        JButton jb1 = new JButton("SOCKET");
-        jb1.setActionCommand("premuto socket");
-        jb1.addActionListener(new CustomActionListener());
-        mainFrame.add(jb1);
-
-        JButton jb2 = new JButton("RMI");
-        jb2.setActionCommand("premuto rmi");
-        jb2.addActionListener(new CustomActionListener());
-        mainFrame.add(jb2);
 
         //button with image
 
         //load and resize image
-        ImageIcon leftButtonIcon = new ImageIcon("./src/main/resources/img/Background.png");
-       /* Image img = leftButtonIcon.getImage() ;
-        Image newImg = img .getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH ) ;
-        ImageIcon leftButtonIconSmaller = new ImageIcon( newImg );*/
+        ImageIcon leftButtonIcon = new ImageIcon("./src/main/resources/img/map/Map1.png");
+        Image img = leftButtonIcon.getImage() ;
+        Image newImg = img .getScaledInstance( 500, 500,  java.awt.Image.SCALE_SMOOTH ) ;
+        ImageIcon iconSmaller = new ImageIcon( newImg );
 
-        JLabel background= new JLabel("", leftButtonIcon,JLabel.CENTER);
+        JLabel background= new JLabel("",iconSmaller ,JLabel.CENTER);
         background.setBounds(0,0,930,634);
         JPanel panelImage = new JPanel();
 
@@ -62,26 +54,6 @@ public class FirstSceen {
         panel.add(panelImage,gbcImage);
 
 
-        /*
-        //set orientation ( this is the default and wont change anything with NORD, SOUTH, WEST AND EST.
-        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-
-        //set the layout
-        panel.setLayout(new BorderLayout());
-
-
-        panel.add(jb1, BorderLayout.WEST);
-        panel.add(jb2, BorderLayout.EAST);*/
-
-        GridBagConstraints gbcB1 = new GridBagConstraints();
-        gbcB1.gridx=0;
-        gbcB1.gridy=4;
-        panel.add(jb1,gbcB1);
-
-        GridBagConstraints gbcB2 = new GridBagConstraints();
-        gbcB2.gridx=1;
-        gbcB2.gridy=4;
-        panel.add(jb2,gbcB2);
 
         mainFrame.add(panel);
 
@@ -90,7 +62,9 @@ public class FirstSceen {
 
     }
 
-    class CustomActionListener implements ActionListener {
+
+    /*
+    class static CustomActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
             statusLabel.setText("Button Clicked.");
@@ -98,7 +72,7 @@ public class FirstSceen {
         }
     }
 
-    class CustomMouseListener implements MouseListener {
+    class static CustomMouseListener implements MouseListener {
         public void mouseClicked(MouseEvent e)
         {
             statusLabel.setText("Mouse Clicked: ("+e.getX()+", "+e.getY() +")");
@@ -120,5 +94,14 @@ public class FirstSceen {
         {
             statusLabel.setText("Mouse exit.");
         }
+    }*/
+
+    public static void setMap1(){
+
+    }
+
+
+    public static JLabel getMap() {
+        return null;
     }
 }

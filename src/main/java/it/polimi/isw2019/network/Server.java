@@ -50,7 +50,7 @@ public class Server {
         }
 
     }
-    
+
 
     public void setVirtualViewOnServer (GathererInterface... gatherers){
         for(GathererInterface aGatherer : gatherers){
