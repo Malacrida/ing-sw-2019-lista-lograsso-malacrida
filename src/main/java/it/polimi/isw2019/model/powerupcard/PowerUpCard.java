@@ -53,32 +53,65 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
     }
     /* Methods */
 
-    /* GET*/
+    /**
+     * getter of power up card's identifier
+     * @return id
+     */
     public int getId() {
         return id;
     }
+
+    /**
+     * getter of power up card's name
+     * @return name
+     */
 
     public String getName() {
         return name;
     }
 
+    /**
+     * getter of power up card's color
+     * @return ColorCube color
+     */
     public ColorCube getColorCard(){
         return colorCard;
     }
 
+    /**
+     * getter of power up card's color (string from db)
+     * @return color (String)
+     */
     @Override
     public String getColor() {
         return color;
     }
 
+    /**
+     * getter of power up card's effect
+     * @return info effect
+     */
     public String getInfoEffect(){
         return infoEffect;
     }
 
+    /**
+     * getter of power up card's state
+     * @return state
+     */
     public StateCard getCheckState() {
         return checkState;
     }
 
+    /**
+     * implementation of power up card's effect
+     * @param gameBoard gameboard
+     * @param name name of power up
+     * @param attacker player who use power up
+     * @param defender player who suffer effect of power up
+     * @param x first coordinate
+     * @param y second coordinate
+     */
     @Override
     public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y) {
         switch (name) {
@@ -119,6 +152,11 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
     /* setColor assign the color from enumeration ColorCube to card read String color from db.json*/
 
+    /**
+     * assign the color from enumeration ColorCube to card read String color from db.json
+     * @param color color card of power up
+     */
+
     public void setColor(String color){
 
        if(color.compareTo("YELLOW")==0) {
@@ -133,9 +171,18 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
        }
     }
 
+    /**
+     * boolean to check if player can use the power up card
+     * @return
+     */
+
     public boolean isCanBeUsed() {
         return canBeUsed;
     }
+
+    /**
+     * setter all information of power up cards
+     */
 
     public void setPowerUpDescription(){
         powerUpDescription = name + "\n";

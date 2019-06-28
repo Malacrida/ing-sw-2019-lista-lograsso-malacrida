@@ -3,6 +3,7 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,11 @@ public class UsePowerUpCard extends PlayerMove {
     @Override
     public void accept(VisitorController visitorController) {
 
+    }
+
+    @Override
+    public void accept(NetworkHandlerVisitorInterface networkHandler) {
+        networkHandler.sendUsePowerUpCard(this);
     }
 
     public int[][] getCoordinates() {

@@ -1,6 +1,6 @@
-package it.polimi.isw2019.network.network_interface;
+package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.movemessage.ChoiceWeaponCard;
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
@@ -9,28 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface ClientInterface extends Remote {
-    //update model
-
-    //info card
-
-    //altre info
-
-    public void setNickname(String nickname) throws RemoteException;
-
-    public String getNickname() throws RemoteException;
-
-    public Boolean isYourTurn() throws RemoteException;
-
-    //per fargli fare la scelta della modalità di gioco e mappa
-    public void selectModeGameAndMap () throws RemoteException;
-
-    //per attivare il giocatore nel suo turno
-    public void startRound () throws RemoteException;
-
-    public void logInCorrect () throws RemoteException;
-
-    public void logInFail () throws RemoteException;
+public interface NetworkHandlerInterface extends Remote {
 
     public void createActionMessage(String nickname) throws RemoteException;
 
@@ -59,5 +38,4 @@ public interface ClientInterface extends Remote {
     public void createFirstPlayerChooseMap(String nicknamePlayer) throws RemoteException;
 
     public void createFailRegistration(String nicknamePlayer) throws RemoteException;
-
 }

@@ -1,4 +1,6 @@
-package it.polimi.isw2019.network;
+package it.polimi.isw2019.network.rmi;
+
+import it.polimi.isw2019.network.Client;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -23,7 +25,7 @@ public class ApplicationServerRmi {
     public static void runServer ()throws RemoteException {
 
         //creazione del server
-        server = new ServerRmi();
+        server = new ServerRmi(1234);
 
         System.out.println("Register: ");
 

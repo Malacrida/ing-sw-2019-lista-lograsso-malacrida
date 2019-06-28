@@ -3,6 +3,7 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
 import java.util.ArrayList;
 
@@ -44,5 +45,10 @@ public class ReloadMove  extends PlayerMove{
     @Override
     public void accept(VisitorController visitorController) {
         visitorController.visitReload(this);
+    }
+
+    @Override
+    public void accept(NetworkHandlerVisitorInterface networkHandler) {
+        networkHandler.sendReload(this);
     }
 }

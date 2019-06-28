@@ -9,6 +9,13 @@ public class CreateArena {
     private static Square squares [][]= new Square[3][4];
     private static ArrayList<Room> rooms= new ArrayList<>();
 
+    /**
+     * method to choose map
+     * @param numArena arena's identifier
+     * @return lists of squares
+     * @throws OutOfBoundsException
+     */
+
     public static Square[][] chooseMap (int numArena) throws OutOfBoundsException {
         setSquares();
         switch (numArena){
@@ -31,6 +38,13 @@ public class CreateArena {
         return squares;
     }
 
+    /**
+     * method to choose roome
+     * @param numArena arena's identifier
+     * @return list of rooms
+     * @throws OutOfBoundsException
+     */
+
     public static ArrayList<Room> chooseRoom (int numArena) throws OutOfBoundsException{
         switch (numArena){
             case 1:
@@ -51,6 +65,10 @@ public class CreateArena {
         return rooms;
     }
 
+    /**
+     * setter of squares
+     */
+
     private static void setSquares(){
         squares[0][0]= new SquareAmmo();
         squares[0][1]= new SquareAmmo();
@@ -69,6 +87,10 @@ public class CreateArena {
 
     }
 
+    /**
+     * setter of first map
+     */
+
     private static void setMap1 (){
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
@@ -80,12 +102,16 @@ public class CreateArena {
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], squares[2][2], null);
         squares[1][3].setSquareAdjacent(squares[0][3],null,squares[2][3], squares[1][2]);
 
-        squares[2][0]= null; //stanza non disponibile
+        squares[2][0]= null; //squares not available
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(squares[1][2], squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
+
+    /**
+     * setter of rooms of first map
+     */
 
     private static void setRooms1 (){
         Room bluRooms = new Room(ColorRoom.BLUE);
@@ -116,11 +142,15 @@ public class CreateArena {
         rooms.add(yellowRoom);
     }
 
+    /**
+     * setter of second map
+     */
+
     private static void setMap2 (){
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]= null;//stanza non disponibile
+        squares[0][3]= null;//squares not available
 
         squares[1][0].setSquareAdjacent(squares[0][0], null, squares[0][1],null);
         squares[1][1].setSquareAdjacent(squares[0][1], squares[1][2], squares[2][1], null);
@@ -133,6 +163,10 @@ public class CreateArena {
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
+
+    /**
+     * setter of rooms of second map
+     */
 
     private static void setRooms2 (){
         Room bluRooms = new Room(ColorRoom.BLUE);
@@ -163,23 +197,31 @@ public class CreateArena {
         rooms.add(yellowRoom);
     }
 
+    /**
+     * setter of third map
+     */
+
     private static void setMap3 (){
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0],null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], null, squares[0][0]);
         squares[0][2].setSquareAdjacent(null, null, squares[1][2], squares[0][1]);
-        squares[0][3]=null; // stanza non disponibile
+        squares[0][3]=null; //squares not available
 
         squares[1][0].setSquareAdjacent(squares[0][0], squares[1][1], null,null);
         squares[1][1].setSquareAdjacent(null, squares[1][2], squares[2][1], squares[1][0]);
         squares[1][2].setSquareAdjacent(squares[0][2], squares[1][3], null, squares[1][1]);
         squares[1][3].setSquareAdjacent(null,null,squares[2][3], squares[1][2]);
 
-        squares[2][0]=null; // stanza non disponibile
+        squares[2][0]=null; //squares not available
         squares[2][1].setSquareAdjacent(squares[1][1], squares[2][2], null, null);
         squares[2][2].setSquareAdjacent(null, squares[2][3], null, squares[2][1]);
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
+
+    /**
+     * setter of room of third map
+     */
 
     private static void setRooms3 (){
         Room bluRooms = new Room(ColorRoom.BLUE);
@@ -206,6 +248,10 @@ public class CreateArena {
         rooms.add(yellowRoom);
     }
 
+    /**
+     * setter of fourth map
+     */
+
     private static void setMap4 (){
         squares[0][0].setSquareAdjacent(null, squares[0][1], squares[1][0], null);
         squares[0][1].setSquareAdjacent(null, squares[0][2], squares[1][1], squares[0][0]);
@@ -223,6 +269,10 @@ public class CreateArena {
         squares[2][3].setSquareAdjacent(squares[1][3],null,null, squares[2][2]);
 
     }
+
+    /**
+     * setter of room of fourth map
+     */
 
     private static void setRooms4 (){
         Room bluRooms = new Room(ColorRoom.BLUE);
@@ -257,7 +307,4 @@ public class CreateArena {
         rooms.add(yellowRoom);
 
     }
-
-
-
 }

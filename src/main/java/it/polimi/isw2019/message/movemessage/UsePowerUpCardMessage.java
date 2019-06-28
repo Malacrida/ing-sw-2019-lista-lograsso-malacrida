@@ -2,6 +2,7 @@ package it.polimi.isw2019.message.movemessage;
 
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCardInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
 import java.util.ArrayList;
@@ -39,5 +40,10 @@ public class UsePowerUpCardMessage extends MoveMessage {
     @Override
     public void accept(VisitorView visitorview) {
             visitorview.usePowerUpCard(this);
+    }
+
+    @Override
+    public void accept(VirtualViewVisitorInterface virtualView) {
+        virtualView.sendUsePowerUpCard(this);
     }
 }
