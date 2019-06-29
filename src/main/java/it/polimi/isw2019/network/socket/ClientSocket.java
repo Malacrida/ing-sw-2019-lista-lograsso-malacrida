@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
@@ -31,17 +32,12 @@ public class ClientSocket extends Thread implements ClientInterface {
     private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
 
 
-    public ClientSocket(Socket clientSocket) throws IOException{
+    public ClientSocket(Socket clientSocket, ObjectOutputStream output, ObjectInputStream input) throws IOException{
         this.clientSocket = clientSocket;
-        this.input = new ObjectInputStream(clientSocket.getInputStream());
-        this.output = new ObjectOutputStream(clientSocket.getOutputStream());
-        this.ip = clientSocket.getInetAddress();
-
-    }
-
-    public ClientSocket (ObjectOutputStream output, ObjectInputStream input) throws IOException{ //aggiugere anche la lobby
         this.input = input;
         this.output = output;
+        this.ip = clientSocket.getInetAddress();
+
     }
 
     public String convertIpToString(InetAddress ip){
@@ -56,16 +52,18 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void run(){
-        try{
+        try {
             while (null != (playerMove = (PlayerMove) input.readObject())) {
+                System.out.println(playerMove);
+                System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
                 Runnable task = () -> {
                     playerMove.accept(networkHandlerVisitorInterface);
-                    System.out.println("Prendo la playermove");
                 };
                 Thread thread = new Thread(task);
                 thread.start();
+
             }
-        } catch (IOException e){
+        }catch (IOException e){
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

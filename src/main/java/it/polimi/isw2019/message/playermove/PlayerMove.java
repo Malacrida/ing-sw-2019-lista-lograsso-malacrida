@@ -1,7 +1,9 @@
 package it.polimi.isw2019.message.playermove;
 
 
-public  abstract class PlayerMove implements VisitablePlayerMove {
+import java.io.Serializable;
+
+public  abstract class PlayerMove implements VisitablePlayerMove, Serializable {
     private String player;
 
 
