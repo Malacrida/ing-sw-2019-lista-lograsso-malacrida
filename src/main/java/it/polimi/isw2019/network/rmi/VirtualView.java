@@ -66,13 +66,13 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
         System.out.println("forzo rinvio");
 
-        RegistrationPlayer registrationPlayer= new RegistrationPlayer(player,actionHero, null);
-        sendOkRegistration(registrationPlayer);
+        /*RegistrationPlayer registrationPlayer= new RegistrationPlayer(player,actionHero, null);
+        sendOkRegistration(registrationPlayer);*/
     }
 
     public void createReload(String player){
-        ReloadMove reloadMove = new ReloadMove(player);
-        notifyObservers(reloadMove);
+        //ReloadMove reloadMove = new ReloadMove(player);
+        //notifyObservers(reloadMove);
     }
 
     public void createPowerUpChoice(String player, int idPowerUp){
@@ -91,12 +91,12 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
     public void createUseWeaponCard (String player, WeaponCardInterface weaponCard){
-        UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
-        notifyObservers(useWeaponCard);
+        //UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
+        //notifyObservers(useWeaponCard);
     }
 
 
-    @Override
+  /*  @Override
     public void sendSetupView(SetUpMessage setUpMessage) {
         try {
             networkHandler.createSetupView(setUpMessage.getNicknamePlayer(), setUpMessage.getColorAvailable());
@@ -104,7 +104,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         catch (RemoteException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void sendActionView(ActionMessage actionMessage) {
@@ -148,7 +148,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     }
 
-    @Override
+   /* @Override
     public void sendOkRegistration(RegistrationPlayer registrationPlayer) {
 
         try {
@@ -159,7 +159,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
@@ -171,10 +171,10 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         }
     }
 
-    @Override
+    /*@Override
     public void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
 
-    }
+    }*/
 
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {

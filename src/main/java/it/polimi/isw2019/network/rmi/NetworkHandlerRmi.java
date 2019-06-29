@@ -2,15 +2,12 @@ package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.CLIView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -123,7 +120,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendPowerUpChoice(PowerUpChoice powerUpChoice) {
         try {
-            server.receivePowerUpChoice(powerUpChoice.getPlayer(), powerUpChoice.getIdPowerUp());
+            server.receivePowerUpChoice(powerUpChoice.getPlayer(), powerUpChoice.getIdPowerUpTake());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -152,12 +149,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void sendUseWeaponCard(UseWeaponCard useWeaponCard) {
-        try {
+       /* try {
             server.receiveUseWeaponCard(useWeaponCard.getPlayer(),useWeaponCard.getWeaponCard());
 
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -168,11 +165,11 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         notifyObservers(actionMessage);
     }
 
-    @Override
+   /* @Override
     public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) {
         SetUpMessage setUpMessage = new SetUpMessage(idMoveMessage,0,colorAvailable);
         notifyObservers(setUpMessage);
-    }
+    }*/
 
     @Override
     public void createRun(String nicknamePlayer, String error, int numMovement) {
@@ -186,33 +183,33 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         notifyObservers(grabMessage);
     }
 
-    @Override
+   /* @Override
     public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) {
         ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer,weaponCardInterfaces);
         notifyObservers(reloadMessage);
     }
 
-    @Override
+   /* @Override
     public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
 
     }
 
-    @Override
+    /*@Override
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) {
         System.out.println("ricreo la registrazione");
         RegistrationPlayer registrationPlayer = new RegistrationPlayer(nicknamePlayer,actionHero, colors);
         notifyObservers(registrationPlayer);
-    }
+    }*/
 
     @Override
     public void createWaitForStart(String nicknamePlayer) {
 
     }
 
-    @Override
+    /*@Override
     public void createWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
 
-    }
+    }*/
 
     @Override
     public void createUseWeaponCard(String nicknamePlayer) {
@@ -267,7 +264,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     }
 
+    @Override
+    public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) throws RemoteException {
 
-
-
+    }
 }

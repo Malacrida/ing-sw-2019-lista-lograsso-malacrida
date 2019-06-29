@@ -1,6 +1,5 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.ArenaInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
@@ -13,6 +12,12 @@ public class FirstMessageFirstPlayer extends MoveMessage {
 
     public FirstMessageFirstPlayer(String nicknamePlayer) {
         super(nicknamePlayer);
+    }
+
+    public FirstMessageFirstPlayer(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable){
+        super(nicknamePlayer,idPlayer);
+        this.possibleMaps = possibleMaps;
+        this.colorAvailable = colorAvailable;
     }
 
     public String[] getPossibleMaps() {
@@ -41,13 +46,4 @@ public class FirstMessageFirstPlayer extends MoveMessage {
         virtualView.sendFirstPlayerChooseMap(this);
     }
 
-    @Override
-    public int[] getFeaturesAvailable() {
-        return new int[0];
-    }
-
-    @Override
-    public void setFeaturesAvailable(int[] featuresAvailable) {
-
-    }
 }

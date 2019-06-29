@@ -20,13 +20,4 @@ public class EndRegistration extends MoveMessage {
         virtualView.sendWaitForStart(this);
     }
 
-    @Override
-    public int[] getFeaturesAvailable() {
-        return new int[0];
-    }
-
-    @Override
-    public void setFeaturesAvailable(int[] featuresAvailable) {
-
-    }
 }

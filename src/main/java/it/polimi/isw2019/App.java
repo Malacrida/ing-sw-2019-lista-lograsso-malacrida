@@ -14,11 +14,12 @@ public class App
     {
         CLIView view = new CLIView("alba");
         CLIView view2 = new CLIView("sara");
+
+
         MainController controller = new MainController();
 
-
-        view.registerObserver(controller);
         view2.registerObserver(controller);
+
         view.startView();
         view2.startView();
 

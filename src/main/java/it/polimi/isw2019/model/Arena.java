@@ -7,7 +7,7 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 
 import java.util.ArrayList;
 
-public class Arena implements ArenaInterface{
+public class Arena {
 
     private Square[][] squares = new Square[3][4];
     private ArrayList<Room> rooms = new ArrayList<>();
@@ -15,6 +15,7 @@ public class Arena implements ArenaInterface{
     private String[][] tmpArena = new String[7][24];
 
     Arena() {
+
     }
 
 
@@ -128,6 +129,7 @@ public class Arena implements ArenaInterface{
     public ArrayList<Player> playersInOneSquareOnArena(int x, int y, Player player) {
         ArrayList<Player> players = squares[x][y].getPlayers();
         if (players.contains(player)) {
+            //remove or get ?
             players.remove(player);
         }
         return players;
@@ -446,7 +448,6 @@ public class Arena implements ArenaInterface{
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 if (j == 0) {
-                    System.out.println("ok");
                     column = 0;
                 } else if (j == 1) {
                     column = 6;
@@ -471,17 +472,12 @@ public class Arena implements ArenaInterface{
         System.out.println("tmp arena");
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 24; j++) {
-               // System.out.print(tmpArena[i][j]);
                 arenaRepresentation += tmpArena[i][j];
                 if (j == 23) {
                     arenaRepresentation += "\n";
-                    //System.out.println();
                 }
             }
         }
-
-        //System.out.println("arena rep");
-        //System.out.println(arenaRepresentation);
 
         }
 
@@ -493,10 +489,6 @@ public class Arena implements ArenaInterface{
         return arenaRepresentation;
     }
 
-    @Override
-    public ArenaInterface getArenaInterface() {
-        return this;
-    }
 
     @Override
     public String toString(){

@@ -1,8 +1,5 @@
 package it.polimi.isw2019.network.socket;
 
-import it.polimi.isw2019.message.movemessage.ChoiceWeaponCard;
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 
@@ -80,10 +77,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    @Override
+    /*@Override
     public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException {
 
-    }
+    }*/
 
     @Override
     public void createRun(String nicknamePlayer, String error, int numMovement) throws RemoteException {
@@ -100,25 +97,21 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    @Override
-    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) throws RemoteException {
 
-    }
-
-    @Override
+    /*@Override
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
 
-    }
+    }*/
 
     @Override
     public void createWaitForStart(String nicknamePlayer) throws RemoteException {
 
     }
 
-    @Override
+  /*  @Override
     public void createWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) throws RemoteException {
 
-    }
+    }*/
 
     @Override
     public void createUseWeaponCard(String nicknamePlayer) throws RemoteException {

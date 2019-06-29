@@ -1,21 +1,22 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.ammotile.InterfaceAmmoTile;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
-import java.util.ArrayList;
 
 public class GrabMessage extends MoveMessage {
 
-    private ArrayList<WeaponCardInterface> weaponCardAvailable;
-    private ArrayList<InterfacePowerUpCard> yourPowerUpCard;
-    private InterfacePowerUpCard powerUpCard;
-    private InterfaceAmmoTile ammoTile;
     private int[] featuresAvailable;
     private boolean grabWeapon;
+    private String[] weaponCardAvailable;
+    private String ammoTileDescription;
+    private String powerUpDescription;
+
+    //powerUp è in tmpPowerUp nell'arena -> non ci dovrebbe essere nessun problema.
+    //quando la si cambia -> togliere la carta dal mazzo, metterla nel deck del player, togliere la arta del deck del player
+    //e metterla in powerUpDischarged!
+    private int idPowerUp;
+
 
     public GrabMessage(String nicknamePlayer) {
         super(nicknamePlayer);
@@ -26,24 +27,25 @@ public class GrabMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
+    public GrabMessage(String nicknamePlayer, String error,String[] weaponCardAvailable,int[] featuresAvailable,boolean grabWeapon, String ammoTileDescription, String powerUpDescription){
+        super(nicknamePlayer,error);
+        this.featuresAvailable = featuresAvailable;
+        this.weaponCardAvailable = weaponCardAvailable;
+        this.grabWeapon = grabWeapon;
+        this.ammoTileDescription = ammoTileDescription;
+        this.powerUpDescription = powerUpDescription;
+    }
+
     public GrabMessage(String nicknamePlayer, String error) {
         super(nicknamePlayer, error);
     }
 
-    public ArrayList<WeaponCardInterface> getWeaponCardAvailable() {
+    public String[] getWeaponCardAvailable() {
         return weaponCardAvailable;
     }
 
-    public void setWeaponCardAvailable(ArrayList<WeaponCardInterface> weaponCardAvailable) {
+    public void setWeaponCardAvailable(String[] weaponCardAvailable) {
         this.weaponCardAvailable = weaponCardAvailable;
-    }
-
-    public InterfaceAmmoTile getAmmoTile() {
-        return ammoTile;
-    }
-
-    public void setAmmoTile(InterfaceAmmoTile ammoTile) {
-        this.ammoTile = ammoTile;
     }
 
     public boolean isGrabWeapon() {
@@ -55,28 +57,40 @@ public class GrabMessage extends MoveMessage {
     }
 
 
-    public ArrayList<InterfacePowerUpCard> getYourPowerUpCard() {
-        return yourPowerUpCard;
-    }
-
-    public void setYourPowerUpCard(ArrayList<InterfacePowerUpCard> yourPowerUpCard) {
-        this.yourPowerUpCard = yourPowerUpCard;
-    }
-
-    public InterfacePowerUpCard getPowerUpCard() {
-        return powerUpCard;
-    }
-
-    public void setPowerUpCard(InterfacePowerUpCard powerUpCard) {
-        this.powerUpCard = powerUpCard;
-    }
-
     public int[] getFeaturesAvailable() {
         return featuresAvailable;
     }
 
     public void setFeaturesAvailable(int[] featuresAvailable) {
         this.featuresAvailable = featuresAvailable;
+    }
+
+    public void setGrabWeapon(boolean grabWeapon) {
+        this.grabWeapon = grabWeapon;
+    }
+
+    public String getAmmoTileDescription() {
+        return ammoTileDescription;
+    }
+
+    public void setAmmoTileDescription(String ammoTileDescription) {
+        this.ammoTileDescription = ammoTileDescription;
+    }
+
+    public String getPowerUpDescription() {
+        return powerUpDescription;
+    }
+
+    public void setPowerUpDescription(String powerUpDescription) {
+        this.powerUpDescription = powerUpDescription;
+    }
+
+    public int getIdPowerUp() {
+        return idPowerUp;
+    }
+
+    public void setIdPowerUp(int idPowerUp) {
+        this.idPowerUp = idPowerUp;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
@@ -14,7 +13,7 @@ public class UsePowerUpCard extends PlayerMove {
     private ArrayList<InterfacePowerUpCard> powerUpCardInterfaces;
     private int[][] coordinates;
     private boolean defend;
-    private PlayerInterface playerToAttack;
+    //private PlayerInterface playerToAttack;
 
 
     public UsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) {
@@ -48,13 +47,13 @@ public class UsePowerUpCard extends PlayerMove {
         this.defend = defend;
     }
 
-    public PlayerInterface getPlayerToAttack() {
+    /*public PlayerInterface getPlayerToAttack() {
         return playerToAttack;
-    }
+    }*/
 
-    public void setPlayerToAttack(PlayerInterface playerToAttack) {
+    /*public void setPlayerToAttack(PlayerInterface playerToAttack) {
         this.playerToAttack = playerToAttack;
-    }
+    }*/
 
     public InterfacePowerUpCard getPowerUpCardInterface() {
         return powerUpCardInterface;

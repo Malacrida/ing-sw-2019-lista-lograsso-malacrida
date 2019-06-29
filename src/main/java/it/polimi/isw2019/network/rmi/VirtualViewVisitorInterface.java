@@ -4,7 +4,6 @@ import it.polimi.isw2019.message.movemessage.*;
 
 public interface VirtualViewVisitorInterface {
 
-    void sendSetupView(SetUpMessage setUpMessage);
 
     void sendActionView(ActionMessage actionMessage);
 
@@ -16,11 +15,11 @@ public interface VirtualViewVisitorInterface {
 
     void sendUpdateView(UpdateMessage updateMessage);
 
-    void sendOkRegistration(RegistrationPlayer registrationPlayer);
+    //void sendOkRegistration(RegistrationPlayer registrationPlayer);
 
     void sendWaitForStart(EndRegistration endRegistration);
 
-    void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
+    //void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
     void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 

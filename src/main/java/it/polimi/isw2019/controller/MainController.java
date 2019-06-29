@@ -17,7 +17,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     private Model model;
     private ArrayList<String> colorAvailable;
 
-    private PlayerInterface tmpPlayer;
+   // private PlayerInterface tmpPlayer;
     private InterfacePowerUpCard tmpPowerUp;
     private String cubeInserted;
 
@@ -148,8 +148,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
         for(int i = 0; i < useWeaponCard.getHandleEffectPayment().length; i ++){
-            //if(!model.checkValidityPayment(useWeaponCard.getHandleEffectPayment()[i], firstEffect))
-                //error -> not enough cubes , try again
+
         }
 
 
@@ -202,7 +201,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
             else if (runMove.getMovement()[i][0] < 0 || runMove.getMovement()[i][0] > 2 || runMove.getMovement()[i][1] < 0 || runMove.getMovement()[i][1] > 3) {
                 model.getCurrentPlayer().getMessageToBeSent().get(0).setError("The index you've inserted are wrong!" + runMove.getMovement()[i][0] + runMove.getMovement()[i][1]);
-                model.sendCorrectActionMessage();
+                //model.sendCorrectActionMessage();
                 return;
             }
             if(i == runMove.getMovement().length)

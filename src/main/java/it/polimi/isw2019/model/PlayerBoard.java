@@ -7,7 +7,7 @@ import it.polimi.isw2019.model.exception.TooManyCubes;
 
 import java.util.ArrayList;
 
-public class PlayerBoard implements PlayerBoardInterface{
+public class PlayerBoard{
 
     protected ColorPlayer color;
     private int playerSkulls;
@@ -474,8 +474,4 @@ public class PlayerBoard implements PlayerBoardInterface{
         return getPlayerBoardRepresentation();
     }
 
-    @Override
-    public PlayerBoardInterface getPlayerBoardInterface() {
-        return this;
-    }
 }

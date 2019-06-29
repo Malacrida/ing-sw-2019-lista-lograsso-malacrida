@@ -11,7 +11,7 @@ import it.polimi.isw2019.utilities.Observable;
 
 import java.util.ArrayList;
 
-public class Model extends Observable implements ModelInterface {
+public class Model extends Observable {
 
     private Player currentPlayer;
     private int turn;
@@ -55,17 +55,8 @@ public class Model extends Observable implements ModelInterface {
         return this.gameBoard;
     }
 
-    @Override
-    public ArrayList<PlayerInterface> getPlayersInterface() {
-        ArrayList <PlayerInterface> playerInterface = new ArrayList<>();
-        for(Player player: players)
-            playerInterface.add(player.getPlayerInterface());
-        return playerInterface;
-
-    }
-
     public Player getCurrentPlayer(){
-        return this.currentPlayer;
+        return currentPlayer;
     }
     /**
      *
@@ -238,9 +229,7 @@ public class Model extends Observable implements ModelInterface {
             currentPlayer = players.get(index+1);
         }
 
-        UpdateMessage updateMessage = new UpdateMessage(null,getGameBoard().getGameBoardInterface(),getPlayersInterface(),true);
-
-        notifyObservers(updateMessage);
+        sendUpdateMessage();
 
         if(currentPlayer.getRealPlayerBoard() == null){
             firstMessage();
@@ -374,15 +363,10 @@ public class Model extends Observable implements ModelInterface {
     }
      //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
      public void sendUpdateMessage(){
-            notifyObservers(new UpdateMessage(currentPlayer.getName(),gameBoard.getGameBoardInterface(),getPlayersInterface(),true));
+           // notifyObservers(new UpdateMessage(currentPlayer.getName(),gameBoard.getGameBoardInterface(),getPlayersInterface(),true));
 
      }
 
-    public void sendUpdateMessage(String message){
-
-        notifyObservers(new UpdateMessage(null,message,gameBoard.getGameBoardInterface(),getPlayersInterface()));
-
-    }
 
 
     //testare
@@ -436,18 +420,18 @@ public class Model extends Observable implements ModelInterface {
                         //end action
                     }
                     catch (TooManyPowerUpCard tooManyPowerUpCard) {
-                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setPowerUpCard(tmp.getPowerUpCard().getPowerUpCard());
-                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setYourPowerUpCard(currentPlayer.getPowerUpCard());
+                        //powerUpChoice -> 4 -> change, altrimenti shalla
+                        ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setIdPowerUp(tmp.getId());
                         ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(false);
                         notifyObservers(currentPlayer.getSingleMessageToBeSent());
                     }
                 }
                 else{
-                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setWeaponCardAvailable(gameBoard.getWeaponCard(currentPlayer.getColorRoom()));
-                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setPowerUpCard(null);
-                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setYourPowerUpCard(currentPlayer.getPowerUpCard());
+                    //weaponCardChoice stesso concetto power up!!
+                    ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setWeaponCardAvailable(gameBoard.getWeaponCardDescription(currentPlayer.getColorRoom()));
                     ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(true);
                     notifyObservers(currentPlayer.getSingleMessageToBeSent());
+
                 }
             }
 
@@ -604,13 +588,12 @@ public class Model extends Observable implements ModelInterface {
 
         try {
             currentPlayer.takePowerUpCard(tmpPowerUpCard.get(positionInTmpCardChoosen),null);
-            System.out.println(currentPlayer.getPowerUpCard().get(0).getPowerUpCardRepresentation());
+
         } catch (TooManyPowerUpCard tooManyPowerUpCard) {
 
         }
 
         tmpPowerUpCard.remove(positionInTmpCardChoosen);
-        System.out.println(currentPlayer.getPowerUpCard().get(0).getPowerUpCardRepresentation());
         //riguardare bene questa cosa
         //stessa cosa che nel player
         gameBoard.addPowerUpCardDiscarded(tmpPowerUpCard.get(0));

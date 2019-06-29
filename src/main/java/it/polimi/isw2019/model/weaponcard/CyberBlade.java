@@ -13,18 +13,21 @@ public class CyberBlade extends AbstractWeaponCard{
     /**
      * Implementation of CyberBlade
      */
+    private ColorCube tmpRechargeCube[] = {ColorCube.YELLOW, ColorCube.RED};
 
     public CyberBlade(){
+
         super(16, "Cyber Blade", ColorCube.YELLOW, 3, 2, 2);
+       // this.rechargeCube = new ColorCube[2];
+        //this.rechargeCube[0] = ColorCube.YELLOW;
+       // this.rechargeCube[1] = ColorCube.RED;
 
         this.infoEffect[0] = "FIRST EFFECT : Deal 2 damage to 1 target on your square.\n";
         this.infoEffect[1] = "SECOND EFFECT: move 1 square before or after the basic effect\n";
         this.infoEffect[2] = "THIRD EFFECT : to a different target on your square the shadowstep may be used before or after this effect.";
         this.infoEffect[3] = "NOTE : Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else;\n" +
                 "or whack 2 people and then move.";
-        this.rechargeCube = new ColorCube[2];
-        this.rechargeCube[0] = ColorCube.YELLOW;
-        this.rechargeCube[1] = ColorCube.RED;
+
         setWeaponCardDescription();
     }
 

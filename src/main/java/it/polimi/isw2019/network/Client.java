@@ -111,7 +111,7 @@ public class Client {
 
 
     private static void startView (String nickname){
-        CLIView view = new CLIView();
+        CLIView view = new CLIView("alba");
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
 

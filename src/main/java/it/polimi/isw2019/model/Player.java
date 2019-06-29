@@ -3,14 +3,12 @@ package it.polimi.isw2019.model;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import java.util.ArrayList;
 
-public class Player implements PlayerInterface {
+public class Player{
     private String name;
     private String actionHeroComment; //frase effetto
     private int playerID;
@@ -56,6 +54,9 @@ public class Player implements PlayerInterface {
     private String error;
 
     private String descriptionPlayer;
+
+    private int[] statusPlayer = new int[14];
+
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
@@ -100,7 +101,7 @@ public class Player implements PlayerInterface {
     public MoveMessage getSingleMessageToBeSent(){
 
         featuresAvailable();
-        messageToBeSent.get(0).setFeaturesAvailable(featuresAvailable);
+        //messageToBeSent.get(0).setFeaturesAvailable(featuresAvailable);
 
         if(messageToBeSent.get(0) instanceof  ReloadMessage){
             updateMessage((ReloadMessage)(messageToBeSent.get(0)));
@@ -108,34 +109,24 @@ public class Player implements PlayerInterface {
         else if(messageToBeSent.get(0) instanceof UsePowerUpCardMessage){
             updateMessage((UsePowerUpCardMessage) (messageToBeSent.get(0)));
         }
-        else if(messageToBeSent.get(0) instanceof UseWeaponCardMessage){
+        else if(messageToBeSent.get(0) instanceof UseWeaponCardMessage) {
             updateMessage((UseWeaponCardMessage) (messageToBeSent.get(0)));
-        } else if(messageToBeSent.get(0) instanceof GrabMessage){
-            updateMessage((GrabMessage)(messageToBeSent.get(0)));
         }
 
         return messageToBeSent.get(0);
     }
 
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
-        usePowerUpCardMessage.setPowerUpCard(getPowerUpCard());
+        //usePowerUpCardMessage.setPowerUpCard(powerUpCards.);
     }
 
     public void updateMessage(UseWeaponCardMessage useWeaponCardMessage){
         useWeaponCardMessage.setWeaponCard(getWeaponCard());
-        useWeaponCardMessage.setPowerUpCards(getPowerUpCard());
     }
 
     public void updateMessage(ReloadMessage reloadMessage){
-        reloadMessage.setPowerUpCards(getPowerUpCard());
-        reloadMessage.setWeaponCardInterfaces(getWeaponCard());
+        reloadMessage.setWeaponYouCanReload(getWeaponDischarge());
     }
-
-    public void updateMessage(GrabMessage grabMessage){
-        grabMessage.setYourPowerUpCard(getPowerUpCard());
-        grabMessage.setYourPowerUpCard(getPowerUpCard());
-    }
-
 
     public int getIndexPlayer() {
         return indexPlayer;
@@ -316,16 +307,6 @@ public class Player implements PlayerInterface {
 
     }
 
-    public boolean isContainedPowerUp(PowerUpCard powerUpCard1){
-
-        for (PowerUpCard powerUpCard : powerUpCards) {
-            if (powerUpCard.getId() == powerUpCard1.getId()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void fromPowerUpCardIntoCubes(PowerUpCard powerUpCard1){
         for (PowerUpCard powerUpCard2 : powerUpCards) {
             if (powerUpCard2.getId() == powerUpCard1.getId()) {
@@ -431,41 +412,55 @@ public class Player implements PlayerInterface {
         return playerBoard;
     }
 
-    @Override
-    public String getActionHeroComment() {
-        return actionHeroComment;
+
+    public String[] getWeaponCardDescription(){
+        String[] tmpWeaponCardDescription = new String[weaponCards.size()];
+
+        for( int i = 0; i < weaponCards.size(); i ++)
+            tmpWeaponCardDescription[i] = weaponCards.get(i).getWeaponCardDescription();
+
+        return tmpWeaponCardDescription;
     }
 
-    @Override
-    public PlayerBoardInterface getPlayerBoard () {
-        return playerBoard.getPlayerBoardInterface();
+    public String[] getPowerUpDescription(){
+        String[] tmpPowerUpCardDescription = new String[weaponCards.size()];
+
+        for( int i = 0; i < powerUpCards.size(); i ++)
+            tmpPowerUpCardDescription[i] = powerUpCards.get(i).getPowerUpCardRepresentation();
+
+        return tmpPowerUpCardDescription;
+
     }
 
-    @Override
-    public ArrayList<InterfacePowerUpCard> getPowerUpCard() {
-        ArrayList<InterfacePowerUpCard> powerUpCardInterfaces = new ArrayList<>();
+    public int[] getWeaponDischarge(){
+        int[] weaponDischarged = new int[weaponCards.size()];
 
-        for(PowerUpCard powerUp: powerUpCards){
-            powerUpCardInterfaces.add(powerUp.getPowerUpCard());
+        for(int i = 0 ; i < weaponCards.size(); i ++){
+            if(weaponCards.get(i).getStateCard().equals(StateCard.DISCHARGE)){
+                weaponDischarged[i] = 1;
+            }
+            else
+                weaponDischarged[i] = 0;
         }
-        return powerUpCardInterfaces;
+        return weaponDischarged;
     }
 
-    @Override
-    public PlayerInterface getPlayerInterface() {
-        return this;
-    }
+    //1 -> recharged, 2 -> discharged
+    public int[] getWeaponCard() {
 
-    @Override
-    public ArrayList<WeaponCardInterface> getWeaponCard() {
-        ArrayList<WeaponCardInterface> weaponCardInterfaces = new ArrayList<>();
-        for(AbstractWeaponCard weaponCard : weaponCards){
-            weaponCardInterfaces.add(weaponCard.getWeaponCard());
+       int[] tmpWeaponCards = new int[weaponCards.size()];
+
+        for(int i = 0 ; i < weaponCards.size(); i++){
+            if(weaponCards.get(i).getStateCard().equals(StateCard.HOLDING))
+                tmpWeaponCards[i] = 1;
+            else
+                tmpWeaponCards[i] = 0;
+
         }
-        return weaponCardInterfaces;
+        return tmpWeaponCards;
     }
 
-    //add a powerUp in the
+    //add a powerUp in the UsePowerUp if it has the correct feature
     public boolean canAddPowerUp(){
         for(PowerUpCard powerUpCard : powerUpCards){
             if(powerUpCard.isCanBeUsed()){
@@ -695,12 +690,6 @@ public class Player implements PlayerInterface {
         this.numActionCancelled = numActionCancelled;
     }
 
-    public Player fromPlayerInterfaceToPlayer(PlayerInterface playerInterface){
-        if(getPlayerInterface().equals(playerInterface))
-            return this;
-        else
-            return null;
-    }
 
     public void featuresAvailable(){
         featuresAvailable[0] = playerBoard.numOfBlueCubes();
@@ -711,6 +700,28 @@ public class Player implements PlayerInterface {
             featuresAvailable[j] = powerUpCards.get(i).getId();
         for(int i = j + 1; i < 6; i ++)
             featuresAvailable[i] = -1;
+    }
+
+    public int[] getStatusPlayer() {
+        return statusPlayer;
+    }
+
+    public void setStatusPlayer() {
+        statusPlayer[0] = indexPlayer;
+        statusPlayer[1] = x;
+        statusPlayer[2] = y;
+        statusPlayer[3] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.BLUE);
+        statusPlayer[4] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREEN);
+        statusPlayer[5] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREY);
+        statusPlayer[6] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.VIOLET);
+        statusPlayer[7] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.YELLOW);
+        statusPlayer[8] = playerBoard.numOfMarkOfOneColor(ColorPlayer.BLUE);
+        statusPlayer[9] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREEN);
+        statusPlayer[10] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREY);
+        statusPlayer[11] = playerBoard.numOfMarkOfOneColor(ColorPlayer.VIOLET);
+        statusPlayer[12] = playerBoard.numOfMarkOfOneColor(ColorPlayer.YELLOW);
+        statusPlayer[13] = playerBoard.getPlayerSkulls();
+
     }
 
     public int[] getFeaturesAvailable() {

@@ -6,6 +6,7 @@ import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 
 public class FirstMessage extends PlayerMove{
+
     private String actionHero;
     private CLIView CLIView;
     private VirtualViewVisitorInterface virtualView;
