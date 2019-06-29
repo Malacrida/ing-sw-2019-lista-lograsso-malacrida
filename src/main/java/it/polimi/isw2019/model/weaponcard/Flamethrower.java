@@ -23,6 +23,7 @@ public class Flamethrower extends AbstractWeaponCard {
         this.paySecondEffect = new ColorCube[2];
         this.paySecondEffect[0] = ColorCube.YELLOW;
         this.paySecondEffect[1] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
 

@@ -18,6 +18,7 @@ public class SquareAmmo extends Square {
     SquareAmmo() {
         super( false);
         canUseAmmo = true;
+
     }
 
     @Override

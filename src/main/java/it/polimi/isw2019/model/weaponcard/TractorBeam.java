@@ -22,6 +22,7 @@ public class TractorBeam extends AbstractWeaponCard {
         this.paySecondEffect = new ColorCube[2];
         this.paySecondEffect[0] = ColorCube.RED;
         this.paySecondEffect[1] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
     /**

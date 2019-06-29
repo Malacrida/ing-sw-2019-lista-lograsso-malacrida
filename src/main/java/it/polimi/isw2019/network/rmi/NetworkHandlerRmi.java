@@ -43,6 +43,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         nameNetworkHandler= nickname;
     }
 
+    @Override
+    public void startViewClient() throws RemoteException {
+        StartMessage startMessage = new StartMessage(nameNetworkHandler);
+        startMessage.setNotifyAll(true);
+        notifyObservers(startMessage);
+    }
 
     @Override
     public void logInCorrect() throws RemoteException {
@@ -63,12 +69,17 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void sendChooseMap(ChooseMapMove chooseMapMove) {
+        try {
+            server.receiveChooseMap(chooseMapMove.getPlayer(),chooseMapMove.getIndex(),chooseMapMove.getIndexColor());
+        } catch (RemoteException e) {
 
+
+        }
     }
 
     @Override
     public void sendActionChoose(ChooseActionMove chooseActionMove) {
-        System.out.println("invio la playermove");
+
         try {
             server.receiveChooseActionMove(chooseActionMove.getPlayer(), chooseActionMove.getNumAction());
 
@@ -123,7 +134,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendPowerUpChoice(PowerUpChoice powerUpChoice) {
         try {
-            server.receivePowerUpChoice(powerUpChoice.getPlayer(), powerUpChoice.getIdPowerUp());
+            server.receivePowerUpChoice(powerUpChoice.getPlayer(), powerUpChoice.getIdPowerUpDischarge());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -169,9 +180,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) {
-        SetUpMessage setUpMessage = new SetUpMessage(idMoveMessage,0,colorAvailable);
-        notifyObservers(setUpMessage);
+    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException {
+
     }
 
     @Override
@@ -193,24 +203,21 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
-
+    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players,boolean notifyAll) {
+        UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,gameBoard,players,notifyAll);
+        notifyObservers(updateMessage);
     }
 
     @Override
-    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) {
-        System.out.println("ricreo la registrazione");
-        RegistrationPlayer registrationPlayer = new RegistrationPlayer(nicknamePlayer,actionHero, colors);
-        notifyObservers(registrationPlayer);
+    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
+
     }
 
     @Override
     public void createWaitForStart(String nicknamePlayer) {
-
-    }
-
-    @Override
-    public void createWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
+        System.out.println("ricevo una endRegistratio");
+        EndRegistration endRegistration = new EndRegistration(nicknamePlayer);
+        notifyObservers(endRegistration);
 
     }
 
@@ -230,8 +237,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createFirstPlayerChooseMap(String nicknamePlayer) {
-        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer);
+    public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) {
+        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,possibleMaps,colorAvailable);
+        System.out.println("ricevo la scelta della mappa per: "+ nicknamePlayer);
         notifyObservers(firstMessageFirstPlayer);
 
     }
@@ -241,6 +249,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         FailRegistration failRegistration = new FailRegistration(nicknamePlayer);
         notifyObservers(failRegistration);
     }
+
+
 
     @Override
     public void setNickname(String nickname) {

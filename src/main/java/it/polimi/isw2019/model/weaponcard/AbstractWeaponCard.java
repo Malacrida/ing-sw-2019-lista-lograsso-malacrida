@@ -5,7 +5,6 @@ import it.polimi.isw2019.model.GameBoard;
 import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
 import it.polimi.isw2019.model.exception.*;
-import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 
 import java.awt.*;
 import java.security.ProtectionDomain;
@@ -27,7 +26,7 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     protected boolean firstIsValid = false;
     protected boolean secondIsValid = false;
 
-    private String[][] weaponCardDescription;
+    private String weaponCardDescription;
 
 
     public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefenders) {
@@ -37,6 +36,7 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         this.maxPossibleEffects = maxPossibleEffects;
         this.maxPossibleCoordinates = maxPossibleCoordinates;
         this.maxPossibleDefenders = maxPossibleDefenders;
+
     }
 
 
@@ -296,33 +296,11 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
 
     }
 
-    public void setWeaponCardDescription(){
-        int numOfCubes = rechargeCube.length;
-        weaponCardDescription = new String[6][];
-        weaponCardDescription[0][0] = String.valueOf(id);
-        weaponCardDescription[1][0] = name;
-        weaponCardDescription[2][0] = color.getColorCubeRepresentation();
-        for(int i=0; i<rechargeCube.length;i++)
-            weaponCardDescription[3][i] = rechargeCube[i].getColorCubeRepresentation();
-        for(int i=0;i<infoEffect.length; i++)
-            weaponCardDescription[4][i] = infoEffect[i];
-        weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
-
-
-    }
-
-    public void changeStateRepresentation(StateCard stateCard){
-        weaponCardDescription[5][0] = stateCard.getStateCardRepresentation();
-    }
-
     public int getNumCubes(){
         return rechargeCube.length;
     }
     public WeaponCardInterface getWeaponCard(){
         return this;
-    }
-    public String[][] getWeaponCardDescription(){
-        return weaponCardDescription;
     }
 
     public int getNumMaxEffect(){
@@ -335,6 +313,24 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         return maxPossibleCoordinates;
     }
 
+    public void setWeaponCardDescription(){
+
+        weaponCardDescription = name + "\n";
+        weaponCardDescription += "Id Value" + id + "\n";
+        weaponCardDescription += "Color : " + color.getColorCubeRepresentation() + "\n";
+        weaponCardDescription += "Recharge cubes : ";
+        for(int i=0; i< getRechargeCube().length;i++)
+            weaponCardDescription += getRechargeCube()[i].getColorCubeRepresentation() + " ";
+        weaponCardDescription += "\n";
+
+        for(int i=0;i<getInfoEffect().length; i++)
+            weaponCardDescription += getInfoEffect()[i] + " ";
+        weaponCardDescription += "\n";
+    }
+
+    public String getWeaponCardDescription(){
+        return weaponCardDescription;
+    }
     /* public void handlePaymentPerEffect(Player player,int number, ArrayList<PowerUpCard> powerUpCards, ArrayList<ColorCube> colorCubes){
 
     }

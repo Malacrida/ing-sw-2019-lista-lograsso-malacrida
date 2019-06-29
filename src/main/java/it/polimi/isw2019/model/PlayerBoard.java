@@ -4,8 +4,6 @@ import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.NoCubesException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.exception.TooManyCubes;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,8 @@ public class PlayerBoard implements PlayerBoardInterface{
     private String[] markRepresentation;
     private String[] damageRepresentation;
     private String colorRepresentation;
-    private String[][] playerBoardRepresentation;
+    private String[][] tmp;
+    private String playerBoardRepresentation;
 
 
     public int numOfDamages (){
@@ -50,13 +49,15 @@ public class PlayerBoard implements PlayerBoardInterface{
     }
 
     public PlayerBoard(ColorPlayer color){
+
         this.color=color;
-       // this.playerBoardID=playerBoardID;
         this.frenzy=false;
         this.playerSkulls=0;
         redCubes.add(ColorCube.RED);
         yellowCubes.add(ColorCube.YELLOW);
         blueCubes.add(ColorCube.BLUE);
+        setPlayerBoardRepresentation();
+
     }
 
     public ColorPlayer getColor() {
@@ -290,6 +291,16 @@ public class PlayerBoard implements PlayerBoardInterface{
         return cont;
     }
 
+    public ArrayList<ColorPlayer> listOfColorMark(){
+        ArrayList<ColorPlayer> colorMark = new ArrayList<>();
+        for (int i=0; i<markTokens.size(); i++){
+            if (!colorMark.contains(damageTokens.get(i))){
+                colorMark.add(damageTokens.get(i));
+            }
+        }
+        return colorMark;
+    }
+
     public ArrayList<ColorPlayer> listOfColorDamage (){
         ArrayList<ColorPlayer> colorDamage = new ArrayList<>();
         for (int i=0; i<damageTokens.size(); i++){
@@ -441,39 +452,47 @@ public class PlayerBoard implements PlayerBoardInterface{
         colorRepresentation = returnColor(color);
     }
 
-    public String[][] getPlayerBoardRepresentation() {
-        return playerBoardRepresentation;
+    public String[][] getTmp() {
+        return tmp;
     }
 
-    public void setPlayerBoardRepresentation(boolean frenzy) {
-        playerBoardRepresentation = new String[4][];
+    public void setTmp(boolean frenzy) {
+        tmp = new String[4][];
         setColorRepresentation();
         setDamageRepresentation();
         setMarkRepresentation();
         setSkullsRepresentation();
-        playerBoardRepresentation[0][0] = getColorRepresentation();
-        playerBoardRepresentation[1] = getMarkRepresentation();
-        playerBoardRepresentation[2] = getDamageRepresentation();
+        tmp[0][0] = getColorRepresentation();
+        tmp[1] = getMarkRepresentation();
+        tmp[2] = getDamageRepresentation();
         if(frenzy){
             setSkullsFrenzyRepresentation();
         }
-        playerBoardRepresentation[2] = getSkullsRepresentation();
+        tmp[2] = getSkullsRepresentation();
+
+
     }
 
-    public void updateSkull(){
-        for(int i=0; i< skullsRepresentation.length; i++)
-            skullsRepresentation[i] = "X";
-    }
-    public void updateDamage(){
-        for(int i=0; i< damageTokens.size(); i++){
-            damageRepresentation[i] = returnColor(damageTokens.get(i));
-        }
+    public String getPlayerBoardRepresentation() {
+        return playerBoardRepresentation;
     }
 
-    public void updateMark(){
-        for(int i=0; i< markTokens.size(); i++){
-            markRepresentation[i] = returnColor(markTokens.get(i));
-        }
+    public void setPlayerBoardRepresentation() {
+      playerBoardRepresentation = "PlayerBoard \n";
+      playerBoardRepresentation += "Color : " + color.getColorPlayerRepresentation() + "\n";
+      for(ColorPlayer player: listOfColorDamage()){
+          playerBoardRepresentation +=" Damage of color " + player.getColorPlayerRepresentation() +" "+ numOfDamagesOfOneColor(player) + " \n";
+      }
+      for(ColorPlayer player : listOfColorMark()){
+          playerBoardRepresentation +="  Mark of color " + player.getColorPlayerRepresentation() +" "+ numOfMarkOfOneColor(player) + " \n";
+      }
+      playerBoardRepresentation += "Num Skull : " + playerSkulls + "\n";
+
+    }
+
+    public String toString(){
+        setPlayerBoardRepresentation();
+        return getPlayerBoardRepresentation();
     }
 
     @Override

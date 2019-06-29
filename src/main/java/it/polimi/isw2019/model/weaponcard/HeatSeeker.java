@@ -21,7 +21,7 @@ public class HeatSeeker extends AbstractWeaponCard {
         this.rechargeCube[0] = ColorCube.RED;
         this.rechargeCube[1] = ColorCube.RED;
         this.rechargeCube[2] = ColorCube.YELLOW;
-
+        setWeaponCardDescription();
     }
 
     /**

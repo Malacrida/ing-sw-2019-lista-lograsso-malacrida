@@ -112,9 +112,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUseWeaponCard(String player, WeaponCardInterface weaponCard) throws RemoteException {
+    public void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException {
 
     }
+
 
 
 }

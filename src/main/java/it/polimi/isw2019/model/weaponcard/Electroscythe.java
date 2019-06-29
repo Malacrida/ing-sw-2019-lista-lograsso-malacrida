@@ -23,6 +23,7 @@ public class Electroscythe extends AbstractWeaponCard {
         this.paySecondEffect = new ColorCube[2];
         this.paySecondEffect[0] = ColorCube.BLUE;
         this.paySecondEffect[1] = ColorCube.RED;
+        setWeaponCardDescription();
     }
 
     /**

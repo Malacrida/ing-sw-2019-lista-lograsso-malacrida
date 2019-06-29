@@ -11,9 +11,17 @@ public class UpdateMessage extends MoveMessage {
 
     private GameBoardInterface gameBoard;
     private ArrayList<PlayerInterface> players;
+    private String model;
 
-    public UpdateMessage(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
+    public UpdateMessage(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players,boolean notifyAll) {
+        super(nicknamePlayer,notifyAll);
+        this.gameBoard = gameBoard;
+        this.players = players;
+    }
+
+    public UpdateMessage(String nicknamePlayer, String model, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
         super(nicknamePlayer);
+        this.model = model;
         this.gameBoard = gameBoard;
         this.players = players;
     }
@@ -34,6 +42,21 @@ public class UpdateMessage extends MoveMessage {
 
     public ArrayList<PlayerInterface> getPlayers() {
         return players;
+    }
+
+    @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
+    }
+
+    @Override
+    public boolean isNotifyAll() {
+        return super.isNotifyAll();
     }
 }
 

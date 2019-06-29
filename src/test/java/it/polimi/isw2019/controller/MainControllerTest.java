@@ -12,7 +12,7 @@ public class MainControllerTest {
     MainController controller;
     @Before
     public void setUp() throws Exception {
-        view = new CLIView();
+        view = new CLIView("alba");
         view.setNicknamePlayer("Alba");
         model = new Model();
         controller = new MainController();

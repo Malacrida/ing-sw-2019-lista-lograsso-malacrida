@@ -112,7 +112,6 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
                 virtualViews.get(i).createRegisterPlayer(player,actionHero);
-                virtualViews.get(i).registerObserver(mainController);
             }
         }
 
@@ -154,8 +153,9 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
     }
 
+
     @Override
-    public void receiveUseWeaponCard(String player, WeaponCardInterface weaponCard) {
+    public void receiveUseWeaponCard(String player, int weaponCard) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
                 virtualViews.get(i).createUseWeaponCard(player, weaponCard);

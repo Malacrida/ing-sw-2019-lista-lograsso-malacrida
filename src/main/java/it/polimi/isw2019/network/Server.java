@@ -1,19 +1,22 @@
 package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.network.rmi.ServerRmi;
+import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.socket.GathererSocket;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
     private ExecutorService executor;
-    private Lobby lobby = new Lobby();
+    private static Lobby lobby = new Lobby();
     private ServerRmi serverRmi;
+    private static GathererInterface gathererRmi= null;
 
     private static boolean isRunning = true;
 
@@ -21,7 +24,7 @@ public class Server {
 
         GathererInterface gathererSocket= new GathererSocket(1111);
 
-        GathererInterface gathererRmi= null;
+
         try {
              gathererRmi = new ServerRmi(1234);
         } catch (RemoteException e) {
@@ -51,13 +54,12 @@ public class Server {
         }
 
     }
-    
 
-    public void setVirtualViewOnServer (GathererInterface... gatherers){
-        for(GathererInterface aGatherer : gatherers){
-            aGatherer.setVirtualViews(lobby.getVirtualViews());
-        }
+
+    public static void setVirtualViewOnServer (ArrayList<VirtualView> virtualViews){
+        gathererRmi.setVirtualViews(virtualViews);
     }
+
 
     //inserire start
     //inserire main

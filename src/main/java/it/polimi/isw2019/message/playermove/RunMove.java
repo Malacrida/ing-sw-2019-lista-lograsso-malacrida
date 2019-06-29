@@ -15,7 +15,7 @@ public class RunMove extends PlayerMove{
 
     @Override
     public void accept(VisitorController visitorController) {
-            //visitorController.visitControllerRun(this);
+            visitorController.visitControllerRun(this);
     }
 
     @Override

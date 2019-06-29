@@ -19,11 +19,15 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
 
     private ColorCube colorCard;
 
+    private ColorRoom colorRoom;
+
     private String color;
 
     private StateCard checkState = StateCard.DECK;
 
-    private String[][] powerUpDescription;
+    private String[][] tmp;
+
+    private String powerUpDescription;
 
     private boolean canBeUsed;
 
@@ -42,6 +46,9 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
         this.color = color;
         setColor(color);
         this.infoEffect = infoEffect;
+
+        setPowerUpDescription();
+
 
     }
     /* Methods */
@@ -151,22 +158,17 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
      */
 
     public void setColor(String color){
-        switch (color) {
 
-            case "YELLOW":
-                colorCard = ColorCube.YELLOW;
-                break;
-
-            case "RED":
-                colorCard = ColorCube.RED;
-                break;
-
-            case "BLUE":
-                colorCard = ColorCube.BLUE;
-                break;
-            default:
-                //lancio eccezione
-        }
+       if(color.compareTo("YELLOW")==0) {
+           colorCard = ColorCube.YELLOW;
+           colorRoom = ColorRoom.YELLOW;
+       } else if (color.compareTo("RED")==0) {
+           colorCard = ColorCube.RED;
+           colorRoom = ColorRoom.RED;
+       } else if ( color.compareTo("BLUE")==0) {
+           colorCard = ColorCube.BLUE;
+           colorRoom = ColorRoom.BLUE;
+       }
     }
 
     /**
@@ -183,35 +185,19 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
      */
 
     public void setPowerUpDescription(){
-        powerUpDescription = new String[5][];
-
-        powerUpDescription[0][0] = String.valueOf(id);
-        powerUpDescription[1][0] = name;
-        powerUpDescription[2][0] = colorCard.getColorCubeRepresentation();
-        powerUpDescription[3][0] = infoEffect;
-        powerUpDescription[4][0] = checkState.getStateCardRepresentation();
+        powerUpDescription = name + "\n";
+        powerUpDescription += "Id :"+ id + "\n";
+        powerUpDescription += infoEffect + "\n";
     }
 
-    /**
-     * change the state of the card
-     * @param stateCard state of the card
-     */
+    public String getPowerUpCardRepresentation(){
+        return powerUpDescription;
+    }
 
     public void changeStateCard(StateCard stateCard){
-        powerUpDescription[4][0] = stateCard.getStateCardRepresentation();
-    }
-    /**
-     * getter of power up info
-     */
-
-    public String[][] getPowerUpDescription() {
-        return powerUpDescription;
+        tmp[4][0] = stateCard.getStateCardRepresentation();
     }
 
-    @Override
-    public String[][] getPowerUpCardRepresentation() {
-        return powerUpDescription;
-    }
 
     @Override
     public int getNumberColorPayment() {
@@ -236,5 +222,9 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
     @Override
     public String infoEffect() {
         return infoEffect;
+    }
+
+    public ColorRoom getColorRoom() {
+        return colorRoom;
     }
 }

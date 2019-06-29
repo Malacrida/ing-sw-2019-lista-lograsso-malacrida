@@ -5,7 +5,10 @@ import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Database {
@@ -17,6 +20,24 @@ public class Database {
     private JSONObject dataBaseJsonObject;
 
     /* Create an ArrayList of AmmoTiles from db.json */
+
+    public Database(){
+        InputStream is = getClass().getResourceAsStream(dataBaseName);
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+        String line;
+        StringBuilder result = new StringBuilder("");
+        try {
+            while ((line=br.readLine()) != null) {
+                result.append(line).append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        dataBaseJsonObject = new JSONObject(result.toString());
+    }
+
 
     public ArrayList<AmmoTile> loadAmmoTiles() {
         ArrayList<AmmoTile> ammoTiles = new ArrayList<>();
@@ -37,6 +58,7 @@ public class Database {
     /* Create an ArrayList of PowerUpCard from db.json */
 
     public ArrayList<PowerUpCard> loadPowerUpCards() {
+
         ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
 
         JSONArray powerUpCardObjects = dataBaseJsonObject.getJSONArray("powerup");

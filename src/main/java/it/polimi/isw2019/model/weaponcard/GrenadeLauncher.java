@@ -21,6 +21,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
         this.rechargeCube[0] = ColorCube.RED;
         this.paySecondEffect = new ColorCube[1];
         this.paySecondEffect[0] = ColorCube.RED;
+        setWeaponCardDescription();
     }
 
     /**

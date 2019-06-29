@@ -17,4 +17,14 @@ public class FailRegistration extends MoveMessage {
     public void accept(VirtualViewVisitorInterface virtualView) {
         virtualView.sendFailRegistration(this);
     }
+
+    @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
+    }
 }

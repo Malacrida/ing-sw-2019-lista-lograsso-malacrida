@@ -22,6 +22,7 @@ public class VortexCannon extends AbstractWeaponCard {
         this.rechargeCube[1] = ColorCube.BLUE;
         this.paySecondEffect = new ColorCube[1];
         this.paySecondEffect[0] = ColorCube.RED;
+        setWeaponCardDescription();
     }
 
     /**

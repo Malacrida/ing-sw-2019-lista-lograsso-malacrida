@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -160,6 +161,7 @@ public class PlayerTest {
 
     @Test
     public void firstPlayerDoDamage() {
+
     }
 
     @Test
@@ -168,6 +170,128 @@ public class PlayerTest {
     }
 
     @Test
-    public void changePosition() {
+    public void testChangePosition (){
+        Model model = new Model();
+
+        // relationship between  color player and color of arena
+
+        model.addPlayer(player1);
+
+        model.setCurrentPlayer(player1);
+
+        player1.changePosition(1,1,ColorRoom.RED);
+
+        assertEquals(player1.getX(), model.getCurrentPlayer().getX());
+
+        assertNotEquals(2,model.getCurrentPlayer().getX());
+
+        player1.changePosition(2,2, ColorRoom.YELLOW);
+
+        assertNotEquals(1,model.getCurrentPlayer().getX());
+
+    }
+
+    @Test
+    public void testChangeSquare(){
+        Model model = new Model();
+
+        // relationship between  color player and color of arena
+
+        model.addPlayer(player1);
+
+        model.setCurrentPlayer(player1);
+
+        player1.changeSquare(1,1);
+
+        assertEquals(player1.getX(), model.getCurrentPlayer().getX());
+
+        player1.changeSquare(2,2);
+
+        assertNotEquals(1,model.getCurrentPlayer().getX());
+
+
+    }
+
+    @Test
+    public void testChangeRoom (){
+        Model model = new Model();
+        // relationship between  color player and color of arena
+
+        model.addPlayer(player1);
+
+        model.setCurrentPlayer(player1);
+
+        player1.changeRoom(ColorRoom.RED);
+
+        assertEquals(player1.getColorRoom(), model.getCurrentPlayer().getColorRoom());
+
+        assertNotEquals(ColorRoom.BLUE, model.getCurrentPlayer().getColorRoom());
+    }
+
+    @Test
+    public void testCanAddPowerUp(){
+        Model model = new Model();
+
+
+        model.addPlayer(player1);
+
+        model.setCurrentPlayer(player1);
+
+        ArrayList<PowerUpCard> powerUpCard = new ArrayList<>();
+        //int id, String name, String color, String infoEffect
+        for(int i = 0; i < 26 ; i++)
+            powerUpCard.add(new PowerUpCard(i,"Newton", "RED",null));
+
+        model.getGameBoard().setPowerUpCards(powerUpCard);
+
+        player1.getPowerUpCards().add(powerUpCard.get(0));
+        player1.getPowerUpCards().add(powerUpCard.get(1));
+
+        assertEquals(true, player1.canAddPowerUp());
+
+        player1.getPowerUpCards().add(powerUpCard.get(2));
+
+        assertEquals(true, player1.canAddPowerUp());
+
+        ArrayList<PowerUpCard> powerUpCard1 = new ArrayList<>();
+
+        for(int i = 0; i < 26 ; i++)
+            powerUpCard1.add(new PowerUpCard(i,"BUH", "RED",null));
+
+        model.getGameBoard().setPowerUpCards(powerUpCard1);
+
+        model.addPlayer(player2);
+        model.setCurrentPlayer(player2);
+
+        player2.getPowerUpCards().add(powerUpCard1.get(0));
+        player2.getPowerUpCards().add(powerUpCard1.get(1));
+
+        assertEquals(false, player2.canAddPowerUp());
+    }
+
+    @Test
+    public void setMessagesToBeSent(){
+        player1.setMessagesToBeSent(0);
+
+        assertEquals(1,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(1);
+        assertEquals(2,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(2);
+        assertEquals(1,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(3);
+        assertEquals(2,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(4);
+        assertEquals(3,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(5);
+        assertEquals(1,player1.getMessageToBeSent().size());
+
+        player1.setMessagesToBeSent(6);
+        assertEquals(1,player1.getMessageToBeSent().size());
+
     }
 }

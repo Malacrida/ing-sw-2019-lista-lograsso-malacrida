@@ -28,6 +28,7 @@ public class CyberBlade extends AbstractWeaponCard{
 
         this.payThirdEffect = new ColorCube[1];
         this.payThirdEffect[0] = ColorCube.YELLOW;
+        setWeaponCardDescription();
     }
 
     /**

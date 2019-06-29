@@ -10,9 +10,21 @@ public class ChoicePowerUpCard extends MoveMessage{
 
     private ArrayList<InterfacePowerUpCard> powerUpCards;
 
+
     public ChoicePowerUpCard(String nicknamePlayer) {
         super(nicknamePlayer);
         this.powerUpCards = new ArrayList<>();
+
+    }
+
+    @Override
+    public int[] getFeaturesAvailable() {
+        return new int[0];
+    }
+
+    @Override
+    public void setFeaturesAvailable(int[] featuresAvailable) {
+
     }
 
     @Override
@@ -31,6 +43,10 @@ public class ChoicePowerUpCard extends MoveMessage{
      */
     public ArrayList<InterfacePowerUpCard> getPowerUpCards(){
         return powerUpCards;
+    }
+
+    public void setPowerUpCards(ArrayList<InterfacePowerUpCard> powerUpCards) {
+        this.powerUpCards = powerUpCards;
     }
 
     public void addPowerUpCard(InterfacePowerUpCard powerUpCard){

@@ -27,8 +27,6 @@ public interface NetworkHandlerInterface extends Remote {
 
     public void createWaitForStart(String nicknamePlayer) throws RemoteException;
 
-    public void createWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) throws RemoteException;
-
     public void createUseWeaponCard(String nicknamePlayer) throws RemoteException;
 
     public void createPowerUpChoice(String nicknamePlayer) throws RemoteException;
