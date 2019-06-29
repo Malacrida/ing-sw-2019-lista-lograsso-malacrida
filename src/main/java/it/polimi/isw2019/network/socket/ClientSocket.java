@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
