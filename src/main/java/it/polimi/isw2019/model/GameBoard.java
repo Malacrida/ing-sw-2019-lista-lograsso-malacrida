@@ -198,6 +198,12 @@ public class GameBoard implements GameBoardInterface{
         return powerUpCards.size();
     }
 
+    /**
+     * setter ammo tile on arena
+     * @param numOfArena arena's identifier
+     * @throws OutOfBoundsException exception
+     */
+
     public void setUpAmmoTileOnArena (int numOfArena)throws OutOfBoundsException{
         ArrayList<AmmoTile> ammoTilesOnArena = new ArrayList<>();
 
@@ -224,13 +230,33 @@ public class GameBoard implements GameBoardInterface{
         gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }
 
+    /**
+     * position of ammotile
+     * @param ammoTile card
+     * @param x first coordinate
+     * @param y second coordinate
+     */
+
     public void placeAmmoTile (AmmoTile ammoTile, int x, int y){
         gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
     }
 
+    /**
+     * size ammo tile deck
+     * @return
+     */
+
     public int sizeAmmoTiles (){
         return ammoTiles.size();
     }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     * @throws AmmoTileUseException
+     */
 
     public AmmoTile pickUpAmmoTile (int x, int y) throws AmmoTileUseException {
         try {
@@ -241,44 +267,106 @@ public class GameBoard implements GameBoardInterface{
         }
     }
 
+    /**
+     * getter method for a specific ammo tile
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ammotile
+     */
+
     public AmmoTile getAmmoTileOnSquare (int x, int y){
        return gameArena.getAmmoTileOnSquare(x,y);
     }
+
+    /**
+     * method to use ammo tile
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return method to use ammotile
+     */
 
     public boolean useAmmoTileOnSquare(int x, int y){
         return gameArena.useAmmoTileOnSquare(x,y);
     }
 
-    //Player who are in one square
+    /**
+     * Player who are in one square
+     * @param x first coordinate
+     * @param y second coordinate
+     * @param player player in that square
+     * @return method to see list of players in that square
+     */
+
     public ArrayList<Player> playersInOneSquare (int x, int y, Player player){
         return gameArena.playersInOneSquareOnArena(x,y,player);
     }
+
+    /**
+     * get list of visible players
+     * @param player players that attacker can see
+     * @return list of visible players
+     */
 
     //Player who can see on arena by player who attack
     public ArrayList<Player> playersWhoCanSee(Player player){
         return gameArena.playerWhoSeeOnArena(player);
     }
 
+    /**
+     * spawn a player in a square spawn
+     * @param player who want spawn
+     * @param colorRoom spawn color room
+     */
+
     public void insertPlayer (Player player, ColorRoom colorRoom){
         gameArena.spawnPlayer(colorRoom, player);
     }
+
+    /**
+     * move player
+     * @param player who want change position
+     * @param x first coordinate
+     * @param y second coordinate
+     */
 
     public void changePositionPlayer(Player player, int x, int y){
         gameArena.movePlayer(player,x,y);
     }
 
+    /**
+     * boolean to see if that square is available for that player
+     * @param player who want know if that square is available
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return boolean
+     */
+
     public boolean isSquareAvailableOnArena(Player player, int x, int y){
         return gameArena.isSquaresAvailable(player,x,y);
     }
+
+    /**
+     * get arena
+     * @return arena
+     */
 
     public Arena getGameArena() {
         return gameArena;
     }
 
+    /**
+     * getter of kill shot track
+     * @return kill shot track
+     */
 
     public KillShotTrack getKillShotTrack() {
         return killShotTrack;
     }
+
+    /**
+     * setter of kill shot track
+     * @param killShotTrack
+     */
 
     public void setKillShotTrack(KillShotTrack killShotTrack) {
         this.killShotTrack = killShotTrack;

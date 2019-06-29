@@ -20,6 +20,9 @@ public class Flamethrower extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTE : This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.\n";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.RED;
+        this.paySecondEffect = new ColorCube[2];
+        this.paySecondEffect[0] = ColorCube.YELLOW;
+        this.paySecondEffect[1] = ColorCube.YELLOW;
     }
 
 

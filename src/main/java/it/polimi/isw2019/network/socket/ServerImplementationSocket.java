@@ -1,8 +1,11 @@
 package it.polimi.isw2019.network.socket;
 
+import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.view.CLIView;
 //import sun.plugin2.message.HeartbeatMessage;
 
 import java.io.IOException;
@@ -34,9 +37,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
 
     @Override
-    public void registerNewClient(Socket client, String nickname) throws IOException {
-        System.out.println("Si è registrato " + nickname);
-        write(nickname);
+    public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
+        FirstMessage firstMessage = new FirstMessage(view, nickname, "MANNAIA LA PUTTANA");
+
+        write(firstMessage);
 
     }
 

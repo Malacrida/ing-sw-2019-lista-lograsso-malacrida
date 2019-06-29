@@ -113,6 +113,10 @@ public class PlayerBoard implements PlayerBoardInterface{
         }
     }*/
 
+    /**
+     * add red cube in player board
+     * @throws OutOfBoundsException
+     */
 
     public void addRedCubes () throws OutOfBoundsException {
         if (redCubes.size()<3){
@@ -121,6 +125,11 @@ public class PlayerBoard implements PlayerBoardInterface{
         else throw new OutOfBoundsException("Cannot add red cubes");
     }
 
+    /**
+     * add yellow cube in player board
+     * @throws OutOfBoundsException
+     */
+
     public void addYellowCubes () throws OutOfBoundsException {
         if (yellowCubes.size()<3){
             yellowCubes.add(ColorCube.RED);
@@ -128,6 +137,11 @@ public class PlayerBoard implements PlayerBoardInterface{
         }
         else throw new OutOfBoundsException("Cannot add yellow cubes");
     }
+
+    /**
+     * add blue cube in player board
+     * @throws OutOfBoundsException
+     */
 
     public void addBlueCubes () throws OutOfBoundsException {
         if (blueCubes.size()<3){
@@ -179,6 +193,7 @@ public class PlayerBoard implements PlayerBoardInterface{
     }
 
     /**
+     * remove cube from player board
      * @param colorCube
      */
     public void removeCube(ColorCube colorCube) throws NoCubesException {
@@ -207,6 +222,12 @@ public class PlayerBoard implements PlayerBoardInterface{
             }
         }
     }
+
+    /**
+     * add cubes on player board5
+     * @param colorCube
+     * @throws TooManyCubes
+     */
 
     public void addCube(ColorCube colorCube) throws TooManyCubes {
 

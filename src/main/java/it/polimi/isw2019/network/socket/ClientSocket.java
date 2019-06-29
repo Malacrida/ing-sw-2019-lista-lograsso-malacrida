@@ -1,10 +1,13 @@
 package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.ChoiceWeaponCard;
+import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,15 +22,22 @@ public class ClientSocket extends Thread implements ClientInterface {
     private Socket clientSocket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private PlayerMove playerMove;
     private String nickname;
     private boolean isReady = false;
     private InetAddress ip;
+    private Lobby lobby;
+
+
+    private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
+
 
     public ClientSocket(Socket clientSocket) throws IOException{
         this.clientSocket = clientSocket;
         this.input = new ObjectInputStream(clientSocket.getInputStream());
         this.output = new ObjectOutputStream(clientSocket.getOutputStream());
         this.ip = clientSocket.getInetAddress();
+
     }
 
     public ClientSocket (ObjectOutputStream output, ObjectInputStream input) throws IOException{ //aggiugere anche la lobby
@@ -39,6 +49,29 @@ public class ClientSocket extends Thread implements ClientInterface {
         return ip.toString();
     }
 
+    public void setLobby(Lobby lobby){
+        this.lobby = lobby;
+
+    }
+
+
+    @Override
+    public void run(){
+        try{
+            while (null != (playerMove = (PlayerMove) input.readObject())) {
+                Runnable task = () -> {
+                    playerMove.accept(networkHandlerVisitorInterface);
+                    System.out.println("Prendo la playermove");
+                };
+                Thread thread = new Thread(task);
+                thread.start();
+            }
+        } catch (IOException e){
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void setNickname(String nickname) {

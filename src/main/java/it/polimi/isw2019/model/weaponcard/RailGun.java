@@ -26,6 +26,7 @@ public class RailGun extends AbstractWeaponCard {
         this.rechargeCube[0] = ColorCube.YELLOW;
         this.rechargeCube[1] = ColorCube.YELLOW;
         this.rechargeCube[2] = ColorCube.BLUE;
+
     }
 
     /**

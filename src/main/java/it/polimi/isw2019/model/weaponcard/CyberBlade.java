@@ -25,6 +25,9 @@ public class CyberBlade extends AbstractWeaponCard{
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.YELLOW;
         this.rechargeCube[1] = ColorCube.RED;
+
+        this.payThirdEffect = new ColorCube[1];
+        this.payThirdEffect[0] = ColorCube.YELLOW;
     }
 
     /**
@@ -36,6 +39,7 @@ public class CyberBlade extends AbstractWeaponCard{
      * @throws ErrorEffectException
      * @throws DamageTrackException
      */
+
 
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException { //OKAY

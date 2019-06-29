@@ -175,6 +175,12 @@ public class Player implements PlayerInterface {
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
 
+    /**
+     * method to take weapon card
+     * @param insertWeaponCard weapon card taken
+     * @param removeWeaponCard weapon card rejected if player has already three weapon card
+     */
+
     public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
@@ -190,6 +196,13 @@ public class Player implements PlayerInterface {
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
 
+    /**
+     * method to take power up card
+     * @param insertPowerUpCard power up card taken
+     * @param removePowerUpCard power up card rejected if player has already three weapon card
+     * @throws TooManyPowerUpCard
+     */
+
     public void takePowerUpCard (PowerUpCard insertPowerUpCard, PowerUpCard removePowerUpCard) throws TooManyPowerUpCard {
         if (powerUpCards.size()<3){
             powerUpCards.add(insertPowerUpCard);
@@ -204,6 +217,10 @@ public class Player implements PlayerInterface {
 
     }
 
+    /**
+     *
+     * @param powerUpCard
+     */
     //Cambio di stato della carta
     //rimozione che un utilizzo
     public void usePowerUpCard (PowerUpCard powerUpCard){
@@ -229,6 +246,14 @@ public class Player implements PlayerInterface {
             }
         }
     }
+
+    /**
+     * method used to pay cubes to use weapon card's effect
+     * @param costRed number of red cubes
+     * @param costYellow number of yellow cubes
+     * @param costBlue number of blue cubes
+     * @throws OutOfBoundsException
+     */
 
     //non fare test
     public void payEffect (int costRed, int costYellow, int costBlue) throws OutOfBoundsException {
@@ -297,6 +322,11 @@ public class Player implements PlayerInterface {
             }
     }
 
+    /**
+     * add score
+     * @param point score
+     */
+
     public void addScore (int point){
         score= score+point;
     }
@@ -340,17 +370,35 @@ public class Player implements PlayerInterface {
         return playerBoard.numOfDamages();
     }
 
-
-
+    /**
+     * first damage
+     * @return color player
+     */
     public ColorPlayer firstPlayerDoDamage (){
         return playerBoard.firstBlood();
     }
 
+    /**
+     * last damage
+     * @return color of player who did last damage
+     */
     public ColorPlayer lastPlayerDoDamage () { return playerBoard.killShot();}
+
+    /**
+     * getter of number of skulls on one player board
+     * @return number of skulls
+     */
 
     public int getNumberOfSkulls (){
         return playerBoard.getPlayerSkulls();
     }
+
+    /**
+     * new position of player
+     * @param x first coordinate
+     * @param y second coordinate
+     * @param colorRoom of that square
+     */
 
     public void changePosition (int x, int y, ColorRoom colorRoom){
         this.x=x;
@@ -358,26 +406,56 @@ public class Player implements PlayerInterface {
         this.colorRoom=colorRoom;
     }
 
+    /**
+     * new square of player
+     * @param x first coordinate
+     * @param y second coordinate
+     */
+
     public void changeSquare(int x, int y){
         this.x=x;
         this.y=y;
     }
 
+    /**
+     * new room of player
+     * @param colorRoom of that square
+     */
+
     public void changeRoom (ColorRoom colorRoom){
         this.colorRoom=colorRoom;
     }
 
+    /**
+     * reset player board if player is died
+     */
+
     public void playerDeath (){
         playerBoard.resetAfterDeath();
     }
+    /**
+     * getter weapon card of this player
+     * @return player's weapon card
+     */
+
 
     public ArrayList<AbstractWeaponCard> getWeaponCards(){
         return this.weaponCards;
     }
 
+    /**
+     * getter power up of this player
+     * @return player's power up
+     */
+
     public ArrayList<PowerUpCard> getPowerUpCards(){
         return this.powerUpCards;
     }
+
+    /**
+     * get instance of player board not interface
+     * @return player board
+     */
 
     public PlayerBoard getRealPlayerBoard(){
         return playerBoard;

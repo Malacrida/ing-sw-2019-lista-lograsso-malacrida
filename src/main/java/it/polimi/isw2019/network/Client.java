@@ -73,12 +73,13 @@ public class Client {
             System.out.println("Starting SOCKET");
 
             try {
+                CLIView cliView = new CLIView();
                 Socket socket = new Socket("localhost", 1111);
                 System.out.println("new Socket");
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname);
+                serverInterface.registerNewClient(socket, nickname, cliView);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -117,7 +118,7 @@ public class Client {
 
         try {
             ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient(remoteClient, nickname);
+            serverRmi.registerNewClient(remoteClient, nickname, view);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -134,14 +135,14 @@ public class Client {
 
 
 
-    private static void startViewProvv (String nickname){
+    /*private static void startViewProvv (String nickname){
         ViewProvvisioria viewProv = new ViewProvvisioria (nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
 
         try {
             ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient( remoteClient, nickname);
+            serverRmi.registerNewClient(remoteClient, nickname, );
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -154,5 +155,5 @@ public class Client {
 
         viewProv.createChooseAction();
 
-    }
+    }*/
 }

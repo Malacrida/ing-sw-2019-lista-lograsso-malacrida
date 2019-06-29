@@ -19,6 +19,10 @@ public class Electroscythe extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTE : You can choose only one effect";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.BLUE;
+
+        this.paySecondEffect = new ColorCube[2];
+        this.paySecondEffect[0] = ColorCube.BLUE;
+        this.paySecondEffect[1] = ColorCube.RED;
     }
 
     /**

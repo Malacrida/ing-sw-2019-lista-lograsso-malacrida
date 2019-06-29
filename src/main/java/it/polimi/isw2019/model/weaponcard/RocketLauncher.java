@@ -19,6 +19,10 @@ public class RocketLauncher extends  AbstractWeaponCard {
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.RED;
         this.rechargeCube[1] = ColorCube.RED;
+        this.paySecondEffect = new ColorCube[1];
+        this.paySecondEffect[0] = ColorCube.BLUE;
+        this.payThirdEffect = new ColorCube[1];
+        this.payThirdEffect[0] = ColorCube.YELLOW;
     }
 
 

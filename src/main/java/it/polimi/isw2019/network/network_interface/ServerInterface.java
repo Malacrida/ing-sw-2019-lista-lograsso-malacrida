@@ -4,6 +4,7 @@ package it.polimi.isw2019.network.network_interface;
 
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.view.CLIView;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -14,7 +15,7 @@ public interface ServerInterface<T> extends Remote {
 
     //notify
 
-    public void registerNewClient(T client, String nickname) throws IOException,RemoteException;
+    public void registerNewClient(T client, String nickname, CLIView view) throws IOException,RemoteException;
 
     public void write(Object object) throws IOException,RemoteException;
 

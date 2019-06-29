@@ -7,6 +7,8 @@ import it.polimi.isw2019.model.StateCard;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 
+import java.awt.*;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 
 public abstract class AbstractWeaponCard implements WeaponCardInterface {
@@ -15,7 +17,9 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     protected ColorCube color;
     protected String[] infoEffect = new String[4];
     protected ArrayList<Player> deathPlayers;
-    protected ColorCube[] rechargeCube;
+    protected ColorCube[] rechargeCube; //pay first effect
+    protected ColorCube[] paySecondEffect;
+    protected ColorCube[] payThirdEffect;
     protected StateCard stateCard = StateCard.DECK;
     protected int maxPossibleEffects;
     protected int maxPossibleCoordinates;
@@ -47,6 +51,15 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     }
 
     public ColorCube[] getRechargeCube(){ return rechargeCube; }
+
+    public ColorCube[] getPaySecondEffect(){
+        return paySecondEffect;
+    }
+
+    public ColorCube[] getPayThirdEffect(){
+        return payThirdEffect;
+    }
+
 
     public ColorCube getColor(){
         return color;

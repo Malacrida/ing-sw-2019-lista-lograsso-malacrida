@@ -41,6 +41,10 @@ public class Lobby implements LobbyInterface {
         } else return false;
     }
 
+    public void addNick(String name){
+        nicknames.add(name);
+    }
+
     boolean lobbyIsRunning = true;
 
 
