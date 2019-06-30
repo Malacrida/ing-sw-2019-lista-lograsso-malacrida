@@ -28,7 +28,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://localhost:1235/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -140,7 +140,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
-            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer()/*, usePowerUpCard.getPowerUpCardInterface()*/);
+            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -223,8 +223,10 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException {
-
+    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
+        System.out.println("ricevo la Move message choice PU");
+        ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
+        notifyObservers(choicePowerUpCard);
     }
 
 

@@ -180,7 +180,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
 
         try {
-            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
+            //localhost
+            Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
             System.out.println("Error remote");

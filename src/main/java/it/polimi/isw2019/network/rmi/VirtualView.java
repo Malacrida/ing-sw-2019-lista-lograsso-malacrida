@@ -42,7 +42,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void update(MoveMessage message) {
-
+        System.out.println("update di :" + nickname);
         message.accept(this);
     }
 
@@ -167,6 +167,12 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+        try {
+            System.out.println("invio ChoicePower Up a:" + choicePowerUpCard.getNicknamePlayer());
+            networkHandler.createPowerUpChoice(choicePowerUpCard.getNicknamePlayer(),choicePowerUpCard.getDescriptionPowerUp(),choicePowerUpCard.getIdPowerUp());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 

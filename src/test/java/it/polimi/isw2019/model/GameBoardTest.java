@@ -71,15 +71,22 @@ public class GameBoardTest {
             Database db = new Database();
             gameBoard.chooseArena(4);
             gameBoard.setPowerUpCards(db.loadPowerUpCards());
-            gameBoard.setAmmoTiles(db.loadAmmoTiles());
-            gameBoard.setWeaponCardsOnBoard();
+            ArrayList<AmmoTile> deckAmmoTiles = db.loadAmmoTiles();
+            gameBoard.setAmmoTiles(deckAmmoTiles);
             gameBoard.setUpAmmoTileOnArena(4);
+            for (int i=0; i<12; i++){
+                ammoTiles.add(deckAmmoTiles.get(i));
+            }
+
+            powerUpCards = db.loadPowerUpCards();
 
         } catch (OutOfBoundsException e) {
 
         } catch(InstanceArenaException e) {
 
         }
+
+
 
         player = new Player("name", "Comment", 1);
     }
@@ -99,7 +106,7 @@ public class GameBoardTest {
     public void testSetPowerUpCards() {
 
         gameBoard.setPowerUpCards(powerUpCards);
-        assert (gameBoard.sizePowerUpCards()==26);
+        assertEquals  (24, gameBoard.sizePowerUpCards());
     }
 
     @Test
@@ -199,7 +206,7 @@ public class GameBoardTest {
     public void testTakePowerUpCard() {
         gameBoard.setPowerUpCards(powerUpCards);
         PowerUpCard powerUpCardDrawn = gameBoard.takePowerUpCard();
-        assert (gameBoard.sizePowerUpCards()==25);
+        assertEquals (23,gameBoard.sizePowerUpCards());
     }
 
     @Test

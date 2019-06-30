@@ -863,11 +863,11 @@ public class Model extends Observable {
             payment1[2] = payment1[2] + payment2[i][2];
             if(payment2[i].length>3){
                 for (int j = 3; j < payment2.length; j++) {
-                    if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals(ColorCube.RED)) {
+                    if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("red")) {
                         payment1[1]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals(ColorCube.YELLOW)) {
+                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("yellow")) {
                         payment1[2]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals(ColorCube.BLUE)) {
+                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("blue")) {
                         payment1[0]++;
                     }
                 }
@@ -886,11 +886,11 @@ public class Model extends Observable {
                 payment[i] = 0;
             for (int i = 3; i < payment.length; i++) {
                 if(payment[i] >  0) {
-                    if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.RED)) {
+                    if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals("red")) {
                         payment[1]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.YELLOW)) {
+                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals("yellow")) {
                         payment[2]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals(ColorCube.BLUE)) {
+                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColor().equals("blue")) {
                         payment[0]++;
                     }
                 }
