@@ -163,6 +163,10 @@ public class AmmoTile{
         return checkState;
     }
 
+    public void setCheckState(StateCard checkState) {
+        this.checkState = checkState;
+    }
+
     public String toString(){
         String rep = " ";
         setAmmoCardDescription();

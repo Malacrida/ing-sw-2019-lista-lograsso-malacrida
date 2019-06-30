@@ -7,7 +7,6 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.CLIView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

@@ -9,6 +9,11 @@ public class SetUpGame {
     private static ArrayList<PlayerBoard> playerBoards= new ArrayList<>();
     private static ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
 
+    /**
+     * create playerboard
+     * @return
+     */
+
     public static ArrayList<PlayerBoard> setPlayerBoard (){
         PlayerBoard playerBoardYellow = new PlayerBoard(ColorPlayer.YELLOW);
         PlayerBoard playerBoardGreen = new PlayerBoard(ColorPlayer.GREEN);
@@ -24,6 +29,11 @@ public class SetUpGame {
 
         return playerBoards;
     }
+
+    /**
+     * create deck of weapon cards
+     * @return
+     */
 
     public static ArrayList<AbstractWeaponCard> setWeaponCards(){
 

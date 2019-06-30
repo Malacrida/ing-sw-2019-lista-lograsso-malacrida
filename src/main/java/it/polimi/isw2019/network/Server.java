@@ -26,7 +26,7 @@ public class Server {
 
 
         try {
-             gathererRmi = new ServerRmi(1235);
+            gathererRmi = new ServerRmi(1235);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -37,6 +37,13 @@ public class Server {
         server.start(gathererSocket, gathererRmi);
 
     }
+
+    /*public void startServer(){
+        while(isRunning){
+            Conn c = servsock.accept();
+            Thread t = new Thread(r -> register(c)).start();
+        }
+    }*/
 
     private void start(GathererInterface... gatherers){
         this.executor = Executors.newFixedThreadPool(128);

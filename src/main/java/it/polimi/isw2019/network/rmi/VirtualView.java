@@ -8,7 +8,6 @@ import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 

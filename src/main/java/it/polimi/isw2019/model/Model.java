@@ -26,6 +26,8 @@ public class Model extends Observable {
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
 
     private ArrayList<Player> players ;
+    private ArrayList<Player> tmpShootPlayer;
+    private ArrayList<Player> tmpDeadPlayer;
     private ArrayList<PlayerBoard> playerBoards;
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
@@ -34,8 +36,6 @@ public class Model extends Observable {
     private String[][] weaponCardDescription ;
     private String[][] powerUpCardDescription;
     private int[][] featuresAvailable ;
-
-
 
     private ArrayList<String> colorAvailable;
 
@@ -55,7 +55,6 @@ public class Model extends Observable {
     public ArrayList<PowerUpCard> getTmpPowerUpCard() {
         return tmpPowerUpCard;
     }
-
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -82,14 +81,11 @@ public class Model extends Observable {
         players = new ArrayList<>();
         playerBoardsAvailable = new ArrayList<>();
 
-
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.YELLOW));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.GREEN));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.GREY));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.VIOLET));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.BLUE));
-
-
 
     }
 
@@ -390,10 +386,6 @@ public class Model extends Observable {
 
     }
 
-    public void setFeauturesAvailable(){
-
-    }
-
      //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
      public void sendUpdateMessage(){
         setGameRepresentation();
@@ -426,7 +418,7 @@ public class Model extends Observable {
                         currentPlayer.takenAmmoTileColor(ammo);
                         gameBoard.addAmmoTileDiscarded(ammo);
                         gameBoard.placeAmmoTile(currentPlayer.getX(),currentPlayer.getY());
-
+                        gameBoard.getGameArena().getAmmoTileOnSquare(currentPlayer.getX(),currentPlayer.getY()).setCheckState(StateCard.DECK);
                         if (ammo.isPowerUpCard()) {
                             tmp.add(gameBoard.takePowerUpCard());
                             currentPlayer.takePowerUpCard(tmp.get(0), null);
@@ -761,7 +753,10 @@ public class Model extends Observable {
              try {
                  weaponCard.firstEffect(gameBoard,currentPlayer, fromArrayToArrayListPlayer(defenders[0]), coordinates[0]);
                  handlePayment(payment[0]);
-                 System.out.println("ok");
+                 for(Player player: fromArrayToArrayListPlayer(defenders[0])) {
+                     players.get(players.indexOf(player)).setShoot(true);
+                     shootPlayer.add(player);
+                 }
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -781,6 +776,10 @@ public class Model extends Observable {
              try {
                  weaponCard.secondEffect(gameBoard,currentPlayer, fromArrayToArrayListPlayer(defenders[1]), coordinates[1]);
                  handlePayment(payment[1]);
+                 for(Player player: fromArrayToArrayListPlayer(defenders[1])) {
+                     players.get(players.indexOf(player)).setShoot(true);
+                     shootPlayer.add(player);
+                 }
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -800,6 +799,10 @@ public class Model extends Observable {
              try {
                  weaponCard.thirdEffect(gameBoard,currentPlayer, fromArrayToArrayListPlayer(defenders[2]), coordinates[2]);
                  handlePayment(payment[2]);
+                 for(Player player: fromArrayToArrayListPlayer(defenders[2])) {
+                     players.get(players.indexOf(player)).setShoot(true);
+                     shootPlayer.add(player);
+                 }
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -818,6 +821,16 @@ public class Model extends Observable {
         System.out.println();
      currentPlayer.getWeaponCards().get(indexCard).changeState(StateCard.DISCHARGE);
      sendActionUpdateMessage();
+
+    }
+
+    public void usePowerUpCard(PowerUpCard powerUpCard,Player player1, Player player2,int[] coo){
+
+        try {
+            powerUpCard.effect(gameBoard, player1, player2, coo[0], coo[1]);
+        }catch(DamageTrackException e){
+            //deadPlayer
+        }
 
     }
 
@@ -934,4 +947,25 @@ public class Model extends Observable {
            }
            return coordinatesPlayerInGame;
         }
+
+    public void updateEndTurn(){
+        //set delle ammo e delle weapon a on board
+
     }
+
+    public void updatePlayerDeath(){
+        //inizio del turno del player morto!
+        // -> respawn = TRUE
+        //end turn della morte del player!
+        //restore playerBoard
+        //distribuzione dei punti
+        // marchi rimangono!
+        //tolto un teschio -> final frenzy!!!
+        //invochi set frenzy
+        //sendUpdateAction()!
+    }
+
+    }
+
+
+

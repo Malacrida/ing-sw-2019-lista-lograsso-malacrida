@@ -29,16 +29,31 @@ public class Room {
         return squares.contains(square);
     }
 
+    /**
+     * add player in a room
+     * @param player must be added
+     */
+
     public void addPlayer (Player player){
         if (!players.contains(player))
         players.add(player);
     }
+
+    /**
+     * remove that player from a room
+     * @param player
+     */
 
     public void removePlayer (Player player){
         if (players.contains(player)){
             players.remove(player);
         }
     }
+
+    /**
+     * getter of players in that room
+     * @return list of players
+     */
 
     public ArrayList<Player> getPlayers() {
         return players;
