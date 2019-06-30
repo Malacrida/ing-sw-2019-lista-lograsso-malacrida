@@ -2,9 +2,6 @@ package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
@@ -144,7 +141,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
-            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer(), usePowerUpCard.getPowerUpCardInterface());
+            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer()/*, usePowerUpCard.getPowerUpCardInterface()*/);
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -154,7 +151,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
         try {
-            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment(), weaponCardChoice.getPowerUpCards(), weaponCardChoice.isGrab());
+            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards()*/, weaponCardChoice.isGrab());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -197,15 +194,15 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) {
-        ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer,weaponCardInterfaces);
+    public void createReload(String nicknamePlayer) {
+        ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer);
         notifyObservers(reloadMessage);
     }
 
     @Override
-    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players,boolean notifyAll) {
-        UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,gameBoard,players,notifyAll);
-        notifyObservers(updateMessage);
+    public void createUpdateView(String nicknamePlayer,boolean notifyAll) {
+      /*  UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,n);
+        notifyObservers(updateMessage);*/
     }
 
     @Override
@@ -238,9 +235,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) {
-        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,possibleMaps,colorAvailable);
+      /*  FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,possibleMaps,colorAvailable);
         System.out.println("ricevo la scelta della mappa per: "+ nicknamePlayer);
-        notifyObservers(firstMessageFirstPlayer);
+        notifyObservers(firstMessageFirstPlayer);*/
 
     }
 

@@ -14,7 +14,10 @@ public abstract class MoveMessage implements VisitableMessageMove{
     public MoveMessage(String nicknamePlayer){
         this.nicknamePlayer= nicknamePlayer;
     }
-
+    public MoveMessage(String nicknamePlayer, int idPlayer){
+        this.nicknamePlayer= nicknamePlayer;
+        this.idPlayer = idPlayer;
+    }
     public MoveMessage(String nicknamePlayer,boolean notifyAll) {
         this.nicknamePlayer= nicknamePlayer;
         this.notifyAll = notifyAll;
@@ -25,8 +28,6 @@ public abstract class MoveMessage implements VisitableMessageMove{
         notifyAll = false;
     }
 
-    public abstract int[] getFeaturesAvailable();
-    public abstract void setFeaturesAvailable(int[] featuresAvailable);
 
     public String getNicknamePlayer(){
         return nicknamePlayer;
@@ -46,5 +47,13 @@ public abstract class MoveMessage implements VisitableMessageMove{
 
     public void setNotifyAll(boolean notifyAll) {
         this.notifyAll = notifyAll;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
+    }
+
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
     }
 }

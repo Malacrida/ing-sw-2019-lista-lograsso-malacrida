@@ -1,9 +1,6 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
-import it.polimi.isw2019.view.VisitorView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -29,9 +26,9 @@ public interface ServerInterfaceRMI extends Remote {
 
     void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException;
 
-    void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException;
+    void receiveUsePowerUpCard(String player/*InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException;
 
-    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException;
+    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, /*ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) throws RemoteException;
 
     void receiveUseWeaponCard(String player, WeaponCardInterface weaponCard) throws RemoteException;
 

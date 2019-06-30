@@ -1,45 +1,26 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-
-import java.util.ArrayList;
 
 public class ReloadMove  extends PlayerMove{
 
-    private ArrayList<WeaponCardInterface> weaponCard;
-    private InterfacePowerUpCard[][] powerUp;
-    private int[][] cubes;
+    private int[] weaponCard;
+    private int[][] payment;
 
-    public ReloadMove(String nickName){
+    public ReloadMove(String nickName, int[] weaponCard, int[][] payment){
         super(nickName);
-        weaponCard = new ArrayList<>();
-    }
-
-    public void setReloadMove(ArrayList<WeaponCardInterface> weaponCard){
         this.weaponCard = weaponCard;
+        this.payment = payment;
     }
 
-    public void addWeaponCardToReload(WeaponCardInterface weaponCardInterface){
-        weaponCard.add(weaponCardInterface);
-    }
 
-    public void setPayment(int[][] cubes){
-        this.cubes = cubes;
-    }
-
-    public ArrayList<WeaponCardInterface> getWeaponCard() {
+    public int[] getWeaponCard() {
         return weaponCard;
     }
 
-    public InterfacePowerUpCard[][] getPowerUp() {
-        return powerUp;
-    }
-
-    public int[][] getCubes() {
-        return cubes;
+    public int[][] getPayment() {
+        return payment;
     }
 
     @Override

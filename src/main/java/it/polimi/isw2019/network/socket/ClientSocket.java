@@ -3,9 +3,6 @@ package it.polimi.isw2019.network.socket;
 import it.polimi.isw2019.message.movemessage.EndRegistration;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.Server;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
@@ -33,6 +30,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
 
+    @Override
+    public void createReload(String nicknamePlayer) throws RemoteException {
+
+    }
 
     public ClientSocket(Socket clientSocket, ObjectOutputStream output, ObjectInputStream input) throws IOException{
         this.clientSocket = clientSocket;
@@ -137,13 +138,8 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    @Override
-    public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) throws RemoteException {
-
-    }
-
-    @Override
-    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players, boolean notifyAll) throws RemoteException {
+   @Override
+    public void createUpdateView(String nicknamePlayer, boolean notifyAll) throws RemoteException {
 
     }
 

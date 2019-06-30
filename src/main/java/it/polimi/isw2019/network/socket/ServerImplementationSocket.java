@@ -3,8 +3,6 @@ package it.polimi.isw2019.network.socket;
 import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
 import it.polimi.isw2019.message.movemessage.MoveMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
@@ -113,12 +111,12 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException {
+    public void receiveUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException {
 
     }
 
     @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) throws RemoteException {
 
     }
 

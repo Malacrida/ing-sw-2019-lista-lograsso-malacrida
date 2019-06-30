@@ -8,7 +8,8 @@ import it.polimi.isw2019.view.CLIView;
 
 import java.io.Serializable;
 
-public class FirstMessage extends PlayerMove {
+public class FirstMessage extends PlayerMove{
+
     private String actionHero;
     private CLIView CLIView;
     private VirtualView virtualView;

@@ -6,14 +6,13 @@ import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
-import it.polimi.isw2019.utilities.Database;
 
 
 import java.util.ArrayList;
 
-public class GameBoard implements GameBoardInterface {
+public class GameBoard{
 
-    private ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
+    private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
 
     private AbstractWeaponCard[] weaponCardsRed = new AbstractWeaponCard[3];
@@ -34,7 +33,9 @@ public class GameBoard implements GameBoardInterface {
 
     private String gameBoardDescription;
 
-    public GameBoard() {
+    private int[][] descriptionGameBoard;
+
+    public GameBoard (){
         //shuffle
         weaponCards.add(new CyberBlade());
         weaponCards.add(new Electroscythe());
@@ -70,12 +71,13 @@ public class GameBoard implements GameBoardInterface {
      * @throws InstanceArenaException
      * @throws OutOfBoundsException
      */
-    public void chooseArena(int num) throws InstanceArenaException, OutOfBoundsException {
+    public void chooseArena (int num) throws InstanceArenaException, OutOfBoundsException {
 
         try {
             gameArena.chooseArena(num);
-        } catch (OutOfBoundsException e) {
-            throw new OutOfBoundsException();
+        }
+        catch (OutOfBoundsException e){
+            throw new OutOfBoundsException ();
         }
 
 
@@ -113,7 +115,6 @@ public class GameBoard implements GameBoardInterface {
 
     /**
      * creeate weapon card deck
-     *
      * @return deck
      */
 
@@ -413,30 +414,9 @@ public class GameBoard implements GameBoardInterface {
             this.killShotTrack = killShotTrack;
         }
 
-        @Override
-        public GameBoardInterface getGameBoardInterface () {
-            return this;
-        }
-
-        @Override
-        public ArenaInterface getArenaInterface () {
-            return gameArena.getArenaInterface();
-        }
-
-        @Override
-        public WeaponCardInterface getWeaponCard (ColorCube color,int index){
-
-            if (color.equals(ColorCube.BLUE))
-                return weaponCardsBlue[index].getWeaponCard();
-            else if (color.equals(ColorCube.RED))
-                return weaponCardsRed[index].getWeaponCard();
-            else
-                return weaponCardsYellow[index].getWeaponCard();
-        }
-
-        public AbstractWeaponCard[] getWeaponCardsRed () {
-            return weaponCardsRed;
-        }
+    public AbstractWeaponCard[] getWeaponCardsRed() {
+        return weaponCardsRed;
+    }
 
         public AbstractWeaponCard[] getWeaponCardsBlue () {
             return weaponCardsBlue;
@@ -446,26 +426,26 @@ public class GameBoard implements GameBoardInterface {
             return weaponCardsYellow;
         }
 
-        @Override
-        public ArrayList<WeaponCardInterface> getWeaponCard (ColorRoom color){
-            ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();
-            System.out.println("color " + color.getColorRoomRepresentation());
-            if (color.equals(ColorRoom.BLUE)) {
-                for (AbstractWeaponCard weaponCard : weaponCardsBlue) {
-                    tmpWeaponCards.add(weaponCard.getWeaponCard());
-                }
-            } else if (color.equals(ColorRoom.RED)) {
-                System.out.println("ok red");
-                for (AbstractWeaponCard weaponCard : weaponCardsRed)
-                    tmpWeaponCards.add(weaponCard.getWeaponCard());
-            } else if (color.equals(ColorRoom.YELLOW)) {
-                for (AbstractWeaponCard weaponCard : weaponCardsYellow)
-                    tmpWeaponCards.add(weaponCard.getWeaponCard());
+        public String[] getWeaponCardDescription(ColorRoom color) {
+        String[] tmpWeaponCards = new String[3];
+        System.out.println("color " + color.getColorRoomRepresentation());
+        if(color.equals(ColorRoom.BLUE)){
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsBlue[i].getWeaponCardDescription();
             }
-
-            //System.out.println("size : " + tmpWeaponCards.size());
-            return tmpWeaponCards;
         }
+        else if(color.equals(ColorRoom.RED)){
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsRed[i].getWeaponCardDescription();
+            }
+        }
+        else if(color.equals(ColorRoom.YELLOW)) {
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsYellow[i].getWeaponCardDescription();
+            }
+        }
+        return tmpWeaponCards;
+    }
 
 
         public void addPowerUpCardDiscarded (PowerUpCard powerUpCard){
@@ -476,12 +456,11 @@ public class GameBoard implements GameBoardInterface {
         }
 
 
-    /*public void setGameBoardDescription(){
+    public void setGameBoardDescription(){
+
         getGameArena().setArenaRepresentation();
         gameBoardDescription = getGameArena().getArenaRepresentation();
         gameBoardDescription += "Red Spawn : ";
-       // StringBuilder st = new StringBuilder();
-        //ci penso
         for(int i = 0 ; i < weaponCardsRed.length; i++)
             gameBoardDescription += weaponCardsRed[i].getName() + " ";
         gameBoardDescription += "\n";
@@ -497,7 +476,9 @@ public class GameBoard implements GameBoardInterface {
         gameBoardDescription += "Num Skull : "+ killShotTrack.getNumSkull() + "\n";
 
 
-    }*/
+
+
+    }
 
         public String getGameBoardDescription () {
             return gameBoardDescription;

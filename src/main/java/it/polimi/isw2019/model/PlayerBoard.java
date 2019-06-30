@@ -7,7 +7,7 @@ import it.polimi.isw2019.model.exception.TooManyCubes;
 
 import java.util.ArrayList;
 
-public class PlayerBoard implements PlayerBoardInterface{
+public class PlayerBoard{
 
     protected ColorPlayer color;
     private int playerSkulls;
@@ -16,17 +16,11 @@ public class PlayerBoard implements PlayerBoardInterface{
     private boolean frenzy;
 
     protected ArrayList<ColorPlayer> damageTokens= new ArrayList<>();
-   // protected ColorPlayer [] damageTokens= new ColorPlayer[12];
-    //private int numOfDamages =0;
     private ArrayList<ColorPlayer> markTokens= new ArrayList<>();
 
     private ArrayList<ColorCube> redCubes= new ArrayList<>();
     private ArrayList<ColorCube> yellowCubes= new ArrayList<>();
     private ArrayList<ColorCube> blueCubes= new ArrayList<>();
-
-   // private ArrayList<ColorCube> redCubesNotAvailable = new ArrayList<>();
-   // private ArrayList<ColorCube> blueCubesNotAvailable = new ArrayList<>();
-   // private ArrayList<ColorCube> yellowCubesNotAvailable = new ArrayList<>();
 
     private String[] skullsRepresentation;
     private String[] markRepresentation;
@@ -495,8 +489,4 @@ public class PlayerBoard implements PlayerBoardInterface{
         return getPlayerBoardRepresentation();
     }
 
-    @Override
-    public PlayerBoardInterface getPlayerBoardInterface() {
-        return this;
-    }
 }

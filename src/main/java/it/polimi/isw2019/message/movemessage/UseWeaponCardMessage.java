@@ -1,56 +1,48 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.PlayerInterface;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
-import java.util.ArrayList;
 
 
 public class UseWeaponCardMessage extends MoveMessage{
 
-    private ArrayList<WeaponCardInterface> weaponCard;
+    private int[] weaponCard;
 
-    private ArrayList<PlayerInterface> playersToAttack;
-
-    private ArrayList<InterfacePowerUpCard> powerUpCards;
+    private int[][] playersToAttack;
 
     private int[] featuresAvailable;
+
+    //all weapon cards, even if they're discharged
+    private int[][] featuresForEffect;
 
     public UseWeaponCardMessage(String nicknamePlayer) {
         super(nicknamePlayer);
     }
 
-    public UseWeaponCardMessage(String nicknamePlayer, int[] featuresAvailable) {
+    public UseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack) {
         super(nicknamePlayer);
-        this.featuresAvailable = featuresAvailable;
-    }
-
-    public ArrayList<WeaponCardInterface> getWeaponCard() {
-        return weaponCard;
-    }
-
-    public void setWeaponCard(ArrayList<WeaponCardInterface> weaponCard) {
         this.weaponCard = weaponCard;
-    }
-
-    public ArrayList<PlayerInterface> getPlayersToAttack(){
-        return playersToAttack;
-    }
-
-    public void setPlayersToAttack(ArrayList<PlayerInterface> playersToAttack) {
+        this.featuresAvailable = featuresAvailable;
         this.playersToAttack = playersToAttack;
     }
 
-    public ArrayList<InterfacePowerUpCard> getPowerUpCards() {
-        return powerUpCards;
+    public int[] getWeaponCard() {
+        return weaponCard;
     }
 
-    public void setPowerUpCards(ArrayList<InterfacePowerUpCard> powerUpCards) {
-        this.powerUpCards = powerUpCards;
+    public void setWeaponCard(int[] weaponCard) {
+        this.weaponCard = weaponCard;
     }
+
+    public int[][] getPlayersToAttack(){
+        return playersToAttack;
+    }
+
+    public void setPlayersToAttack(int[][] playersToAttack) {
+        this.playersToAttack = playersToAttack;
+    }
+
 
     public int[] getFeaturesAvailable() {
         return featuresAvailable;
@@ -58,6 +50,14 @@ public class UseWeaponCardMessage extends MoveMessage{
 
     public void setFeaturesAvailable(int[] featuresAvailable) {
         this.featuresAvailable = featuresAvailable;
+    }
+
+    public int[][] getFeaturesForEffect() {
+        return featuresForEffect;
+    }
+
+    public void setFeaturesForEffect(int[][] featuresForEffect) {
+        this.featuresForEffect = featuresForEffect;
     }
 
     @Override

@@ -149,12 +149,13 @@ public abstract class Square{
     }
 
     public String getSquareRepresentation() {
+        setSquareRepresentation();
         return squareRepresentation;
     }
 
     public void setSquareRepresentation() {
 
-        tmpRepresentation = new String[6];
+        /*tmpRepresentation = new String[6];
 
         raw = new String[6];
         center= new String[6];
@@ -198,7 +199,9 @@ public abstract class Square{
 
         tmp[0] = raw;
         tmp[1] = center;
-        tmp[2] = bottom;
+        tmp[2] = bottom;*/
+
+        squareRepresentation = " "+returnTypeOfCard() + " " + players.size() + " ";
 
     }
 
