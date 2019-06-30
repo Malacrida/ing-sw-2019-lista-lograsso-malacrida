@@ -3,13 +3,10 @@ package it.polimi.isw2019.network;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 
-import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
-import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
 
-import javax.swing.text.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
@@ -21,6 +18,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+
 
 public class Client {
 
@@ -74,14 +72,12 @@ public class Client {
             System.out.println("Starting SOCKET");
 
             try {
-                CLIView cliView = new CLIView(nickname);
-
                 Socket socket = new Socket("localhost", 1111);
                 System.out.println("new Socket");
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname, cliView);
+                serverInterface.registerNewClient(socket, nickname);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -102,7 +98,7 @@ public class Client {
         }
         if (typeServer==1){
             try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1234/ServerRmi");
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1235/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
@@ -120,7 +116,7 @@ public class Client {
 
         try {
             ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient(remoteClient, nickname, view);
+            serverRmi.registerNewClient(remoteClient, nickname);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -132,7 +128,11 @@ public class Client {
         view.registerObserver(networkHandler);
         networkHandler.registerObserver(view);
 
-      //  view.startView();
+        //  view.startView();
     }
 
 }
+
+
+
+

@@ -7,7 +7,6 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.CLIView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -29,7 +28,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://localhost:1234/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://localhost:1235/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {

@@ -2,14 +2,10 @@ package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
-import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -42,6 +38,8 @@ public class Lobby implements LobbyInterface {
             return true;
         } else return false;
     }
+
+
 
 
     @Override
@@ -108,7 +106,7 @@ public class Lobby implements LobbyInterface {
             }
         }
 
-        }
+    }
     public void setVirtualViews() {
         for (int i=0; i<nicknames.size(); i++ ){
             VirtualView virtualView = new VirtualView(nicknames.get(i), clientConnected.get(nicknames.get(i)));

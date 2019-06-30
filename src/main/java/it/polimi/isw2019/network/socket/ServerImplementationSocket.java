@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
 
+
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
@@ -38,12 +39,12 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
             }
         }*/
 
-    @Override
+   /* @Override
     public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
         String actionHero = "MANNAIA LA PUTTANA";
         FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
         write(firstMessage);
-    }
+    }*/
 
     @Override
     public void write(Object object) throws IOException {
@@ -117,7 +118,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
     }
 
+    @Override
+    public void registerNewClient(Socket client, String nickname) throws IOException, RemoteException {
 
+    }
 
 
 }
