@@ -42,6 +42,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     @Override
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
+        System.out.println(client.getNickname());
         if (lobby.addClientConnected(nickname,client))
             client.logInCorrect();
         else client.logInFail();

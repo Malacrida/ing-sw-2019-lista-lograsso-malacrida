@@ -27,7 +27,8 @@ public class SquareAmmoTest {
         squareAmmo1= new SquareAmmo();
         squareAmmo2= new SquareAmmo();
         squareAmmo3= new SquareAmmo();
-        ammoTile=  new AmmoTile(1, null,null,null);
+        ArrayList<AmmoTile> ammoTiles;
+        ammoTile=  new AmmoTile(1, "RED","YELLOW","BLUE");
         player1= new Player("name1", null, 1);
         player1= new Player("name2", null, 2);
     }

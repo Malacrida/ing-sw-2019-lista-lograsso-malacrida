@@ -28,43 +28,43 @@ public class RunAndGrabBotton {
         JButton endMove = new JButton("endMove");
 
         pos00.setActionCommand("00");
-        pos00.addActionListener(new SceenRun.CustomActionListener());
+        pos00.addActionListener(new ViewGui.CustomActionListener());
 
         pos01.setActionCommand("01");
-        pos01.addActionListener(new SceenRun.CustomActionListener());
+        pos01.addActionListener(new ViewGui.CustomActionListener());
 
         pos02.setActionCommand("02");
-        pos02.addActionListener(new SceenRun.CustomActionListener());
+        pos02.addActionListener(new ViewGui.CustomActionListener());
 
         pos03.setActionCommand("03");
-        pos03.addActionListener(new SceenRun.CustomActionListener());
+        pos03.addActionListener(new ViewGui.CustomActionListener());
 
         pos10.setActionCommand("10");
-        pos10.addActionListener(new SceenRun.CustomActionListener());
+        pos10.addActionListener(new ViewGui.CustomActionListener());
 
         pos11.setActionCommand("11");
-        pos11.addActionListener(new SceenRun.CustomActionListener());
+        pos11.addActionListener(new ViewGui.CustomActionListener());
 
         pos12.setActionCommand("12");
-        pos12.addActionListener(new SceenRun.CustomActionListener());
+        pos12.addActionListener(new ViewGui.CustomActionListener());
 
         pos13.setActionCommand("13");
-        pos13.addActionListener(new SceenRun.CustomActionListener());
+        pos13.addActionListener(new ViewGui.CustomActionListener());
 
         pos20.setActionCommand("20");
-        pos20.addActionListener(new SceenRun.CustomActionListener());
+        pos20.addActionListener(new ViewGui.CustomActionListener());
 
         pos21.setActionCommand("21");
-        pos21.addActionListener(new SceenRun.CustomActionListener());
+        pos21.addActionListener(new ViewGui.CustomActionListener());
 
         pos22.setActionCommand("22");
-        pos22.addActionListener(new SceenRun.CustomActionListener());
+        pos22.addActionListener(new ViewGui.CustomActionListener());
 
         pos23.setActionCommand("23");
-        pos23.addActionListener(new SceenRun.CustomActionListener());
+        pos23.addActionListener(new ViewGui.CustomActionListener());
 
         endMove.setActionCommand("endMove");
-        endMove.addActionListener(new SceenRun.CustomActionListener());
+        endMove.addActionListener(new ViewGui.CustomActionListener());
 
 
         panel.add(pos00);
@@ -106,43 +106,43 @@ public class RunAndGrabBotton {
         JButton grab = new JButton("endMove");
 
         pos00.setActionCommand("00");
-        pos00.addActionListener(new SceenRun.CustomActionListener());
+        pos00.addActionListener(new ViewGui.CustomActionListener());
 
         pos01.setActionCommand("01");
-        pos01.addActionListener(new SceenRun.CustomActionListener());
+        pos01.addActionListener(new ViewGui.CustomActionListener());
 
         pos02.setActionCommand("02");
-        pos02.addActionListener(new SceenRun.CustomActionListener());
+        pos02.addActionListener(new ViewGui.CustomActionListener());
 
         pos03.setActionCommand("03");
-        pos03.addActionListener(new SceenRun.CustomActionListener());
+        pos03.addActionListener(new ViewGui.CustomActionListener());
 
         pos10.setActionCommand("10");
-        pos10.addActionListener(new SceenRun.CustomActionListener());
+        pos10.addActionListener(new ViewGui.CustomActionListener());
 
         pos11.setActionCommand("11");
-        pos11.addActionListener(new SceenRun.CustomActionListener());
+        pos11.addActionListener(new ViewGui.CustomActionListener());
 
         pos12.setActionCommand("12");
-        pos12.addActionListener(new SceenRun.CustomActionListener());
+        pos12.addActionListener(new ViewGui.CustomActionListener());
 
         pos13.setActionCommand("13");
-        pos13.addActionListener(new SceenRun.CustomActionListener());
+        pos13.addActionListener(new ViewGui.CustomActionListener());
 
         pos20.setActionCommand("20");
-        pos20.addActionListener(new SceenRun.CustomActionListener());
+        pos20.addActionListener(new ViewGui.CustomActionListener());
 
         pos21.setActionCommand("21");
-        pos21.addActionListener(new SceenRun.CustomActionListener());
+        pos21.addActionListener(new ViewGui.CustomActionListener());
 
         pos22.setActionCommand("22");
-        pos22.addActionListener(new SceenRun.CustomActionListener());
+        pos22.addActionListener(new ViewGui.CustomActionListener());
 
         pos23.setActionCommand("23");
-        pos23.addActionListener(new SceenRun.CustomActionListener());
+        pos23.addActionListener(new ViewGui.CustomActionListener());
 
         grab.setActionCommand("grabButton");
-        grab.addActionListener(new SceenRun.CustomActionListener());
+        grab.addActionListener(new ViewGui.CustomActionListener());
 
 
         panel.add(pos00);

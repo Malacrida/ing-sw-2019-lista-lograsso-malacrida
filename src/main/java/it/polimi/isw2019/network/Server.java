@@ -26,7 +26,7 @@ public class Server {
 
 
         try {
-             gathererRmi = new ServerRmi(1234);
+             gathererRmi = new ServerRmi(1235);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

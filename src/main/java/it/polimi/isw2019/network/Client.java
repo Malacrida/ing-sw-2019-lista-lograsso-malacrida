@@ -100,7 +100,7 @@ public class Client {
         }
         if (typeServer==1){
             try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1234/ServerRmi");
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1235/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
