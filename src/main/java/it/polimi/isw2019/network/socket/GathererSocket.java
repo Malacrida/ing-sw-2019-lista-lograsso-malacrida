@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
@@ -19,6 +20,7 @@ public class GathererSocket implements Runnable, GathererInterface {
     private final int serverPort;
     private Lobby lobby;
     private ServerSocket serverSocket;
+    private FirstMessage firstMessage;
 
     private static final Logger LOGGER = Logger.getLogger(GathererSocket.class.getName());
 
@@ -41,10 +43,12 @@ public class GathererSocket implements Runnable, GathererInterface {
         Socket newConnection = null;
         ClientInterface newClient;
         ObjectOutputStream output;
+        ObjectInputStream input;
 
         try {
             newConnection = serverSocket.accept();
             output = new ObjectOutputStream(newConnection.getOutputStream());
+            input = new ObjectInputStream(newConnection.getInputStream());
             //LOGGER.info("output: " + output);
 
             System.out.println("Istanzio un nuovo thread");
@@ -54,8 +58,8 @@ public class GathererSocket implements Runnable, GathererInterface {
 
             System.out.println("Provo a inviare la player move");
             //clientHandlerSocket(newConnection);
-            ClientSocket cs = new ClientSocket(newConnection);
-            cs.setLobby(lobby);
+
+            ClientSocket cs = new ClientSocket(newConnection, output, input);
             cs.start();
 
         } catch (IOException e) {
@@ -64,7 +68,7 @@ public class GathererSocket implements Runnable, GathererInterface {
 
     }
 
-    private void clientHandlerSocket(Socket connection) throws IOException {
+    /*private void clientHandlerSocket(Socket connection) throws IOException {
         ObjectOutputStream output;
         ObjectInputStream input;
         ClientInterface newClientInterface = new ClientSocket(connection);
@@ -94,7 +98,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             e.getCause();
         }
 
-    }
+    }*/
 
     @Override
     public void setLobby(Lobby lobby) {

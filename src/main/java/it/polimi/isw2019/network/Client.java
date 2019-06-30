@@ -75,6 +75,7 @@ public class Client {
 
             try {
                 CLIView cliView = new CLIView(nickname);
+
                 Socket socket = new Socket("localhost", 1111);
                 System.out.println("new Socket");
                 serverInterface = new ServerImplementationSocket(socket);

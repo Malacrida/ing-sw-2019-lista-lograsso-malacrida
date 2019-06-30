@@ -1,5 +1,7 @@
 package it.polimi.isw2019.network.socket;
 
+import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
+import it.polimi.isw2019.message.movemessage.MoveMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.view.CLIView;
@@ -17,28 +19,30 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private MoveMessage moveMessage;
     private String message;
 
 
     public ServerImplementationSocket(Socket socket) throws IOException {
         this.socket = socket;
-        System.out.println("this.socket");
-
-            output = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("output");
-            input = new ObjectInputStream(socket.getInputStream());
-            System.out.println("input");
+        output = new ObjectOutputStream(socket.getOutputStream());
+        input = new ObjectInputStream(socket.getInputStream());
 
 
         }
 
+       /* @Override
+        public void run(){
+            try{
+                while (null != moveMessage = (MoveMessage) input.readObject())
+            }
+        }*/
 
     @Override
     public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
-        FirstMessage firstMessage = new FirstMessage(view, nickname, "MANNAIA LA PUTTANA");
-
+        String actionHero = "MANNAIA LA PUTTANA";
+        FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
         write(firstMessage);
-
     }
 
     @Override
@@ -112,6 +116,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException {
 
     }
+
 
 
 

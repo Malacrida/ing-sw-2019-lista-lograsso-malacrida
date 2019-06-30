@@ -5,9 +5,11 @@ import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.utilities.Observer;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CLIView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {
+public class CLIView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView, Serializable {
 
     private String nicknamePlayer;
     private String actionHero;
