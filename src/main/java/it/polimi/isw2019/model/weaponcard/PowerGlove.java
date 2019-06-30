@@ -21,6 +21,8 @@ public class PowerGlove extends AbstractWeaponCard {
         this.rechargeCube[0] = ColorCube.YELLOW;
         this.rechargeCube[1] = ColorCube.BLUE;
         setWeaponCardDescription();
+        this.paySecondEffect = new ColorCube[1];
+        this.paySecondEffect[0] = ColorCube.BLUE;
     }
 
     /**

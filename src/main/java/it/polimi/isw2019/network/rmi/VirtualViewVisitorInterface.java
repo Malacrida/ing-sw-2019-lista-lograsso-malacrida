@@ -15,11 +15,9 @@ public interface VirtualViewVisitorInterface {
 
     void sendUpdateView(UpdateMessage updateMessage);
 
-    //void sendOkRegistration(RegistrationPlayer registrationPlayer);
 
     void sendWaitForStart(EndRegistration endRegistration);
 
-    //void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard);
 
     void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 

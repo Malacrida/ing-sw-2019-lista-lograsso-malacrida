@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.UseWeaponCard;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -45,6 +46,9 @@ public class Player{
 
     private int[] featuresAvailable = new int[6];
 
+    private int stateGame;
+
+    private boolean endTurn;
     private ArrayList<PowerUpCard> tmpPowerUpCard = new ArrayList<>();
 
     private boolean correctAction;
@@ -54,6 +58,8 @@ public class Player{
     private String error;
 
     private String descriptionPlayer;
+
+    private int[][] playerToAttack;
 
     private int[] statusPlayer = new int[14];
 
@@ -101,7 +107,6 @@ public class Player{
     public MoveMessage getSingleMessageToBeSent(){
 
         featuresAvailable();
-        //messageToBeSent.get(0).setFeaturesAvailable(featuresAvailable);
 
         if(messageToBeSent.get(0) instanceof  ReloadMessage){
             updateMessage((ReloadMessage)(messageToBeSent.get(0)));
@@ -111,21 +116,41 @@ public class Player{
         }
         else if(messageToBeSent.get(0) instanceof UseWeaponCardMessage) {
             updateMessage((UseWeaponCardMessage) (messageToBeSent.get(0)));
+        } else if(messageToBeSent.get(0) instanceof GrabMessage){
+            updateMessage((GrabMessage) (messageToBeSent.get(0)));
         }
 
         return messageToBeSent.get(0);
     }
 
+    //state game 1 -> normale, 2 -> attaccato, 3 -> difende
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
-        //usePowerUpCardMessage.setPowerUpCard(powerUpCards.);
+        usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
+        usePowerUpCardMessage.setEffectCard(effectPowerUpCard());
+        usePowerUpCardMessage.setStateCard(statePowerUp());
+        //usePowerUpCardMessage.setAttacked();
+        //usePowerUpCardMessage.setStateGame();
+
     }
 
     public void updateMessage(UseWeaponCardMessage useWeaponCardMessage){
         useWeaponCardMessage.setWeaponCard(getWeaponCard());
+        useWeaponCardMessage.setFeaturesForEffect(getWeaponCardFeatures());
+        useWeaponCardMessage.setPlayersToAttack(playerToAttack);
+        useWeaponCardMessage.setFeaturesAvailable(getFeaturesAvailable());
+
+    }
+
+    public void setPlayerInUseWeaponCardMessage(int[][] playerInUseWeaponCardMessage){
+        playerToAttack = playerInUseWeaponCardMessage;
     }
 
     public void updateMessage(ReloadMessage reloadMessage){
         reloadMessage.setWeaponYouCanReload(getWeaponDischarge());
+    }
+
+    public void updateMessage(GrabMessage grabMessage){
+        grabMessage.setFeaturesAvailable(featuresAvailable);
     }
 
     public int getIndexPlayer() {
@@ -219,6 +244,12 @@ public class Player{
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
 
+    /**
+     * method to take weapon card
+     * @param insertWeaponCard weapon card taken
+     * @param removeWeaponCard weapon card rejected if player has already three weapon card
+     */
+
     public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
 
         if (weaponCards.size()<3) {
@@ -236,6 +267,13 @@ public class Player{
     //Ricordarsi il cambio di stato
     //Inserimento di una nuova carta
 
+    /**
+     * method to take power up card
+     * @param insertPowerUpCard power up card taken
+     * @param removePowerUpCard power up card rejected if player has already three weapon card
+     * @throws TooManyPowerUpCard
+     */
+
     public void takePowerUpCard (PowerUpCard insertPowerUpCard, PowerUpCard removePowerUpCard) throws TooManyPowerUpCard {
         if (powerUpCards.size()<3){
             powerUpCards.add(insertPowerUpCard);
@@ -250,6 +288,10 @@ public class Player{
 
     }
 
+    /**
+     *
+     * @param powerUpCard
+     */
     //Cambio di stato della carta
     //rimozione che un utilizzo
     public void usePowerUpCard (PowerUpCard powerUpCard){
@@ -259,7 +301,32 @@ public class Player{
         powerUpCards.remove(powerUpCard);
     }
 
+    //Nella mia versione c'era non so se andava tolto (FROM DAVIDE)
+    /*public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
+        int [] price = new int[3];
+        //price = weaponCard.getPrice ();
+        for (int i=0; i<3; i++){
+            if (i==0){
+                playerBoard.removeRedCubes(price[0]);
+            }
+            if (i==1){
+                playerBoard.removeYellowCubes(price[1]);
+            }
+            if (i==2){
+                playerBoard.removeBlueCubes(price[2]);
+            }
+        }
+    }*/
 
+    /**
+     * method used to pay cubes to use weapon card's effect
+     * @param costRed number of red cubes
+     * @param costYellow number of yellow cubes
+     * @param costBlue number of blue cubes
+     * @throws OutOfBoundsException
+     */
+
+    //non fare test
     public void payEffect (int costRed, int costYellow, int costBlue) throws OutOfBoundsException {
         try {
             if (costRed > 0) {
@@ -305,6 +372,7 @@ public class Player{
 
         }
 
+
     }
 
     public void fromPowerUpCardIntoCubes(PowerUpCard powerUpCard1){
@@ -324,6 +392,11 @@ public class Player{
     public void handlePaymentWithPowerUpCards(PowerUpCard powerUpCard) {
             fromPowerUpCardIntoCubes(powerUpCard);
     }
+
+    /**
+     * add score
+     * @param point score
+     */
 
     public void addScore (int point){
         score= score+point;
@@ -369,17 +442,35 @@ public class Player{
         return playerBoard.numOfDamages();
     }
 
-
-
+    /**
+     * first damage
+     * @return color player
+     */
     public ColorPlayer firstPlayerDoDamage (){
         return playerBoard.firstBlood();
     }
 
+    /**
+     * last damage
+     * @return color of player who did last damage
+     */
     public ColorPlayer lastPlayerDoDamage () { return playerBoard.killShot();}
+
+    /**
+     * getter of number of skulls on one player board
+     * @return number of skulls
+     */
 
     public int getNumberOfSkulls (){
         return playerBoard.getPlayerSkulls();
     }
+
+    /**
+     * new position of player
+     * @param x first coordinate
+     * @param y second coordinate
+     * @param colorRoom of that square
+     */
 
     public void changePosition (int x, int y, ColorRoom colorRoom){
         this.x=x;
@@ -387,26 +478,56 @@ public class Player{
         this.colorRoom=colorRoom;
     }
 
+    /**
+     * new square of player
+     * @param x first coordinate
+     * @param y second coordinate
+     */
+
     public void changeSquare(int x, int y){
         this.x=x;
         this.y=y;
     }
 
+    /**
+     * new room of player
+     * @param colorRoom of that square
+     */
+
     public void changeRoom (ColorRoom colorRoom){
         this.colorRoom=colorRoom;
     }
 
+    /**
+     * reset player board if player is died
+     */
+
     public void playerDeath (){
         playerBoard.resetAfterDeath();
     }
+    /**
+     * getter weapon card of this player
+     * @return player's weapon card
+     */
+
 
     public ArrayList<AbstractWeaponCard> getWeaponCards(){
         return this.weaponCards;
     }
 
+    /**
+     * getter power up of this player
+     * @return player's power up
+     */
+
     public ArrayList<PowerUpCard> getPowerUpCards(){
         return this.powerUpCards;
     }
+
+    /**
+     * get instance of player board not interface
+     * @return player board
+     */
 
     public PlayerBoard getRealPlayerBoard(){
         return playerBoard;
@@ -415,23 +536,39 @@ public class Player{
 
     public String[] getWeaponCardDescription(){
         String[] tmpWeaponCardDescription = new String[weaponCards.size()];
-
-        for( int i = 0; i < weaponCards.size(); i ++)
-            tmpWeaponCardDescription[i] = weaponCards.get(i).getWeaponCardDescription();
-
+        if(weaponCards.size() == 0){
+            return null;
+        }
+        else {
+            for (int i = 0; i < weaponCards.size(); i++)
+                tmpWeaponCardDescription[i] = weaponCards.get(i).getWeaponCardDescription();
+        }
         return tmpWeaponCardDescription;
     }
 
     public String[] getPowerUpDescription(){
-        String[] tmpPowerUpCardDescription = new String[weaponCards.size()];
-
-        for( int i = 0; i < powerUpCards.size(); i ++)
-            tmpPowerUpCardDescription[i] = powerUpCards.get(i).getPowerUpCardRepresentation();
+        String[] tmpPowerUpCardDescription = new String[powerUpCards.size()];
+        if(powerUpCards.size() == 0 ) return null;
+        else {
+            for (int i = 0; i < powerUpCards.size(); i++)
+                tmpPowerUpCardDescription[i] = powerUpCards.get(i).getPowerUpCardRepresentation();
+        }
 
         return tmpPowerUpCardDescription;
 
     }
 
+    public int[][] getWeaponCardFeatures(){
+        int[][] weaponCardFeatures = new int[weaponCards.size()][3];
+
+        for (int i = 0 ; i < weaponCards.size(); i++){
+            weaponCardFeatures[i][0] = weaponCards.get(i).getMaxPossibleEffects();
+            weaponCardFeatures[i][1] = weaponCards.get(i).getMaxPossibleDefenders();
+            weaponCardFeatures[i][2] = weaponCards.get(i).getMaxPossibleCoordinates();
+        }
+
+        return weaponCardFeatures;
+    }
     public int[] getWeaponDischarge(){
         int[] weaponDischarged = new int[weaponCards.size()];
 
@@ -445,7 +582,7 @@ public class Player{
         return weaponDischarged;
     }
 
-    //1 -> recharged, 2 -> discharged
+    //1-> recharged, 0 -> discharged
     public int[] getWeaponCard() {
 
        int[] tmpWeaponCards = new int[weaponCards.size()];
@@ -461,6 +598,7 @@ public class Player{
     }
 
     //add a powerUp in the UsePowerUp if it has the correct feature
+
     public boolean canAddPowerUp(){
         for(PowerUpCard powerUpCard : powerUpCards){
             if(powerUpCard.isCanBeUsed()){
@@ -577,6 +715,8 @@ public class Player{
 
     public void setMessagesToBeSent(int idAction) {
 
+        endTurn = false;
+
         messageToBeSent.clear();
 
         if(idAction == 0) {
@@ -618,6 +758,7 @@ public class Player{
         else  if(idAction == 5) {
             ReloadMessage reloadMessage = new ReloadMessage(name);
             //modifiche
+            endTurn = true;
             messageToBeSent.add(reloadMessage);
         }
         else  if(idAction == 6) {
@@ -626,14 +767,10 @@ public class Player{
             messageToBeSent.add(powerUpCardMessage);
         }
 
-        System.out.println("lenght mex :" + messageToBeSent.size());
-
     }
 
 
     public boolean updatePlayerStatusIncorrectAction(String error) {
-
-        System.out.println("ko");
 
         if(numActionCancelled <1){
             numActionCancelled++;
@@ -645,18 +782,19 @@ public class Player{
            // messageToBeSent.clear();
             //throw new Failethird time that you've inserted an invalid action  : this action ends!dActionException("");
             //error = "third time that you've inserted an invalid action  : this action ends!";
+            messageToBeSent.clear();
             return updatePlayerMessageStatus();
         }
     }
 
-    public Boolean updatePlayerMessageStatus(){
-        //rimuovi -> ok azione
+    public void removeMessageToBeSend(){
         messageToBeSent.remove(0);
+    }
 
-        //System.out.println("lenght in unpdate : " + messageToBeSent.size());
+    public Boolean updatePlayerMessageStatus(){
 
         if(!messageToBeSent.isEmpty()){
-            System.out.println("ko");
+            System.out.println("ko not empty");
             return true;
         }
 
@@ -666,6 +804,7 @@ public class Player{
                  System.out.println(" numAc :" + numActionPerformed);
                  messageToBeSent.clear();
                  messageToBeSent.add(setCorrectNormalActionChooseMessages(false));
+                 System.out.println("size : " +messageToBeSent.size());
                  return true;
             }
              else {
@@ -673,7 +812,10 @@ public class Player{
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
                     System.out.println(" numAc end :" + numActionPerformed);
                     return false;
-                } else {
+                } else if(endTurn) {
+                    System.out.println("termino");
+                    return false;
+                } else{
                     System.out.println("end 2");
                     return messageToBeSent.add(tmpMessage);
                 }
@@ -692,17 +834,20 @@ public class Player{
 
 
     public void featuresAvailable(){
-        featuresAvailable[0] = playerBoard.numOfBlueCubes();
-        featuresAvailable[1] = playerBoard.numOfRedCubes();
-        featuresAvailable[2] = playerBoard.numOfYellowCubes();
-        int j = 3;
-        for(int i = 0 ; i < powerUpCards.size(); i++ , j++)
-            featuresAvailable[j] = powerUpCards.get(i).getId();
-        for(int i = j + 1; i < 6; i ++)
-            featuresAvailable[i] = -1;
+        if(playerBoard!= null) {
+            featuresAvailable[0] = playerBoard.numOfBlueCubes();
+            featuresAvailable[1] = playerBoard.numOfRedCubes();
+            featuresAvailable[2] = playerBoard.numOfYellowCubes();
+            int j = 3;
+            for (int i = 0; i < powerUpCards.size(); i++, j++)
+                featuresAvailable[j] = powerUpCards.get(i).getId();
+            for (int i = j + 1; i < 6; i++)
+                featuresAvailable[i] = -1;
+        }
     }
 
     public int[] getStatusPlayer() {
+        setStatusPlayer();
         return statusPlayer;
     }
 
@@ -710,22 +855,59 @@ public class Player{
         statusPlayer[0] = indexPlayer;
         statusPlayer[1] = x;
         statusPlayer[2] = y;
-        statusPlayer[3] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.BLUE);
-        statusPlayer[4] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREEN);
-        statusPlayer[5] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREY);
-        statusPlayer[6] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.VIOLET);
-        statusPlayer[7] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.YELLOW);
-        statusPlayer[8] = playerBoard.numOfMarkOfOneColor(ColorPlayer.BLUE);
-        statusPlayer[9] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREEN);
-        statusPlayer[10] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREY);
-        statusPlayer[11] = playerBoard.numOfMarkOfOneColor(ColorPlayer.VIOLET);
-        statusPlayer[12] = playerBoard.numOfMarkOfOneColor(ColorPlayer.YELLOW);
-        statusPlayer[13] = playerBoard.getPlayerSkulls();
+        if(playerBoard!= null) {
+            statusPlayer[3] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.BLUE);
+            statusPlayer[4] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREEN);
+            statusPlayer[5] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.GREY);
+            statusPlayer[6] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.VIOLET);
+            statusPlayer[7] = playerBoard.numOfDamagesOfOneColor(ColorPlayer.YELLOW);
+            statusPlayer[8] = playerBoard.numOfMarkOfOneColor(ColorPlayer.BLUE);
+            statusPlayer[9] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREEN);
+            statusPlayer[10] = playerBoard.numOfMarkOfOneColor(ColorPlayer.GREY);
+            statusPlayer[11] = playerBoard.numOfMarkOfOneColor(ColorPlayer.VIOLET);
+            statusPlayer[12] = playerBoard.numOfMarkOfOneColor(ColorPlayer.YELLOW);
+            statusPlayer[13] = playerBoard.getPlayerSkulls();
+        }
+        else {
+            for(int i = 3; i < 14; i ++){
+                statusPlayer[i] = -1;
+            }
+        }
 
     }
 
     public int[] getFeaturesAvailable() {
+        featuresAvailable();
         return featuresAvailable;
+    }
+
+    public boolean[] statePowerUp(){
+        boolean[] powerUpState = new boolean[powerUpCards.size()];
+        for(int i = 0; i < powerUpCards.size();i++){
+            powerUpState[i] = powerUpCards.get(i).isCanBeUsed();
+        }
+        return powerUpState;
+    }
+
+    public int[] effectPowerUpCard(){
+        int[] effectPowerUp = new int[powerUpCards.size()];
+        for(int i = 0 ; i < powerUpCards.size();i++){
+            switch (powerUpCards.get(i).getName()){
+                case "Newton":
+                    effectPowerUp[i] = 2;
+                    break;
+                case "Teleporter":
+                    effectPowerUp[i] = 1;
+                    break;
+                case "Tagback Grenade":
+                    effectPowerUp[i] = -1;
+                    break;
+                case "Targeting Scope":
+                    effectPowerUp[i] = -2;
+                    break;
+            }
+        }
+        return effectPowerUp;
     }
 
     public String toString(){

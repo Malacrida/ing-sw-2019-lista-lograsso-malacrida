@@ -2,6 +2,7 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 
@@ -9,7 +10,7 @@ public class FirstMessage extends PlayerMove{
 
     private String actionHero;
     private CLIView CLIView;
-    private VirtualViewVisitorInterface virtualView;
+    private VirtualView virtualView;
 
     public FirstMessage(CLIView CLIView, String nickname, String actionHero){
         super(nickname);
@@ -17,7 +18,7 @@ public class FirstMessage extends PlayerMove{
         this.actionHero = actionHero;
     }
 
-    public FirstMessage(VirtualViewVisitorInterface virtualView, String nickname, String actionHero){
+    public FirstMessage(VirtualView virtualView, String nickname, String actionHero){
         super(nickname);
         this.virtualView=virtualView;
         this.actionHero = actionHero;
@@ -40,5 +41,9 @@ public class FirstMessage extends PlayerMove{
 
     public CLIView getCLIView() {
         return CLIView;
+    }
+
+    public VirtualView getVirtualView () {
+        return virtualView;
     }
 }

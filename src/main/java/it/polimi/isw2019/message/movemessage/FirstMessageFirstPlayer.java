@@ -14,10 +14,11 @@ public class FirstMessageFirstPlayer extends MoveMessage {
         super(nicknamePlayer);
     }
 
-    public FirstMessageFirstPlayer(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable){
+    public FirstMessageFirstPlayer (String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable){
         super(nicknamePlayer,idPlayer);
-        this.possibleMaps = possibleMaps;
-        this.colorAvailable = colorAvailable;
+        this.possibleMaps= possibleMaps;
+        this.colorAvailable=colorAvailable;
+
     }
 
     public String[] getPossibleMaps() {
@@ -45,5 +46,6 @@ public class FirstMessageFirstPlayer extends MoveMessage {
     public void accept(VirtualViewVisitorInterface virtualView) {
         virtualView.sendFirstPlayerChooseMap(this);
     }
+
 
 }

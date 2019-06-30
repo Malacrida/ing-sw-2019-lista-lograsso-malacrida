@@ -71,5 +71,10 @@ public class UpdateMessage extends MoveMessage {
     public void setGameBoardDescription(String gameBoardDescription) {
         this.gameBoardDescription = gameBoardDescription;
     }
+
+    @Override
+    public boolean isNotifyAll() {
+        return super.isNotifyAll();
+    }
 }
 

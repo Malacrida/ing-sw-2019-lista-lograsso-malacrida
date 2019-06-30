@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network;
 
+import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
@@ -12,7 +13,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+
 
 public class Lobby implements LobbyInterface {
 
@@ -23,6 +24,7 @@ public class Lobby implements LobbyInterface {
     private ArrayList<VirtualView> virtualViews = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
     private int countDown = 60;
+    boolean lobbyIsRunning = true;
 
     public Lobby() {
 
@@ -41,15 +43,13 @@ public class Lobby implements LobbyInterface {
         } else return false;
     }
 
-    boolean lobbyIsRunning = true;
-
 
     @Override
     public void run() {
         while (lobbyIsRunning) {
             boolean roomStartable = true;
             System.out.println("Waiting for at least 3 clients.");
-            while (clientConnected.size() < 3) {
+            while (clientConnected.size() < 1) { //era 3
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -70,7 +70,7 @@ public class Lobby implements LobbyInterface {
                         roomStartable = false;
                         System.out.println("Countdown reset, not enough players to start the room.");
 
-                    } else if (clientConnected.size() == 5) {
+                    } else if (clientConnected.size() == 2) { //era 5
                         i = countDown + 1;
                         roomStartable = true;
                     } else if ((countDown - i) % 5 == 0 && (countDown - i) != 0) {
@@ -89,7 +89,7 @@ public class Lobby implements LobbyInterface {
             }
             if(roomStartable) {
                 System.out.println("Countdown ended, starting the room.");
-
+                startGame();
                 return;
                 /*ConnectedClient c;
                 Set<ConnectedClient> clients = new HashSet<>();
@@ -118,5 +118,29 @@ public class Lobby implements LobbyInterface {
 
     public ArrayList<VirtualView> getVirtualViews() {
         return virtualViews;
+    }
+
+    public void startGame(){
+        MainController controller = new MainController();
+
+        setVirtualViews();
+        Server.setVirtualViewOnServer(virtualViews);
+
+
+        System.out.println("ci sono :" +virtualViews.size());
+        for (VirtualView virtualView: virtualViews){
+            virtualView.registerObserver(controller);
+            System.out.println(virtualView.getNickname());
+        }
+
+
+
+        for(VirtualView virtualView : virtualViews){
+            virtualView.startView();
+            System.out.println(virtualView.getNickname());
+        }
+
+
+        controller.startGame();
     }
 }

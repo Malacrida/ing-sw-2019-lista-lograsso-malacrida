@@ -27,4 +27,6 @@ public interface VisitorView{
     void firstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
 
     void failRegistration(FailRegistration failRegistration);
+
+    void visitStartView (StartMessage startMessage);
 }

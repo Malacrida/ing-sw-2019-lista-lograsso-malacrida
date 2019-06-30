@@ -1,11 +1,7 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
-
-import java.util.ArrayList;
 
 public class ReloadMessage extends MoveMessage{
 

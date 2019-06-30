@@ -1,15 +1,11 @@
 package it.polimi.isw2019.network.rmi;
 
+import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.powerupcard.PowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
-import it.polimi.isw2019.network.Client;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.VisitorView;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -24,6 +20,21 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         this.networkHandler = networkHandler;
     }
 
+    public void registrationController(MainController controller){
+        this.registerObserver(controller);
+        //System.out.println("start view di :" +networkHandler);
+        //startView();
+    }
+
+    public void startView (){
+        try {
+            networkHandler.startViewClient();
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public String getNickname() {
         return nickname;
@@ -61,18 +72,15 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     public void createRegisterPlayer( String player, String actionHero){
         System.out.println("ricreo una registrazione");
-        FirstMessage firstMessage = new FirstMessage(this, player, actionHero );
+        FirstMessage firstMessage = new FirstMessage(this, player, actionHero);
         notifyObservers(firstMessage);
 
         System.out.println("forzo rinvio");
-
-        /*RegistrationPlayer registrationPlayer= new RegistrationPlayer(player,actionHero, null);
-        sendOkRegistration(registrationPlayer);*/
     }
 
     public void createReload(String player){
-        //ReloadMove reloadMove = new ReloadMove(player);
-        //notifyObservers(reloadMove);
+       /* ReloadMove reloadMove = new ReloadMove(player);
+        notifyObservers(reloadMove);*/
     }
 
     public void createPowerUpChoice(String player, int idPowerUp){
@@ -80,31 +88,20 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(powerUpChoice);
     }
 
-    public void createUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface){
-        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,powerUpCardInterface);
-        notifyObservers(usePowerUpCard);
+    public void createUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/){
+       /* UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player/*,powerUpCardInterface);
+        notifyObservers(usePowerUpCard);*/
     }
 
-    public void createWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab){
-        WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment,powerUpCards,grab);
+    public void createWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards, */boolean grab){
+        WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment,/*powerUpCards,*/grab);
         notifyObservers(weaponCardChoice);
     }
 
-    public void createUseWeaponCard (String player, WeaponCardInterface weaponCard){
-        //UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
-        //notifyObservers(useWeaponCard);
+    public void createUseWeaponCard (String player, int weaponCard){
+        UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
+        notifyObservers(useWeaponCard);
     }
-
-
-  /*  @Override
-    public void sendSetupView(SetUpMessage setUpMessage) {
-        try {
-            networkHandler.createSetupView(setUpMessage.getNicknamePlayer(), setUpMessage.getColorAvailable());
-        }
-        catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     public void sendActionView(ActionMessage actionMessage) {
@@ -145,36 +142,24 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendUpdateView(UpdateMessage updateMessage) {
-
-    }
-
-   /* @Override
-    public void sendOkRegistration(RegistrationPlayer registrationPlayer) {
-
-        try {
-            System.out.println("invio conferma");
-            networkHandler.createOkRegistration(registrationPlayer.getNicknamePlayer(),registrationPlayer.getActionHero(),registrationPlayer.getColors());
+      /*  try {
+            //networkHandler.createUpdateView(updateMessage.getNicknamePlayer(),updateMessage.getGameBoard(),updateMessage.getPlayers(),updateMessage.isNotifyAll());
         }
         catch (RemoteException e) {
             e.printStackTrace();
-        }
-
-    }*/
+        }*/
+    }
 
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
         try {
+            System.out.println("ritorno endRegistration");
             networkHandler.createWaitForStart(endRegistration.getNicknamePlayer());
         }
         catch (RemoteException e) {
             e.printStackTrace();
         }
     }
-
-    /*@Override
-    public void sendWeaponCardChoice(ChoiceWeaponCard choiceWeaponCard) {
-
-    }*/
 
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
@@ -193,7 +178,11 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
-
+        try {
+            networkHandler.createFirstPlayerChooseMap(firstMessageFirstPlayer.getNicknamePlayer(),firstMessageFirstPlayer.getPossibleMaps(),firstMessageFirstPlayer.getColorAvailable());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

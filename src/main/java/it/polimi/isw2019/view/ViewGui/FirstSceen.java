@@ -38,7 +38,7 @@ public class FirstSceen {
         //button with image
 
         //load and resize image
-        ImageIcon leftButtonIcon = new ImageIcon("./src/main/resources/Background.png");
+        ImageIcon leftButtonIcon = new ImageIcon("./src/main/resources/img/Background.png");
        /* Image img = leftButtonIcon.getImage() ;
         Image newImg = img .getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH ) ;
         ImageIcon leftButtonIconSmaller = new ImageIcon( newImg );*/

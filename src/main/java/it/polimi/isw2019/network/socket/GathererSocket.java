@@ -45,13 +45,18 @@ public class GathererSocket implements Runnable, GathererInterface {
         try {
             newConnection = serverSocket.accept();
             output = new ObjectOutputStream(newConnection.getOutputStream());
-            LOGGER.info("output: " + output);
+            //LOGGER.info("output: " + output);
 
+            System.out.println("Istanzio un nuovo thread");
             /*Istanzio un nuovo Thread*/
             Thread thread = new Thread(this);
             thread.start();
 
-            clientHandlerSocket(newConnection);
+            System.out.println("Provo a inviare la player move");
+            //clientHandlerSocket(newConnection);
+            ClientSocket cs = new ClientSocket(newConnection);
+            cs.setLobby(lobby);
+            cs.start();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,6 +68,7 @@ public class GathererSocket implements Runnable, GathererInterface {
         ObjectOutputStream output;
         ObjectInputStream input;
         ClientInterface newClientInterface = new ClientSocket(connection);
+
 
         try{
 
@@ -83,7 +89,6 @@ public class GathererSocket implements Runnable, GathererInterface {
             output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
-
 
         } catch (IOException | ClassNotFoundException e) {
             e.getCause();

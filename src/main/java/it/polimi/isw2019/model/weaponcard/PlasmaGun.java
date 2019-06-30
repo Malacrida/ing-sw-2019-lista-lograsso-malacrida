@@ -20,6 +20,8 @@ public class PlasmaGun extends AbstractWeaponCard{
         this.rechargeCube[0] = ColorCube.BLUE;
         this.rechargeCube[1] = ColorCube.YELLOW;
         setWeaponCardDescription();
+        this.payThirdEffect = new ColorCube[1];
+        this.payThirdEffect[0] = ColorCube.BLUE;
     }
 
     /**

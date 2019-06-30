@@ -1,13 +1,10 @@
 package it.polimi.isw2019.view;
 
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.utilities.Observer;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLIView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView {
@@ -41,43 +38,44 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void update(MoveMessage message) {
-
-        System.out.println("update : " + nicknamePlayer);
-
         if(message.isNotifyAll()){
             message.accept(this);
         }
-        else if(nicknamePlayer == message.getNicknamePlayer()) {
-            if (message.getNicknamePlayer().compareTo(nicknamePlayer) == 0) {
-                message.accept(this);
-            }
+        else if(nicknamePlayer.equals(message.getNicknamePlayer())) {
+            message.accept(this);
         }
     }
 
     public void printStatus(){
-
+        System.out.println("index" + index);
         System.out.println("Position on arena : x " + playerBoard[1] + " , y " + playerBoard[2]);
-        System.out.println("Blue cubes available :" + featuresAvailable[0]);
-        System.out.println("Red cubes available :" + featuresAvailable[1]);
-        System.out.println(" Yellow cubes available: " + featuresAvailable[2]);
-
-        for (String weaponCard : weaponCard){
-            System.out.println(weaponCard);
+        if(featuresAvailable!= null) {
+                System.out.println("Blue cubes available :" + featuresAvailable[0]);
+                System.out.println("Red cubes available :" + featuresAvailable[1]);
+                 System.out.println(" Yellow cubes available: " + featuresAvailable[2]);
         }
-        for (String powerUp : powerUpCard){
-            System.out.println(powerUp);
+        if(weaponCard!= null) {
+            for (String weaponCard : weaponCard) {
+                System.out.println(weaponCard);
+            }
         }
-
-        System.out.println("Blue damage :" + playerBoard[3]);
-        System.out.println("Green damage :" + playerBoard[4]);
-        System.out.println("Grey damage :" + playerBoard[5]);
-        System.out.println("Violet damage :" + playerBoard[6]);
-        System.out.println("Yellow damage :" + playerBoard[7]);
-        System.out.println("Blue mark :" + playerBoard[8]);
-        System.out.println("Green mark :" + playerBoard[9]);
-        System.out.println("Grey mark :" + playerBoard[10]);
-        System.out.println("Violet mark :" + playerBoard[11]);
-        System.out.println("Yellow mark :" + playerBoard[12]);
+        if(powerUpCard!= null) {
+            for (String powerUp : powerUpCard) {
+                System.out.println(powerUp);
+            }
+        }
+        if(playerBoard[3]!= -1) {
+            System.out.println("Blue damage :" + playerBoard[3]);
+            System.out.println("Green damage :" + playerBoard[4]);
+            System.out.println("Grey damage :" + playerBoard[5]);
+            System.out.println("Violet damage :" + playerBoard[6]);
+            System.out.println("Yellow damage :" + playerBoard[7]);
+            System.out.println("Blue mark :" + playerBoard[8]);
+            System.out.println("Green mark :" + playerBoard[9]);
+            System.out.println("Grey mark :" + playerBoard[10]);
+            System.out.println("Violet mark :" + playerBoard[11]);
+            System.out.println("Yellow mark :" + playerBoard[12]);
+        }
 
     }
 
@@ -142,7 +140,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             movement[i][0] = insertSingleCoordinate(2);
 
             if(movement[i][0] != -1)
-                movement[i+1][0] = insertSingleCoordinate(3);
+                movement[i][1] = insertSingleCoordinate(3);
             else
                 end = true;
 
@@ -156,10 +154,15 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         return movement;
     }
 
-    public void insertPayment(int[] payment){
+    public int[] insertPayment(int[] payment){
         boolean endInsertment = false;
         Scanner input = new Scanner(System.in);
         String tmp ;
+        int[] realPayment = new int[payment.length];
+
+        for(int i = 0 ; i < payment.length; i++){
+            realPayment[i] = -1;
+        }
         if(powerUpCard!= null)
             System.out.println("you can pay both with power up or with cubes");
         if(payment[0] != 0){
@@ -167,7 +170,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     System.out.println("Insert the number of blue cubes. Press 0 not to pay with cubes");
                     tmp = input.next();
                     if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[0]) {
-                        payment[0] = Integer.parseInt(tmp);
+                        realPayment[0] = Integer.parseInt(tmp);
                         endInsertment = true;
                     }
                 }while(!endInsertment);
@@ -178,7 +181,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     System.out.println("Insert the number of red cubes.  Press 0 not to pay with cubes");
                     tmp = input.next();
                     if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[1]) {
-                        payment[1] = Integer.parseInt(tmp);
+                        realPayment[1] = Integer.parseInt(tmp);
                         endInsertment = true;
                     }
                 }while(!endInsertment);
@@ -191,7 +194,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     System.out.println("Insert the number of yellow cubes. Press 0 not to pay with cubes ");
                     tmp = input.next();
                     if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[2]) {
-                        payment[2] = Integer.parseInt(tmp);
+                        realPayment[2] = Integer.parseInt(tmp);
                         endInsertment = true;
                     }
                 }while(!endInsertment);
@@ -204,7 +207,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 System.out.println("Insert " + i + " if you want to pay with this power up card, otherwise press -1");
                 tmp = input.next();
                 if (Integer.parseInt(tmp) >= 3 && Integer.parseInt(tmp) <= payment.length) {
-                    payment[Integer.parseInt(tmp)] = Integer.parseInt(tmp);
+                    realPayment[Integer.parseInt(tmp)] = 1;
                     i++;
                 }
                 if(i ==  payment.length)
@@ -213,6 +216,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     endInsertment = true;
             }while(!endInsertment);
         }
+        return  realPayment;
     }
 
     @Override
@@ -221,6 +225,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         boolean endInsertment = false;
         int index = 0;
         Scanner input = new Scanner(System.in);
+        if(useWeaponCardMessage.getError()!= null)
+            System.out.println(useWeaponCardMessage.getError());
         do{
             System.out.println("choose one of the following weapon card");
             for(int i = 0 ; i < weaponCard.length; i ++){
@@ -240,46 +246,62 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         }while(!endInsertment);
 
         String tmp;
-        int[][] coordinates = null;
+        int cardIndex = index;
         int numMaxEffect = useWeaponCardMessage.getFeaturesForEffect()[index][0];
-        int[][] payment = new int[numMaxEffect][useWeaponCardMessage.getFeaturesAvailable().length];
-        int[][] peopleToBeShoot = new int[numMaxEffect][useWeaponCardMessage.getFeaturesForEffect()[index][1]];
-        endInsertment = false;
+        int[][] peopleToBeShoot = new int[3][useWeaponCardMessage.getFeaturesForEffect()[index][1]];
+        int[][] coordinates =  new int[3][useWeaponCardMessage.getFeaturesForEffect()[index][2]];
+        int[][] payment = new int[3][useWeaponCardMessage.getFeaturesAvailable().length];
 
         //first index -> maxEffect
 
-        int[][] playersToAttack = new int[numMaxEffect][useWeaponCardMessage.getPlayersToAttack().length];
-
+        int[][] playersToAttack = new int[3][useWeaponCardMessage.getPlayersToAttack().length];
+        int[] effectUsed = new int[3];
         int i = 0;
 
         endInsertment = false;
         boolean endChoice = false;
         do {
             do {
-                System.out.println("insert the effect you want to use  :");
+                System.out.println("insert the number of the effect you want to use or -1 to exit:");
                 tmp = input.next();
 
                 if(Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp)<=numMaxEffect){
                     index = Integer.parseInt(tmp);
+                    effectUsed[i] = index;
+                    i++;
                     endChoice = true;
                 }
+                else if(Integer.parseInt(tmp) == -1){
+                    endChoice = true;
+                }
+
             }while(!endChoice);
 
-            if(useWeaponCardMessage.getFeaturesForEffect()[index][1]!= 0){
-                coordinates[index] = insertCoordinatesVector(useWeaponCardMessage.getFeaturesForEffect()[index][1]);
+            if(Integer.parseInt(tmp) == -1) {
+                //setto tutto a null
+                endInsertment = true;
+            }
+            else {
+                if (useWeaponCardMessage.getFeaturesForEffect()[cardIndex][1] != 0) {
+                    coordinates[index] = insertCoordinatesVector(useWeaponCardMessage.getFeaturesForEffect()[cardIndex][1]);
+                }
+
+                if (useWeaponCardMessage.getFeaturesForEffect()[cardIndex][2] != 0) {
+                    //inseert people
+                }
             }
 
-            if(useWeaponCardMessage.getFeaturesForEffect()[index][2]!=0){
-                //inseert people
-            }
-            payment[index] = featuresAvailable;
+            if(i == numMaxEffect)
+                endInsertment = true;
+            payment[index] = featuresAvailable.clone();
             insertPayment(payment[index]);
 
             endChoice = false;
 
         }while(!endInsertment);
 
-        UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer,index);
+        UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer,cardIndex);
+        useWeaponCard.setEffectUsed(effectUsed);
         useWeaponCard.setHandleEffectCoordinates(coordinates);
         useWeaponCard.setHandleEffectPayment(payment);
         useWeaponCard.setPeopleToBeShoot(peopleToBeShoot);
@@ -287,7 +309,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     }
 
-    public void startView() {
+    public void visitStartView(StartMessage startMessage) {
 
         Scanner input = new Scanner(System.in);
         String phrase;
@@ -295,7 +317,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         phrase = input.nextLine();
 
         actionHero = phrase;
-
+        nicknamePlayer = startMessage.getNicknamePlayer();
         notifyObservers(new FirstMessage(this, nicknamePlayer, phrase));
     }
 
@@ -362,20 +384,24 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         do {
             System.out.println("choose one of the following PowerUp Card :");
 
-
-            for(InterfacePowerUpCard powerUpCard : choicePowerUpCard.getPowerUpCards())
-                System.out.println(powerUpCard.getPowerUpCardRepresentation());
+            int i = 0;
+            for(String powerUp : choicePowerUpCard.getDescriptionPowerUp()){
+                System.out.println("press " + i + " to select the following power up :");
+                System.out.println(powerUp);
+                i++;
+            }
 
             tmpCardChoosen = input.nextLine();
 
             cardChoosen = Integer.parseInt(tmpCardChoosen);
 
-            if (cardChoosen >= 0 && cardChoosen < choicePowerUpCard.getPowerUpCards().size())
+            //eventually see if it's correct
+            if (cardChoosen >= 0 && cardChoosen < choicePowerUpCard.getDescriptionPowerUp().length)
                 inputOk = true;
 
         } while (!inputOk);
 
-        notifyObservers(new PowerUpChoice(nicknamePlayer, choicePowerUpCard.getPowerUpCards().get(cardChoosen).getIdPowerUpCard()));
+        notifyObservers(new PowerUpChoice(nicknamePlayer,cardChoosen));
 
     }
 
@@ -427,46 +453,42 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         boolean inputOk = false;
 
         int[] features = new int[3];
-        ArrayList<InterfacePowerUpCard> powerUpCards = new ArrayList<>();
         int[] payment = featuresAvailable.clone();
-        do{
-        System.out.println("choose one of the following PowerUp Card : ");
+        if(usePowerUpCardMessage.getStateGame() == 0) {
+            do {
+                System.out.println("choose one of the following PowerUp Card : ");
 
-        for (InterfacePowerUpCard powerUpCard : usePowerUpCardMessage.getPowerUpCard())
-            System.out.println(powerUpCard.getPowerUpCardRepresentation());
+                for (String powerUpCard : powerUpCard)
+                    System.out.println(powerUpCard);
 
-        tmpCardChoosen = input.nextLine();
+                tmpCardChoosen = input.nextLine();
 
-        cardChoosen = Integer.parseInt(tmpCardChoosen);
+                cardChoosen = Integer.parseInt(tmpCardChoosen);
 
-        if (cardChoosen >= 0 && cardChoosen < usePowerUpCardMessage.getPowerUpCard().size())
-            inputOk = true;
+                if (cardChoosen >= 0 && cardChoosen < powerUpCard.length)
+                    inputOk = true;
 
-        } while (!inputOk);
+            } while (!inputOk);
 
-        System.out.println("the effect of the card is:");
-        System.out.println(usePowerUpCardMessage.getPowerUpCard().get(cardChoosen).infoEffect());
+            System.out.println("the effect of the card is:");
+            System.out.println(powerUpCard);
 
-        insertPayment(payment);
-        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer,usePowerUpCardMessage.getPowerUpCard().get(cardChoosen));
-        usePowerUpCard.setCubes(features);
-        usePowerUpCard.setPowerUpCardInterfaces(powerUpCards);
 
-        switch (usePowerUpCardMessage.getPowerUpCard().get(cardChoosen).getName()) {
-            case "Newton": {
-                System.out.println("move another player :");
-                usePowerUpCard.setCoordinates(insertCoordinates(2));
+            UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer);
+            usePowerUpCard.setCubes(features);
+
+            for (int i = 0; i < usePowerUpCardMessage.getStateCard().length; i++) {
+                if (usePowerUpCardMessage.getStateCard()[i]) {
+
+                }
             }
-                break;
-            case "Teleporter": {
-                System.out.println("move yourself");
-                usePowerUpCard.setCoordinates(insertCoordinates(1));
-                break;
-            }
-            //attack e defend!
         }
 
-        notifyObservers(usePowerUpCard);
+            insertPayment(payment);
+            //attack e defend!
+       // }
+
+        //notifyObservers(usePowerUpCard);
     }
 
     @Override
@@ -482,19 +504,35 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     public void visitUpdateView(UpdateMessage updateMessage) {
 
         playerBoard = updateMessage.getPlayersDescription()[index];
-        //featuresAvailable = updateMessage.getFeaturesAvailable()[index];
+        featuresAvailable = updateMessage.getFeaturesOfPlayersAvailable()[index];
         weaponCard = updateMessage.getWeaponCardDescription()[index];
         powerUpCard = updateMessage.getPowerUpCardDescription()[index];
         gameBoard = updateMessage.getGameBoardDescription();
-        //print di tutto
-        System.out.println("end turn of " + updateMessage.getNicknamePlayer());
+
+        System.out.println(updateMessage.getGameBoardDescription());
+        System.out.println("x coordinate :" + playerBoard[1]);
+        System.out.println("x coordinate :" + playerBoard[2]);
+
+        printStatus();
+        if(weaponCard!= null) {
+            for (int i = 0; i < weaponCard.length; i++)
+                System.out.println(weaponCard[i]);
+         }
+        if(powerUpCard!= null) {
+            for (int i = 0; i < powerUpCard.length; i++)
+                System.out.println(powerUpCard[i]);
+        }
+
+
+        //for(int i = 0; i < gameBoard.length(); i ++)
+            //System.out.println(gameBoard.length());
     }
 
     @Override
     public void visitRun(RunMessage runMessage) {
         int[][] tmpMovement;
-
-        //System.out.println(runMessage.getNumMovement());
+        if(runMessage.getError() != null)
+            System.out.println(runMessage.getError());
         tmpMovement = insertCoordinates(runMessage.getNumMovement());
 
         notifyObservers(new RunMove(nicknamePlayer, tmpMovement));
@@ -528,10 +566,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
             //System.out.println("weaponCard :" + grabMessage.getWeaponCardAvailable().size() + "power up :" + grabMessage.getYourPowerUpCard().size());
 
-            System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[i]);
-            insertPayment(grabMessage.getFeaturesAvailable());
+            System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[positionWeaponCard]);
             grabMove.setPositionWeaponCard(positionWeaponCard);
-            grabMove.setPayment(grabMessage.getFeaturesAvailable());
+            grabMove.setPayment(insertPayment(grabMessage.getFeaturesAvailable()));
         }
 
         notifyObservers(grabMove);
@@ -540,7 +577,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitReload(ReloadMessage reloadMessage) {
-
 
         Scanner input = new Scanner(System.in);
         for(int i = 0; i < weaponCard.length;i++){
@@ -554,9 +590,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         int[][] payment = new int[reloadMessage.getWeaponYouCanReload().length][2];
 
-        int[] tmpWeaponCard = reloadMessage.getWeaponYouCanReload().clone();
+        int[] tmpWeaponCard = reloadMessage.getWeaponYouCanReload();
 
-        for (int i = 0; i < reloadMessage.getFeaturesAvailable().length; i++) {
+        for (int i = 0; i < reloadMessage.getWeaponYouCanReload().length; i++) {
             if (reloadMessage.getWeaponYouCanReload()[i] == 1) {
                 do {
                     System.out.println("Insert Y if you want to reload the following weapon card, otherwise insert N");
@@ -564,13 +600,13 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
                     tmpChoice = input.next();
 
-                    if (tmpChoice.compareTo("Y") > 0 || tmpChoice.compareTo("N") > 0)
+                    if (tmpChoice.compareTo("Y") == 0 || tmpChoice.compareTo("N") == 0)
                         inputOk = true;
 
                 } while (!inputOk);
 
-                if (tmpChoice.compareTo("Y") > 0) {
-                    payment[i] = featuresAvailable.clone();
+                if (tmpChoice.compareTo("Y") == 0) {
+                    payment[i] = featuresAvailable;
                     insertPayment(payment[i]);
                 }
             }
