@@ -79,7 +79,7 @@ public class Client {
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname, cliView);
+                serverInterface.registerNewClient(socket, nickname);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
