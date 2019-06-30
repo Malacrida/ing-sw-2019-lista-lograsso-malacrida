@@ -29,18 +29,37 @@ public class PlayerBoard{
     private String[][] tmp;
     private String playerBoardRepresentation;
 
+    /**
+     * method to see how much damage has one player
+     * @return
+     */
 
     public int numOfDamages (){
         return damageTokens.size();
     }
 
+    /**
+     * if is in frenzy game
+     * @return
+     */
+
     public boolean isFrenzy() {
         return frenzy;
     }
 
+    /**
+     * set frenzy player board
+     * @param frenzy
+     */
+
     public void setFrenzy(boolean frenzy) {
         this.frenzy = frenzy;
     }
+
+    /**
+     * inizialize player board
+     * @param color
+     */
 
     public PlayerBoard(ColorPlayer color){
 
@@ -54,17 +73,35 @@ public class PlayerBoard{
 
     }
 
+    /**
+     * getter of player board's color
+     * @return color
+     */
+
     public ColorPlayer getColor() {
         return color;
     }
 
+    /**
+     * number of red cubes on player board
+     * @return number of red cubes
+     */
+
     public int numOfRedCubes (){
         return redCubes.size();
     }
+    /**
+     * number of blue cubes on player board
+     * @return number of blue cubes
+     */
 
     public int numOfBlueCubes (){
         return blueCubes.size();
     }
+    /**
+     * number of yellow cubes on player board
+     * @return number of yellow cubes
+     */
 
     public int numOfYellowCubes (){
         return yellowCubes.size();
@@ -251,8 +288,6 @@ public class PlayerBoard{
         }
     }
 
-
-
     public int getPlayerSkulls() {
         return playerSkulls;
     }
@@ -262,6 +297,11 @@ public class PlayerBoard{
     }
 
 
+    /**
+     * getter of number of marks of one color
+     * @param colorPlayer marks' color
+     * @return number of marks
+     */
 
     //numero di marchi di un tipo di colore posseduti dal player
     public int numOfMarkOfOneColor (ColorPlayer colorPlayer){
@@ -274,6 +314,12 @@ public class PlayerBoard{
         return cont;
     }
 
+    /**
+     * getter of number of damages of one color
+     * @param colorPlayer damages' color
+     * @return number of damage
+     */
+
     // numero danni di quel colore
     public int numOfDamagesOfOneColor (ColorPlayer colorPlayer){
         int cont=0;
@@ -285,6 +331,11 @@ public class PlayerBoard{
         return cont;
     }
 
+    /**
+     * list of type colors of mark on player board
+     * @return type colors
+     */
+
     public ArrayList<ColorPlayer> listOfColorMark(){
         ArrayList<ColorPlayer> colorMark = new ArrayList<>();
         for (int i=0; i<markTokens.size(); i++){
@@ -294,6 +345,11 @@ public class PlayerBoard{
         }
         return colorMark;
     }
+
+    /**
+     * list of type colors of damage on player board
+     * @return
+     */
 
     public ArrayList<ColorPlayer> listOfColorDamage (){
         ArrayList<ColorPlayer> colorDamage = new ArrayList<>();
@@ -305,11 +361,23 @@ public class PlayerBoard{
         return colorDamage;
     }
 
+    /**
+     * remove marks of one color
+     * @param colorPlayer
+     */
+
     //rimzione dei marchi di un colore posseduti dal player
     public void removeMarkOfOneColor (ColorPlayer colorPlayer){
         markTokens.removeIf(markToken -> markToken==colorPlayer);
 
     }
+
+    /**
+     *
+     * @param colorPlayer
+     * @param numberOfDamage
+     * @throws DamageTrackException
+     */
 
     //Aggiungere i danni al giocatore
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
