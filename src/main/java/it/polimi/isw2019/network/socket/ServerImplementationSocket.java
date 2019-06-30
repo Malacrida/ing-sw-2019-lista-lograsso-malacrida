@@ -6,6 +6,8 @@ import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 //import sun.plugin2.message.HeartbeatMessage;
 
@@ -23,7 +25,8 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     private ObjectOutputStream output;
     private MoveMessage moveMessage;
     private String message;
-
+    private VirtualViewVisitorInterface virtualViewVisitorInterface = new VirtualViewSocket(this);
+    private CLIView view;
 
     public ServerImplementationSocket(Socket socket) throws IOException {
         this.socket = socket;
@@ -33,18 +36,23 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
         }
 
-       /* @Override
+        @Override
         public void run(){
             try{
-                while (null != moveMessage = (MoveMessage) input.readObject())
+                while (null != (moveMessage = (MoveMessage) input.readObject())){
+                    moveMessage.accept(virtualViewVisitorInterface);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        }*/
+        }
 
     @Override
     public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
         String actionHero = "MANNAIA LA PUTTANA";
         FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
         write(firstMessage);
+        this.start();
     }
 
     @Override

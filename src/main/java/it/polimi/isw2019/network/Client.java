@@ -26,7 +26,7 @@ public class Client {
 
     private static ServerInterface serverRmi;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, RemoteException {
 
         InetAddress ip;
         if (args.length == 0) ip = InetAddress.getByName(null);
@@ -106,33 +106,41 @@ public class Client {
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
-            startView(nickname);
+            startView(nickname, typeServer);
         }
 
 
     }
 
 
-    private static void startView (String nickname){
+    private static void startView (String nickname, int typeServer) throws RemoteException {
         CLIView view = new CLIView(nickname);
-        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
+        if (typeServer == 0){
+            //Socket
 
-        try {
-            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            serverRmi.registerNewClient(remoteClient, nickname, view);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        System.out.println("registrazione completata");
+        else if (typeServer == 1){
+            NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
+
+            try {
+                ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+                serverRmi.registerNewClient(remoteClient, nickname, view);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("registrazione completata");
+            view.registerObserver(networkHandler);
+            networkHandler.registerObserver(view);
+        }
 
 
-        view.registerObserver(networkHandler);
-        networkHandler.registerObserver(view);
 
-      //  view.startView();
+
+
+        //view.startView();
     }
 
 }

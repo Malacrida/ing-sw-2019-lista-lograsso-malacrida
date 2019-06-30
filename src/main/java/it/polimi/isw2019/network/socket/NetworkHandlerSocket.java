@@ -1,9 +1,12 @@
 package it.polimi.isw2019.network.socket;
 
-import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.EndRegistration;
+import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualView;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
@@ -43,6 +46,9 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
     @Override
     public void sendRegisterPlayer(FirstMessage firstMessage) {
         System.out.println("HO FATTO FINTA DI REGISTRARE IL PLAYER NELLA LOBBY");
+        EndRegistration endRegistration = new EndRegistration(firstMessage.getPlayer());
+        endRegistration.setNotifyAll(true);
+        notifyObservers(endRegistration);
     }
 
     @Override

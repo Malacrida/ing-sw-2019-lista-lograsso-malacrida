@@ -1,11 +1,13 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.message.movemessage.EndRegistration;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.model.GameBoardInterface;
 import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.Lobby;
+import it.polimi.isw2019.network.Server;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
@@ -58,6 +60,7 @@ public class ClientSocket extends Thread implements ClientInterface {
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
                 Runnable task = () -> {
                     playerMove.accept(networkHandlerVisitorInterface);
+                    System.out.println("Prendo la playermove");
                 };
                 Thread thread = new Thread(task);
                 thread.start();
@@ -69,6 +72,10 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.printStackTrace();
         }
     }
+
+    /*public void addClietToLobby(String nickname, ){
+        lobby.addClientConnected()
+    }*/
 
     @Override
     public void startViewClient() throws RemoteException {
@@ -143,7 +150,7 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
-
+        EndRegistration endRegistration = new EndRegistration(nicknamePlayer);
     }
 
     @Override
