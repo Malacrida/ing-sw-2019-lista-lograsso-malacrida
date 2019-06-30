@@ -57,7 +57,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             thread.start();
 
             System.out.println("Provo a inviare la player move");
-            //clientHandlerSocket(newConnection);
+            clientHandlerSocket(newConnection);
 
             ClientSocket cs = new ClientSocket(newConnection, output, input);
             cs.start();
@@ -68,10 +68,10 @@ public class GathererSocket implements Runnable, GathererInterface {
 
     }
 
-    /*private void clientHandlerSocket(Socket connection) throws IOException {
-        ObjectOutputStream output;
-        ObjectInputStream input;
-        ClientInterface newClientInterface = new ClientSocket(connection);
+    private void clientHandlerSocket(Socket connection) throws IOException {
+        ObjectOutputStream output = new ObjectOutputStream(connection.getOutputStream());
+        ObjectInputStream input = new ObjectInputStream(connection.getInputStream());
+        ClientInterface newClientInterface = new ClientSocket(connection, output, input);
 
 
         try{
@@ -98,7 +98,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             e.getCause();
         }
 
-    }*/
+    }
 
     @Override
     public void setLobby(Lobby lobby) {

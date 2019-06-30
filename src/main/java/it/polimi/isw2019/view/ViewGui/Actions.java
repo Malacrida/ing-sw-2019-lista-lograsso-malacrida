@@ -28,16 +28,16 @@ public class Actions {
         reload.setLocation(100,20);
 
         run.setActionCommand("run");
-        run.addActionListener(new SceenRun.CustomActionListener());
+        run.addActionListener(new ViewGui.CustomActionListener());
 
         grab.setActionCommand("grab");
-        grab.addActionListener(new SceenRun.CustomActionListener());
+        grab.addActionListener(new ViewGui.CustomActionListener());
 
         shoot.setActionCommand("shoot");
-        shoot.addActionListener(new SceenRun.CustomActionListener());
+        shoot.addActionListener(new ViewGui.CustomActionListener());
 
         reload.setActionCommand("reload");
-        reload.addActionListener(new SceenRun.CustomActionListener());
+        reload.addActionListener(new ViewGui.CustomActionListener());
 
 
         panel.add(run);

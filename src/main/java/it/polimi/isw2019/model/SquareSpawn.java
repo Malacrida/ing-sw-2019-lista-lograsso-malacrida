@@ -13,6 +13,12 @@ public class SquareSpawn extends Square {
         weaponCards =  new AbstractWeaponCard[3];
     }
 
+    /**
+     * method to see if there are all weapon card on that square
+     * @param weaponCard
+     * @return boolean
+     */
+
     @Override
     public boolean containsWeapon (AbstractWeaponCard weaponCard){
         for (int i=0; i<3; i++){
@@ -21,6 +27,10 @@ public class SquareSpawn extends Square {
         return false;
     }
 
+    /**
+     * method to take a wepon card
+     * @param weaponCard
+     */
     @Override
     public void takeWeapon (AbstractWeaponCard weaponCard){
         for (int i=0; i<3; i++){
@@ -31,10 +41,20 @@ public class SquareSpawn extends Square {
         }
     }
 
+    /**
+     * getter weapon cards' list
+     * @return
+     */
+
     @Override
     public AbstractWeaponCard[] getWeaponCards() {
         return weaponCards;
     }
+
+    /**
+     * method to count weapon cards
+     * @return number of weapon cards
+     */
 
     public int numOfWeaponCards(){
         int cont =0;
@@ -44,11 +64,20 @@ public class SquareSpawn extends Square {
         return cont;
     }
 
+    /**
+     * setter of weapon cards
+     * @param weaponCards
+     */
 
     @Override
     public void setWeaponCards(AbstractWeaponCard[] weaponCards) {
         this.weaponCards=weaponCards;
     }
+
+    /**
+     * insert new weapon card
+     * @param weaponCard
+     */
 
     @Override
     public void putNewWeaponCard(AbstractWeaponCard weaponCard) {

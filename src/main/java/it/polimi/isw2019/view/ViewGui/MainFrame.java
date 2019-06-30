@@ -47,18 +47,10 @@ public class MainFrame {
         panel.add(label);
     }
 
-    public void setPanelAction(int numPanel){
-        JPanel actualPanel;
-        switch (numPanel){
-            case 0:
-                actualPanel=panelRun;
-                break;
-            default:
-                actualPanel=panelDisabled;
-        }
+    public void setPanelAction(){
 
         frame.invalidate();
-        frame.remove(actualPanel);
+        frame.remove(panel);
         frame.add(panelAction);
         frame.revalidate();
         frame.setVisible(true);
@@ -66,6 +58,7 @@ public class MainFrame {
     }
 
     public void setPanelShoot(){
+        panel = new JPanel();
         WeaponCardBotton weaponCardBotton = new WeaponCardBotton();
         panelShoot = weaponCardBotton.setPannelWeaponCards();
     }
@@ -75,13 +68,14 @@ public class MainFrame {
         frame.invalidate();
         frame.remove(panelAction);
         setPanelShoot();
-        frame.add(panelShoot);
+        frame.add(panel);
         frame.revalidate();
         frame.setVisible(true);
         frame.repaint();
     }
 
     public void setPanelRun (){
+        panel = new JPanel();
         RunAndGrabBotton runButton = new RunAndGrabBotton();
         panel=runButton.setRunButton();
     }
@@ -98,6 +92,7 @@ public class MainFrame {
     }
 
     public void setPanelGrab (){
+        panel = new JPanel();
         RunAndGrabBotton grabBotton = new RunAndGrabBotton();
         panelRun=grabBotton.setGrab();
     }
@@ -106,8 +101,8 @@ public class MainFrame {
 
         frame.invalidate();
         frame.remove(panelAction);
-        setPanelRun();
-        frame.add(panelRun);
+        setPanelGrab();
+        frame.add(panel);
         frame.revalidate();
         frame.setVisible(true);
         frame.repaint();

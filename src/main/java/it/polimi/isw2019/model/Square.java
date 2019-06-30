@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * Abstract class who represents the general squares
- * @author Sara Malacrida
  */
 
 public abstract class Square{
@@ -35,7 +34,7 @@ public abstract class Square{
 
 
     /**
-     *
+     * setter of squares
      * @param squareN reference to the north cell
      * @param squareE reference to the east cell
      * @param squareS reference to the south cell

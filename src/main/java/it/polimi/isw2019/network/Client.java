@@ -24,7 +24,7 @@ public class Client {
 
     private static ServerInterface serverRmi;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, RemoteException {
 
         InetAddress ip;
         if (args.length == 0) ip = InetAddress.getByName(null);
@@ -72,12 +72,14 @@ public class Client {
             System.out.println("Starting SOCKET");
 
             try {
+                CLIView cliView = new CLIView(nickname);
+
                 Socket socket = new Socket("localhost", 1111);
                 System.out.println("new Socket");
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname);
+                serverInterface.registerNewClient(socket, nickname, cliView);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -128,7 +130,7 @@ public class Client {
         view.registerObserver(networkHandler);
         networkHandler.registerObserver(view);
 
-        //  view.startView();
+      //  view.startView();
     }
 
 }

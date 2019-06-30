@@ -2,9 +2,11 @@ package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
+import it.polimi.isw2019.model.exception.InstanceArenaException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
+import it.polimi.isw2019.utilities.Database;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +32,7 @@ public class GameBoardTest {
     AbstractWeaponCard anotherWeaponCard;
     ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
 
+
     AmmoTile ammoTile;
     ArrayList<AmmoTile> ammoTiles= new ArrayList<>();
 
@@ -41,8 +44,6 @@ public class GameBoardTest {
     @Before
     public void setUp() throws Exception {
 
-        gameBoard= new GameBoard();
-        gameBoard.chooseArena(4);
 
         weaponCard1= new Electroscythe();
         weaponCard2= new GrenadeLauncher();
@@ -65,27 +66,19 @@ public class GameBoardTest {
         weaponCards.add(weaponCard8);
         weaponCards.add(weaponCard9);
 
-        /*
-        weaponCards[0]= weaponCard1;
-        weaponCards[1]= weaponCard2;
-        weaponCards[2]= weaponCard3;
-        weaponCards[3]= weaponCard4;
-        weaponCards[4]= weaponCard5;
-        weaponCards[5]= weaponCard6;
-        weaponCards[6]= weaponCard7;
-        weaponCards[7]= weaponCard8;
-        weaponCards[8]= weaponCard9;
-         */
+        try {
+            gameBoard = new GameBoard();
+            Database db = new Database();
+            gameBoard.chooseArena(4);
+            gameBoard.setPowerUpCards(db.loadPowerUpCards());
+            gameBoard.setAmmoTiles(db.loadAmmoTiles());
+            gameBoard.setWeaponCardsOnBoard();
+            gameBoard.setUpAmmoTileOnArena(4);
 
+        } catch (OutOfBoundsException e) {
 
-        ammoTile=new AmmoTile(1, null,null,null);
+        } catch(InstanceArenaException e) {
 
-        for (int i=0; i<12; i++){
-            ammoTiles.add(ammoTile);
-        }
-
-        for (int i=0; i <26; i++){
-            powerUpCards.add(powerUpCard);
         }
 
         player = new Player("name", "Comment", 1);
@@ -211,6 +204,8 @@ public class GameBoardTest {
 
     @Test
     public void testSetUpAmmoTileOnArena() {
+        //fare una nuova gameboard istanziare le ammo e vedere quante ne rimangono
+
         gameBoard.setAmmoTiles(ammoTiles);
 
 
