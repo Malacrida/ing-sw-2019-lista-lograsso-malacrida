@@ -1,12 +1,8 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.model.PlayerInterface;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
-import java.util.ArrayList;
 
 public class UseWeaponCard extends PlayerMove {
 
@@ -18,11 +14,19 @@ public class UseWeaponCard extends PlayerMove {
 
     private int[][] handleEffectPayment;
 
-    private PlayerInterface[][] peopleToBeShoot;
+    private int[][] peopleToBeShoot;
 
     public UseWeaponCard(String idPlayer, int weaponCard){
         super(idPlayer);
         this.weaponCard = weaponCard;
+    }
+
+    public UseWeaponCard(String idPlayer, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot){
+        super(idPlayer);
+        this.weaponCard = weaponCard;
+        this.effectUsed = effectUsed;
+        this.handleEffectCoordinates = handleEffectCoordinates;
+        this.peopleToBeShoot = peopleToBeShoot;
     }
 
     public int getWeaponCard() {
@@ -57,11 +61,11 @@ public class UseWeaponCard extends PlayerMove {
         this.handleEffectPayment = handleEffectPayment;
     }
 
-    public PlayerInterface[][] getPeopleToBeShoot() {
+    public int[][] getPeopleToBeShoot() {
         return peopleToBeShoot;
     }
 
-    public void setPeopleToBeShoot(PlayerInterface[][] peopleToBeShoot) {
+    public void setPeopleToBeShoot(int[][] peopleToBeShoot) {
         this.peopleToBeShoot = peopleToBeShoot;
     }
 

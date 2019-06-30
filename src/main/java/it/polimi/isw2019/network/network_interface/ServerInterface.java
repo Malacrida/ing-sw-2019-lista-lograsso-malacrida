@@ -2,8 +2,7 @@ package it.polimi.isw2019.network.network_interface;
 
 //import sun.plugin2.message.HeartbeatMessage;
 
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import it.polimi.isw2019.view.CLIView;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -14,7 +13,7 @@ public interface ServerInterface<T> extends Remote {
 
     //notify
 
-    public void registerNewClient(T client, String nickname) throws IOException,RemoteException;
+    public void registerNewClient(T client, String nickname, CLIView view) throws IOException,RemoteException;
 
     public void write(Object object) throws IOException,RemoteException;
 
@@ -38,9 +37,9 @@ public interface ServerInterface<T> extends Remote {
 
     void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException;
 
-    void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException;
+    void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException;
 
-    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException;
+    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards*/ boolean grab) throws RemoteException;
 
     void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException;
 }

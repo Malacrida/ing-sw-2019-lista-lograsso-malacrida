@@ -1,8 +1,12 @@
 package it.polimi.isw2019.network.socket;
 
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
+import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
+import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
+import it.polimi.isw2019.view.CLIView;
 //import sun.plugin2.message.HeartbeatMessage;
 
 import java.io.IOException;
@@ -17,27 +21,36 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private MoveMessage moveMessage;
     private String message;
-
+    private VirtualViewVisitorInterface virtualViewVisitorInterface = new VirtualViewSocket(this);
+    private CLIView view;
 
     public ServerImplementationSocket(Socket socket) throws IOException {
         this.socket = socket;
-        System.out.println("this.socket");
-
-            output = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("output");
-            input = new ObjectInputStream(socket.getInputStream());
-            System.out.println("input");
+        output = new ObjectOutputStream(socket.getOutputStream());
+        input = new ObjectInputStream(socket.getInputStream());
 
 
         }
 
+        @Override
+        public void run(){
+            try{
+                while (null != (moveMessage = (MoveMessage) input.readObject())){
+                    moveMessage.accept(virtualViewVisitorInterface);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
     @Override
-    public void registerNewClient(Socket client, String nickname) throws IOException {
-        System.out.println("Si è registrato " + nickname);
-        write(nickname);
-
+    public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
+        String actionHero = "MANNAIA LA PUTTANA";
+        FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
+        write(firstMessage);
+        this.start();
     }
 
     @Override
@@ -98,12 +111,12 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) throws RemoteException {
+    public void receiveUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException {
 
     }
 
     @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) throws RemoteException {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) throws RemoteException {
 
     }
 
@@ -111,6 +124,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException {
 
     }
+
 
 
 

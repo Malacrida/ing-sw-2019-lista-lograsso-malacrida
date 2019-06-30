@@ -21,13 +21,29 @@ public class KillShotTrack {
 
     }
 
+    /**
+     * getter of number of skulls on kill shot track
+     * @return number of skulls
+     */
+
     public int getNumSkull() {
         return numSkull;
     }
 
+    /**
+     * boolean to see if is in frenzy mode
+     * @return boolean
+     */
+
     public boolean isFinalFrenzy() {
         return finalFrenzy;
     }
+
+    /**
+     *
+     * @param colorPlayer
+     * @param num
+     */
 
     public void killPlayer (ColorPlayer colorPlayer, int num) {
         if (num==11){

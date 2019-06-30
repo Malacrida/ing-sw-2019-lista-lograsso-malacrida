@@ -44,8 +44,6 @@ public class Lobby implements LobbyInterface {
     }
 
 
-
-
     @Override
     public void run() {
         while (lobbyIsRunning) {

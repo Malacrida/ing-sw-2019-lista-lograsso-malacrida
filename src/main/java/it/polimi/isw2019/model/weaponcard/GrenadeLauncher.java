@@ -19,6 +19,8 @@ public class GrenadeLauncher extends AbstractWeaponCard {
         this.infoEffect[3] = "NOTE : For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.\n";
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.RED;
+        this.paySecondEffect = new ColorCube[1];
+        this.paySecondEffect[0] = ColorCube.RED;
         setWeaponCardDescription();
     }
 

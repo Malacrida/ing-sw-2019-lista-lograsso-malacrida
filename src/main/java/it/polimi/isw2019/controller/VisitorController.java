@@ -7,8 +7,6 @@ import it.polimi.isw2019.model.exception.EndSingleAction;
 
 public interface VisitorController {
 
-    void visitControllerSetUpPlayer(SetUpMove setUpMove);
-
     void chooseMap(ChooseMapMove chooseMapMove);
 
     void visitControllerActionChoose(ChooseActionMove chooseActionMove);

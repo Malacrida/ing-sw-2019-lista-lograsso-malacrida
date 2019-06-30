@@ -1,5 +1,6 @@
 package it.polimi.isw2019.network.socket;
 
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
@@ -19,6 +20,7 @@ public class GathererSocket implements Runnable, GathererInterface {
     private final int serverPort;
     private Lobby lobby;
     private ServerSocket serverSocket;
+    private FirstMessage firstMessage;
 
     private static final Logger LOGGER = Logger.getLogger(GathererSocket.class.getName());
 
@@ -41,17 +43,24 @@ public class GathererSocket implements Runnable, GathererInterface {
         Socket newConnection = null;
         ClientInterface newClient;
         ObjectOutputStream output;
+        ObjectInputStream input;
 
         try {
             newConnection = serverSocket.accept();
             output = new ObjectOutputStream(newConnection.getOutputStream());
-            LOGGER.info("output: " + output);
+            input = new ObjectInputStream(newConnection.getInputStream());
+            //LOGGER.info("output: " + output);
 
+            System.out.println("Istanzio un nuovo thread");
             /*Istanzio un nuovo Thread*/
             Thread thread = new Thread(this);
             thread.start();
 
+            System.out.println("Provo a inviare la player move");
             clientHandlerSocket(newConnection);
+
+            ClientSocket cs = new ClientSocket(newConnection, output, input);
+            cs.start();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,9 +69,10 @@ public class GathererSocket implements Runnable, GathererInterface {
     }
 
     private void clientHandlerSocket(Socket connection) throws IOException {
-        ObjectOutputStream output;
-        ObjectInputStream input;
-        ClientInterface newClientInterface = new ClientSocket(connection);
+        ObjectOutputStream output = new ObjectOutputStream(connection.getOutputStream());
+        ObjectInputStream input = new ObjectInputStream(connection.getInputStream());
+        ClientInterface newClientInterface = new ClientSocket(connection, output, input);
+
 
         try{
 
@@ -83,7 +93,6 @@ public class GathererSocket implements Runnable, GathererInterface {
             output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
-
 
         } catch (IOException | ClassNotFoundException e) {
             e.getCause();

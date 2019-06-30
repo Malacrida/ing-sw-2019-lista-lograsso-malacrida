@@ -6,12 +6,11 @@ import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
-import it.polimi.isw2019.utilities.Database;
 
 
 import java.util.ArrayList;
 
-public class GameBoard implements GameBoardInterface{
+public class GameBoard{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
     //I colori indicano i punti di spawn
@@ -30,9 +29,11 @@ public class GameBoard implements GameBoardInterface{
 
     private Arena gameArena;
     private static GameBoard instance;
-    private KillShotTrack killShotTrack ;
+    private KillShotTrack killShotTrack;
 
     private String gameBoardDescription;
+
+    private int[][] descriptionGameBoard;
 
     public GameBoard (){
         //shuffle
@@ -58,13 +59,14 @@ public class GameBoard implements GameBoardInterface{
         weaponCards.add(new Whisper());
         weaponCards.add(new ZX_2());
 
-        gameArena= new Arena();
+        gameArena = new Arena();
 
     }
 
 
     /**
      * method to choose arena
+     *
      * @param num arena's identifier
      * @throws InstanceArenaException
      * @throws OutOfBoundsException
@@ -83,6 +85,7 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * set weapon cards
+     *
      * @param weaponCards
      */
 
@@ -92,6 +95,7 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * set power up
+     *
      * @param powerUpCards
      */
 
@@ -101,6 +105,7 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * set ammo tile
+     *
      * @param ammoTiles
      */
 
@@ -113,10 +118,10 @@ public class GameBoard implements GameBoardInterface{
      * @return deck
      */
 
-    public AbstractWeaponCard[] createDeckForSpawnSquares (){
+    public AbstractWeaponCard[] createDeckForSpawnSquares() {
         AbstractWeaponCard[] deck = new AbstractWeaponCard[3];
-        for (int i =0; i<3;i++){
-            deck[i]= weaponCards.get(0);
+        for (int i = 0; i < 3; i++) {
+            deck[i] = weaponCards.get(0);
             deck[i].changeState(StateCard.ON_BOARD);
             weaponCards.remove(0);
         }
@@ -128,55 +133,54 @@ public class GameBoard implements GameBoardInterface{
      */
 
     //settare le carte nei punti spawn
-    public void setWeaponCardsOnBoard (){
+    public void setWeaponCardsOnBoard() {
 
         weaponCardsRed = createDeckForSpawnSquares();
         weaponCardsBlue = createDeckForSpawnSquares();
         weaponCardsYellow = createDeckForSpawnSquares();
-        gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed,weaponCardsBlue,weaponCardsYellow);
+        gameArena.setWeaponsCardOnSquareSpawn(weaponCardsRed, weaponCardsBlue, weaponCardsYellow);
     }
 
     /**
      * put another weapon card when one is grab
+     *
      * @param x first coordinate
      * @param y second  cordinate
      */
 
     //rimpiazzare le carte armi pescate dai punti spawn
-    public void placeAnotherWeaponCards (int x, int y){
-        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(0), x,y);
+    public void placeAnotherWeaponCards(int x, int y) {
+        gameArena.placeAnotherWeaponCardsOnSquareSpawn(weaponCards.get(0), x, y);
         weaponCards.remove(weaponCards.get(0));
 
     }
 
 
-    public AbstractWeaponCard takeWeaponCardFromSpawn(ColorRoom colorSpawn, int index){
-        if(colorSpawn.equals(ColorRoom.YELLOW)){
+    public AbstractWeaponCard takeWeaponCardFromSpawn(ColorRoom colorSpawn, int index) {
+        if (colorSpawn.equals(ColorRoom.YELLOW)) {
             return weaponCardsYellow[index];
-        }
-        else if(colorSpawn.equals(ColorRoom.RED)){
+        } else if (colorSpawn.equals(ColorRoom.RED)) {
             return weaponCardsRed[index];
-        }
-        else{
+        } else {
             return weaponCardsBlue[index];
         }
     }
 
     /**
      * take a weapon card from gameboard
+     *
      * @param weaponCard which player want grab
-     * @param x first coordinate
-     * @param y second coordinate
+     * @param x          first coordinate
+     * @param y          second coordinate
      * @return weapon card
      * @throws OutOfBoundsException
      */
-    public AbstractWeaponCard takeWeaponCard (AbstractWeaponCard weaponCard, int x, int y) throws OutOfBoundsException {
-        if (gameArena.containsWeaponOnSpawnSquare(x,y, weaponCard)){
-            gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x,y);
-        }
-        else throw new OutOfBoundsException("Card not present");
+    public AbstractWeaponCard takeWeaponCard(AbstractWeaponCard weaponCard, int x, int y) throws OutOfBoundsException {
+        if (gameArena.containsWeaponOnSpawnSquare(x, y, weaponCard)) {
+            gameArena.takeWeaponCardsOnSquareSpawn(weaponCard, x, y);
+        } else throw new OutOfBoundsException("Card not present");
         if (!weaponCards.isEmpty()) {
-            placeAnotherWeaponCards(x,y);
+            placeAnotherWeaponCards(x, y);
         }
         //else throw new EndWeaponCardException();
         return weaponCard;
@@ -184,34 +188,36 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * list of weapon cards in a square
+     *
      * @param x first coordinate
      * @param y second cooridnate
      * @return weapon cards
      * @throws OutOfBoundsException
      */
 
-    public AbstractWeaponCard[] weaponCardsOnSquares (int x, int y)throws OutOfBoundsException {
-        if ((x==1 && y==0)|| (x==0 && y==2)|| (x==2 && y==3)){
-            return gameArena.getWeaponCardsOnSquares(x,y);
-        }
-        else throw new OutOfBoundsException("not a spawn square!");
+    public AbstractWeaponCard[] weaponCardsOnSquares(int x, int y) throws OutOfBoundsException {
+        if ((x == 1 && y == 0) || (x == 0 && y == 2) || (x == 2 && y == 3)) {
+            return gameArena.getWeaponCardsOnSquares(x, y);
+        } else throw new OutOfBoundsException("not a spawn square!");
     }
 
     /**
      * lenght of weapon card's array
+     *
      * @return size of weapon card
      */
 
-    public int sizeWeaponCards (){
+    public int sizeWeaponCards() {
         return weaponCards.size();
     }
 
     /**
      * take power up card
+     *
      * @return power up
      */
 
-    public PowerUpCard takePowerUpCard (){
+    public PowerUpCard takePowerUpCard() {
         PowerUpCard powerUpCard = powerUpCards.get(0);
         powerUpCards.remove(0);
         return powerUpCard;
@@ -219,36 +225,40 @@ public class GameBoard implements GameBoardInterface{
 
     /**
      * lenght of power up card's array
+     *
      * @return size of power up card
      */
 
-    public int sizePowerUpCards (){
+    public int sizePowerUpCards() {
         return powerUpCards.size();
     }
 
-    public void setUpAmmoTileOnArena (int numOfArena)throws OutOfBoundsException{
+    /**
+     * setter ammo tile on arena
+     *
+     * @param numOfArena arena's identifier
+     * @throws OutOfBoundsException exception
+     */
+
+    public void setUpAmmoTileOnArena(int numOfArena) throws OutOfBoundsException {
         ArrayList<AmmoTile> ammoTilesOnArena = new ArrayList<>();
 
-        if (numOfArena==1 ||numOfArena==2){
-            for (int i=0; i<8; i++){
+        if (numOfArena == 1 || numOfArena == 2) {
+            for (int i = 0; i < 8; i++) {
                 ammoTilesOnArena.add(ammoTiles.get(0));
                 ammoTiles.remove(0);
             }
-        }
-        else if(numOfArena==3){
-            for (int i=0; i<7; i++){
+        } else if (numOfArena == 3) {
+            for (int i = 0; i < 7; i++) {
                 ammoTilesOnArena.add(ammoTiles.get(0));
                 ammoTiles.remove(0);
             }
-        }
-        else if(numOfArena==4){
-            for (int i=0; i<9; i++){
+        } else if (numOfArena == 4) {
+            for (int i = 0; i < 9; i++) {
                 ammoTilesOnArena.add(ammoTiles.get(0));
                 ammoTiles.remove(0);
             }
-        }
-
-        else {
+        } else {
             System.out.println(" ko ammo 1 ");
             throw new OutOfBoundsException();
         }
@@ -257,140 +267,200 @@ public class GameBoard implements GameBoardInterface{
         gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }
 
-    public void placeAmmoTile ( int x, int y){
+    public void placeAmmoTile(int x, int y) {
         gameArena.placeAnotherAmmoTileOnSquare(ammoTiles.get(0), x, y);
         ammoTiles.remove(0);
+        /**
+         * position of ammotile
+         * @param ammoTile card
+         * @param x first coordinate
+         * @param y second coordinate
+         */
     }
 
-    public int sizeAmmoTiles (){
-        return ammoTiles.size();
-    }
-
-    public AmmoTile pickUpAmmoTile (int x, int y) throws AmmoTileUseException {
-        try {
-            AmmoTile ammoTile = gameArena.takeAmmoTileOnSquare(x,y);
-            System.out.println(ammoTile.toString());
-            return ammoTile;
+        public void placeAmmoTile (AmmoTile ammoTile,int x, int y){
+            gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
         }
-        catch (AmmoTileUseException e){
-            throw new AmmoTileUseException();
+
+        /**
+         * size ammo tile deck
+         * @return
+         */
+
+        public int sizeAmmoTiles () {
+            return ammoTiles.size();
         }
-    }
 
-    public AmmoTile getAmmoTileOnSquare (int x, int y){
-       return gameArena.getAmmoTileOnSquare(x,y);
-    }
+        /**
+         *
+         * @param x
+         * @param y
+         * @return
+         * @throws AmmoTileUseException
+         */
 
-    public boolean useAmmoTileOnSquare(int x, int y){
-        return gameArena.useAmmoTileOnSquare(x,y);
-    }
+        public AmmoTile pickUpAmmoTile ( int x, int y) throws AmmoTileUseException {
+            try {
+                AmmoTile ammoTile = gameArena.takeAmmoTileOnSquare(x, y);
+                System.out.println(ammoTile.toString());
+                return ammoTile;
+            } catch (AmmoTileUseException e) {
+                throw new AmmoTileUseException();
+            }
+        }
 
-    //Player who are in one square
-    public ArrayList<Player> playersInOneSquare (int x, int y, Player player){
-        return gameArena.playersInOneSquareOnArena(x,y,player);
-    }
+        /**
+         * getter method for a specific ammo tile
+         * @param x first coordinate
+         * @param y second coordinate
+         * @return ammotile
+         */
 
-    //Player who can see on arena by player who attack
-    public ArrayList<Player> playersWhoCanSee(Player player){
-        return gameArena.playerWhoSeeOnArena(player);
-    }
+        public AmmoTile getAmmoTileOnSquare ( int x, int y){
+            return gameArena.getAmmoTileOnSquare(x, y);
+        }
 
-    public void insertPlayer (Player player, ColorRoom colorRoom){
-        gameArena.spawnPlayer(colorRoom, player);
-    }
+        /**
+         * method to use ammo tile
+         * @param x first coordinate
+         * @param y second coordinate
+         * @return method to use ammotile
+         */
 
-    public void changePositionPlayer(Player player, int x, int y){
-        gameArena.movePlayer(player,x,y);
-    }
+        public boolean useAmmoTileOnSquare ( int x, int y){
+            return gameArena.useAmmoTileOnSquare(x, y);
+        }
 
-    public boolean isSquareAvailableOnArena(Player player, int x, int y){
-        return gameArena.isSquaresAvailable(player,x,y);
-    }
+        /**
+         * Player who are in one square
+         * @param x first coordinate
+         * @param y second coordinate
+         * @param player player in that square
+         * @return method to see list of players in that square
+         */
 
-    public Arena getGameArena() {
-        return gameArena;
-    }
+        public ArrayList<Player> playersInOneSquare ( int x, int y, Player player){
+            return gameArena.playersInOneSquareOnArena(x, y, player);
+        }
 
+        /**
+         * get list of visible players
+         * @param player players that attacker can see
+         * @return list of visible players
+         */
 
-    public KillShotTrack getKillShotTrack() {
-        return killShotTrack;
-    }
+        //Player who can see on arena by player who attack
+        public ArrayList<Player> playersWhoCanSee (Player player){
+            return gameArena.playerWhoSeeOnArena(player);
+        }
 
-    public void setKillShotTrack(KillShotTrack killShotTrack) {
-        this.killShotTrack = killShotTrack;
-    }
+        /**
+         * spawn a player in a square spawn
+         * @param player who want spawn
+         * @param colorRoom spawn color room
+         */
 
-    @Override
-    public GameBoardInterface getGameBoardInterface() {
-        return this;
-    }
+        public void insertPlayer (Player player, ColorRoom colorRoom){
+            gameArena.spawnPlayer(colorRoom, player);
+        }
 
-    @Override
-    public ArenaInterface getArenaInterface() {
-        return  gameArena.getArenaInterface();
-    }
+        /**
+         * move player
+         * @param player who want change position
+         * @param x first coordinate
+         * @param y second coordinate
+         */
 
-    @Override
-    public WeaponCardInterface getWeaponCard(ColorCube color, int index) {
+        public void changePositionPlayer (Player player,int x, int y){
+            gameArena.movePlayer(player, x, y);
+        }
 
-        if(color.equals(ColorCube.BLUE))
-            return weaponCardsBlue[index].getWeaponCard();
-        else if(color.equals(ColorCube.RED))
-            return weaponCardsRed[index].getWeaponCard();
-        else
-            return weaponCardsYellow[index].getWeaponCard();
-    }
+        /**
+         * boolean to see if that square is available for that player
+         * @param player who want know if that square is available
+         * @param x first coordinate
+         * @param y second coordinate
+         * @return boolean
+         */
+
+        public boolean isSquareAvailableOnArena (Player player,int x, int y){
+            return gameArena.isSquaresAvailable(player, x, y);
+        }
+
+        /**
+         * get arena
+         * @return arena
+         */
+
+        public Arena getGameArena () {
+            return gameArena;
+        }
+
+        /**
+         * getter of kill shot track
+         * @return kill shot track
+         */
+
+        public KillShotTrack getKillShotTrack () {
+            return killShotTrack;
+        }
+
+        /**
+         * setter of kill shot track
+         * @param killShotTrack
+         */
+
+        public void setKillShotTrack (KillShotTrack killShotTrack){
+            this.killShotTrack = killShotTrack;
+        }
 
     public AbstractWeaponCard[] getWeaponCardsRed() {
         return weaponCardsRed;
     }
 
-    public AbstractWeaponCard[] getWeaponCardsBlue() {
-        return weaponCardsBlue;
-    }
+        public AbstractWeaponCard[] getWeaponCardsBlue () {
+            return weaponCardsBlue;
+        }
 
-    public AbstractWeaponCard[] getWeaponCardsYellow() {
-        return weaponCardsYellow;
-    }
+        public AbstractWeaponCard[] getWeaponCardsYellow () {
+            return weaponCardsYellow;
+        }
 
-    @Override
-    public ArrayList<WeaponCardInterface> getWeaponCard(ColorRoom color) {
-        ArrayList<WeaponCardInterface> tmpWeaponCards = new ArrayList<>();
+        public String[] getWeaponCardDescription(ColorRoom color) {
+        String[] tmpWeaponCards = new String[3];
         System.out.println("color " + color.getColorRoomRepresentation());
         if(color.equals(ColorRoom.BLUE)){
-            for(AbstractWeaponCard weaponCard: weaponCardsBlue){
-                tmpWeaponCards.add(weaponCard.getWeaponCard());
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsBlue[i].getWeaponCardDescription();
             }
         }
         else if(color.equals(ColorRoom.RED)){
-            System.out.println("ok red");
-            for(AbstractWeaponCard weaponCard : weaponCardsRed)
-                tmpWeaponCards.add(weaponCard.getWeaponCard());
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsRed[i].getWeaponCardDescription();
+            }
         }
         else if(color.equals(ColorRoom.YELLOW)) {
-            for (AbstractWeaponCard weaponCard : weaponCardsYellow)
-                tmpWeaponCards.add(weaponCard.getWeaponCard());
+            for(int i = 0; i < 3; i ++){
+                tmpWeaponCards[i] = weaponCardsYellow[i].getWeaponCardDescription();
+            }
         }
-
-        //System.out.println("size : " + tmpWeaponCards.size());
         return tmpWeaponCards;
     }
 
 
-    public void addPowerUpCardDiscarded(PowerUpCard powerUpCard){
-        usedPowerUpCards.add(powerUpCard);
-    }
-    public void addAmmoTileDiscarded(AmmoTile ammoTile){
-        grabedAmmoTiles.add(ammoTile);
-    }
+        public void addPowerUpCardDiscarded (PowerUpCard powerUpCard){
+            usedPowerUpCards.add(powerUpCard);
+        }
+        public void addAmmoTileDiscarded (AmmoTile ammoTile){
+            grabedAmmoTiles.add(ammoTile);
+        }
 
 
-    /*public void setGameBoardDescription(){
+    public void setGameBoardDescription(){
+
         getGameArena().setArenaRepresentation();
         gameBoardDescription = getGameArena().getArenaRepresentation();
         gameBoardDescription += "Red Spawn : ";
-       // StringBuilder st = new StringBuilder();
-        //ci penso
         for(int i = 0 ; i < weaponCardsRed.length; i++)
             gameBoardDescription += weaponCardsRed[i].getName() + " ";
         gameBoardDescription += "\n";
@@ -406,10 +476,13 @@ public class GameBoard implements GameBoardInterface{
         gameBoardDescription += "Num Skull : "+ killShotTrack.getNumSkull() + "\n";
 
 
-    }*/
 
-    public String getGameBoardDescription(){
-        return gameBoardDescription;
+
     }
 
-}
+        public String getGameBoardDescription () {
+            return gameBoardDescription;
+        }
+
+    }
+

@@ -7,7 +7,7 @@ import it.polimi.isw2019.model.exception.OutOfBoundsException;
 
 import java.util.ArrayList;
 
-public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
+public class PowerUpCard implements PowerUpCardInterface{
 
     /* Attributes */
 
@@ -188,9 +188,11 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
         powerUpDescription = name + "\n";
         powerUpDescription += "Id :"+ id + "\n";
         powerUpDescription += infoEffect + "\n";
+        powerUpDescription += colorCard.getColorCubeRepresentation();
     }
 
     public String getPowerUpCardRepresentation(){
+        setPowerUpDescription();
         return powerUpDescription;
     }
 
@@ -198,31 +200,6 @@ public class PowerUpCard implements PowerUpCardInterface, InterfacePowerUpCard{
         tmp[4][0] = stateCard.getStateCardRepresentation();
     }
 
-
-    @Override
-    public int getNumberColorPayment() {
-        return 0;
-    }
-
-    @Override
-    public int getIdPowerUpCard() {
-        return id;
-    }
-
-    @Override
-    public InterfacePowerUpCard getPowerUpCard() {
-        return this;
-    }
-
-    @Override
-    public ColorRoom getPowerUpColor() {
-        return null;
-    }
-
-    @Override
-    public String infoEffect() {
-        return infoEffect;
-    }
 
     public ColorRoom getColorRoom() {
         return colorRoom;

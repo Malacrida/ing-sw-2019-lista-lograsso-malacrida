@@ -20,6 +20,8 @@ public class ShockWave extends AbstractWeaponCard {
         this.rechargeCube = new ColorCube[1];
         this.rechargeCube[0] = ColorCube.YELLOW;
         setWeaponCardDescription();
+        this.paySecondEffect = new ColorCube[1];
+        this.paySecondEffect[0] = ColorCube.YELLOW;
     }
 
     /**

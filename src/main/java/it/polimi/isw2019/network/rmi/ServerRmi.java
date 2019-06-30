@@ -2,12 +2,11 @@ package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
-import it.polimi.isw2019.model.powerupcard.InterfacePowerUpCard;
-import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.view.CLIView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -40,7 +39,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
+    public void registerNewClient(ClientInterface client, String nickname, CLIView view) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
         System.out.println(client.getNickname());
         if (lobby.addClientConnected(nickname,client))
@@ -135,19 +134,19 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player, InterfacePowerUpCard powerUpCardInterface) {
+    public void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-                virtualViews.get(i).createUsePowerUpCard(player, powerUpCardInterface);
+                virtualViews.get(i).createUsePowerUpCard(player/*, powerUpCardInterface*/);
             }
         }
     }
 
     @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, ArrayList<InterfacePowerUpCard> powerUpCards, boolean grab) {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-                virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,powerUpCards,grab);
+                virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,/*powerUpCards,*/grab);
             }
         }
     }

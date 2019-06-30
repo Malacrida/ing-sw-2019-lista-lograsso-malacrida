@@ -3,7 +3,7 @@ package it.polimi.isw2019.model.ammotile;
 import it.polimi.isw2019.model.ColorCube;
 import it.polimi.isw2019.model.StateCard;
 
-public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
+public class AmmoTile{
 
     private int id;
 
@@ -161,18 +161,6 @@ public class AmmoTile implements AmmoTIleInterface, InterfaceAmmoTile {
 
     public StateCard getCheckState(){
         return checkState;
-    }
-
-
-    @Override
-    public InterfaceAmmoTile getAmmoTileInterface() {
-        return this;
-    }
-
-    @Override
-    public String[] getAmmoTileDescription() {
-        setAmmoCardDescription();
-        return ammoCardDescription;
     }
 
     public String toString(){

@@ -1,8 +1,5 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.model.weaponcard.WeaponCardInterface;
 
 import java.rmi.Remote;
@@ -21,7 +18,7 @@ public interface NetworkHandlerInterface extends Remote {
 
     public void createReload(String nicknamePlayer, ArrayList<WeaponCardInterface> weaponCardInterfaces) throws RemoteException;
 
-    public void createUpdateView(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) throws RemoteException;
+    public void createUpdateView(String nicknamePlayer) throws RemoteException;
 
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException;
 

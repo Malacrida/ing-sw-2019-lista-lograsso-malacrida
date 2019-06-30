@@ -20,6 +20,8 @@ public class Hellion extends AbstractWeaponCard {
         this.rechargeCube = new ColorCube[2];
         this.rechargeCube[0] = ColorCube.RED;
         this.rechargeCube[1] = ColorCube.YELLOW;
+        this.paySecondEffect = new ColorCube[1];
+        this.paySecondEffect[0] = ColorCube.RED;
         setWeaponCardDescription();
     }
 

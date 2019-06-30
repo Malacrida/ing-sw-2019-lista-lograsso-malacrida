@@ -6,6 +6,8 @@ import it.polimi.isw2019.model.Player;
 import it.polimi.isw2019.model.StateCard;
 import it.polimi.isw2019.model.exception.*;
 
+import java.awt.*;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 
 public abstract class AbstractWeaponCard implements WeaponCardInterface {
@@ -14,24 +16,28 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     protected ColorCube color;
     protected String[] infoEffect = new String[4];
     protected ArrayList<Player> deathPlayers;
-    protected ColorCube[] rechargeCube;
+    protected ColorCube[] rechargeCube; //pay first effect
+    protected ColorCube[] paySecondEffect;
+    protected ColorCube[] payThirdEffect;
     protected StateCard stateCard = StateCard.DECK;
     protected int maxPossibleEffects;
     protected int maxPossibleCoordinates;
     protected int maxPossibleDefenders;
     protected boolean firstIsValid = false;
     protected boolean secondIsValid = false;
+    protected ColorCube[] effectForCube;
 
     private String weaponCardDescription;
 
 
-    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefenders) {
+    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefender) {
         this.id = id;
         this.name = name;
         this.color = color;
         this.maxPossibleEffects = maxPossibleEffects;
         this.maxPossibleCoordinates = maxPossibleCoordinates;
         this.maxPossibleDefenders = maxPossibleDefenders;
+        this.rechargeCube = rechargeCube;
 
     }
 
@@ -47,6 +53,15 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     }
 
     public ColorCube[] getRechargeCube(){ return rechargeCube; }
+
+    public ColorCube[] getPaySecondEffect(){
+        return paySecondEffect;
+    }
+
+    public ColorCube[] getPayThirdEffect(){
+        return payThirdEffect;
+    }
+
 
     public ColorCube getColor(){
         return color;

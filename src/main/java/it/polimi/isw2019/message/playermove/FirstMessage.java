@@ -6,7 +6,10 @@ import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 
+import java.io.Serializable;
+
 public class FirstMessage extends PlayerMove{
+
     private String actionHero;
     private CLIView CLIView;
     private VirtualView virtualView;

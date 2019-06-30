@@ -1,29 +1,25 @@
 package it.polimi.isw2019.message.movemessage;
 
-import it.polimi.isw2019.model.GameBoardInterface;
-import it.polimi.isw2019.model.PlayerInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.VisitorView;
 
-import java.util.ArrayList;
 
 public class UpdateMessage extends MoveMessage {
 
-    private GameBoardInterface gameBoard;
-    private ArrayList<PlayerInterface> players;
-    private String model;
+    private String gameBoardDescription;
+    private int[][] playersDescription;
+    private int[][] featuresOfPlayersAvailable;
+    private String[][] weaponCardDescription;
+    private String[][] powerUpCardDescription;
 
-    public UpdateMessage(String nicknamePlayer, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players,boolean notifyAll) {
+
+    public UpdateMessage(String nicknamePlayer,String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable,String[][] weaponCardDescription, String[][] powerUpCardDescription,boolean notifyAll) {
         super(nicknamePlayer,notifyAll);
-        this.gameBoard = gameBoard;
-        this.players = players;
-    }
-
-    public UpdateMessage(String nicknamePlayer, String model, GameBoardInterface gameBoard, ArrayList<PlayerInterface> players) {
-        super(nicknamePlayer);
-        this.model = model;
-        this.gameBoard = gameBoard;
-        this.players = players;
+        this.gameBoardDescription = gameBoardDescription;
+        this.playersDescription = playersDescription;
+        this.featuresOfPlayersAvailable = featuresOfPlayersAvailable;
+        this.weaponCardDescription = weaponCardDescription;
+        this.powerUpCardDescription = powerUpCardDescription;
     }
 
     @Override
@@ -36,22 +32,44 @@ public class UpdateMessage extends MoveMessage {
         virtualView.sendUpdateView(this);
     }
 
-    public GameBoardInterface getGameBoard() {
-        return gameBoard;
+    public int[][] getPlayersDescription() {
+        return playersDescription;
     }
 
-    public ArrayList<PlayerInterface> getPlayers() {
-        return players;
+    public void setPlayersDescription(int[][] playersDescription) {
+        this.playersDescription = playersDescription;
     }
 
-    @Override
-    public int[] getFeaturesAvailable() {
-        return new int[0];
+    public int[][] getFeaturesOfPlayersAvailable() {
+        return featuresOfPlayersAvailable;
     }
 
-    @Override
-    public void setFeaturesAvailable(int[] featuresAvailable) {
+    public void setFeaturesOfPlayersAvailable(int[][] featuresOfPlayersAvailable) {
+        this.featuresOfPlayersAvailable = featuresOfPlayersAvailable;
+    }
 
+    public String[][] getWeaponCardDescription() {
+        return weaponCardDescription;
+    }
+
+    public void setWeaponCardDescription(String[][] weaponCardDescription) {
+        this.weaponCardDescription = weaponCardDescription;
+    }
+
+    public String[][] getPowerUpCardDescription() {
+        return powerUpCardDescription;
+    }
+
+    public void setPowerUpCardDescription(String[][] powerUpCardDescription) {
+        this.powerUpCardDescription = powerUpCardDescription;
+    }
+
+    public String getGameBoardDescription() {
+        return gameBoardDescription;
+    }
+
+    public void setGameBoardDescription(String gameBoardDescription) {
+        this.gameBoardDescription = gameBoardDescription;
     }
 
     @Override
