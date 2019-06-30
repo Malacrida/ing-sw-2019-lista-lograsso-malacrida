@@ -41,7 +41,7 @@ public interface ClientInterface extends Remote {
 
     public void createReload(String nicknamePlayer) throws RemoteException;
 
-    public void createUpdateView(String nicknamePlayer,boolean notifyAll) throws RemoteException;
+    public void createUpdateView(String nicknamePlayer,String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable,String[][] weaponCardDescription, String[][] powerUpCardDescription,boolean notifyAll) throws RemoteException;
 
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException;
 
@@ -49,11 +49,11 @@ public interface ClientInterface extends Remote {
 
     public void createUseWeaponCard(String nicknamePlayer) throws RemoteException;
 
-    public void createPowerUpChoice(String nicknamePlayer) throws RemoteException;
+    public void createPowerUpChoice(String nicknamePlayer,String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException;
 
     public void createUsePowerUpCard(String nicknamePlayer) throws RemoteException;
 
-    public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException;
+    public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException;
 
     public void createFailRegistration(String nicknamePlayer) throws RemoteException;
 

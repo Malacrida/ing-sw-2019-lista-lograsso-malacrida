@@ -171,7 +171,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createActionMessage(String nickname) {
-        System.out.println("ricevo move message");
+        System.out.println("ricevo move message Action");
         ActionMessage actionMessage= new ActionMessage(nickname);
         notifyObservers(actionMessage);
     }
@@ -200,9 +200,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createUpdateView(String nicknamePlayer,boolean notifyAll) {
-      /*  UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,n);
-        notifyObservers(updateMessage);*/
+    public void createUpdateView(String nicknamePlayer,String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable,String[][] weaponCardDescription, String[][] powerUpCardDescription,boolean notifyAll) {
+        UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,gameBoardDescription,playersDescription,featuresOfPlayersAvailable,weaponCardDescription,powerUpCardDescription,notifyAll);
+        notifyObservers(updateMessage);
     }
 
     @Override
@@ -224,9 +224,10 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer) {
+    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException {
 
     }
+
 
     @Override
     public void createUsePowerUpCard(String nicknamePlayer) {
@@ -234,12 +235,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) {
-      /*  FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,possibleMaps,colorAvailable);
+    public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException {
+        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,idPlayer,possibleMaps,colorAvailable);
         System.out.println("ricevo la scelta della mappa per: "+ nicknamePlayer);
-        notifyObservers(firstMessageFirstPlayer);*/
-
+        notifyObservers(firstMessageFirstPlayer);
     }
+
 
     @Override
     public void createFailRegistration(String nicknamePlayer) {

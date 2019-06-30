@@ -13,7 +13,9 @@ public interface ServerInterface<T> extends Remote {
 
     //notify
 
-    public void registerNewClient(T client, String nickname, CLIView view) throws IOException,RemoteException;
+  //  public void registerNewClient(T client, String nickname, CLIView view) throws IOException,RemoteException;
+
+    public void registerNewClient(T client, String nickname) throws IOException,RemoteException;
 
     public void write(Object object) throws IOException,RemoteException;
 

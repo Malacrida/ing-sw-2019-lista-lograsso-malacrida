@@ -72,8 +72,9 @@ public class Client {
 
         if (typeServer == 0){
             System.out.println("Starting SOCKET");
-
+            /*
             try {
+
                 CLIView cliView = new CLIView(nickname);
 
                 Socket socket = new Socket("localhost", 1111);
@@ -98,7 +99,7 @@ public class Client {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
             try {
@@ -125,7 +126,7 @@ public class Client {
 
             try {
                 ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-                serverRmi.registerNewClient(remoteClient, nickname, view);
+                serverRmi.registerNewClient(remoteClient, nickname);
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (IOException e) {

@@ -14,6 +14,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     private String nickname;
     private ClientInterface networkHandler;
+    private int idPlayer;
 
     public VirtualView (String nickname, ClientInterface networkHandler){
         this.nickname=nickname;
@@ -42,6 +43,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void update(MoveMessage message) {
+
         message.accept(this);
     }
 
@@ -49,10 +51,6 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         ChooseActionMove chooseActionMove= new ChooseActionMove(player,numAction);
         System.out.println("ricreo la player move di: "+ player);
         notifyObservers(chooseActionMove);
-
-
-        ActionMessage actionMessage= new ActionMessage(player);
-        sendActionView(actionMessage);
     }
 
     public void createChooseMap(String player, int index, int color){
@@ -79,7 +77,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
     public void createReload(String player){
-       /* ReloadMove reloadMove = new ReloadMove(player);
+        /*ReloadMove reloadMove = new ReloadMove(player);
         notifyObservers(reloadMove);*/
     }
 
@@ -89,7 +87,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
     public void createUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/){
-       /* UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player/*,powerUpCardInterface);
+       /* UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,powerUpCardInterface);
         notifyObservers(usePowerUpCard);*/
     }
 
@@ -105,7 +103,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendActionView(ActionMessage actionMessage) {
-        System.out.println("invio la move message");
+        System.out.println("invio la move message Action a :" + actionMessage.getNicknamePlayer());
 
         try {
             networkHandler.createActionMessage(actionMessage.getNicknamePlayer());
@@ -142,12 +140,14 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendUpdateView(UpdateMessage updateMessage) {
-      /*  try {
-            //networkHandler.createUpdateView(updateMessage.getNicknamePlayer(),updateMessage.getGameBoard(),updateMessage.getPlayers(),updateMessage.isNotifyAll());
+        try {
+            networkHandler.createUpdateView(updateMessage.getNicknamePlayer(),updateMessage.getGameBoardDescription(),
+                    updateMessage.getPlayersDescription(), updateMessage.getFeaturesOfPlayersAvailable(),
+                    updateMessage.getWeaponCardDescription(), updateMessage.getPowerUpCardDescription(),updateMessage.isNotifyAll());
         }
         catch (RemoteException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Override
@@ -179,7 +179,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
         try {
-            networkHandler.createFirstPlayerChooseMap(firstMessageFirstPlayer.getNicknamePlayer(),firstMessageFirstPlayer.getPossibleMaps(),firstMessageFirstPlayer.getColorAvailable());
+            networkHandler.createFirstPlayerChooseMap(firstMessageFirstPlayer.getNicknamePlayer(), firstMessageFirstPlayer.getIdPlayer(), firstMessageFirstPlayer.getPossibleMaps(), firstMessageFirstPlayer.getColorAvailable());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
