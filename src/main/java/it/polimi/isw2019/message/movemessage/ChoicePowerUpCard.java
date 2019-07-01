@@ -43,6 +43,7 @@ public class ChoicePowerUpCard extends MoveMessage {
 
     @Override
     public void accept(VirtualViewVisitorInterface virtualView) {
+        System.out.println("Update della choice");
         virtualView.sendPowerUpChoice(this);
     }
 }

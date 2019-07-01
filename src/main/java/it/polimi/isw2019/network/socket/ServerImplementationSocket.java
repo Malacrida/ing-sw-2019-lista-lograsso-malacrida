@@ -4,6 +4,8 @@ import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
 import it.polimi.isw2019.message.movemessage.MoveMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
+import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.view.CLIView;
 //import sun.plugin2.message.HeartbeatMessage;
 
@@ -16,13 +18,13 @@ import java.util.ArrayList;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
 
-
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private MoveMessage moveMessage;
     private String message;
-
+    private VirtualViewVisitorInterface virtualViewVisitorInterface = new VirtualViewSocket(this);
+    private CLIView view;
 
     public ServerImplementationSocket(Socket socket) throws IOException {
         this.socket = socket;
@@ -32,19 +34,29 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
         }
 
-       /* @Override
+        @Override
         public void run(){
             try{
-                while (null != moveMessage = (MoveMessage) input.readObject())
+                while (null != (moveMessage = (MoveMessage) input.readObject())){
+                    moveMessage.accept(virtualViewVisitorInterface);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        }*/
+        }
 
-   /* @Override
+   // @Override
     public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
         String actionHero = "MANNAIA LA PUTTANA";
         FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
         write(firstMessage);
-    }*/
+        this.start();
+    }
+
+    @Override
+    public void registerNewClient(Socket client, String nickname) throws IOException, RemoteException {
+
+    }
 
     @Override
     public void write(Object object) throws IOException {
@@ -118,10 +130,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
     }
 
-    @Override
-    public void registerNewClient(Socket client, String nickname) throws IOException, RemoteException {
 
-    }
 
 
 }

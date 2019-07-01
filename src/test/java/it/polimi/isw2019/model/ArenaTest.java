@@ -2,8 +2,10 @@ package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
+import it.polimi.isw2019.model.exception.InstanceArenaException;
 import it.polimi.isw2019.model.exception.OutOfBoundsException;
 import it.polimi.isw2019.model.weaponcard.*;
+import it.polimi.isw2019.utilities.Database;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,10 +64,15 @@ public class ArenaTest {
         weaponCards3[2]= weaponCard9;
 
 
-        ammoTile= new AmmoTile(1,null, null, null);
+
+
+        Database db = new Database();
+
+        ArrayList<AmmoTile> deckAmmoTile= db.loadAmmoTiles();
         for (int i=0; i<12; i++){
-            ammoTiles.add(ammoTile);
+            ammoTiles.add(deckAmmoTile.get(i));
         }
+
 
         player = new Player("name", "Comment", 0);
 

@@ -133,28 +133,20 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
     }
 
-    public void receiveUsePowerUpCard(String player, String powerUpCardInterface) {
+    @Override
+    public void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-               // virtualViews.get(i).createUsePowerUpCard(player, powerUpCardInterface);
+              //  virtualViews.get(i).createUsePowerUpCard(player/*, powerUpCardInterface*/);
             }
         }
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player) throws RemoteException {
-
-    }
-
-    @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment, boolean grab) throws RemoteException {
-
-    }
-
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, boolean grab) {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-              //  virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,powerUpCards,grab);
+              //  virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,/*powerUpCards,*/grab);
             }
         }
     }
@@ -188,7 +180,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
 
         try {
-            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
+            //localhost
+            Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
             System.out.println("Error remote");
@@ -200,7 +193,3 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
     }
 }
-
-
-
-

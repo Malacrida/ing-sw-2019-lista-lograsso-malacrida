@@ -344,9 +344,9 @@ public class PlayerBoard{
     }
 
     /**
-     *
-     * @param colorPlayer
-     * @param numberOfDamage
+     * add a damage to one player
+     * @param colorPlayer Color player of damage
+     * @param numberOfDamage number of damnages
      * @throws DamageTrackException
      */
 
@@ -379,6 +379,12 @@ public class PlayerBoard{
 
     }
 
+    /**
+     * add marks of one color
+     * @param colorPlayer color of marks
+     * @param numberOfMark number of marks
+     */
+
     //Aggiunge marchi ma nel caso supera i tre marchi dello stesso colore non vengono aggiunti
     // ma non si lancia nemmeno un eccezione
     public void addMark (ColorPlayer colorPlayer, int numberOfMark) {
@@ -390,14 +396,28 @@ public class PlayerBoard{
         }
     }
 
+    /**
+     * reset player board after death and add a skull
+     */
+
     public void resetAfterDeath (){
         playerSkulls++;
         damageTokens.clear();
     }
 
+    /**
+     * save first damage to add one score
+     * @return
+     */
+
     public ColorPlayer firstBlood(){
         return damageTokens.get(0);
     }
+
+    /**
+     *
+     * @return
+     */
 
     public ColorPlayer killShot (){
         if (damageTokens.size()>=11)
@@ -420,9 +440,18 @@ public class PlayerBoard{
     }
 
 
+    /**
+     *
+     * @return
+     */
+
     public String[] getSkullsRepresentation() {
         return skullsRepresentation;
     }
+
+    /**
+     * set skull representation
+     */
 
     public void setSkullsRepresentation() {
         skullsRepresentation = new String[6];
@@ -434,6 +463,10 @@ public class PlayerBoard{
         skullsRepresentation[5] = "1";
     }
 
+    /**
+     * set skull representation of frenzy mode
+     */
+
     public void setSkullsFrenzyRepresentation() {
         skullsRepresentation = new String[4];
         skullsRepresentation[0] = "4";
@@ -443,9 +476,19 @@ public class PlayerBoard{
 
     }
 
+    /**
+     * get mark representation
+     * @return
+     */
+
     public String[] getMarkRepresentation() {
         return markRepresentation;
     }
+
+    /**
+     * get mark representation
+     * @return
+     */
 
     public void setMarkRepresentation() {
         markRepresentation = new String[12];

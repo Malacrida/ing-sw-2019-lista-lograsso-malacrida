@@ -42,7 +42,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         if(message.isNotifyAll()){
             message.accept(this);
         }
-        else if(nicknamePlayer.equals(message.getNicknamePlayer())) {
+        if(nicknamePlayer.equals(message.getNicknamePlayer())) {
             message.accept(this);
         }
     }

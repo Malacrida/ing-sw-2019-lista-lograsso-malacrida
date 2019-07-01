@@ -52,6 +52,7 @@ public class Lobby implements LobbyInterface {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
             System.out.println("Three clients or more are waiting.");
@@ -84,6 +85,7 @@ public class Lobby implements LobbyInterface {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
             if(roomStartable) {
                 System.out.println("Countdown ended, starting the room.");

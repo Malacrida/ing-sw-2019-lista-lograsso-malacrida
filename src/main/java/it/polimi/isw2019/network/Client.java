@@ -3,10 +3,12 @@ package it.polimi.isw2019.network;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 
+import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
@@ -18,7 +20,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
-
 
 public class Client {
 
@@ -70,8 +71,9 @@ public class Client {
 
         if (typeServer == 0){
             System.out.println("Starting SOCKET");
-
+            /*
             try {
+
                 CLIView cliView = new CLIView(nickname);
 
                 Socket socket = new Socket("localhost", 1111);
@@ -79,7 +81,7 @@ public class Client {
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname);
+                serverInterface.registerNewClient(socket, nickname, cliView);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -96,22 +98,23 @@ public class Client {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
+            //192.168.43.154
             try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1235/ServerRmi");
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
-            startView(nickname);
+            startView(nickname, typeServer);
         }
 
 
     }
 
 
-    private static void startView (String nickname){
+    private static void startView (String nickname, int typeServer) throws RemoteException {
         CLIView view = new CLIView(nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
@@ -129,12 +132,7 @@ public class Client {
 
         view.registerObserver(networkHandler);
         networkHandler.registerObserver(view);
-
-      //  view.startView();
+        //view.startView();
     }
 
 }
-
-
-
-

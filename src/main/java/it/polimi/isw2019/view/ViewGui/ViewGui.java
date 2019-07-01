@@ -33,7 +33,7 @@ public class ViewGui {
             if (e.getActionCommand().equals("grab"))
                 frame.changeGrab();
             if (e.getActionCommand().equals("00")||e.getActionCommand().equals("01")||e.getActionCommand().equals("02")||
-                    e.getActionCommand().equals("03")||e.getActionCommand().equals("10")||e.getActionCommand().equals("01")){
+                    e.getActionCommand().equals("03")||e.getActionCommand().equals("10")||e.getActionCommand().equals("11")){
                 i++;
 
                 frame.changeRun();
