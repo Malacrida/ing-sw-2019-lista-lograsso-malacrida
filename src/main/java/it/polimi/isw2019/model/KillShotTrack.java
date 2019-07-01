@@ -58,7 +58,11 @@ public class KillShotTrack {
     }
 
 
-
+    /**
+     * method to count how many times one player is dead
+     * @param colorPlayer
+     * @return
+     */
 
     public int numOfKillShotByOnePlayer (ColorPlayer colorPlayer){
         int cont=0;
@@ -73,7 +77,10 @@ public class KillShotTrack {
     }
 
 
-
+    /**
+     * method to get how many damage are on kill shot track
+     * @return
+     */
 
     public ColorPlayer[][] getDamageToken() {
         return damageToken;

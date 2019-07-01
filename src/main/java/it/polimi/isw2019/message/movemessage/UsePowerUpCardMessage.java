@@ -22,8 +22,8 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
-    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard) {
-        super(nicknamePlayer);
+    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) {
+        super(nicknamePlayer,error);
         this.featuresAvailable = featuresAvailable;
         this.stateCard = stateCard;
         this.stateGame = stateGame;

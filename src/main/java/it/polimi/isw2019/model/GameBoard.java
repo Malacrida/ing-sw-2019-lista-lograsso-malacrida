@@ -410,21 +410,21 @@ public class GameBoard{
          * @param killShotTrack
          */
 
-        public void setKillShotTrack (KillShotTrack killShotTrack){
-            this.killShotTrack = killShotTrack;
-        }
-
-    public AbstractWeaponCard[] getWeaponCardsRed() {
-        return weaponCardsRed;
+    public void setKillShotTrack (KillShotTrack killShotTrack){
+        this.killShotTrack = killShotTrack;
     }
 
-        public AbstractWeaponCard[] getWeaponCardsBlue () {
-            return weaponCardsBlue;
-        }
+    public AbstractWeaponCard[] getWeaponCardsRed() {
+    return weaponCardsRed;
+}
 
-        public AbstractWeaponCard[] getWeaponCardsYellow () {
-            return weaponCardsYellow;
-        }
+    public AbstractWeaponCard[] getWeaponCardsBlue () {
+        return weaponCardsBlue;
+    }
+
+    public AbstractWeaponCard[] getWeaponCardsYellow () {
+        return weaponCardsYellow;
+    }
 
         public String[] getWeaponCardDescription(ColorRoom color) {
         String[] tmpWeaponCards = new String[3];
@@ -448,12 +448,12 @@ public class GameBoard{
     }
 
 
-        public void addPowerUpCardDiscarded (PowerUpCard powerUpCard){
-            usedPowerUpCards.add(powerUpCard);
-        }
-        public void addAmmoTileDiscarded (AmmoTile ammoTile){
-            grabedAmmoTiles.add(ammoTile);
-        }
+    public void addPowerUpCardDiscarded (PowerUpCard powerUpCard){
+        usedPowerUpCards.add(powerUpCard);
+    }
+    public void addAmmoTileDiscarded (AmmoTile ammoTile){
+        grabedAmmoTiles.add(ammoTile);
+    }
 
 
     public void setGameBoardDescription(){

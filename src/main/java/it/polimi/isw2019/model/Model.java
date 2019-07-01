@@ -20,14 +20,14 @@ public class Model extends Observable {
     private int shift;
     private ArrayList<PowerUpCard> tmp;
     private AbstractWeaponCard tmpWeaponCard;
-    private int numArena;
+    private boolean isFrenzy;
+    private int mod;
+    private int frenzyPlayer;
 
     //assume that the player are in order!!
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
 
     private ArrayList<Player> players ;
-    private ArrayList<Player> tmpShootPlayer;
-    private ArrayList<Player> tmpDeadPlayer;
     private ArrayList<PlayerBoard> playerBoards;
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
@@ -45,8 +45,8 @@ public class Model extends Observable {
 
     private String entireGameDescription;
 
-    private ArrayList<Player> deadPlayer;
-    private ArrayList<Player> shootPlayer;
+    private ArrayList<Player> deadPlayer = new ArrayList<>();
+    private ArrayList<Player> shootPlayer = new ArrayList<>();
 
     public ArrayList<String> getColorAvailable() {
         return colorAvailable;
@@ -68,8 +68,7 @@ public class Model extends Observable {
         return currentPlayer;
     }
     /**
-     *
-     * @param mod type of game mod
+     * @param mod type of game mode
      */
     public void setKillShotTrack (int mod){
         killShotTrack = new KillShotTrack(mod);
@@ -128,22 +127,27 @@ public class Model extends Observable {
         this.currentPlayer = currentPlayer;
     }
 
-    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException{
+
+    /**
+     * add player in model
+     *
+     * @param nickName          of player
+     * @param actionHeroComment action phrase of player
+     * @throws IndexOutOfBoundsException
+     */
+    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException {
 
         if(players.size()<5) {
             players.add(new Player(nickName, actionHeroComment));
-            System.out.println("ok registration model");
-            System.out.println("player : " + players.get(0).getName());
             notifyObservers(new EndRegistration(nickName));
-        }
-        else{
+        } else {
             notifyObservers(new FailRegistration(nickName));
             throw new IndexOutOfBoundsException();
         }
     }
 
     //used for the tests
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
@@ -160,8 +164,6 @@ public class Model extends Observable {
         for(int i = 0, j = players.size() - shift ; i < shift ; i++ , j ++){
             players.get(i).setIndexPlayer(j);
         }
-
-        System.out.println("first player" + shift + "\n" );
 
         currentPlayer = players.get(shift);
 
@@ -189,7 +191,16 @@ public class Model extends Observable {
 
 
     }
-    public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
+
+    /**
+     * join player and player board
+     *
+     * @param player
+     * @param colorPlayer
+     * @throws ColorNotAvailableException
+     */
+
+    public void setPlayerWithPlayerBoard(Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
         try {
             player.setPlayerBoardAndColor(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)), colorPlayer);
             playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)));
@@ -202,7 +213,15 @@ public class Model extends Observable {
 
     }
 
-    public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
+    /**
+     * method to see if a color is already choosen
+     *
+     * @param color
+     * @return boolean
+     * @throws ColorNotAvailableException
+     */
+
+    public boolean containsColor(ColorPlayer color) throws ColorNotAvailableException {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
             if (playerBoardsAvailable.get(i).getColor() == color) return true;
         }
@@ -228,21 +247,44 @@ public class Model extends Observable {
         throw new ColorNotAvailableException();
     }
 
+    /**
+     * method to change turn
+     */
 
     public void changePlayer(){
-
+         //end turn !!
         int index = players.indexOf(currentPlayer);
 
-        if(index == players.size() - 1){
+        if (index == players.size() - 1) {
             currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(index + 1);
+        }
+
+        if(!isFrenzy) {
+
+            if (deadPlayer.contains(currentPlayer)) {
+                updatePlayerDeath();
+            }
+
+            sendUpdateMessage();
+            handleNormalTurn();
+            return;
+        }
+
+        if(isFrenzy && frenzyPlayer!= 0){
+            frenzyPlayer --;
+            handleNormalTurn();
+            return;
         }
 
         else{
-            currentPlayer = players.get(index+1);
+            //endgame
         }
 
-        sendUpdateMessage();
+    }
 
+    public void handleNormalTurn(){
         if(currentPlayer.getRealPlayerBoard() == null){
             firstMessage();
             return;
@@ -267,19 +309,23 @@ public class Model extends Observable {
                 tmpPowerUpCard.clear();
                 ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(currentPlayer.getName());
                 PowerUpCard powerUpCard1 = gameBoard.takePowerUpCard();
-                //choicePowerUpCard.addPowerUpCard(gameBoard.takePowerUpCard());
                 tmpPowerUpCard.add(powerUpCard1);
                 currentPlayer.setRespawned(true);
                 notifyObservers(choicePowerUpCard);
                 return;
             }
         }
-
     }
 
-    public String[] setDescriptionPowerUp(){
+    /**
+     * setter of power up's description
+     *
+     * @return
+     */
+
+    public String[] setDescriptionPowerUp() {
         String[] cardRepresentation = new String[tmpPowerUpCard.size()];
-        for(int i = 0 ; i < tmpPowerUpCard.size(); i++){
+        for (int i = 0; i < tmpPowerUpCard.size(); i++) {
             cardRepresentation[i] = tmpPowerUpCard.get(i).getPowerUpCardRepresentation();
         }
         return cardRepresentation;
@@ -289,6 +335,10 @@ public class Model extends Observable {
         String[] cardRepresentation = new String[9];
         return cardRepresentation;
     }
+
+    /**
+     * setter of frenzy mode
+     */
 
     public void setFrenzyMood() {
 
@@ -349,9 +399,15 @@ public class Model extends Observable {
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
-        }
+         }
         }
 
+    /**
+     * boolean to see if is a spawn Point
+     * @param x first coordinate
+     * @param y second cooridnate
+     * @return boolean
+     */
     public boolean isSpawnPoint(int x, int y){
        return gameBoard.getGameArena().isSpawnSquare(x,y);
     }
@@ -367,6 +423,10 @@ public class Model extends Observable {
                 changePlayer();
 
     }
+
+    /**
+     * send update of game state
+     */
 
     public void updateGameStatus(){
 
@@ -385,7 +445,9 @@ public class Model extends Observable {
         }
 
     }
-
+    /**
+     * send update of the message, if lenght of the message is 1 start reload
+     */
      //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
      public void sendUpdateMessage(){
         setGameRepresentation();
@@ -393,6 +455,9 @@ public class Model extends Observable {
      }
 
 
+    /**
+     * send message of the acction
+     */
 
     public void sendActionMessage(){
 
@@ -407,6 +472,10 @@ public class Model extends Observable {
            System.out.println("ok send message");
             notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
+
+    /**
+     * update for grab action
+     */
 
     public void updateGrabMessage(){
 
@@ -445,6 +514,11 @@ public class Model extends Observable {
 
                 }
             }
+
+    /**
+     * setter of the game
+     * @param indexMap map choosen by the player
+     */
 
     public void setGame(int indexMap){
 
@@ -499,15 +573,15 @@ public class Model extends Observable {
         return damageRanking;
     }
 
-
     /**
-     *  Assign player's point according to skull
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param p4
-     * @param playerDamageRanking
+     * Assign player's point according to skull
+     * @param p1 first player
+     * @param p2 second player
+     * @param p3 third player
+     * @param p4 four player
+     * @param playerDamageRanking possible points
      */
+
     public void assignPoint (int p1,int p2, int p3, int p4, int[][] playerDamageRanking){
         for (int i=0; i<players.size(); i++){
             if (playerDamageRanking[0][0]==players.get(i).getPlayerID()) players.get(i).addScore(p1);
@@ -519,11 +593,11 @@ public class Model extends Observable {
 
     }
 
-
     /**
-     * Assign point after player's death
-     * @param playerDeath
+     * add score when one player is dead
+     * @param playerDeath player who is dead
      */
+
     public void addScoreAfterDeath (Player playerDeath){
 
         //Give a point for first blood
@@ -558,7 +632,7 @@ public class Model extends Observable {
     }
 
     /**
-     *
+     * add damages on kill shot track
      * @param colorPlayerDoKill color of player do the kill shot
      * @param numOfDamage number of damage that suffer player death
      */
@@ -619,6 +693,11 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * respawn action
+     * @param positionInTmpCardChoosen
+     */
+
     public void movePlayerToRespawnSquare(int positionInTmpCardChoosen){
 
         gameBoard.getGameArena().movePlayerRespawnSquare(currentPlayer,tmpPowerUpCard.get(positionInTmpCardChoosen).getColorRoom());
@@ -645,6 +724,11 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * send un update if it isn't a correct action
+     * @param error
+     */
+
     public void updateNotCorrectAction(String error){
 
         if(currentPlayer.updatePlayerStatusIncorrectAction(error))
@@ -653,6 +737,9 @@ public class Model extends Observable {
             changePlayer();
     }
 
+    /**
+     * send an update if action is correct
+     */
     public void updateCorrectAction(){
 
         sendUpdateMessage();
@@ -669,6 +756,13 @@ public class Model extends Observable {
         else
             changePlayer();
     }
+
+    /**
+     * method to implements action run
+     * @param movement matrix of cooridinates (x,y) where x represents row and y represents column
+     */
+
+
 
     public void run(int[][] movement){
 
@@ -713,7 +807,7 @@ public class Model extends Observable {
                 } catch (OutOfBoundsException e) {
                 }
 
-        if(payment.length >3) {
+      /*  if(payment.length >3) {
             for (int i = 3; i < payment.length; i++) {
                 PowerUpCard  tmp = currentPlayer.getPowerUpCards().get(payment[i]);
                 currentPlayer.handlePaymentWithPowerUpCards(currentPlayer.getPowerUpCards().get(payment[i]));
@@ -730,7 +824,7 @@ public class Model extends Observable {
                 gameBoard.addPowerUpCardDiscarded(tmp);
 
             }
-        }
+        }*/
     }
 
     public void reload(int[][] payment, int[] weaponToRecharge){
@@ -754,8 +848,6 @@ public class Model extends Observable {
 
         }
         currentPlayer.takeWeaponCards(tmpWeaponCard,null);
-        //gameBoard.getGameArena().placeAnotherWeaponCardsOnSquareSpawn(currentPlayer.getX(),currentPlayer.getY());
-        //mettere un'altra weapon card
         updateCorrectAction();
     }
 
@@ -767,10 +859,18 @@ public class Model extends Observable {
         return playerDefender;
     }
 
+    /**
+     * implementation of shoot action
+     * @param indexCard index of weapon card
+     * @param orderEffect array of effects that player want use
+     * @param defenders array of players attacked
+     * @param coordinates coordinates of squares
+     * @param payment for to use effects
+     */
     public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
         AbstractWeaponCard weaponCard = currentPlayer.getWeaponCards().get(indexCard);
-        System.out.println("sono nel model delle use weapon card" + orderEffect.length);
+
      for(int i = 0 ; i < orderEffect.length; i ++) {
 
          if(orderEffect[i] == 1) {
@@ -781,6 +881,7 @@ public class Model extends Observable {
                      players.get(players.indexOf(player)).setShoot(true);
                      shootPlayer.add(player);
                  }
+
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -788,8 +889,10 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
+                         System.out.println("ok dead");
                          deadPlayer.add(player);
                      }
                  }
@@ -811,8 +914,9 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
                          deadPlayer.add(player);
                      }
                  }
@@ -834,30 +938,44 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
                          deadPlayer.add(player);
                      }
                  }
              }
          }
      }
-        System.out.println();
      currentPlayer.getWeaponCards().get(indexCard).changeState(StateCard.DISCHARGE);
      sendActionUpdateMessage();
 
     }
 
+
     public void usePowerUpCard(PowerUpCard powerUpCard,Player player1, Player player2,int[] coo){
 
         try {
             powerUpCard.effect(gameBoard, player1, player2, coo[0], coo[1]);
+
         }catch(DamageTrackException e){
-            //deadPlayer
+            for(Player player : players){
+                if(!deadPlayer.contains(player) && player.getRealPlayerBoard().getDamageTokens().size() >= 11){
+                    deadPlayer.add(player);
+                }
+            }
+
         }
 
-    }
+        updateCorrectAction();
 
+
+    }
+    /**
+     * change cubes to integer
+     * @param colorCube type of color
+     * @return
+     */
     public int[] fromCubesToInt(ColorCube[] colorCube){
         int[] toBePaid1 = new int[3];
 
@@ -900,6 +1018,13 @@ public class Model extends Observable {
         return payment1;
 
     }
+
+    /**
+     * Method to control if the payment is valid
+     * @param payment type of payment
+     * @param toBePaid color cube used to pay
+     * @return
+     */
 
     public boolean checkValidityPayment(int[] payment, ColorCube[] toBePaid){
 
@@ -953,7 +1078,12 @@ public class Model extends Observable {
         return playerRepresentation;
     }
 
+    /**
+     * setter of representation of the game
+     */
+
     public void setGameRepresentation() {
+        System.out.println("arena rep : " + gameBoard.getGameArena().getArenaRepresentation());
         for (int i = 0; i < players.size(); i++) {
             playerRepresentation[i] = players.get(i).getStatusPlayer();
             weaponCardDescription[i] = players.get(i).getWeaponCardDescription();
@@ -962,6 +1092,12 @@ public class Model extends Observable {
         }
 
     }
+
+    /**
+     *  method to see player's coordinates in the game
+     * @return
+     */
+
 
        public int[][] returnCoordinatesOfPlayerInGame(){
            int[][] coordinatesPlayerInGame = new int[players.size()][2];
@@ -973,21 +1109,35 @@ public class Model extends Observable {
         }
 
     public void updateEndTurn(){
-        //set delle ammo e delle weapon a on board
+
+        gameBoard.getGameArena().setStatusCardOnBoard();
+        updatePlayerDeath();
 
     }
 
     public void updatePlayerDeath(){
+
         //inizio del turno del player morto!
+        ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
+
+        System.out.println("has died! " + deadPlayer.size());
+        addDamageOnKillShotTrack(colorPlayerDoKill.get(0),colorPlayerDoKill.size());
+
+        currentPlayer.getRealPlayerBoard().resetAfterDeath();
         // -> respawn = TRUE
+        currentPlayer.setRespawned(true);
         //end turn della morte del player!
         //restore playerBoard
+        addScoreAfterDeath(currentPlayer);
         //distribuzione dei punti
-        // marchi rimangono!
-        //tolto un teschio -> final frenzy!!!
+        // marchi rimangono
         //invochi set frenzy
+        if(killShotTrack.getNumSkull()==mod) {
+            setFrenzyMood();
+            frenzyPlayer = players.size();
+        }
         //sendUpdateAction()!
-    }
+     }
 
     }
 

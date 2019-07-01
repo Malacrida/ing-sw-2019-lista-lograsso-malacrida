@@ -107,43 +107,6 @@ public class PlayerBoard{
         return yellowCubes.size();
     }
 
-   /* public void addCube(ColorCube colorCube) throws OutOfBoundsException{
-        if(colorCube.equals(ColorCube.BLUE))
-            this.addBlueCubes();
-        else if(colorCube.equals(ColorCube.RED))
-            this.addRedCubes();
-        else if(colorCube.equals(ColorCube.YELLOW))
-            this.addYellowCubes();
-    }*/
-
-/*    public void removeCube(ArrayList<ColorCube> colorCube) throws NoCubesException {
-
-        for(ColorCube cube : colorCube) {
-            if((colorCube.equals(ColorCube.BLUE))) {
-                try {
-                    this.removeBlueCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw  new NoCubesException("Blue cubes ended");
-                }
-            }
-
-            else if (colorCube.equals(ColorCube.RED)) {
-                try {
-                    this.removeRedCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw new NoCubesException("Red cubes ended");
-                }
-            }
-
-            else if (colorCube.equals(ColorCube.YELLOW)) {
-                try {
-                    this.removeYellowCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw new NoCubesException("Yellow cubes ended");
-                }
-            }
-        }
-    }*/
 
     /**
      * add red cube in player board
@@ -288,6 +251,14 @@ public class PlayerBoard{
         }
     }
 
+    public ArrayList<ColorPlayer> getDamageTokens() {
+        return damageTokens;
+    }
+
+    public ArrayList<ColorPlayer> getMarkTokens() {
+        return markTokens;
+    }
+
     public int getPlayerSkulls() {
         return playerSkulls;
     }
@@ -373,9 +344,9 @@ public class PlayerBoard{
     }
 
     /**
-     *
-     * @param colorPlayer
-     * @param numberOfDamage
+     * add a damage to one player
+     * @param colorPlayer Color player of damage
+     * @param numberOfDamage number of damnages
      * @throws DamageTrackException
      */
 
@@ -383,7 +354,7 @@ public class PlayerBoard{
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
-            if (damageTokens.size()>=12) {
+            if (damageTokens.size()>=11) {
                 removeMarkOfOneColor(colorPlayer);
                 throw new DamageTrackException();
             }
@@ -392,17 +363,27 @@ public class PlayerBoard{
             int n= numOfMarkOfOneColor(colorPlayer);
             for (int i=0; i<n ; i++) {
                 damageTokens.add(colorPlayer);
-                if (damageTokens.size()>=12) {
+                if (damageTokens.size()>=11) {
                     removeMarkOfOneColor(colorPlayer);
                     throw new DamageTrackException();
                 }
             }
             removeMarkOfOneColor(colorPlayer);
         }
-        if (damageTokens.size()==11) throw new DamageTrackException();
+
+        if (damageTokens.size()>=1) {
+            System.out.println("ok exception take damage");
+            throw new DamageTrackException();
+        }
 
 
     }
+
+    /**
+     * add marks of one color
+     * @param colorPlayer color of marks
+     * @param numberOfMark number of marks
+     */
 
     //Aggiunge marchi ma nel caso supera i tre marchi dello stesso colore non vengono aggiunti
     // ma non si lancia nemmeno un eccezione
@@ -415,14 +396,28 @@ public class PlayerBoard{
         }
     }
 
+    /**
+     * reset player board after death and add a skull
+     */
+
     public void resetAfterDeath (){
         playerSkulls++;
         damageTokens.clear();
     }
 
+    /**
+     * save first damage to add one score
+     * @return
+     */
+
     public ColorPlayer firstBlood(){
         return damageTokens.get(0);
     }
+
+    /**
+     *
+     * @return
+     */
 
     public ColorPlayer killShot (){
         if (damageTokens.size()>=11)
@@ -445,9 +440,18 @@ public class PlayerBoard{
     }
 
 
+    /**
+     *
+     * @return
+     */
+
     public String[] getSkullsRepresentation() {
         return skullsRepresentation;
     }
+
+    /**
+     * set skull representation
+     */
 
     public void setSkullsRepresentation() {
         skullsRepresentation = new String[6];
@@ -459,6 +463,10 @@ public class PlayerBoard{
         skullsRepresentation[5] = "1";
     }
 
+    /**
+     * set skull representation of frenzy mode
+     */
+
     public void setSkullsFrenzyRepresentation() {
         skullsRepresentation = new String[4];
         skullsRepresentation[0] = "4";
@@ -468,9 +476,19 @@ public class PlayerBoard{
 
     }
 
+    /**
+     * get mark representation
+     * @return
+     */
+
     public String[] getMarkRepresentation() {
         return markRepresentation;
     }
+
+    /**
+     * get mark representation
+     * @return
+     */
 
     public void setMarkRepresentation() {
         markRepresentation = new String[12];

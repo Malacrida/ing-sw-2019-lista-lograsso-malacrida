@@ -7,13 +7,11 @@ public class EndRegistration extends MoveMessage {
 
     public EndRegistration(String nicknamePlayer) {
         super(nicknamePlayer);
-        System.out.println("ok accept end registration constriuction");
 
     }
 
     @Override
     public void accept(VisitorView visitorview) {
-        System.out.println("ok accept end registration");
             visitorview.waitForStart(this);
     }
 
