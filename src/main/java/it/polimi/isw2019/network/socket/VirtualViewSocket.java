@@ -8,13 +8,24 @@ import it.polimi.isw2019.utilities.Observer;
 
 import java.io.IOException;
 
-public class VirtualViewSocket  extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
+public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface  {
 
     private String nickname;
     private ServerImplementationSocket serverImplementationSocket;
 
     public VirtualViewSocket (ServerImplementationSocket serverImplementationSocket){
         this.serverImplementationSocket = serverImplementationSocket;
+    }
+
+    public void receivePlayerMove (PlayerMove playerMove){
+        System.out.println("evviva");
+        System.out.println("player: " + playerMove.getPlayer());
+        notifyObservers(playerMove);
+    }
+
+    @Override
+    public void update(MoveMessage message) {
+        //Richiami il metodo per fare l'oput stream sul oggetto
     }
 
     @Override
@@ -72,9 +83,4 @@ public class VirtualViewSocket  extends Observable<PlayerMove> implements Observ
 
     }
 
-    @Override
-    public void update(MoveMessage message) {
-        System.out.println("IL SOCKET VEDE LA PLAYERMOVE, CAZZO!");
-        message.accept(this);
-    }
 }

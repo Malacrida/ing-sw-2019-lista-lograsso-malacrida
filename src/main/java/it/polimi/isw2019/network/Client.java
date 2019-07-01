@@ -71,7 +71,7 @@ public class Client {
 
         if (typeServer == 0){
             System.out.println("Starting SOCKET");
-            /*
+
             try {
 
                 CLIView cliView = new CLIView(nickname);
@@ -81,7 +81,7 @@ public class Client {
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname, cliView);
+                serverInterface.registerNewClient(socket, nickname);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -98,7 +98,7 @@ public class Client {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.getCause();
-            }*/
+            }
         }
         if (typeServer==1){
             //192.168.43.154

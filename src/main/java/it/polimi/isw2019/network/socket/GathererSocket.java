@@ -46,6 +46,7 @@ public class GathererSocket implements Runnable, GathererInterface {
         ObjectInputStream input;
 
         try {
+
             newConnection = serverSocket.accept();
             output = new ObjectOutputStream(newConnection.getOutputStream());
             input = new ObjectInputStream(newConnection.getInputStream());
@@ -57,7 +58,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             thread.start();
 
             System.out.println("Provo a inviare la player move");
-            clientHandlerSocket(newConnection);
+            //clientHandlerSocket(newConnection);
 
             ClientSocket cs = new ClientSocket(newConnection, output, input);
             cs.start();

@@ -468,6 +468,11 @@ public class Model extends Observable {
         }
     }
 
+    /**
+     * Set matrix of point player
+     * @param playerDeath
+     * @return
+     */
     public int [][] setDamageRanking (Player playerDeath) {
 
         damageRanking= new int [players.size()-1][2];
@@ -495,6 +500,14 @@ public class Model extends Observable {
     }
 
 
+    /**
+     *  Assign player's point according to skull
+     * @param p1
+     * @param p2
+     * @param p3
+     * @param p4
+     * @param playerDamageRanking
+     */
     public void assignPoint (int p1,int p2, int p3, int p4, int[][] playerDamageRanking){
         for (int i=0; i<players.size(); i++){
             if (playerDamageRanking[0][0]==players.get(i).getPlayerID()) players.get(i).addScore(p1);
@@ -507,6 +520,10 @@ public class Model extends Observable {
     }
 
 
+    /**
+     * Assign point after player's death
+     * @param playerDeath
+     */
     public void addScoreAfterDeath (Player playerDeath){
 
         //Give a point for first blood
@@ -550,6 +567,10 @@ public class Model extends Observable {
     }
 
 
+    /**
+     * Assign point after end game
+     * @return
+     */
     public int [][] killShotRanking (){
 
         int [][] killShotTable = new int [players.size()][2];
@@ -575,6 +596,9 @@ public class Model extends Observable {
     }
 
 
+    /**
+     * Set matrix of point kill shot track
+     */
     public void addScoreToKillShotTrack (){
 
         int [][] killShotTable= killShotRanking();
