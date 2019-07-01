@@ -2,14 +2,10 @@ package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
-import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -44,6 +40,8 @@ public class Lobby implements LobbyInterface {
     }
 
 
+
+
     @Override
     public void run() {
         while (lobbyIsRunning) {
@@ -54,6 +52,7 @@ public class Lobby implements LobbyInterface {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
             System.out.println("Three clients or more are waiting.");
@@ -86,6 +85,7 @@ public class Lobby implements LobbyInterface {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
             if(roomStartable) {
                 System.out.println("Countdown ended, starting the room.");
@@ -108,7 +108,7 @@ public class Lobby implements LobbyInterface {
             }
         }
 
-        }
+    }
     public void setVirtualViews() {
         for (int i=0; i<nicknames.size(); i++ ){
             VirtualView virtualView = new VirtualView(nicknames.get(i), clientConnected.get(nicknames.get(i)));

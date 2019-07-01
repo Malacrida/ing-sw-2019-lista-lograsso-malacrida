@@ -35,6 +35,11 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
+    @Override
+    public void createUpdateView(String nicknamePlayer, String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable, String[][] weaponCardDescription, String[][] powerUpCardDescription, boolean notifyAll) throws RemoteException {
+
+    }
+
     public ClientSocket(Socket clientSocket, ObjectOutputStream output, ObjectInputStream input) throws IOException{
         this.clientSocket = clientSocket;
         this.input = input;
@@ -138,11 +143,6 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-   @Override
-    public void createUpdateView(String nicknamePlayer, boolean notifyAll) throws RemoteException {
-
-    }
-
 
     @Override
     public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
@@ -161,9 +161,10 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer) throws RemoteException {
+    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException {
 
     }
+
 
     @Override
     public void createUsePowerUpCard(String nicknamePlayer) throws RemoteException {
@@ -171,7 +172,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException {
+    public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException {
 
     }
 

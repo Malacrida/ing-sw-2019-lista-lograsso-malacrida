@@ -5,7 +5,6 @@ import it.polimi.isw2019.network.network_interface.ServerInterface;
 
 import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
-import it.polimi.isw2019.network.rmi.ServerInterfaceRMI;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
 
@@ -72,8 +71,9 @@ public class Client {
 
         if (typeServer == 0){
             System.out.println("Starting SOCKET");
-
+            /*
             try {
+
                 CLIView cliView = new CLIView(nickname);
 
                 Socket socket = new Socket("localhost", 1111);
@@ -98,11 +98,12 @@ public class Client {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
+            //192.168.43.154
             try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:1235/ServerRmi");
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
@@ -115,31 +116,22 @@ public class Client {
 
     private static void startView (String nickname, int typeServer) throws RemoteException {
         CLIView view = new CLIView(nickname);
+        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
-        if (typeServer == 0){
-            //Socket
 
+        try {
+            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+            serverRmi.registerNewClient(remoteClient, nickname);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (typeServer == 1){
-            NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
-
-            try {
-                ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-                serverRmi.registerNewClient(remoteClient, nickname, view);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("registrazione completata");
-            view.registerObserver(networkHandler);
-            networkHandler.registerObserver(view);
-        }
+        System.out.println("registrazione completata");
 
 
-
-
-
+        view.registerObserver(networkHandler);
+        networkHandler.registerObserver(view);
         //view.startView();
     }
 

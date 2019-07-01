@@ -45,12 +45,17 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
             }
         }
 
-    @Override
+   // @Override
     public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
         String actionHero = "MANNAIA LA PUTTANA";
         FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
         write(firstMessage);
         this.start();
+    }
+
+    @Override
+    public void registerNewClient(Socket client, String nickname) throws IOException, RemoteException {
+
     }
 
     @Override

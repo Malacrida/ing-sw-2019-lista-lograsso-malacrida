@@ -34,6 +34,7 @@ public class Player{
     private int runAndGrab;
     private int run;
     private int runAndUseWeaponCard;
+    private boolean isShoot;
 
     private boolean respawn;
 
@@ -299,6 +300,14 @@ public class Player{
         //Cambio di stato
         powerUpCard.changeStateCard(StateCard.DISCARD);
         powerUpCards.remove(powerUpCard);
+    }
+
+    public boolean isShoot() {
+        return isShoot;
+    }
+
+    public void setShoot(boolean shoot) {
+        isShoot = shoot;
     }
 
     //Nella mia versione c'era non so se andava tolto (FROM DAVIDE)

@@ -39,7 +39,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void registerNewClient(ClientInterface client, String nickname, CLIView view) throws IOException, RemoteException {
+    public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
         System.out.println(client.getNickname());
         if (lobby.addClientConnected(nickname,client))
@@ -137,7 +137,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-                virtualViews.get(i).createUsePowerUpCard(player/*, powerUpCardInterface*/);
+              //  virtualViews.get(i).createUsePowerUpCard(player/*, powerUpCardInterface*/);
             }
         }
     }
@@ -146,7 +146,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) {
         for (int i=0; i<virtualViews.size(); i++){
             if(virtualViews.get(i).getNickname().equals(player)){
-                virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,/*powerUpCards,*/grab);
+              //  virtualViews.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,/*powerUpCards,*/grab);
             }
         }
     }
@@ -180,7 +180,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
 
         try {
-            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
+            //localhost
+            Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
             System.out.println("Error remote");

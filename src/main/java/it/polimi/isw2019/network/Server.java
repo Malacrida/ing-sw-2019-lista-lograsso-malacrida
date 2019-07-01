@@ -22,11 +22,12 @@ public class Server {
 
     public static void main(String[] args){
 
-        GathererInterface gathererSocket= new GathererSocket(1111);
+       // GathererInterface gathererSocket= new GathererSocket(1111);
 
+        System.setProperty("java.rmi.server.hostname", "192.168.43.154");
 
         try {
-             gathererRmi = new ServerRmi(1235);
+            gathererRmi = new ServerRmi(8080);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -34,9 +35,16 @@ public class Server {
 
 
         Server server = new Server();
-        server.start(gathererSocket, gathererRmi);
+        server.start( gathererRmi);
 
     }
+
+    /*public void startServer(){
+        while(isRunning){
+            Conn c = servsock.accept();
+            Thread t = new Thread(r -> register(c)).start();
+        }
+    }*/
 
     private void start(GathererInterface... gatherers){
         this.executor = Executors.newFixedThreadPool(128);

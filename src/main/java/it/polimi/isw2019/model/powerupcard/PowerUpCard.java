@@ -106,47 +106,49 @@ public class PowerUpCard implements PowerUpCardInterface{
     /**
      * implementation of power up card's effect
      * @param gameBoard gameboard
-     * @param name name of power up
      * @param attacker player who use power up
      * @param defender player who suffer effect of power up
      * @param x first coordinate
      * @param y second coordinate
      */
     @Override
-    public void effect(GameBoard gameBoard, String name, Player attacker, Player defender, int x, int y) {
+    public void effect(GameBoard gameBoard,Player attacker, Player defender, int x, int y) throws DamageTrackException {
         switch (name) {
             case "Targeting Scope":
 
-                //payonecube
                 try {
                     defender.sufferDamageOrMark(attacker.getColor(),1,0);
                 } catch (DamageTrackException e) {
-                    e.getMessage();
+                    throw new DamageTrackException();
+
                 }
+
                 break;
 
             case "Newton":
-                //change position 2
+
+                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
+                    gameBoard.getGameArena().teleporterMove(attacker, x, y);
+                }
+
                 break;
 
             case "Tagback Grenade":
                 try {
                     defender.sufferDamageOrMark(attacker.getColor(), 0, 1);
                 } catch (DamageTrackException  e) {
-                    e.getMessage();
+                    throw new DamageTrackException();
                 }
                 break;
 
             case "Teleporter":
                 if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
-//
                     gameBoard.changePositionPlayer(attacker, x, y);
-
                 }
                 break;
 
             default:
-                //lancia eccezione
+
         }
     }
 

@@ -30,14 +30,14 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
     private String weaponCardDescription;
 
 
-    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefender) {
+    public AbstractWeaponCard(int id, String name, ColorCube color, int maxPossibleEffects, int maxPossibleCoordinates, int maxPossibleDefenders) {
         this.id = id;
         this.name = name;
         this.color = color;
         this.maxPossibleEffects = maxPossibleEffects;
         this.maxPossibleCoordinates = maxPossibleCoordinates;
         this.maxPossibleDefenders = maxPossibleDefenders;
-        this.rechargeCube = rechargeCube;
+       // this.rechargeCube = rechargeCube;
 
     }
 

@@ -7,7 +7,6 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-import it.polimi.isw2019.view.CLIView;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -29,7 +28,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://localhost:1235/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -141,7 +140,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
-            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer()/*, usePowerUpCard.getPowerUpCardInterface()*/);
+            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -171,7 +170,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createActionMessage(String nickname) {
-        System.out.println("ricevo move message");
+        System.out.println("ricevo move message Action");
         ActionMessage actionMessage= new ActionMessage(nickname);
         notifyObservers(actionMessage);
     }
@@ -200,9 +199,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createUpdateView(String nicknamePlayer,boolean notifyAll) {
-      /*  UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,n);
-        notifyObservers(updateMessage);*/
+    public void createUpdateView(String nicknamePlayer,String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable,String[][] weaponCardDescription, String[][] powerUpCardDescription,boolean notifyAll) {
+        UpdateMessage updateMessage = new UpdateMessage(nicknamePlayer,gameBoardDescription,playersDescription,featuresOfPlayersAvailable,weaponCardDescription,powerUpCardDescription,notifyAll);
+        notifyObservers(updateMessage);
     }
 
     @Override
@@ -224,9 +223,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer) {
-
+    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
+        System.out.println("ricevo la Move message choice PU");
+        ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
+        notifyObservers(choicePowerUpCard);
     }
+
 
     @Override
     public void createUsePowerUpCard(String nicknamePlayer) {
@@ -234,12 +236,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createFirstPlayerChooseMap(String nicknamePlayer, String[] possibleMaps, ArrayList<String> colorAvailable) {
-      /*  FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,possibleMaps,colorAvailable);
+    public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException {
+        FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,idPlayer,possibleMaps,colorAvailable);
         System.out.println("ricevo la scelta della mappa per: "+ nicknamePlayer);
-        notifyObservers(firstMessageFirstPlayer);*/
-
+        notifyObservers(firstMessageFirstPlayer);
     }
+
 
     @Override
     public void createFailRegistration(String nicknamePlayer) {
