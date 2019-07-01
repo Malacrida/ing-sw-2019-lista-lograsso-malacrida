@@ -25,16 +25,15 @@ public class Model extends Observable {
     //assume that the player are in order!!
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
 
-    private ArrayList<Player> players ;
+    private ArrayList<Player> players;
     private ArrayList<PlayerBoard> playerBoards;
-    private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
-    int [][] damageRanking;
+    private ArrayList<PlayerBoard> playerBoardsAvailable = new ArrayList<>();
+    int[][] damageRanking;
 
-    private int[][] playerRepresentation ;
-    private String[][] weaponCardDescription ;
+    private int[][] playerRepresentation;
+    private String[][] weaponCardDescription;
     private String[][] powerUpCardDescription;
-    private int[][] featuresAvailable ;
-
+    private int[][] featuresAvailable;
 
 
     private ArrayList<String> colorAvailable;
@@ -61,23 +60,23 @@ public class Model extends Observable {
         return players;
     }
 
-    public GameBoard getGameBoard(){
+    public GameBoard getGameBoard() {
         return this.gameBoard;
     }
 
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
     /**
-     *
-     * @param mod type of game mod
+     * @param mod type of game mode
      */
-    public void setKillShotTrack (int mod){
+    public void setKillShotTrack(int mod) {
         killShotTrack = new KillShotTrack(mod);
     }
 
     //vengono attivati con l'update
-    public Model(){
+    public Model() {
 
         players = new ArrayList<>();
         playerBoardsAvailable = new ArrayList<>();
@@ -88,7 +87,6 @@ public class Model extends Observable {
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.GREY));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.VIOLET));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.BLUE));
-
 
 
     }
@@ -104,8 +102,9 @@ public class Model extends Observable {
     public ArrayList<AbstractWeaponCard> getWeaponCards() {
         return weaponCards;
     }
-    public void gameSetting (){
-        playerBoardsAvailable= SetUpGame.setPlayerBoard();
+
+    public void gameSetting() {
+        playerBoardsAvailable = SetUpGame.setPlayerBoard();
     }
 
     public void setPlayers(ArrayList<Player> players) {
@@ -132,46 +131,53 @@ public class Model extends Observable {
         this.currentPlayer = currentPlayer;
     }
 
-    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException{
 
-        if(players.size()<5) {
+    /**
+     * add player in model
+     *
+     * @param nickName          of player
+     * @param actionHeroComment action phrase of player
+     * @throws IndexOutOfBoundsException
+     */
+    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException {
+
+        if (players.size() < 5) {
             players.add(new Player(nickName, actionHeroComment));
             System.out.println("ok registration model");
             System.out.println("player : " + players.get(0).getName());
             notifyObservers(new EndRegistration(nickName));
-        }
-        else{
+        } else {
             notifyObservers(new FailRegistration(nickName));
             throw new IndexOutOfBoundsException();
         }
     }
 
     //used for the tests
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
-    public void chooseFirstPlayer(int firstPlayer){
+    public void chooseFirstPlayer(int firstPlayer) {
 
         shift = firstPlayer;
 
         players.get(shift).setFirstPlayer(true);
 
-        for(int i = shift , j = 0; i < players.size() ; i++, j++){
+        for (int i = shift, j = 0; i < players.size(); i++, j++) {
             players.get(i).setIndexPlayer(j);
         }
 
-        for(int i = 0, j = players.size() - shift ; i < shift ; i++ , j ++){
+        for (int i = 0, j = players.size() - shift; i < shift; i++, j++) {
             players.get(i).setIndexPlayer(j);
         }
 
-        System.out.println("first player" + shift + "\n" );
+        System.out.println("first player" + shift + "\n");
 
         currentPlayer = players.get(shift);
 
     }
 
-    public void firstMessage(){
+    public void firstMessage() {
 
         FirstMessageFirstPlayer firstMessageFirstPlayer = new FirstMessageFirstPlayer(currentPlayer.getName());
 
@@ -179,7 +185,7 @@ public class Model extends Observable {
 
         firstMessageFirstPlayer.setColorAvailable(colorAvailable);
 
-        if(currentPlayer.isFirstPlayer()) {
+        if (currentPlayer.isFirstPlayer()) {
             //migliorare la map
             String[] arena = {"map1", "map2", "map3", "map4"};
             firstMessageFirstPlayer.setArenaInterfaces(arena);
@@ -193,12 +199,20 @@ public class Model extends Observable {
 
 
     }
-    public void setPlayerWithPlayerBoard (Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
+
+    /**
+     * join player and player board
+     *
+     * @param player
+     * @param colorPlayer
+     * @throws ColorNotAvailableException
+     */
+
+    public void setPlayerWithPlayerBoard(Player player, ColorPlayer colorPlayer) throws ColorNotAvailableException {
         try {
             player.setPlayerBoardAndColor(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)), colorPlayer);
             playerBoardsAvailable.remove(playerBoardsAvailable.get(positionPlayerBoardAvailable(colorPlayer)));
-        }
-        catch (ColorNotAvailableException e){
+        } catch (ColorNotAvailableException e) {
             throw new ColorNotAvailableException();
             //Manda un messaggio di scelta sbagliata -> Update!!
             // al posto di rilanciare l'eccezione
@@ -206,18 +220,26 @@ public class Model extends Observable {
 
     }
 
-    public boolean containsColor (ColorPlayer color) throws ColorNotAvailableException {
+    /**
+     * method to see if a color is already choosen
+     *
+     * @param color
+     * @return boolean
+     * @throws ColorNotAvailableException
+     */
+
+    public boolean containsColor(ColorPlayer color) throws ColorNotAvailableException {
         for (int i = 0; i < playerBoardsAvailable.size(); i++) {
             if (playerBoardsAvailable.get(i).getColor() == color) return true;
         }
         throw new ColorNotAvailableException();
     }
 
-    public void colorAvailable(){
+    public void colorAvailable() {
 
-        ArrayList <String> colorAvailable = new ArrayList<>();
+        ArrayList<String> colorAvailable = new ArrayList<>();
 
-        for(PlayerBoard playerBoard1 : playerBoardsAvailable){
+        for (PlayerBoard playerBoard1 : playerBoardsAvailable) {
             colorAvailable.add(playerBoard1.getColor().getColorPlayerRepresentation());
         }
 
@@ -225,33 +247,33 @@ public class Model extends Observable {
 
     }
 
-    public int positionPlayerBoardAvailable (ColorPlayer color) throws ColorNotAvailableException {
-        for (int i=0; i<playerBoardsAvailable.size(); i++){
-            if (playerBoardsAvailable.get(i).getColor()==color) return i;
+    public int positionPlayerBoardAvailable(ColorPlayer color) throws ColorNotAvailableException {
+        for (int i = 0; i < playerBoardsAvailable.size(); i++) {
+            if (playerBoardsAvailable.get(i).getColor() == color) return i;
         }
         throw new ColorNotAvailableException();
     }
 
+    /**
+     * method to change turn
+     */
 
-    public void changePlayer(){
+    public void changePlayer() {
 
         int index = players.indexOf(currentPlayer);
 
-        if(index == players.size() - 1){
+        if (index == players.size() - 1) {
             currentPlayer = players.get(0);
-        }
-
-        else{
-            currentPlayer = players.get(index+1);
+        } else {
+            currentPlayer = players.get(index + 1);
         }
 
         sendUpdateMessage();
 
-        if(currentPlayer.getRealPlayerBoard() == null){
+        if (currentPlayer.getRealPlayerBoard() == null) {
             firstMessage();
             return;
-        }
-        else {
+        } else {
             if (currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
                 notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
                 return;
@@ -281,84 +303,99 @@ public class Model extends Observable {
 
     }
 
-    public String[] setDescriptionPowerUp(){
+    /**
+     * setter of power up's description
+     *
+     * @return
+     */
+
+    public String[] setDescriptionPowerUp() {
         String[] cardRepresentation = new String[tmpPowerUpCard.size()];
-        for(int i = 0 ; i < tmpPowerUpCard.size(); i++){
+        for (int i = 0; i < tmpPowerUpCard.size(); i++) {
             cardRepresentation[i] = tmpPowerUpCard.get(i).getPowerUpCardRepresentation();
         }
         return cardRepresentation;
     }
 
-    public String[] setDescriptionWeaponCard(){
+    public String[] setDescriptionWeaponCard() {
         String[] cardRepresentation = new String[9];
         return cardRepresentation;
     }
 
+    /**
+     * setter of frenzy mode
+     */
+
     public void setFrenzyMood() {
 
-        if(shift < players.indexOf(currentPlayer)){
-            for ( int i = players.indexOf(currentPlayer); i < players.size(); i++) {
+        if (shift < players.indexOf(currentPlayer)) {
+            for (int i = players.indexOf(currentPlayer); i < players.size(); i++) {
 
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
 
                 players.get(i).setCorrectFrenzyActionChooseMessage(true);
-             }
+            }
 
-            for ( int i = 0 ; i < shift ; i++){
+            for (int i = 0; i < shift; i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(true);
             }
 
-            for ( int i = shift ; i < players.indexOf(currentPlayer); i ++ ){
+            for (int i = shift; i < players.indexOf(currentPlayer); i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
-            }
-
-        else if (shift > players.indexOf(currentPlayer)){
-            for ( int i = players.indexOf(currentPlayer); i < shift; i++) {
+        } else if (shift > players.indexOf(currentPlayer)) {
+            for (int i = players.indexOf(currentPlayer); i < shift; i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
-                }players.get(i).setCorrectFrenzyActionChooseMessage(true);
+                }
+                players.get(i).setCorrectFrenzyActionChooseMessage(true);
             }
-            for ( int i = shift ; i < players.size(); i ++ ){
+            for (int i = shift; i < players.size(); i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
-            for ( int i =0; i <  players.indexOf(currentPlayer); i++) {
-                if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
-                    players.get(i).getRealPlayerBoard().setFrenzy(true);
-                }players.get(i).setCorrectFrenzyActionChooseMessage(false);
-            }
-         }
-
-        else if(shift == players.indexOf(currentPlayer)){
-            for ( int i = shift ; i < players.size(); i ++ ){
+            for (int i = 0; i < players.indexOf(currentPlayer); i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
-            for ( int i =0; i <  shift; i++) {
+        } else if (shift == players.indexOf(currentPlayer)) {
+            for (int i = shift; i < players.size(); i++) {
+                if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
+                    players.get(i).getRealPlayerBoard().setFrenzy(true);
+                }
+                players.get(i).setCorrectFrenzyActionChooseMessage(false);
+            }
+            for (int i = 0; i < shift; i++) {
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
         }
-        }
+    }
 
+    /**
+     * boolean to see if is a spawn Point
+     * @param x first coordinate
+     * @param y second cooridnate
+     * @return boolean
+     */
     public boolean isSpawnPoint(int x, int y){
        return gameBoard.getGameArena().isSpawnSquare(x,y);
     }
+
 
     public void sendActionUpdateMessage(){
 
@@ -371,6 +408,10 @@ public class Model extends Observable {
                 changePlayer();
 
     }
+
+    /**
+     * send update of game state
+     */
 
     public void updateGameStatus(){
 
@@ -394,13 +435,20 @@ public class Model extends Observable {
 
     }
 
-     //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
+    /**
+     * send update of the message, if lenght of the message is 1 start reload
+     */
+
+    //reload viene invocata se la lunghezza del messaggio e' pari a 1!! oppure con la scelta delle powerUp
      public void sendUpdateMessage(){
         setGameRepresentation();
         notifyObservers(new UpdateMessage(currentPlayer.getName(),gameBoard.getGameArena().getArenaRepresentation(),playerRepresentation,featuresAvailable,weaponCardDescription,powerUpCardDescription,true));
      }
 
 
+    /**
+     * send message of the acction
+     */
 
     public void sendActionMessage(){
 
@@ -415,6 +463,10 @@ public class Model extends Observable {
            System.out.println("ok send message");
             notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
+
+    /**
+     * update for grab action
+     */
 
     public void updateGrabMessage(){
 
@@ -452,7 +504,12 @@ public class Model extends Observable {
                     notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
                 }
-            }
+    }
+
+    /**
+     * setter of the game
+     * @param indexMap map choosen by the player
+     */
 
     public void setGame(int indexMap){
 
@@ -502,6 +559,14 @@ public class Model extends Observable {
         return damageRanking;
     }
 
+    /**
+     * method to assign point
+     * @param p1 first player
+     * @param p2 second player
+     * @param p3 third player
+     * @param p4 four player
+     * @param playerDamageRanking possible points
+     */
 
     public void assignPoint (int p1,int p2, int p3, int p4, int[][] playerDamageRanking){
         for (int i=0; i<players.size(); i++){
@@ -514,6 +579,10 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * add score when one player is dead
+     * @param playerDeath player who is dead
+     */
 
     public void addScoreAfterDeath (Player playerDeath){
 
@@ -549,7 +618,7 @@ public class Model extends Observable {
     }
 
     /**
-     *
+     * add damages on kill shot track
      * @param colorPlayerDoKill color of player do the kill shot
      * @param numOfDamage number of damage that suffer player death
      */
@@ -583,6 +652,7 @@ public class Model extends Observable {
     }
 
 
+
     public void addScoreToKillShotTrack (){
 
         int [][] killShotTable= killShotRanking();
@@ -602,6 +672,11 @@ public class Model extends Observable {
         }
 
     }
+
+    /**
+     * respawn action
+     * @param positionInTmpCardChoosen
+     */
 
     public void movePlayerToRespawnSquare(int positionInTmpCardChoosen){
 
@@ -629,6 +704,11 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * send un update if it isn't a correct action
+     * @param error
+     */
+
     public void updateNotCorrectAction(String error){
 
         if(currentPlayer.updatePlayerStatusIncorrectAction(error))
@@ -637,6 +717,9 @@ public class Model extends Observable {
             changePlayer();
     }
 
+    /**
+     * send an update if action is correct
+     */
     public void updateCorrectAction(){
 
         sendUpdateMessage();
@@ -653,6 +736,11 @@ public class Model extends Observable {
         else
             changePlayer();
     }
+
+    /**
+     * method to implements action run
+     * @param movement matrix of cooridinates (x,y) where x represents row and y represents column
+     */
 
     public void run(int[][] movement){
 
@@ -751,6 +839,14 @@ public class Model extends Observable {
         return playerDefender;
     }
 
+    /**
+     * implementation of shoot action
+     * @param indexCard index of weapon card
+     * @param orderEffect array of effects that player want use
+     * @param defenders array of players attacked
+     * @param coordinates coordinates of squares
+     * @param payment for to use effects
+     */
     public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
         AbstractWeaponCard weaponCard = currentPlayer.getWeaponCards().get(indexCard);
@@ -762,10 +858,7 @@ public class Model extends Observable {
                  weaponCard.firstEffect(gameBoard,currentPlayer, fromArrayToArrayListPlayer(defenders[0]), coordinates[0]);
                  handlePayment(payment[0]);
                  System.out.println("ok");
-             } catch (NoEffectException e) {
-                 updateNotCorrectAction(e.getMessage());
-                 return;
-             } catch (ErrorEffectException e) {
+             } catch (NoEffectException | ErrorEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
@@ -821,6 +914,11 @@ public class Model extends Observable {
 
     }
 
+    /**
+     * change cubes to integer
+     * @param colorCube type of color
+     * @return
+     */
     public int[] fromCubesToInt(ColorCube[] colorCube){
         int[] toBePaid1 = new int[3];
 
@@ -863,6 +961,13 @@ public class Model extends Observable {
         return payment1;
 
     }
+
+    /**
+     * Method to control if the payment is valid
+     * @param payment type of payment
+     * @param toBePaid color cube used to pay
+     * @return
+     */
 
     public boolean checkValidityPayment(int[] payment, ColorCube[] toBePaid){
 
@@ -916,6 +1021,10 @@ public class Model extends Observable {
         return playerRepresentation;
     }
 
+    /**
+     * setter of representation of the game
+     */
+
     public void setGameRepresentation() {
         for (int i = 0; i < players.size(); i++) {
             playerRepresentation[i] = players.get(i).getStatusPlayer();
@@ -926,12 +1035,17 @@ public class Model extends Observable {
 
     }
 
-       public int[][] returnCoordinatesOfPlayerInGame(){
-           int[][] coordinatesPlayerInGame = new int[players.size()][2];
-           for(int i = 0; i < players.size(); i++){
-               coordinatesPlayerInGame[i][0] = players.get(i).getX();
-               coordinatesPlayerInGame[i][1] = players.get(i).getY();
-           }
-           return coordinatesPlayerInGame;
-        }
+    /**
+     *  method to see player's coordinates in the game
+     * @return
+     */
+
+   public int[][] returnCoordinatesOfPlayerInGame(){
+       int[][] coordinatesPlayerInGame = new int[players.size()][2];
+       for(int i = 0; i < players.size(); i++){
+           coordinatesPlayerInGame[i][0] = players.get(i).getX();
+           coordinatesPlayerInGame[i][1] = players.get(i).getY();
+       }
+       return coordinatesPlayerInGame;
     }
+}

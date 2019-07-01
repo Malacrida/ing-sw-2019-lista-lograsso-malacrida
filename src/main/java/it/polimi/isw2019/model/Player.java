@@ -356,6 +356,11 @@ public class Player{
 
     }
 
+    /**
+     * take an ammo tile
+     * @param ammoTile
+     */
+
     public void takenAmmoTileColor(AmmoTile ammoTile){
 
         if(!ammoTile.isPowerUpCard()){
@@ -375,6 +380,11 @@ public class Player{
 
     }
 
+    /**
+     * change power up in cube
+     * @param powerUpCard1
+     */
+
     public void fromPowerUpCardIntoCubes(PowerUpCard powerUpCard1){
         for (PowerUpCard powerUpCard2 : powerUpCards) {
             if (powerUpCard2.getId() == powerUpCard1.getId()) {
@@ -389,6 +399,10 @@ public class Player{
 
     }
 
+    /**
+     *
+     * @param powerUpCard
+     */
     public void handlePaymentWithPowerUpCards(PowerUpCard powerUpCard) {
             fromPowerUpCardIntoCubes(powerUpCard);
     }
@@ -533,6 +547,10 @@ public class Player{
         return playerBoard;
     }
 
+    /**
+     * getter of weapon card information
+     * @return description of weapon card
+     */
 
     public String[] getWeaponCardDescription(){
         String[] tmpWeaponCardDescription = new String[weaponCards.size()];
@@ -546,6 +564,11 @@ public class Player{
         return tmpWeaponCardDescription;
     }
 
+    /**
+     * getter of power up card information
+     * @return description of power up card
+     */
+
     public String[] getPowerUpDescription(){
         String[] tmpPowerUpCardDescription = new String[powerUpCards.size()];
         if(powerUpCards.size() == 0 ) return null;
@@ -557,6 +580,11 @@ public class Player{
         return tmpPowerUpCardDescription;
 
     }
+
+    /**
+     * getter of weapon card information
+     * @return description of weapon card
+     */
 
     public int[][] getWeaponCardFeatures(){
         int[][] weaponCardFeatures = new int[weaponCards.size()][3];
@@ -582,6 +610,11 @@ public class Player{
         return weaponDischarged;
     }
 
+    /**
+     * get weapon card
+     * @return
+     */
+
     //1-> recharged, 0 -> discharged
     public int[] getWeaponCard() {
 
@@ -599,6 +632,11 @@ public class Player{
 
     //add a powerUp in the UsePowerUp if it has the correct feature
 
+    /**
+     * add a powerUp in the UsePowerUp if it has the correct feature
+     * @return boolean
+     */
+
     public boolean canAddPowerUp(){
         for(PowerUpCard powerUpCard : powerUpCards){
             if(powerUpCard.isCanBeUsed()){
@@ -607,6 +645,11 @@ public class Player{
         }
         return false;
     }
+
+    /**
+     * reloade weapon card
+     * @return boolean
+     */
 
     public boolean reloadedWeaponCard(){
         for(AbstractWeaponCard weaponCard : weaponCards){
@@ -888,6 +931,11 @@ public class Player{
         }
         return powerUpState;
     }
+
+    /**
+     * method of effect of power up
+     * @return effect
+     */
 
     public int[] effectPowerUpCard(){
         int[] effectPowerUp = new int[powerUpCards.size()];
