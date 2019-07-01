@@ -54,7 +54,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         model.registerObserver(firstMessage.getCLIView());
 
         try{
-            System.out.println("ok registration controller");
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
             model.unregisterObserver(firstMessage.getCLIView());
@@ -176,7 +175,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 model.updateNotCorrectAction("cannot insert twice the same effect");
             }
         }
-        System.out.println("sono nel controller delle use weapon card!");
+
         model.useWeaponCard(useWeaponCard.getWeaponCard(), useWeaponCard.getEffectUsed(),useWeaponCard.getPeopleToBeShoot(), useWeaponCard.getHandleEffectCoordinates(), useWeaponCard.getHandleEffectPayment());
 
     }

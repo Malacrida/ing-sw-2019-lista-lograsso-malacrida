@@ -122,7 +122,7 @@ public class Arena {
      * list of player in a square
      * @param x coordinate of square
      * @param y coordinate of square
-     * @param player you use the player to identify the square
+     * @param player you use to remove the attacker from the list of player in one square
      * @return arraylist of players
      */
 
@@ -498,6 +498,22 @@ public class Arena {
     public String getArenaRepresentation() {
         setArenaRepresentation();
         return arenaRepresentation;
+    }
+
+    public void setStatusCardOnBoard(){
+        for(int i = 0; i < 3 ; i ++){
+            for(int j = 0 ; j < 4 ; j ++){
+                if(!squares[i][j].isCanUseAmmo())
+                    squares[i][j].getAmmoTile().setCheckState(StateCard.ON_BOARD);
+                else if(squares[i][j] instanceof SquareSpawn){
+                    for(AbstractWeaponCard weaponCards: squares[i][j].getWeaponCards()){
+                        if(weaponCards.getStateCard() != StateCard.ON_BOARD){
+                            weaponCards.changeState(StateCard.ON_BOARD);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

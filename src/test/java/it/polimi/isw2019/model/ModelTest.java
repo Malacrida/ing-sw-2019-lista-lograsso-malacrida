@@ -354,8 +354,12 @@ public class ModelTest {
 
 
     }
+    @Test
+    //public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
+    public void testUseWeaponCard(){
 
+    }
 
 
 }

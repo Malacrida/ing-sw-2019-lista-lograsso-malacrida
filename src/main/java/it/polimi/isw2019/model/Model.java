@@ -20,14 +20,14 @@ public class Model extends Observable {
     private int shift;
     private ArrayList<PowerUpCard> tmp;
     private AbstractWeaponCard tmpWeaponCard;
-    private int numArena;
+    private boolean isFrenzy;
+    private int mod;
+    private int frenzyPlayer;
 
     //assume that the player are in order!!
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
 
     private ArrayList<Player> players ;
-    private ArrayList<Player> tmpShootPlayer;
-    private ArrayList<Player> tmpDeadPlayer;
     private ArrayList<PlayerBoard> playerBoards;
     private ArrayList<PlayerBoard> playerBoardsAvailable= new ArrayList<>();
     int [][] damageRanking;
@@ -45,8 +45,8 @@ public class Model extends Observable {
 
     private String entireGameDescription;
 
-    private ArrayList<Player> deadPlayer;
-    private ArrayList<Player> shootPlayer;
+    private ArrayList<Player> deadPlayer = new ArrayList<>();
+    private ArrayList<Player> shootPlayer = new ArrayList<>();
 
     public ArrayList<String> getColorAvailable() {
         return colorAvailable;
@@ -132,8 +132,6 @@ public class Model extends Observable {
 
         if(players.size()<5) {
             players.add(new Player(nickName, actionHeroComment));
-            System.out.println("ok registration model");
-            System.out.println("player : " + players.get(0).getName());
             notifyObservers(new EndRegistration(nickName));
         }
         else{
@@ -160,8 +158,6 @@ public class Model extends Observable {
         for(int i = 0, j = players.size() - shift ; i < shift ; i++ , j ++){
             players.get(i).setIndexPlayer(j);
         }
-
-        System.out.println("first player" + shift + "\n" );
 
         currentPlayer = players.get(shift);
 
@@ -230,19 +226,39 @@ public class Model extends Observable {
 
 
     public void changePlayer(){
-
+         //end turn !!
         int index = players.indexOf(currentPlayer);
 
-        if(index == players.size() - 1){
+        if (index == players.size() - 1) {
             currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(index + 1);
+        }
+
+        if(!isFrenzy) {
+
+            if (deadPlayer.contains(currentPlayer)) {
+                updatePlayerDeath();
+            }
+
+            sendUpdateMessage();
+            handleNormalTurn();
+            return;
+        }
+
+        if(isFrenzy && frenzyPlayer!= 0){
+            frenzyPlayer --;
+            handleNormalTurn();
+            return;
         }
 
         else{
-            currentPlayer = players.get(index+1);
+            //endgame
         }
 
-        sendUpdateMessage();
+    }
 
+    public void handleNormalTurn(){
         if(currentPlayer.getRealPlayerBoard() == null){
             firstMessage();
             return;
@@ -267,14 +283,12 @@ public class Model extends Observable {
                 tmpPowerUpCard.clear();
                 ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(currentPlayer.getName());
                 PowerUpCard powerUpCard1 = gameBoard.takePowerUpCard();
-                //choicePowerUpCard.addPowerUpCard(gameBoard.takePowerUpCard());
                 tmpPowerUpCard.add(powerUpCard1);
                 currentPlayer.setRespawned(true);
                 notifyObservers(choicePowerUpCard);
                 return;
             }
         }
-
     }
 
     public String[] setDescriptionPowerUp(){
@@ -349,7 +363,7 @@ public class Model extends Observable {
                 }
                 players.get(i).setCorrectFrenzyActionChooseMessage(false);
             }
-        }
+         }
         }
 
     public boolean isSpawnPoint(int x, int y){
@@ -646,6 +660,8 @@ public class Model extends Observable {
             changePlayer();
     }
 
+
+
     public void run(int[][] movement){
 
         //square adiacenti alla cella iniziale
@@ -689,7 +705,7 @@ public class Model extends Observable {
                 } catch (OutOfBoundsException e) {
                 }
 
-        if(payment.length >3) {
+      /*  if(payment.length >3) {
             for (int i = 3; i < payment.length; i++) {
                 PowerUpCard  tmp = currentPlayer.getPowerUpCards().get(payment[i]);
                 currentPlayer.handlePaymentWithPowerUpCards(currentPlayer.getPowerUpCards().get(payment[i]));
@@ -706,7 +722,7 @@ public class Model extends Observable {
                 gameBoard.addPowerUpCardDiscarded(tmp);
 
             }
-        }
+        }*/
     }
 
     public void reload(int[][] payment, int[] weaponToRecharge){
@@ -730,8 +746,6 @@ public class Model extends Observable {
 
         }
         currentPlayer.takeWeaponCards(tmpWeaponCard,null);
-        //gameBoard.getGameArena().placeAnotherWeaponCardsOnSquareSpawn(currentPlayer.getX(),currentPlayer.getY());
-        //mettere un'altra weapon card
         updateCorrectAction();
     }
 
@@ -746,7 +760,7 @@ public class Model extends Observable {
     public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
         AbstractWeaponCard weaponCard = currentPlayer.getWeaponCards().get(indexCard);
-        System.out.println("sono nel model delle use weapon card" + orderEffect.length);
+
      for(int i = 0 ; i < orderEffect.length; i ++) {
 
          if(orderEffect[i] == 1) {
@@ -757,6 +771,7 @@ public class Model extends Observable {
                      players.get(players.indexOf(player)).setShoot(true);
                      shootPlayer.add(player);
                  }
+
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -764,8 +779,10 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
+                         System.out.println("ok dead");
                          deadPlayer.add(player);
                      }
                  }
@@ -787,8 +804,9 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
                          deadPlayer.add(player);
                      }
                  }
@@ -810,15 +828,15 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
+                 System.out.println("ok dead");
                  for(Player player : players){
-                     if(player.getRealPlayerBoard().numOfDamages()>= 11){
+                     if(player.getRealPlayerBoard().numOfDamages()>= 1){
                          deadPlayer.add(player);
                      }
                  }
              }
          }
      }
-        System.out.println();
      currentPlayer.getWeaponCards().get(indexCard).changeState(StateCard.DISCHARGE);
      sendActionUpdateMessage();
 
@@ -828,9 +846,18 @@ public class Model extends Observable {
 
         try {
             powerUpCard.effect(gameBoard, player1, player2, coo[0], coo[1]);
+
         }catch(DamageTrackException e){
-            //deadPlayer
+            for(Player player : players){
+                if(!deadPlayer.contains(player) && player.getRealPlayerBoard().getDamageTokens().size() >= 11){
+                    deadPlayer.add(player);
+                }
+            }
+
         }
+
+        updateCorrectAction();
+
 
     }
 
@@ -930,6 +957,7 @@ public class Model extends Observable {
     }
 
     public void setGameRepresentation() {
+        System.out.println("arena rep : " + gameBoard.getGameArena().getArenaRepresentation());
         for (int i = 0; i < players.size(); i++) {
             playerRepresentation[i] = players.get(i).getStatusPlayer();
             weaponCardDescription[i] = players.get(i).getWeaponCardDescription();
@@ -949,21 +977,35 @@ public class Model extends Observable {
         }
 
     public void updateEndTurn(){
-        //set delle ammo e delle weapon a on board
+
+        gameBoard.getGameArena().setStatusCardOnBoard();
+        updatePlayerDeath();
 
     }
 
     public void updatePlayerDeath(){
+
         //inizio del turno del player morto!
+        ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
+
+        System.out.println("has died! " + deadPlayer.size());
+        addDamageOnKillShotTrack(colorPlayerDoKill.get(0),colorPlayerDoKill.size());
+
+        currentPlayer.getRealPlayerBoard().resetAfterDeath();
         // -> respawn = TRUE
+        currentPlayer.setRespawned(true);
         //end turn della morte del player!
         //restore playerBoard
+        addScoreAfterDeath(currentPlayer);
         //distribuzione dei punti
-        // marchi rimangono!
-        //tolto un teschio -> final frenzy!!!
+        // marchi rimangono
         //invochi set frenzy
+        if(killShotTrack.getNumSkull()==mod) {
+            setFrenzyMood();
+            frenzyPlayer = players.size();
+        }
         //sendUpdateAction()!
-    }
+     }
 
     }
 

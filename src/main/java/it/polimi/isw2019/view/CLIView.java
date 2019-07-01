@@ -6,7 +6,6 @@ import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.utilities.Observer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLIView extends Observable<PlayerMove> implements Observer<MoveMessage>, VisitorView, Serializable {
@@ -66,7 +65,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 System.out.println(powerUp);
             }
         }
-        if(playerBoard[3]!= -1) {
             System.out.println("Blue damage :" + playerBoard[3]);
             System.out.println("Green damage :" + playerBoard[4]);
             System.out.println("Grey damage :" + playerBoard[5]);
@@ -77,7 +75,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             System.out.println("Grey mark :" + playerBoard[10]);
             System.out.println("Violet mark :" + playerBoard[11]);
             System.out.println("Yellow mark :" + playerBoard[12]);
-        }
 
     }
 
@@ -233,7 +230,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             System.out.println("choose one of the following weapon card");
             for(int i = 0 ; i < weaponCard.length; i ++){
                 if(useWeaponCardMessage.getWeaponCard()[i] == 1){
-                    System.out.println("press" + i + " to use this card");
+                    System.out.println("press " + i + " to use this card");
                     System.out.println(weaponCard[i]);
                 }
             }
@@ -269,7 +266,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
                 if(Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp)<=numMaxEffect){
                     index = Integer.parseInt(tmp);
-                    effectUsed[i] = index;
+                    effectUsed[i] = index+1;
                     i++;
                     endChoice = true;
                 }
@@ -418,6 +415,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         boolean okInput = false;
 
+        System.out.println("Nickname " + nicknamePlayer);
         do {
             int i = 0;
             for (String action : actionMessage.getActionPlayerCanPerform()) {
@@ -456,6 +454,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         int[] features = new int[3];
         int[] payment = featuresAvailable.clone();
+        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer);
+
         if(usePowerUpCardMessage.getStateGame() == 0) {
             do {
                 System.out.println("choose one of the following PowerUp Card : ");
@@ -476,7 +476,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             System.out.println(powerUpCard);
 
 
-            UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer);
+
             usePowerUpCard.setCubes(features);
 
             for (int i = 0; i < usePowerUpCardMessage.getStateCard().length; i++) {
@@ -490,7 +490,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             //attack e defend!
        // }
 
-        //notifyObservers(usePowerUpCard);
+        notifyObservers(usePowerUpCard);
     }
 
     @Override
@@ -533,6 +533,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void visitRun(RunMessage runMessage) {
         int[][] tmpMovement;
+        System.out.println(gameBoard);
         if(runMessage.getError() != null)
             System.out.println(runMessage.getError());
         tmpMovement = insertCoordinates(runMessage.getNumMovement());
@@ -565,8 +566,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 }
             } while (!inputOk);
             positionWeaponCard = Integer.parseInt(tmpInput);
-
-            //System.out.println("weaponCard :" + grabMessage.getWeaponCardAvailable().size() + "power up :" + grabMessage.getYourPowerUpCard().size());
 
             System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[positionWeaponCard]);
             grabMove.setPositionWeaponCard(positionWeaponCard);

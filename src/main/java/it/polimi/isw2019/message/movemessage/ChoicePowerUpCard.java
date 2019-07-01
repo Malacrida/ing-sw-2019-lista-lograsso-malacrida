@@ -14,8 +14,8 @@ public class ChoicePowerUpCard extends MoveMessage {
         super(nicknamePlayer);
     }
 
-    public ChoicePowerUpCard(String nicknamePlayer,String[] descriptionPowerUp, int[] idPowerUp) {
-        super(nicknamePlayer);
+    public ChoicePowerUpCard(String nicknamePlayer,String[] descriptionPowerUp, int[] idPowerUp, String error) {
+        super(nicknamePlayer,error);
         this.descriptionPowerUp = descriptionPowerUp;
         this.idPowerUp = idPowerUp;
     }
