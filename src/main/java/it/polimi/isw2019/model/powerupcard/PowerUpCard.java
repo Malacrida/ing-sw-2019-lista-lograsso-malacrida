@@ -175,7 +175,7 @@ public class PowerUpCard implements PowerUpCardInterface{
 
     /**
      * boolean to check if player can use the power up card
-     * @return
+     * @return boolean
      */
 
     public boolean isCanBeUsed() {
