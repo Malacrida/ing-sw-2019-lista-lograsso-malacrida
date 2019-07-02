@@ -225,8 +225,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
         System.out.println("ricevo la Move message choice PU");
-        ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
-        notifyObservers(choicePowerUpCard);
+        //ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
+        //notifyObservers(choicePowerUpCard);
     }
 
 

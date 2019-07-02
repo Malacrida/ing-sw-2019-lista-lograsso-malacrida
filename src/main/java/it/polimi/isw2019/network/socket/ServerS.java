@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class ServerS {
 
-    ObjectOutputStream objectOutputStream;
+    /*ObjectOutputStream objectOutputStream;
     ObjectInputStream objectInputStream;
     Socket socket;
     ServerSocket serverSocket;
@@ -46,5 +46,5 @@ public class ServerS {
 
     public static void main (String[] args){
         ServerS s = new ServerS();
-    }
+    }*/
 }

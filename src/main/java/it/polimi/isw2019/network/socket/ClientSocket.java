@@ -40,10 +40,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    public ClientSocket(Socket clientSocket, ObjectOutputStream output, ObjectInputStream input) throws IOException{
+    public ClientSocket(Socket clientSocket) throws IOException{
         this.clientSocket = clientSocket;
-        this.input = input;
-        this.output = output;
+        this.output = new ObjectOutputStream(this.clientSocket.getOutputStream());
+        this.input = new ObjectInputStream(this.clientSocket.getInputStream());
         this.ip = clientSocket.getInetAddress();
 
     }

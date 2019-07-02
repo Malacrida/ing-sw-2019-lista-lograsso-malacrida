@@ -19,21 +19,23 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
-
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private MoveMessage moveMessage;
     private String message;
-    private VirtualViewVisitorInterface virtualViewVisitorInterface = new VirtualViewSocket(this);
+    private VirtualViewVisitorInterface virtualViewVisitorInterface;
     private CLIView view;
 
     public ServerImplementationSocket(Socket socket) throws IOException {
         this.socket = socket;
+        System.out.println("SOCKET");
         output = new ObjectOutputStream(socket.getOutputStream());
+        System.out.println("OUTPUT");
+
         input = new ObjectInputStream(socket.getInputStream());
-
-
+        System.out.println("INPUT");
+        //this.virtualViewVisitorInterface = new VirtualViewSocket(this);
         }
 
 
@@ -52,8 +54,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     @Override
     public void registerNewClient(Socket client, String nickname) throws IOException {
 
+        System.out.println("TI STAI REGISTRANDO COME: " + nickname);
+        this.output.writeObject(nickname);
 
-        int [][] run = new int[3][2];
+        /*int [][] run = new int[3][2];
             run [0][0]=1;
             run [0][1]=2;
             run [1][0]=3;
@@ -63,7 +67,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
         RunMove runMove = new RunMove("nick", run);
         write(runMove);
-        this.start();
+        this.start();*/
     }
 
 
@@ -139,8 +143,4 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException {
 
     }
-
-
-
-
 }

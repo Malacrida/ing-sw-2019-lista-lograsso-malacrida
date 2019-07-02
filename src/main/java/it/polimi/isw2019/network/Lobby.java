@@ -64,7 +64,7 @@ public class Lobby implements LobbyInterface {
             try {
                 for (int i = 0; i < countDown; i++) {
                     TimeUnit.SECONDS.sleep(1);
-                    if (clientConnected.size() < 2) {
+                    if (clientConnected.size() < 1) {//era 2
                         i = countDown + 1;
                         roomStartable = false;
                         System.out.println("Countdown reset, not enough players to start the room.");

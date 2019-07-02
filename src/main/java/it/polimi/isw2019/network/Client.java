@@ -74,40 +74,27 @@ public class Client {
 
             try {
 
-                CLIView cliView = new CLIView(nickname);
-
                 Socket socket = new Socket("localhost", 1111);
-                System.out.println("new Socket");
+
                 serverInterface = new ServerImplementationSocket(socket);
-
-                System.out.println("New serverImplementationSocket");
+                System.out.println("Ho istanziato SERVERIMPLSOCKET");
                 serverInterface.registerNewClient(socket, nickname);
-
-                System.out.println("Sto mandando un messaggio\n");
-                String messageOutput = "Messaggio di prova";
-                serverInterface.write(messageOutput);
 
                 System.out.println("\nSono in attesa di un messaggio: \n");
 
-                ObjectInputStream messageInput = new ObjectInputStream(socket.getInputStream());
 
-
-                Object messageInput1 = (String) messageInput.readObject();
-                System.out.println(messageInput1);
-
-
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 e.getCause();
             }
         }
         if (typeServer==1){
             //192.168.43.154
-            try {
+            /*try {
                 serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
-            startView(nickname, typeServer);
+            startView(nickname, typeServer);*/
         }
 
 

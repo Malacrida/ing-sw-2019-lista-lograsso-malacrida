@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 
 public class ClientS {
 
-    Socket socket;
+    /*Socket socket;
     ObjectInputStream objectInputStream;
     ObjectOutputStream objectOutputStream;
     int [][] run = new int[3][2];
@@ -47,5 +47,5 @@ public class ClientS {
 
     public static void main (String[] args){
         ClientS clientS= new ClientS();
-    }
+    }*/
 }
