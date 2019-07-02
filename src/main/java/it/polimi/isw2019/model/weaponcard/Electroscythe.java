@@ -45,6 +45,8 @@ public class Electroscythe extends AbstractWeaponCard {
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
                     } catch (DamageTrackException e) {
                         e.getMessage();
+                        System.out.println("ok exception take damage!");
+                        throw new DamageTrackException();
                     }
                 }
 

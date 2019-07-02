@@ -19,7 +19,7 @@ public interface VirtualViewVisitorInterface {
 
     void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 
-    void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard);
+    void sendPowerUpChoice(ChoiceCard choiceCard);
 
     void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 

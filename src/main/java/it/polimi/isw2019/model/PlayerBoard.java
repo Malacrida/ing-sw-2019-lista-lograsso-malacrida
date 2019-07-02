@@ -371,8 +371,8 @@ public class PlayerBoard{
             removeMarkOfOneColor(colorPlayer);
         }
 
-        if (damageTokens.size()>=1) {
-            System.out.println("ok exception take damage");
+        if (damageTokens.size()>=11) {
+            //System.out.println("ok exception take damage");
             throw new DamageTrackException();
         }
 

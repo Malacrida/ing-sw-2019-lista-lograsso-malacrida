@@ -54,7 +54,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void run(){
+    public void run() {
         try {
             virtualViewSocket = new VirtualViewSocket(nickname, this);
             /*System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
@@ -75,6 +75,24 @@ public class ClientSocket extends Thread implements ClientInterface {
         }catch (IOException e){
 
         } catch (ClassNotFoundException e) {
+                /*Runnable task = () -> {
+                    playerMove.accept(networkHandlerVisitorInterface);
+                    //System.out.println("Prendo la playermove");
+
+
+                };*/
+                try {
+                    output.writeObject(playerMove);
+                    // Thread thread = new Thread(task);
+                    //thread.start();
+
+                    //  }
+                } catch (IOException e) {
+                }
+            }
+       } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

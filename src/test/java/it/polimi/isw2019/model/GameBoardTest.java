@@ -300,4 +300,10 @@ public class GameBoardTest {
         assertFalse(playersInPreviousPosition.contains(player));
 
     }
+
+    @Test
+
+    public void addPowerUpDiscarded(){
+
+    }
 }

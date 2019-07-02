@@ -78,7 +78,7 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     }
 
     @Override
-    public void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+    public void sendPowerUpChoice(ChoiceCard choiceCard) {
 
     }
 
