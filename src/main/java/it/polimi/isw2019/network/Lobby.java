@@ -19,6 +19,7 @@ public class Lobby implements LobbyInterface {
 
     private ArrayList<VirtualView> virtualViews = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
+    private ArrayList<ConnetedClient> connetedClients = new ArrayList<>();
     private int countDown = 60;
     boolean lobbyIsRunning = true;
 
@@ -28,6 +29,24 @@ public class Lobby implements LobbyInterface {
 
     public HashMap<String, ClientInterface> getClientConnected() {
         return clientConnected;
+    }
+
+    public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
+        if(!alreadyExistNickname(nickname)){
+            ConnetedClient connetedClient = new ConnetedClient(nickname, clientInterface, typeConnection, true);
+            return true;
+        }
+
+        else return false;
+    }
+
+    public boolean alreadyExistNickname(String nickname){
+        for (int i = 0; i < connetedClients.size(); i++){
+            if (connetedClients.get(i).getNickname().equals(nickname)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean addClientConnected(String nickname, ClientInterface clientInterface) {

@@ -18,4 +18,24 @@ public class ConnetedClient {
         this.typeConnection = typeConnection;
         this.active = active;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public ClientInterface getClientInterface() {
+        return clientInterface;
+    }
+
+    public TypeConnection getTypeConnection() {
+        return typeConnection;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
+    }
 }

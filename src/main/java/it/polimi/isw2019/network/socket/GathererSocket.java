@@ -3,6 +3,7 @@ package it.polimi.isw2019.network.socket;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
+import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
 
@@ -84,7 +85,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             System.out.println("---MESSAGGIO: "+ messageInput);
 
             newClientInterface.setNickname(messageInput);
-            lobby.addClientConnected(messageInput, newClientInterface);
+            lobby.addConnectedClient(messageInput, newClientInterface, TypeConnection.SOCKET);
 
             for (int i = 0; i < lobby.getClientConnected().size(); i++){
                 System.out.println(lobby.getClientConnected());
