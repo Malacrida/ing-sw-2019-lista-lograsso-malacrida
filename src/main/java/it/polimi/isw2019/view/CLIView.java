@@ -42,7 +42,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         if(message.isNotifyAll()){
             message.accept(this);
         }
-        if(nicknamePlayer.equals(message.getNicknamePlayer())) {
+        else if(nicknamePlayer.equals(message.getNicknamePlayer())) {
             message.accept(this);
         }
     }
@@ -424,6 +424,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             }
 
             System.out.println("Choose one of the following action to be performed or -1 to end your turn");
+            System.out.println("press 9 to exit the game");
 
             tmpActionChoosen = input.nextLine();
             actionChoosen = Integer.parseInt(tmpActionChoosen);
@@ -432,7 +433,11 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 //reload vuota
                 notifyObservers(new ReloadMove(nicknamePlayer,null,null));
                 return;
-            } else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionPlayerCanPerform().size())
+            }
+            else if (actionChoosen==9){
+                notifyObservers(new ConnectionMove(nicknamePlayer, 0));
+            }
+            else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionPlayerCanPerform().size())
                 okInput = true;
 
         } while (!okInput);

@@ -24,6 +24,8 @@ public interface NetworkHandlerVisitorInterface {
     void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice);
 
     void sendUseWeaponCard(UseWeaponCard useWeaponCard);
+
+    void sendConnectionClient(ConnectionMove connectionMove);
 }
 
 

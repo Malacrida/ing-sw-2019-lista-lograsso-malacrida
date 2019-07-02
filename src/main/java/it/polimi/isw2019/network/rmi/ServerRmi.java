@@ -6,7 +6,6 @@ import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
-import it.polimi.isw2019.view.CLIView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -48,12 +47,24 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     }
 
+    @Override
+    public void receiveConnectionMove(String player, int connection) throws RemoteException {
+        for (int i=0; i<virtualViews.size(); i++){
+            if(virtualViews.get(i).getNickname().equals(player)){
+                virtualViews.get(i).createConnectionPlayer(player, connection);
+            }
+        }
+        lobby.disconnectedClient(player);
+
+    }
+
     public void setVirtualViews(ArrayList<VirtualView> virtualViews) {
         this.virtualViews = virtualViews;
     }
 
     @Override
     public void reconnectClient(ClientInterface client, String nickname) throws RemoteException {
+
     }
 
 

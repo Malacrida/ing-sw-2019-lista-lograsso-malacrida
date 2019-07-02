@@ -4,14 +4,9 @@ import it.polimi.isw2019.message.movemessage.EndRegistration;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.network.Lobby;
-import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
-import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-
-import java.rmi.Remote;
 
 public class NetworkHandlerSocket extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerVisitorInterface  {
 
@@ -28,6 +23,7 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
     }
 
     public void receiveMoveMessage (MoveMessage moveMessage){
+
         notifyObservers(moveMessage);
     }
 
@@ -83,6 +79,11 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void sendUseWeaponCard(UseWeaponCard useWeaponCard) {
+
+    }
+
+    @Override
+    public void sendConnectionClient(ConnectionMove connectionMove) {
 
     }
 

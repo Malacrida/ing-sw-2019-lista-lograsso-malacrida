@@ -44,4 +44,6 @@ public interface ServerInterface<T> extends Remote {
     void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards*/ boolean grab) throws RemoteException;
 
     void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException;
+
+    void receiveConnectionMove(String player, int connection) throws RemoteException;
 }

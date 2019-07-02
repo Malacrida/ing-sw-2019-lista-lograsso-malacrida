@@ -16,6 +16,7 @@ public class Lobby implements LobbyInterface {
     private static final Logger LOGGER = Logger.getLogger(Lobby.class.getName());
 
     private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
+    private HashMap<String, ClientInterface> clientDisconnected = new HashMap<>();
 
     private ArrayList<VirtualView> virtualViews = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
@@ -40,6 +41,12 @@ public class Lobby implements LobbyInterface {
     }
 
 
+    public void disconnectedClient(String nickname){
+        if (clientConnected.containsKey(nickname)) {
+            clientDisconnected.put(nickname, clientConnected.get(nickname));
+            clientConnected.remove(nickname);
+        }
+    }
 
 
     @Override
@@ -126,21 +133,16 @@ public class Lobby implements LobbyInterface {
         setVirtualViews();
         Server.setVirtualViewOnServer(virtualViews);
 
-
         System.out.println("ci sono :" +virtualViews.size());
         for (VirtualView virtualView: virtualViews){
             virtualView.registerObserver(controller);
             System.out.println(virtualView.getNickname());
         }
 
-
-
         for(VirtualView virtualView : virtualViews){
             virtualView.startView();
             System.out.println(virtualView.getNickname());
         }
-
-
         controller.startGame();
     }
 }

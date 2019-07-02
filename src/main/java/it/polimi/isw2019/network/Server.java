@@ -24,7 +24,7 @@ public class Server {
 
         GathererInterface gathererSocket= new GathererSocket(1111);
 
-        System.setProperty("java.rmi.server.hostname", "192.168.43.154");
+      //  System.setProperty("java.rmi.server.hostname", "192.168.43.154");
 
         try {
             gathererRmi = new ServerRmi(8080);

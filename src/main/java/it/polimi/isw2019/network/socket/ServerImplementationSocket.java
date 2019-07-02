@@ -140,6 +140,11 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
     }
 
+    @Override
+    public void receiveConnectionMove(String player, int connection) throws RemoteException {
+
+    }
+
 
 
 

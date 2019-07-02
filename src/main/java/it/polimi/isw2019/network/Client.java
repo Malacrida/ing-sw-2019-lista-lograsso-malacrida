@@ -71,7 +71,7 @@ public class Client {
 
         if (typeServer == 0){
             System.out.println("Starting SOCKET");
-
+            /*
             try {
 
                 CLIView cliView = new CLIView(nickname);
@@ -81,7 +81,7 @@ public class Client {
                 serverInterface = new ServerImplementationSocket(socket);
 
                 System.out.println("New serverImplementationSocket");
-                serverInterface.registerNewClient(socket, nickname);
+                serverInterface.registerNewClient(socket, nickname, cliView);
 
                 System.out.println("Sto mandando un messaggio\n");
                 String messageOutput = "Messaggio di prova";
@@ -98,30 +98,32 @@ public class Client {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
             //192.168.43.154
             try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
             }
-            startView(nickname, typeServer);
+            startView(nickname);
         }
 
 
     }
 
 
-    private static void startView (String nickname, int typeServer) throws RemoteException {
+    private static void startView (String nickname) throws RemoteException {
         CLIView view = new CLIView(nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
 
         try {
             ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+            networkHandler.setRemoteClient(remoteClient);
             serverRmi.registerNewClient(remoteClient, nickname);
+
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (IOException e) {

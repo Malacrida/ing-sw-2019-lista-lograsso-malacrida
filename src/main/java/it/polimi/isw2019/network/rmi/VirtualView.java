@@ -42,9 +42,15 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void update(MoveMessage message) {
-        System.out.println("update di :" + nickname);
+
         message.accept(this);
     }
+
+    public void createConnectionPlayer(String nickname, int connection){
+        ConnectionMove disconnectionMove = new ConnectionMove(nickname, connection);
+        notifyObservers(disconnectionMove);
+    }
+
 
     public void createChooseActionMove (String player, int numAction){
         ChooseActionMove chooseActionMove= new ChooseActionMove(player,numAction);

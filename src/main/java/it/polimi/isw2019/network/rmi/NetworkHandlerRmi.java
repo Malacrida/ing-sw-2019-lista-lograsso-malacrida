@@ -8,27 +8,30 @@ import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observer<PlayerMove>, ClientInterface, Remote, NetworkHandlerVisitorInterface {
 
 //forse va qui il riferimento al registro
 
 
-    static ServerInterface server;
-    static int id;
+    ServerInterface server;
+    ClientInterface remoteClient;
+    Scanner input = new Scanner(System.in);
+    String nickname;
 
-    static String nameNetworkHandler;
-    static String insert;
+
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://192.168.43.154:8080/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://localhost:8080/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -36,23 +39,45 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        nameNetworkHandler= nickname;
+        this.nickname= nickname;
+    }
+
+    public void setRemoteClient(ClientInterface remoteClient) {
+        this.remoteClient = remoteClient;
+    }
+
+    @Override
+    public void logInFail() throws RemoteException {
+        System.out.println("Nickname already present");
+        System.out.println("Insert new nickname");
+        nickname = input.nextLine();
+        try {
+            server.registerNewClient(remoteClient, nickname);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void sendConnectionClient(ConnectionMove connectionMove) {
+        try {
+            server.receiveConnectionMove(connectionMove.getPlayer(), connectionMove.getConnection());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void startViewClient() throws RemoteException {
-        StartMessage startMessage = new StartMessage(nameNetworkHandler);
+        StartMessage startMessage = new StartMessage(nickname);
         startMessage.setNotifyAll(true);
         notifyObservers(startMessage);
     }
 
     @Override
     public void logInCorrect() throws RemoteException {
-        System.out.println("registrazione corretta");
-    }
-
-    @Override
-    public void logInFail() throws RemoteException {
         System.out.println("registrazione corretta");
     }
 
@@ -168,6 +193,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     }
 
+
+
     @Override
     public void createActionMessage(String nickname) {
         System.out.println("ricevo move message Action");
@@ -225,8 +252,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
         System.out.println("ricevo la Move message choice PU");
-        ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
-        notifyObservers(choicePowerUpCard);
+     //   ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
+       // notifyObservers(choicePowerUpCard);
     }
 
 
