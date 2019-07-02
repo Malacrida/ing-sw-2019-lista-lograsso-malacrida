@@ -155,6 +155,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     @Override
+    public void disconnectionPlayer(ConnectionMove connectionMove) {
+        System.out.println("Disconnessione nel controller");
+    }
+
+    @Override
     public void visitReload(ReloadMove reloadMove) {
 
             for(int i =0 ; i<reloadMove.getPayment().length; i++){

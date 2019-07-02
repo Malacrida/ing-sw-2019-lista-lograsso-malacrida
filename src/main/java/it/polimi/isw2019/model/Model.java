@@ -562,6 +562,11 @@ public class Model extends Observable {
         }
     }
 
+    /**
+     * Set matrix of point player
+     * @param playerDeath
+     * @return
+     */
     public int [][] setDamageRanking (Player playerDeath) {
 
         damageRanking= new int [players.size()-1][2];
@@ -589,7 +594,7 @@ public class Model extends Observable {
     }
 
     /**
-     * method to assign point
+     * Assign player's point according to skull
      * @param p1 first player
      * @param p2 second player
      * @param p3 third player
@@ -655,6 +660,10 @@ public class Model extends Observable {
     }
 
 
+    /**
+     * Assign point after end game
+     * @return
+     */
     public int [][] killShotRanking (){
 
         int [][] killShotTable = new int [players.size()][2];
@@ -680,7 +689,9 @@ public class Model extends Observable {
     }
 
 
-
+    /**
+     * Set matrix of point kill shot track
+     */
     public void addScoreToKillShotTrack (){
 
         int [][] killShotTable= killShotRanking();

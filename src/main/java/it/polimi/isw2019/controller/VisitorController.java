@@ -1,8 +1,6 @@
 package it.polimi.isw2019.controller;
 
 import it.polimi.isw2019.message.playermove.*;
-import it.polimi.isw2019.model.exception.EndAction;
-import it.polimi.isw2019.model.exception.EndSingleAction;
 
 
 public interface VisitorController {
@@ -26,6 +24,9 @@ public interface VisitorController {
     void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice);
 
     void useWeaponCard(UseWeaponCard useWeaponCard);
+
+
+    void disconnectionPlayer (ConnectionMove connectionMove);
 
     //method invoked by server when the game is started
 }

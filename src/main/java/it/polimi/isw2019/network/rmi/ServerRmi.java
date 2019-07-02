@@ -4,9 +4,9 @@ import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
+import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
-import it.polimi.isw2019.view.CLIView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -42,9 +42,20 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
         System.out.println(client.getNickname());
-        if (lobby.addClientConnected(nickname,client))
+        if (lobby.addConnectedClient(nickname,client,TypeConnection.RMI))
             client.logInCorrect();
         else client.logInFail();
+
+    }
+
+    @Override
+    public void receiveConnectionMove(String player, int connection) throws RemoteException {
+        for (int i=0; i<virtualViews.size(); i++){
+            if(virtualViews.get(i).getNickname().equals(player)){
+                virtualViews.get(i).createConnectionPlayer(player, connection);
+            }
+        }
+        lobby.disconnectedClient(player);
 
     }
 
@@ -54,6 +65,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     @Override
     public void reconnectClient(ClientInterface client, String nickname) throws RemoteException {
+
     }
 
 
@@ -181,7 +193,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
         try {
             //localhost
-            Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
+            //Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
+            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
             System.out.println("Error remote");

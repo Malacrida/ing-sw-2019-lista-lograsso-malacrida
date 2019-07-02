@@ -54,18 +54,13 @@ public class LockRifleTest {
         try {
             card.firstEffect(gameBoard, attacker, defenders, coordinates);
             ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-
+            System.out.println(visiblePlayers.get(0));
             assertTrue(visiblePlayers.contains(firstDefender));
-
+            System.out.println(pb1.numOfDamages());
+            assertEquals(2, pb1.numOfDamages());
         } catch (ErrorEffectException | DamageTrackException e) {
             e.printStackTrace();
         }
-        try {
-            assertEquals(2, pb1.numOfDamages());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
     }
 

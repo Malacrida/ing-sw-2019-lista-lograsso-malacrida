@@ -4,8 +4,11 @@ import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.exception.EndAction;
 import it.polimi.isw2019.model.exception.EndSingleAction;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.socket.MiniController;
 
-public class RunMove extends PlayerMove{
+import java.io.Serializable;
+
+public class RunMove extends PlayerMove implements Serializable {
     private int[][] movement;
 
     public RunMove(String nickname,int[][] movement){
@@ -16,11 +19,17 @@ public class RunMove extends PlayerMove{
     @Override
     public void accept(VisitorController visitorController) {
             visitorController.visitControllerRun(this);
+
     }
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
         networkHandler.sendRun(this);
+    }
+
+
+    public void accept (MiniController miniController){
+        miniController.readRun(this);
     }
 
     public void setMovement(int[][] movement){

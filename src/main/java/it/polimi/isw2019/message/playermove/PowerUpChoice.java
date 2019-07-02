@@ -2,6 +2,7 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
+import it.polimi.isw2019.network.socket.MiniController;
 
 public class PowerUpChoice extends PlayerMove{
 
@@ -42,5 +43,10 @@ public class PowerUpChoice extends PlayerMove{
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
         networkHandler.sendPowerUpChoice(this);
+    }
+
+    @Override
+    public void accept(MiniController miniController) {
+
     }
 }

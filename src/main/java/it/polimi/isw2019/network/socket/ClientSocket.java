@@ -1,6 +1,7 @@
 package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.EndRegistration;
+import it.polimi.isw2019.message.movemessage.MoveMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.network.Lobby;
@@ -22,11 +23,12 @@ public class ClientSocket extends Thread implements ClientInterface {
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private PlayerMove playerMove;
+    private MoveMessage moveMessage;
     private String nickname;
     private boolean isReady = false;
     private InetAddress ip;
     private Lobby lobby;
-
+    private VirtualViewSocket virtualViewSocket;
 
     private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
 
@@ -40,10 +42,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    public ClientSocket(Socket clientSocket, ObjectOutputStream output, ObjectInputStream input) throws IOException{
+    public ClientSocket(Socket clientSocket) throws IOException{
         this.clientSocket = clientSocket;
-        this.input = input;
-        this.output = output;
+        this.output = new ObjectOutputStream(this.clientSocket.getOutputStream());
+        this.input = new ObjectInputStream(this.clientSocket.getInputStream());
         this.ip = clientSocket.getInetAddress();
 
     }
@@ -52,18 +54,28 @@ public class ClientSocket extends Thread implements ClientInterface {
         return ip.toString();
     }
 
-    public void setLobby(Lobby lobby){
-        this.lobby = lobby;
-
-    }
-
-
     @Override
     public void run() {
         try {
+            virtualViewSocket = new VirtualViewSocket(nickname, this);
+            System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
+            MiniController miniController = new MiniController();
+            virtualViewSocket.registerObserver(miniController);
+            miniController.registerObserver(virtualViewSocket);
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
+               /* Runnable task = () -> {
+                    virtualViewSocket.receivePlayerMove(playerMove);
+                };
+                Thread thread = new Thread(task);
+                thread.start();*/
+                virtualViewSocket.receivePlayerMove(playerMove);
+                System.out.println("HO MANDATO LA PLAYERMOVE ALLA VIRTUALVIEW");
+            }
+        }catch (IOException e){
+
+        } catch (ClassNotFoundException e) {
                 /*Runnable task = () -> {
                     playerMove.accept(networkHandlerVisitorInterface);
                     //System.out.println("Prendo la playermove");
@@ -85,10 +97,6 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.printStackTrace();
         }
     }
-
-    /*public void addClietToLobby(String nickname, ){
-        lobby.addClientConnected()
-    }*/
 
     @Override
     public void startViewClient() throws RemoteException {
@@ -195,5 +203,16 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     public ObjectInputStream getObjectInputStream(){
         return this.input;
+    }
+
+    public void setMoveMessage(MoveMessage moveMessage){
+        this.moveMessage = moveMessage;
+        System.out.println("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
+        try {
+            this.output.writeObject(moveMessage);
+            System.out.println("---CS--- HO INVIATO LA MOVE MESSAGE");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

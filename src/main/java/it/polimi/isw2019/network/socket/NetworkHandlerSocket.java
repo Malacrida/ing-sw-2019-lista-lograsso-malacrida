@@ -5,12 +5,10 @@ import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
-import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
-public class NetworkHandlerSocket extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerVisitorInterface {
+public class NetworkHandlerSocket extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerVisitorInterface  {
 
     ClientSocket clientSocket;
     Lobby lobby;
@@ -19,9 +17,16 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
         this.clientSocket = clientSocket;
     }
 
-    public void setLobby(Lobby lobby){
-        this.lobby = lobby;
+    @Override
+    public void update(PlayerMove message) {
+        //metodo per inviare la player move
     }
+
+    public void receiveMoveMessage (MoveMessage moveMessage){
+
+        notifyObservers(moveMessage);
+    }
+
 
     @Override
     public void sendChooseMap(ChooseMapMove chooseMapMove) {
@@ -45,6 +50,7 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void sendRegisterPlayer(FirstMessage firstMessage) {
+
         System.out.println("HO FATTO FINTA DI REGISTRARE IL PLAYER NELLA LOBBY");
         EndRegistration endRegistration = new EndRegistration(firstMessage.getPlayer());
         endRegistration.setNotifyAll(true);
@@ -77,8 +83,9 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
     }
 
     @Override
-    public void update(PlayerMove message) {
-        System.out.println("IL SOCKET VEDE LA PLAYERMOVE, CAZZO!");
-        message.accept(this);
+    public void sendConnectionClient(ConnectionMove connectionMove) {
+
     }
+
+
 }

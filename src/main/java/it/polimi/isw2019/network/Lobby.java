@@ -15,10 +15,12 @@ public class Lobby implements LobbyInterface {
 
     private static final Logger LOGGER = Logger.getLogger(Lobby.class.getName());
 
-    private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
+   // private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
+    //private HashMap<String, ClientInterface> clientDisconnected = new HashMap<>();
 
     private ArrayList<VirtualView> virtualViews = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
+    private ArrayList<ConnetedClient> connectedClients = new ArrayList<>();
     private int countDown = 60;
     boolean lobbyIsRunning = true;
 
@@ -26,20 +28,35 @@ public class Lobby implements LobbyInterface {
 
     }
 
-    public HashMap<String, ClientInterface> getClientConnected() {
-        return clientConnected;
-    }
 
-    public boolean addClientConnected(String nickname, ClientInterface clientInterface) {
-        if (!clientConnected.containsKey(nickname)) {
-            clientConnected.put(nickname, clientInterface);
-            nicknames.add(nickname);
-
+    public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
+        if(!alreadyExistNickname(nickname)){
+            ConnetedClient connectedClient = new ConnetedClient(nickname, clientInterface, typeConnection, true);
+            connectedClients.add(connectedClient);
+            System.out.println("dim client: "+connectedClients.size());
+            System.out.println(connectedClient.getNickname()+"tipo con :" +connectedClient.getTypeConnection());
             return true;
-        } else return false;
+        }
+
+        else return false;
+    }
+
+    public boolean alreadyExistNickname(String nickname){
+        for (int i = 0; i < connectedClients.size(); i++){
+            if (connectedClients.get(i).getNickname().equals(nickname)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
+    public void disconnectedClient(String nickname){
+      /*  if (clientConnected.containsKey(nickname)) {
+            clientDisconnected.put(nickname, clientConnected.get(nickname));
+            clientConnected.remove(nickname);
+        }*/
+    }
 
 
     @Override
@@ -47,7 +64,7 @@ public class Lobby implements LobbyInterface {
         while (lobbyIsRunning) {
             boolean roomStartable = true;
             System.out.println("Waiting for at least 3 clients.");
-            while (clientConnected.size() < 1) { //era 3
+            while (connectedClients.size() < 1) { //era 3
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -58,22 +75,22 @@ public class Lobby implements LobbyInterface {
             System.out.println("Three clients or more are waiting.");
             System.out.println("Starting the countdown.");
 
-            System.out.println("Countdown started with " + clientConnected.size() + " players!");
+            System.out.println("Countdown started with " + connectedClients.size() + " players!");
 
 
             try {
                 for (int i = 0; i < countDown; i++) {
                     TimeUnit.SECONDS.sleep(1);
-                    if (clientConnected.size() < 2) {
+                    if (connectedClients.size() < 1) {//era 3
                         i = countDown + 1;
                         roomStartable = false;
                         System.out.println("Countdown reset, not enough players to start the room.");
 
-                    } else if (clientConnected.size() == 2) { //era 5
+                    } else if (connectedClients.size() == 2) { //era 5
                         i = countDown + 1;
                         roomStartable = true;
                     } else if ((countDown - i) % 5 == 0 && (countDown - i) != 0) {
-                        System.out.println("Room will start in " + (countDown - i) + "s with " + clientConnected.size() + " players.");
+                        System.out.println("Room will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.");
                         /*currentClientsWaiting.iterator().forEachRemaining(wc -> {
                             try {
                                 wc.getClientInterface().update(countdownReset);
@@ -110,8 +127,8 @@ public class Lobby implements LobbyInterface {
 
     }
     public void setVirtualViews() {
-        for (int i=0; i<nicknames.size(); i++ ){
-            VirtualView virtualView = new VirtualView(nicknames.get(i), clientConnected.get(nicknames.get(i)));
+        for (int i=0; i<connectedClients.size(); i++ ){
+            VirtualView virtualView = new VirtualView(connectedClients.get(i).getNickname(), connectedClients.get(i).getClientInterface());
             virtualViews.add(virtualView);
         }
     }
@@ -126,21 +143,16 @@ public class Lobby implements LobbyInterface {
         setVirtualViews();
         Server.setVirtualViewOnServer(virtualViews);
 
-
         System.out.println("ci sono :" +virtualViews.size());
         for (VirtualView virtualView: virtualViews){
             virtualView.registerObserver(controller);
             System.out.println(virtualView.getNickname());
         }
 
-
-
         for(VirtualView virtualView : virtualViews){
             virtualView.startView();
             System.out.println(virtualView.getNickname());
         }
-
-
         controller.startGame();
     }
 }

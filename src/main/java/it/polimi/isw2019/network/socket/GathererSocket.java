@@ -3,6 +3,7 @@ package it.polimi.isw2019.network.socket;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
+import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
 
@@ -43,13 +44,10 @@ public class GathererSocket implements Runnable, GathererInterface {
         Socket newConnection = null;
         ClientInterface newClient;
         ObjectOutputStream output;
-        ObjectInputStream input;
 
         try {
+
             newConnection = serverSocket.accept();
-            output = new ObjectOutputStream(newConnection.getOutputStream());
-            input = new ObjectInputStream(newConnection.getInputStream());
-            //LOGGER.info("output: " + output);
 
             System.out.println("Istanzio un nuovo thread");
             /*Istanzio un nuovo Thread*/
@@ -59,8 +57,9 @@ public class GathererSocket implements Runnable, GathererInterface {
             System.out.println("Provo a inviare la player move");
             clientHandlerSocket(newConnection);
 
-            ClientSocket cs = new ClientSocket(newConnection, output, input);
-            cs.start();
+            /*ClientSocket cs = new ClientSocket(newConnection, output, input);
+            cs.setLobby(lobby);
+            cs.start();*/
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,30 +68,37 @@ public class GathererSocket implements Runnable, GathererInterface {
     }
 
     private void clientHandlerSocket(Socket connection) throws IOException {
-        ObjectOutputStream output = new ObjectOutputStream(connection.getOutputStream());
-        ObjectInputStream input = new ObjectInputStream(connection.getInputStream());
-        ClientInterface newClientInterface = new ClientSocket(connection, output, input);
+        ObjectOutputStream output;
+        ObjectInputStream input;
+        ClientInterface newClientInterface = new ClientSocket(connection);
 
 
         try{
 
             output = ((ClientSocket) newClientInterface).getObjectOutputStream();
             input = ((ClientSocket) newClientInterface).getObjectInputStream();
-
+            System.out.println(input);
+            System.out.println(output);
+            System.out.println("---IN ATTESA DI MESSAGGIO---");
             String messageInput = (String) input.readObject();
 
-            newClientInterface.setNickname(messageInput);
-            lobby.addClientConnected(messageInput, newClientInterface);
+            System.out.println("---MESSAGGIO: "+ messageInput);
 
+            newClientInterface.setNickname(messageInput);
+            lobby.addConnectedClient(messageInput, newClientInterface, TypeConnection.SOCKET);
+            /*
             for (int i = 0; i < lobby.getClientConnected().size(); i++){
                 System.out.println(lobby.getClientConnected());
-            }
+            }*/
 
 
             String outputString = "REGISTRAZIONE AVVENUTA DA: ";
             output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
+
+            newClientInterface.setNickname(messageInput);
+            ((ClientSocket) newClientInterface).start();
 
         } catch (IOException | ClassNotFoundException e) {
             e.getCause();
