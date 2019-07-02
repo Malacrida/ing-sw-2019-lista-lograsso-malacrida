@@ -13,7 +13,7 @@ public class ReloadMessage extends MoveMessage{
         super(nicknamePlayer);
     }
 
-    public ReloadMessage(String nicknamePlayer, int[] featuresAvailable, int[] weaponYouCanReload) {
+    public ReloadMessage(String nicknamePlayer, int[] featuresAvailable, int[] weaponYouCanReload, String error) {
         super(nicknamePlayer);
         this.featuresAvailable = featuresAvailable;
         this.weaponYouCanReload = weaponYouCanReload;

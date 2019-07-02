@@ -3,9 +3,10 @@ package it.polimi.isw2019.view.ViewGui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayersGui {
+public class PlayersGui extends JLabel {
 
-    ImageIcon imagePlayerBlue;
+
+    Icon imagePlayerBlue;
     ImageIcon imagePlayerYellow;
     ImageIcon imagePlayerViolet;
     ImageIcon imagePlayerGreen;
@@ -20,11 +21,22 @@ public class PlayersGui {
 
     public void setPlayerBlue() {
 
-        ImageIcon icon = new ImageIcon("./src/main/resources/img/player/playerBlue.png");
+
+        int width = (Toolkit.getDefaultToolkit().getScreenSize().width/2)/8;
+        int height = (Toolkit.getDefaultToolkit().getScreenSize().height/2)/8;
+
+        ImageIcon icon = new ImageIcon("./src/main/resources/img/playerBlue.png");
         Image img = icon.getImage() ;
-        Image newImg = img .getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;
+        Image newImg = img .getScaledInstance( width, height,  java.awt.Image.SCALE_SMOOTH ) ;
         imagePlayerBlue = new ImageIcon( newImg );
+
+        setIcon(imagePlayerBlue);
+
+        setVisible(true);
+        setLayout(null);
+
     }
+
 
     public void setPlayerYellow() {
 

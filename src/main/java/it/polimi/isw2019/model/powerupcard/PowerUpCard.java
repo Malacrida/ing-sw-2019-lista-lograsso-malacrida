@@ -198,8 +198,12 @@ public class PowerUpCard implements PowerUpCardInterface{
         return powerUpDescription;
     }
 
-    public void changeStateCard(StateCard stateCard){
+    public void changeStateCardRepresentation(StateCard stateCard){
         tmp[4][0] = stateCard.getStateCardRepresentation();
+    }
+
+    public void changeStateCard(StateCard stateCard){
+      checkState = stateCard;
     }
 
 

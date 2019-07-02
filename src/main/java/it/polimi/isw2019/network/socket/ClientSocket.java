@@ -26,7 +26,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     private boolean isReady = false;
     private InetAddress ip;
     private Lobby lobby;
-
+    private VirtualViewSocket virtualViewSocket;
 
     private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
 
@@ -61,16 +61,18 @@ public class ClientSocket extends Thread implements ClientInterface {
     @Override
     public void run(){
         try {
+            virtualViewSocket = new VirtualViewSocket(null);
+            MiniController miniController = new MiniController();
+            virtualViewSocket.registerObserver(miniController);
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
-                Runnable task = () -> {
-                    playerMove.accept(networkHandlerVisitorInterface);
-                    System.out.println("Prendo la playermove");
+               /* Runnable task = () -> {
+                    virtualViewSocket.receivePlayerMove(playerMove);
                 };
                 Thread thread = new Thread(task);
-                thread.start();
-
+                thread.start();*/
+                virtualViewSocket.receivePlayerMove(playerMove);
             }
         }catch (IOException e){
 

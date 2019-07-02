@@ -107,43 +107,6 @@ public class PlayerBoard{
         return yellowCubes.size();
     }
 
-   /* public void addCube(ColorCube colorCube) throws OutOfBoundsException{
-        if(colorCube.equals(ColorCube.BLUE))
-            this.addBlueCubes();
-        else if(colorCube.equals(ColorCube.RED))
-            this.addRedCubes();
-        else if(colorCube.equals(ColorCube.YELLOW))
-            this.addYellowCubes();
-    }*/
-
-/*    public void removeCube(ArrayList<ColorCube> colorCube) throws NoCubesException {
-
-        for(ColorCube cube : colorCube) {
-            if((colorCube.equals(ColorCube.BLUE))) {
-                try {
-                    this.removeBlueCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw  new NoCubesException("Blue cubes ended");
-                }
-            }
-
-            else if (colorCube.equals(ColorCube.RED)) {
-                try {
-                    this.removeRedCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw new NoCubesException("Red cubes ended");
-                }
-            }
-
-            else if (colorCube.equals(ColorCube.YELLOW)) {
-                try {
-                    this.removeYellowCubes(1);
-                } catch (OutOfBoundsException e) {
-                    throw new NoCubesException("Yellow cubes ended");
-                }
-            }
-        }
-    }*/
 
     /**
      * add red cube in player board
@@ -288,6 +251,14 @@ public class PlayerBoard{
         }
     }
 
+    public ArrayList<ColorPlayer> getDamageTokens() {
+        return damageTokens;
+    }
+
+    public ArrayList<ColorPlayer> getMarkTokens() {
+        return markTokens;
+    }
+
     public int getPlayerSkulls() {
         return playerSkulls;
     }
@@ -383,7 +354,7 @@ public class PlayerBoard{
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
-            if (damageTokens.size()>=12) {
+            if (damageTokens.size()>=11) {
                 removeMarkOfOneColor(colorPlayer);
                 throw new DamageTrackException();
             }
@@ -392,14 +363,18 @@ public class PlayerBoard{
             int n= numOfMarkOfOneColor(colorPlayer);
             for (int i=0; i<n ; i++) {
                 damageTokens.add(colorPlayer);
-                if (damageTokens.size()>=12) {
+                if (damageTokens.size()>=11) {
                     removeMarkOfOneColor(colorPlayer);
                     throw new DamageTrackException();
                 }
             }
             removeMarkOfOneColor(colorPlayer);
         }
-        if (damageTokens.size()==11) throw new DamageTrackException();
+
+        if (damageTokens.size()>=1) {
+            System.out.println("ok exception take damage");
+            throw new DamageTrackException();
+        }
 
 
     }

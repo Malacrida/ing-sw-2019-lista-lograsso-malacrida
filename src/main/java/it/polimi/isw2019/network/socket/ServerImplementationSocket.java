@@ -2,7 +2,9 @@ package it.polimi.isw2019.network.socket;
 
 import com.sun.prism.shader.FillRoundRect_Color_AlphaTest_Loader;
 import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.RunMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
+import it.polimi.isw2019.message.playermove.RunMove;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
@@ -34,29 +36,37 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
         }
 
-        @Override
-        public void run(){
-            try{
-                while (null != (moveMessage = (MoveMessage) input.readObject())){
-                    moveMessage.accept(virtualViewVisitorInterface);
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
 
-   // @Override
-    public void registerNewClient(Socket client, String nickname, CLIView view) throws IOException {
-        String actionHero = "MANNAIA LA PUTTANA";
-        FirstMessage firstMessage = new FirstMessage(view, nickname, actionHero);
-        write(firstMessage);
-        this.start();
+    @Override
+    public void run(){
+        try{
+
+            while (null != (moveMessage = (MoveMessage) input.readObject())){
+                moveMessage.accept(virtualViewVisitorInterface);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void registerNewClient(Socket client, String nickname) throws IOException, RemoteException {
+    public void registerNewClient(Socket client, String nickname) throws IOException {
 
+
+        int [][] run = new int[3][2];
+            run [0][0]=1;
+            run [0][1]=2;
+            run [1][0]=3;
+            run [1][1]=4;
+            run [2][0]=5;
+            run [2][1]=6;
+
+        RunMove runMove = new RunMove("nick", run);
+        write(runMove);
+        this.start();
     }
+
+
 
     @Override
     public void write(Object object) throws IOException {

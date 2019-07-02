@@ -20,6 +20,7 @@ public class UpdateMessage extends MoveMessage {
         this.featuresOfPlayersAvailable = featuresOfPlayersAvailable;
         this.weaponCardDescription = weaponCardDescription;
         this.powerUpCardDescription = powerUpCardDescription;
+
     }
 
     @Override

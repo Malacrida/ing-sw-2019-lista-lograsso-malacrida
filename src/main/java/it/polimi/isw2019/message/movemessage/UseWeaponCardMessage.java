@@ -20,8 +20,8 @@ public class UseWeaponCardMessage extends MoveMessage{
         super(nicknamePlayer);
     }
 
-    public UseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack) {
-        super(nicknamePlayer);
+    public UseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error) {
+        super(nicknamePlayer,error);
         this.weaponCard = weaponCard;
         this.featuresAvailable = featuresAvailable;
         this.playersToAttack = playersToAttack;

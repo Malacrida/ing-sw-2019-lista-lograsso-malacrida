@@ -1,7 +1,6 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.UseWeaponCard;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -310,22 +309,6 @@ public class Player{
         isShoot = shoot;
     }
 
-    //Nella mia versione c'era non so se andava tolto (FROM DAVIDE)
-    /*public void reloadWeaponCard (AbstractWeaponCard weaponCard) throws OutOfBoundsException {
-        int [] price = new int[3];
-        //price = weaponCard.getPrice ();
-        for (int i=0; i<3; i++){
-            if (i==0){
-                playerBoard.removeRedCubes(price[0]);
-            }
-            if (i==1){
-                playerBoard.removeYellowCubes(price[1]);
-            }
-            if (i==2){
-                playerBoard.removeBlueCubes(price[2]);
-            }
-        }
-    }*/
 
     /**
      * method used to pay cubes to use weapon card's effect
@@ -965,6 +948,14 @@ public class Player{
             }
         }
         return effectPowerUp;
+    }
+
+    public ArrayList<ColorPlayer> returnKillDamage(){
+        ArrayList<ColorPlayer> damage = new ArrayList<>();
+        for(int i = 10; i < playerBoard.getDamageTokens().size(); i++){
+            damage.add(playerBoard.getDamageTokens().get(i));
+        }
+        return damage;
     }
 
     public String toString(){
