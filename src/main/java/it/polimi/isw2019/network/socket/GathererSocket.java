@@ -77,27 +77,25 @@ public class GathererSocket implements Runnable, GathererInterface {
 
             output = ((ClientSocket) newClientInterface).getObjectOutputStream();
             input = ((ClientSocket) newClientInterface).getObjectInputStream();
-            System.out.println(input);
-            System.out.println(output);
-            System.out.println("---IN ATTESA DI MESSAGGIO---");
+            //salva il messaggio che è arrivato dal client(nickname)
             String messageInput = (String) input.readObject();
 
-            System.out.println("---MESSAGGIO: "+ messageInput);
-
-            newClientInterface.setNickname(messageInput);
+            //aggiunge i client alla lobby
             lobby.addConnectedClient(messageInput, newClientInterface, TypeConnection.SOCKET);
             /*
             for (int i = 0; i < lobby.getClientConnected().size(); i++){
                 System.out.println(lobby.getClientConnected());
             }*/
 
-
+            //messaggio di output per la registrazione avvenuta
             String outputString = "REGISTRAZIONE AVVENUTA DA: ";
             output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
 
+            //setto il nickname nella client interface
             newClientInterface.setNickname(messageInput);
+            //faccio partire il clientSocket per l'invio e la ricezione di MoveMessage e PlayerMoe
             ((ClientSocket) newClientInterface).start();
 
         } catch (IOException | ClassNotFoundException e) {

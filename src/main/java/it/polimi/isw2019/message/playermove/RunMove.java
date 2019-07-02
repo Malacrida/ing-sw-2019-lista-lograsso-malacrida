@@ -4,7 +4,6 @@ import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.model.exception.EndAction;
 import it.polimi.isw2019.model.exception.EndSingleAction;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
 import java.io.Serializable;
 
@@ -25,11 +24,6 @@ public class RunMove extends PlayerMove implements Serializable {
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
         networkHandler.sendRun(this);
-    }
-
-
-    public void accept (MiniController miniController){
-        miniController.readRun(this);
     }
 
     public void setMovement(int[][] movement){

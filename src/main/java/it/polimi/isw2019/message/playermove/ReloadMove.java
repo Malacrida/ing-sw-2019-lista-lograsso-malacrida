@@ -2,7 +2,6 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
 public class ReloadMove  extends PlayerMove{
 
@@ -34,8 +33,5 @@ public class ReloadMove  extends PlayerMove{
         networkHandler.sendReload(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
 
-    }
 }

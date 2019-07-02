@@ -4,7 +4,6 @@ import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 import it.polimi.isw2019.view.CLIView;
 
 import java.io.Serializable;
@@ -38,10 +37,6 @@ public class FirstMessage extends PlayerMove implements Serializable{
         networkHandler.sendRegisterPlayer(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
-
-    }
 
     public String getActionHero() {
         return actionHero;

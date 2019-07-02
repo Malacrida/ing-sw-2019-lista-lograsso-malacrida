@@ -10,11 +10,11 @@ import it.polimi.isw2019.utilities.Observer;
 
 public class NetworkHandlerSocket extends Observable<MoveMessage> implements Observer<PlayerMove>, NetworkHandlerVisitorInterface  {
 
-    ClientSocket clientSocket;
+    ServerImplementationSocket serverImplementationSocket;
     Lobby lobby;
 
-    public NetworkHandlerSocket(ClientSocket clientSocket) {
-        this.clientSocket = clientSocket;
+    public NetworkHandlerSocket(ServerImplementationSocket serverImplementationSocket) {
+        this.serverImplementationSocket = serverImplementationSocket;
     }
 
     @Override
@@ -23,7 +23,6 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
     }
 
     public void receiveMoveMessage (MoveMessage moveMessage){
-
         notifyObservers(moveMessage);
     }
 
@@ -50,11 +49,6 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void sendRegisterPlayer(FirstMessage firstMessage) {
-
-        System.out.println("HO FATTO FINTA DI REGISTRARE IL PLAYER NELLA LOBBY");
-        EndRegistration endRegistration = new EndRegistration(firstMessage.getPlayer());
-        endRegistration.setNotifyAll(true);
-        notifyObservers(endRegistration);
     }
 
     @Override
