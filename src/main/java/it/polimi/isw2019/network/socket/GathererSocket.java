@@ -96,6 +96,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             output.flush();
             output.reset();
 
+            newClientInterface.setNickname(messageInput);
             ((ClientSocket) newClientInterface).start();
 
         } catch (IOException | ClassNotFoundException e) {

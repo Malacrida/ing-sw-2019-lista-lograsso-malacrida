@@ -77,11 +77,9 @@ public class Client {
                 Socket socket = new Socket("localhost", 1111);
 
                 serverInterface = new ServerImplementationSocket(socket);
-                System.out.println("Ho istanziato SERVERIMPLSOCKET");
+                //ok
                 serverInterface.registerNewClient(socket, nickname);
-
-                System.out.println("\nSono in attesa di un messaggio: \n");
-
+                //ok
 
             } catch (IOException e) {
                 e.getCause();

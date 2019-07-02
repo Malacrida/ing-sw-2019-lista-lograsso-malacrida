@@ -27,7 +27,11 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
         //metodo per inviare la player move
     }
 
+
     public void receiveMoveMessage (MoveMessage moveMessage){
+        System.out.println("---NETWORK HANDLER--- LA MOVE MESSAGE CHE MI È ARRIVATA È: " + moveMessage);
+        System.out.println(moveMessage.getNicknamePlayer());
+        System.out.println(moveMessage.getIdPlayer());
         notifyObservers(moveMessage);
     }
 

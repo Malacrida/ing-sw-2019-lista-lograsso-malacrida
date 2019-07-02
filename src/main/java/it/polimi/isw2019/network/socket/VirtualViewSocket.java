@@ -2,6 +2,7 @@ package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.PlayerMove;
+import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
@@ -12,9 +13,16 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
 
     private String nickname;
     private ServerImplementationSocket serverImplementationSocket;
+    private ClientSocket clientSocket;
 
-    public VirtualViewSocket (ServerImplementationSocket serverImplementationSocket){
+    public VirtualViewSocket (String nickname, ServerImplementationSocket serverImplementationSocket){
+        this.nickname = nickname;
         this.serverImplementationSocket = serverImplementationSocket;
+    }
+
+    public VirtualViewSocket(String nickname, ClientSocket clientSocket){
+        this.nickname = nickname;
+        this.clientSocket = clientSocket;
     }
 
     public void receivePlayerMove (PlayerMove playerMove){
@@ -25,6 +33,8 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
 
     @Override
     public void update(MoveMessage message) {
+        System.out.println("---VIRTUALVIEW--- HO FATTO L'UPDATE DI MOVEMESSAGE: " + message);
+        clientSocket.setMoveMessage(message);
         //Richiami il metodo per fare l'oput stream sul oggetto
     }
 

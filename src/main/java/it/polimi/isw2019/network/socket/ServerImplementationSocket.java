@@ -35,16 +35,18 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
         input = new ObjectInputStream(socket.getInputStream());
         System.out.println("INPUT");
-        //this.virtualViewVisitorInterface = new VirtualViewSocket(this);
+
         }
 
 
     @Override
     public void run(){
         try{
+            NetworkHandlerSocket networkHandlerSocket = new NetworkHandlerSocket(null);
 
             while (null != (moveMessage = (MoveMessage) input.readObject())){
-                moveMessage.accept(virtualViewVisitorInterface);
+                System.out.println("---SIS--- HO RICEVUTO LA MOVE MESSAGE: " + moveMessage);
+                networkHandlerSocket.receiveMoveMessage(moveMessage);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -55,19 +57,27 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void registerNewClient(Socket client, String nickname) throws IOException {
 
         System.out.println("TI STAI REGISTRANDO COME: " + nickname);
+        this.virtualViewVisitorInterface = new VirtualViewSocket(nickname, this);
         this.output.writeObject(nickname);
+        try {
+            message = (String) this.input.readObject();
+            System.out.println(message);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        /*int [][] run = new int[3][2];
-            run [0][0]=1;
-            run [0][1]=2;
-            run [1][0]=3;
-            run [1][1]=4;
-            run [2][0]=5;
-            run [2][1]=6;
+        int [][] run = new int[3][2];
+        run [0][0]=1;
+        run [0][1]=2;
+        run [1][0]=3;
+        run [1][1]=4;
+        run [2][0]=5;
+        run [2][1]=6;
 
-        RunMove runMove = new RunMove("nick", run);
+        RunMove runMove = new RunMove(nickname, run);
         write(runMove);
-        this.start();*/
+
+        this.start();
     }
 
 
@@ -78,6 +88,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         output.flush();
         output.reset();
     }
+
 
    /* @Override
     public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException {
