@@ -86,10 +86,10 @@ public class GathererSocket implements Runnable, GathererInterface {
 
             newClientInterface.setNickname(messageInput);
             lobby.addConnectedClient(messageInput, newClientInterface, TypeConnection.SOCKET);
-
+            /*
             for (int i = 0; i < lobby.getClientConnected().size(); i++){
                 System.out.println(lobby.getClientConnected());
-            }
+            }*/
 
 
             String outputString = "REGISTRAZIONE AVVENUTA DA: ";

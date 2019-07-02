@@ -4,6 +4,7 @@ import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
+import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 
@@ -41,7 +42,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
         System.out.println(client.getNickname());
-        if (lobby.addClientConnected(nickname,client))
+        if (lobby.addConnectedClient(nickname,client,TypeConnection.RMI))
             client.logInCorrect();
         else client.logInFail();
 

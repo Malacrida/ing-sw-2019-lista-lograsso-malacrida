@@ -4,13 +4,13 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 
 public class ConnetedClient {
 
-    String nickname;
+    private String nickname;
 
-    ClientInterface clientInterface;
+    private ClientInterface clientInterface;
 
-    TypeConnection typeConnection;
+    private TypeConnection typeConnection;
 
-    boolean active;
+    private boolean active;
 
     public ConnetedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection, boolean active){
         this.nickname = nickname;
