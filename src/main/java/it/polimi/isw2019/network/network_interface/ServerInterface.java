@@ -27,7 +27,7 @@ public interface ServerInterface<T> extends Remote {
 
     void receiveChooseActionMove(String player, int numAction) throws RemoteException;
 
-    void receiveChooseMap(String player, int index, int color) throws RemoteException;
+    void receiveChooseMap(String player, int index, int color,int mod, int terminator) throws RemoteException;
 
     void receiveRun(String player,int[][] movement) throws RemoteException;
 

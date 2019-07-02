@@ -66,7 +66,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendChooseMap(ChooseMapMove chooseMapMove) {
         try {
-            server.receiveChooseMap(chooseMapMove.getPlayer(),chooseMapMove.getIndex(),chooseMapMove.getIndexColor());
+            server.receiveChooseMap(chooseMapMove.getPlayer(),chooseMapMove.getIndex(),chooseMapMove.getIndexColor(),chooseMapMove.getMod(), chooseMapMove.getTerminator());
         } catch (RemoteException e) {
 
 
@@ -149,12 +149,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
-        try {
-            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards()*/, weaponCardChoice.isGrab());
-
+       /* try {
+            //server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards() weaponCardChoice.isGrab();
+/*
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -225,8 +225,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
         System.out.println("ricevo la Move message choice PU");
-        ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
-        notifyObservers(choicePowerUpCard);
+        //ChoiceCard choicePowerUpCard = new ChoiceCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
+        //notifyObservers(choicePowerUpCard);
     }
 
 

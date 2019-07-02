@@ -86,7 +86,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveChooseMap(String player, int index, int color) throws RemoteException {
+    public void receiveChooseMap(String player, int index, int color, int mod, int terminator) throws RemoteException {
 
     }
 

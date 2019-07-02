@@ -59,22 +59,29 @@ public class ClientSocket extends Thread implements ClientInterface {
 
 
     @Override
-    public void run(){
+    public void run() {
         try {
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
-                Runnable task = () -> {
+                /*Runnable task = () -> {
                     playerMove.accept(networkHandlerVisitorInterface);
-                    System.out.println("Prendo la playermove");
-                };
-                Thread thread = new Thread(task);
-                thread.start();
+                    //System.out.println("Prendo la playermove");
 
+
+                };*/
+                try {
+                    output.writeObject(playerMove);
+                    // Thread thread = new Thread(task);
+                    //thread.start();
+
+                    //  }
+                } catch (IOException e) {
+                }
             }
-        }catch (IOException e){
-
-        } catch (ClassNotFoundException e) {
+       } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

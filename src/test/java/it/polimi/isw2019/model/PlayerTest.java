@@ -1,6 +1,8 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.TooManyCubes;
+import it.polimi.isw2019.model.exception.TooManyPowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
 import it.polimi.isw2019.utilities.Database;
@@ -43,6 +45,7 @@ public class PlayerTest {
 
         Database db = new Database();
         powerUpCard = db.loadPowerUpCards();
+
     }
 
     @After
@@ -237,7 +240,7 @@ public class PlayerTest {
     public void testCanAddPowerUp(){
         Model model = new Model();
 
-        model.setGame(1);
+        model.setGame(1,5);
 
         model.addPlayer(player1);
 
@@ -294,5 +297,28 @@ public class PlayerTest {
         player1.setMessagesToBeSent(6);
         assertEquals(1,player1.getMessageToBeSent().size());
 
+    }
+
+    @Test
+    public void testFromPowerUpIntoCubes(){
+        Database db = new Database();
+
+        ArrayList<PowerUpCard> powerUpCards = db.loadPowerUpCards();
+        player1.setPlayerBoardAndColor(playerBoard1,player1.getColor());
+        try {
+            assertEquals(0,player1.getPowerUpCards().size());
+            player1.takePowerUpCard(powerUpCards.get(0),null);
+            powerUpCards.remove(0);
+            assertEquals(1,player1.getPowerUpCards().size());
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+            assertEquals(1,player1.getPowerUpCards().size());
+            System.out.println(player1.getPowerUpCards().get(0).getColorCard().getColorCubeRepresentation());
+            //player1.getRealPlayerBoard().addCube(player1.getPowerUpCards().get(0).getColorCard());
+            player1.fromPowerUpCardIntoCubes(0);
+           // player1.getRealPlayerBoard().numOfBlueCubes()
+            assertEquals(0,player1.getPowerUpCards().size());
+            assertEquals(23,powerUpCards.size());
     }
 }

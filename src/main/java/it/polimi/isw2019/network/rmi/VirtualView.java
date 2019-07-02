@@ -52,8 +52,8 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(chooseActionMove);
     }
 
-    public void createChooseMap(String player, int index, int color){
-        ChooseMapMove chooseMapMove= new ChooseMapMove(player, index, color);
+    public void createChooseMap(String player, int index, int color, int mod, int terminator){
+        ChooseMapMove chooseMapMove= new ChooseMapMove(player, index, color, mod,terminator);
         notifyObservers(chooseMapMove);
     }
 
@@ -91,8 +91,8 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
     public void createWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards, */boolean grab){
-        WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment,/*powerUpCards,*/grab);
-        notifyObservers(weaponCardChoice);
+       // WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment,/*powerUpCards,*/grab);
+        //notifyObservers(weaponCardChoice);
     }
 
     public void createUseWeaponCard (String player, int weaponCard){
@@ -166,10 +166,10 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     }
 
     @Override
-    public void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+    public void sendPowerUpChoice(ChoiceCard choiceCard) {
         try {
-            System.out.println("invio ChoicePower Up a:" + choicePowerUpCard.getNicknamePlayer());
-            networkHandler.createPowerUpChoice(choicePowerUpCard.getNicknamePlayer(),choicePowerUpCard.getDescriptionPowerUp(),choicePowerUpCard.getIdPowerUp());
+            System.out.println("invio ChoicePower Up a:" + choiceCard.getNicknamePlayer());
+            networkHandler.createPowerUpChoice(choiceCard.getNicknamePlayer(), choiceCard.getDescriptionPowerUp(), choiceCard.getIdPowerUp());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

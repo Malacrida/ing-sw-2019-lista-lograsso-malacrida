@@ -1,7 +1,6 @@
 package it.polimi.isw2019.view;
 
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.FirstMessage;
 
 
 public interface VisitorView{
@@ -20,7 +19,7 @@ public interface VisitorView{
 
     void useWeaponCard(UseWeaponCardMessage useWeaponCardMessage);
 
-    void powerUpChoice(ChoicePowerUpCard choicePowerUpCard);
+    void visitCardChoice(ChoiceCard choiceCard);
 
     void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 

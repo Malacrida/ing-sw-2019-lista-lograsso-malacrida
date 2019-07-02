@@ -1,7 +1,5 @@
 package it.polimi.isw2019.utilities;
 
-import it.polimi.isw2019.model.exception.EndAction;
-import it.polimi.isw2019.model.exception.EndSingleAction;
 
 import java.util.ArrayList;
 import java.util.List;

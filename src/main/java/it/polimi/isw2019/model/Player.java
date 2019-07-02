@@ -49,8 +49,8 @@ public class Player{
     private int stateGame;
 
     private boolean endTurn;
-    private ArrayList<PowerUpCard> tmpPowerUpCard = new ArrayList<>();
-
+    private PowerUpCard tmpPowerUpCard ;
+    private AbstractWeaponCard tmpWeaponCard ;
     private boolean correctAction;
 
     private ArrayList<MoveMessage> messageToBeSent = new ArrayList<>();
@@ -250,14 +250,17 @@ public class Player{
      * @param removeWeaponCard weapon card rejected if player has already three weapon card
      */
 
-    public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) {
+    public void takeWeaponCards(AbstractWeaponCard insertWeaponCard, AbstractWeaponCard removeWeaponCard) throws TooManyWeaponCard {
 
         if (weaponCards.size()<3) {
             weaponCards.add(insertWeaponCard);
         }
-        else{
+        else if(removeWeaponCard != null) {
             weaponCards.remove(removeWeaponCard);
             weaponCards.add(insertWeaponCard);
+        }
+        else{
+            throw new TooManyWeaponCard();
         }
 
     }
@@ -309,7 +312,13 @@ public class Player{
         isShoot = shoot;
     }
 
+    public void setTmpPowerUpChoice(PowerUpCard powerUpCard){
+        tmpPowerUpCard = powerUpCard;
+    }
 
+    public void setTmpWeaponCardChoice(AbstractWeaponCard weaponCardChoice){
+        tmpWeaponCard = weaponCardChoice;
+    }
     /**
      * method used to pay cubes to use weapon card's effect
      * @param costRed number of red cubes
@@ -374,30 +383,17 @@ public class Player{
 
     /**
      * change power up in cube
-     * @param powerUpCard1
+     * @param idCard
      */
 
-    public void fromPowerUpCardIntoCubes(PowerUpCard powerUpCard1){
-        for (PowerUpCard powerUpCard2 : powerUpCards) {
-            if (powerUpCard2.getId() == powerUpCard1.getId()) {
-                try {
-                    this.getRealPlayerBoard().addCube(powerUpCard2.getColorCard());
-                    this.usePowerUpCard(powerUpCard2);
+    public void fromPowerUpCardIntoCubes(int idCard){
+                try{
+                    playerBoard.addCube(powerUpCards.get(idCard).getColorCard());
+                    powerUpCards.remove(idCard);
                 }catch(TooManyCubes e){
 
                 }
             }
-        }
-
-    }
-
-    /**
-     *
-     * @param powerUpCard
-     */
-    public void handlePaymentWithPowerUpCards(PowerUpCard powerUpCard) {
-            fromPowerUpCardIntoCubes(powerUpCard);
-    }
 
     /**
      * add score
@@ -446,6 +442,10 @@ public class Player{
 
     public int playerDamage () {
         return playerBoard.numOfDamages();
+    }
+
+    public void usePowerUp(int indexCard){
+        powerUpCards.remove(indexCard);
     }
 
     /**

@@ -6,8 +6,6 @@ import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
-import java.io.IOException;
-
 public class VirtualViewSocket  extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private String nickname;
@@ -53,7 +51,7 @@ public class VirtualViewSocket  extends Observable<PlayerMove> implements Observ
     }
 
     @Override
-    public void sendPowerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+    public void sendPowerUpChoice(ChoiceCard choiceCard) {
 
     }
 
