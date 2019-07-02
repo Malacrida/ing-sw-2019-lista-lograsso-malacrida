@@ -1,7 +1,11 @@
 package it.polimi.isw2019.message.movemessage;
 
 
-public abstract class MoveMessage implements VisitableMessageMove{
+import it.polimi.isw2019.network.socket.ServerImplementationSocket;
+
+import java.io.Serializable;
+
+public abstract class MoveMessage implements VisitableMessageMove, Serializable {
 
     //String idMoveMessage is no more used
     //little model that contains all the structure of the model and updates the view.

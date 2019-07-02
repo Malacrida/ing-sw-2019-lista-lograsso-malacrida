@@ -20,6 +20,7 @@ public class Lobby implements LobbyInterface {
 
     private ArrayList<VirtualView> virtualViews = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
+    private ArrayList<ConnetedClient> connetedClients = new ArrayList<>();
     private int countDown = 60;
     boolean lobbyIsRunning = true;
 
@@ -29,6 +30,24 @@ public class Lobby implements LobbyInterface {
 
     public HashMap<String, ClientInterface> getClientConnected() {
         return clientConnected;
+    }
+
+    public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
+        if(!alreadyExistNickname(nickname)){
+            ConnetedClient connetedClient = new ConnetedClient(nickname, clientInterface, typeConnection, true);
+            return true;
+        }
+
+        else return false;
+    }
+
+    public boolean alreadyExistNickname(String nickname){
+        for (int i = 0; i < connetedClients.size(); i++){
+            if (connetedClients.get(i).getNickname().equals(nickname)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean addClientConnected(String nickname, ClientInterface clientInterface) {
@@ -71,7 +90,7 @@ public class Lobby implements LobbyInterface {
             try {
                 for (int i = 0; i < countDown; i++) {
                     TimeUnit.SECONDS.sleep(1);
-                    if (clientConnected.size() < 2) {
+                    if (clientConnected.size() < 1) {//era 2
                         i = countDown + 1;
                         roomStartable = false;
                         System.out.println("Countdown reset, not enough players to start the room.");
