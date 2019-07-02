@@ -2,12 +2,9 @@ package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
-
-import java.io.IOException;
 
 public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface  {
 
