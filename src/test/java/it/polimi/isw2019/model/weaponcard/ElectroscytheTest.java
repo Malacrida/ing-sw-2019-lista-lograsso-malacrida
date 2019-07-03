@@ -53,8 +53,6 @@ public class ElectroscytheTest {
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
 
-
-
     }
 
     @After
@@ -84,6 +82,11 @@ public class ElectroscytheTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(attacker, 1, 2);
+        card.firstEffect(gameBoard,attacker, defenders, coordinates);
     }
 
     @Test

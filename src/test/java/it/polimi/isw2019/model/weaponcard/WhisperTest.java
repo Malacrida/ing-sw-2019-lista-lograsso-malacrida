@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,11 +69,12 @@ public class WhisperTest {
 
     }
 
-    @Test
+    @Test (expected = NoEffectException.class)
     public void secondEffect() {
     }
 
-    @Test
-    public void thirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }
