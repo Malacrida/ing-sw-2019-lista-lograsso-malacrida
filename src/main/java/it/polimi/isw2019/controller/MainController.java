@@ -32,7 +32,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
-        model.registerObserver(firstMessage.getCLIView());
+        model.registerObserver(firstMessage.getVirtualViewRmi());
 
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());

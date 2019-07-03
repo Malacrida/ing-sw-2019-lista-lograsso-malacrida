@@ -5,6 +5,7 @@ import it.polimi.isw2019.network.network_interface.ServerInterface;
 
 import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
+import it.polimi.isw2019.network.socket.NetworkHandlerSocket;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;
 import it.polimi.isw2019.view.CLIView;
 
@@ -76,7 +77,7 @@ public class Client {
 
                 Socket socket = new Socket("localhost", 1111);
 
-                serverInterface = new ServerImplementationSocket(socket);
+                serverInterface = new ServerImplementationSocket(socket, nickname);
                 //ok
                 serverInterface.registerNewClient(socket, nickname);
                 //ok

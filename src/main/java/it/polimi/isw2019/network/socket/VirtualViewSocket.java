@@ -2,23 +2,18 @@ package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.PlayerMove;
-import it.polimi.isw2019.network.rmi.VirtualView;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
 import it.polimi.isw2019.utilities.Observer;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface  {
 
     private String nickname;
     private ServerImplementationSocket serverImplementationSocket;
     private ClientSocket clientSocket;
-
-    public VirtualViewSocket (String nickname, ServerImplementationSocket serverImplementationSocket){
-        this.nickname = nickname;
-        this.serverImplementationSocket = serverImplementationSocket;
-    }
 
     public VirtualViewSocket(String nickname, ClientSocket clientSocket){
         this.nickname = nickname;
@@ -29,6 +24,14 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
         System.out.println("evviva");
         System.out.println("player: " + playerMove.getPlayer());
         notifyObservers(playerMove);
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void startView() throws RemoteException {
+        clientSocket.startViewClient();
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.EndRegistration;
 import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.StartMessage;
 import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.network.Lobby;
@@ -30,8 +31,6 @@ public class ClientSocket extends Thread implements ClientInterface {
     private Lobby lobby;
     private VirtualViewSocket virtualViewSocket;
 
-    private NetworkHandlerVisitorInterface networkHandlerVisitorInterface = new NetworkHandlerSocket(this);
-
     @Override
     public void createReload(String nicknamePlayer) throws RemoteException {
 
@@ -56,38 +55,38 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void run() {
-        /*  try {
+        try {
             virtualViewSocket = new VirtualViewSocket(nickname, this);
-            System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
+            /*System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
             MiniController miniController = new MiniController();
             virtualViewSocket.registerObserver(miniController);
-            miniController.registerObserver(virtualViewSocket);
+            miniController.registerObserver(virtualViewSocket);*/
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
-               /* Runnable task = () -> {
+                Runnable task = () -> {
                     virtualViewSocket.receivePlayerMove(playerMove);
                 };
                 Thread thread = new Thread(task);
                 thread.start();
-                virtualViewSocket.receivePlayerMove(playerMove);
+                //virtualViewSocket.receivePlayerMove(playerMove);
                 System.out.println("HO MANDATO LA PLAYERMOVE ALLA VIRTUALVIEW");
             }
         }catch (IOException e){
 
         } catch (ClassNotFoundException e) {
-                Runnable task = () -> {
+                /*Runnable task = () -> {
                     playerMove.accept(networkHandlerVisitorInterface);
-                    System.out.println("Prendo la playermove");
+                    //System.out.println("Prendo la playermove");
 
 
-                };
+                };*/
                 try {
                     output.writeObject(playerMove);
-                     Thread thread = new Thread(task);
-                    thread.start();
+                    // Thread thread = new Thread(task);
+                    //thread.start();
 
-                      }
+                    //  }
                 } catch (IOException e) {
                 }
             }
@@ -95,12 +94,17 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Override
     public void startViewClient() throws RemoteException {
-
+        StartMessage startMessage = new StartMessage(nickname);
+        try {
+            write(startMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -209,10 +213,16 @@ public class ClientSocket extends Thread implements ClientInterface {
         this.moveMessage = moveMessage;
         System.out.println("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
         try {
-            this.output.writeObject(moveMessage);
+            write(moveMessage);
             System.out.println("---CS--- HO INVIATO LA MOVE MESSAGE");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void write (Object object) throws IOException {
+        this.output.writeObject(object);
+        this.output.flush();
+        this.output.reset();
     }
 }

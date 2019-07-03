@@ -20,15 +20,17 @@ import java.util.ArrayList;
 
 public class ServerImplementationSocket extends Thread implements ServerInterface<Socket> {
     private Socket socket;
+    private String nickname;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private MoveMessage moveMessage;
     private String message;
-    private VirtualViewVisitorInterface virtualViewVisitorInterface;
     private CLIView view;
+    private NetworkHandlerSocket networkHandlerSocket;
 
-    public ServerImplementationSocket(Socket socket) throws IOException {
+    public ServerImplementationSocket(Socket socket, String nickname) throws IOException {
         this.socket = socket;
+        this.nickname = nickname;
         System.out.println("SOCKET");
         output = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("OUTPUT");
@@ -36,13 +38,16 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         input = new ObjectInputStream(socket.getInputStream());
         System.out.println("INPUT");
 
+        networkHandlerSocket = new NetworkHandlerSocket(this);
+        view = new CLIView(nickname);
+        view.registerObserver(networkHandlerSocket);
+        networkHandlerSocket.registerObserver(view);
         }
 
 
     @Override
     public void run(){
         try{
-            NetworkHandlerSocket networkHandlerSocket = new NetworkHandlerSocket(null);
 
             while (null != (moveMessage = (MoveMessage) input.readObject())){
                 System.out.println("---SIS--- HO RICEVUTO LA MOVE MESSAGE: " + moveMessage);
@@ -57,7 +62,6 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void registerNewClient(Socket client, String nickname) throws IOException {
 
         System.out.println("TI STAI REGISTRANDO COME: " + nickname);
-        this.virtualViewVisitorInterface = new VirtualViewSocket(nickname, this);
         this.output.writeObject(nickname);
         try {
             message = (String) this.input.readObject();

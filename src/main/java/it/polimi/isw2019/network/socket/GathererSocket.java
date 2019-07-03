@@ -5,7 +5,7 @@ import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
+import it.polimi.isw2019.network.rmi.VirtualViewRmi;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public class GathererSocket implements Runnable, GathererInterface {
@@ -77,27 +76,25 @@ public class GathererSocket implements Runnable, GathererInterface {
 
             output = ((ClientSocket) newClientInterface).getObjectOutputStream();
             input = ((ClientSocket) newClientInterface).getObjectInputStream();
-            System.out.println(input);
-            System.out.println(output);
-            System.out.println("---IN ATTESA DI MESSAGGIO---");
+            //salva il messaggio che è arrivato dal client(nickname)
             String messageInput = (String) input.readObject();
 
-            System.out.println("---MESSAGGIO: "+ messageInput);
-
-            newClientInterface.setNickname(messageInput);
+            //aggiunge i client alla lobby
             lobby.addConnectedClient(messageInput, newClientInterface, TypeConnection.SOCKET);
             /*
             for (int i = 0; i < lobby.getClientConnected().size(); i++){
                 System.out.println(lobby.getClientConnected());
             }*/
 
-
+            //messaggio di output per la registrazione avvenuta
             String outputString = "REGISTRAZIONE AVVENUTA DA: ";
             output.writeObject(outputString + messageInput);
             output.flush();
             output.reset();
 
+            //setto il nickname nella client interface
             newClientInterface.setNickname(messageInput);
+            //faccio partire il clientSocket per l'invio e la ricezione di MoveMessage e PlayerMoe
             ((ClientSocket) newClientInterface).start();
 
         } catch (IOException | ClassNotFoundException e) {
@@ -112,7 +109,7 @@ public class GathererSocket implements Runnable, GathererInterface {
     }
 
     @Override
-    public void setVirtualViews(ArrayList<VirtualView> virtualViews) {
+    public void setVirtualViewRmis(ArrayList<VirtualViewRmi> virtualViewRmis) {
 
     }
 }

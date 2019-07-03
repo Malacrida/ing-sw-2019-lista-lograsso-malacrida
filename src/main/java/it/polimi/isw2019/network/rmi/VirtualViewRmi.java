@@ -9,13 +9,13 @@ import it.polimi.isw2019.utilities.Observer;
 
 import java.rmi.RemoteException;
 
-public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
+public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private String nickname;
     private ClientInterface networkHandler;
     private int idPlayer;
 
-    public VirtualView (String nickname, ClientInterface networkHandler){
+    public VirtualViewRmi(String nickname, ClientInterface networkHandler){
         this.nickname=nickname;
         this.networkHandler = networkHandler;
     }

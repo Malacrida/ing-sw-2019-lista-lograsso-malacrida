@@ -2,8 +2,11 @@ package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
+import it.polimi.isw2019.network.socket.ClientSocket;
+import it.polimi.isw2019.network.socket.VirtualViewSocket;
+import it.polimi.isw2019.network.rmi.VirtualViewRmi;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +21,8 @@ public class Lobby implements LobbyInterface {
    // private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
     //private HashMap<String, ClientInterface> clientDisconnected = new HashMap<>();
 
-    private ArrayList<VirtualView> virtualViews = new ArrayList<>();
+    private ArrayList<VirtualViewRmi> virtualViewRmis = new ArrayList<>();
+    private ArrayList<VirtualViewSocket> virtualViewsSocket = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
     private ArrayList<ConnetedClient> connectedClients = new ArrayList<>();
     private int countDown = 60;
@@ -128,30 +132,50 @@ public class Lobby implements LobbyInterface {
     }
     public void setVirtualViews() {
         for (int i=0; i<connectedClients.size(); i++ ){
-            VirtualView virtualView = new VirtualView(connectedClients.get(i).getNickname(), connectedClients.get(i).getClientInterface());
-            virtualViews.add(virtualView);
+            VirtualViewRmi virtualViewRmi = new VirtualViewRmi(connectedClients.get(i).getNickname(), connectedClients.get(i).getClientInterface());
+            virtualViewRmis.add(virtualViewRmi);
+
+             if (connectedClients.get(i).getTypeConnection() == TypeConnection.SOCKET){
+                VirtualViewSocket virtualViewSocket = new VirtualViewSocket(connectedClients.get(i).getNickname(), (ClientSocket) connectedClients.get(i).getClientInterface());
+                virtualViewsSocket.add(virtualViewSocket);
+            }
         }
     }
 
-    public ArrayList<VirtualView> getVirtualViews() {
-        return virtualViews;
+    public ArrayList<VirtualViewRmi> getVirtualViewRmis() {
+        return virtualViewRmis;
     }
 
     public void startGame(){
         MainController controller = new MainController();
 
         setVirtualViews();
-        Server.setVirtualViewOnServer(virtualViews);
+        Server.setVirtualViewOnServer(virtualViewRmis);
 
-        System.out.println("ci sono :" +virtualViews.size());
-        for (VirtualView virtualView: virtualViews){
-            virtualView.registerObserver(controller);
-            System.out.println(virtualView.getNickname());
+        System.out.println("ci sono :" + virtualViewRmis.size());
+        for (VirtualViewRmi virtualViewRmi : virtualViewRmis){
+            virtualViewRmi.registerObserver(controller);
+            System.out.println(virtualViewRmi.getNickname());
         }
 
-        for(VirtualView virtualView : virtualViews){
-            virtualView.startView();
-            System.out.println(virtualView.getNickname());
+        for(VirtualViewRmi virtualViewRmi : virtualViewRmis){
+            virtualViewRmi.startView();
+            System.out.println(virtualViewRmi.getNickname());
+
+        for (VirtualViewSocket aVirtualViewSocket: virtualViewsSocket){
+            aVirtualViewSocket.registerObserver(controller);
+            System.out.println(aVirtualViewSocket.getNickname());
+        }
+
+
+
+        for(VirtualViewSocket aVirtualViewSocket : virtualViewsSocket){
+            try {
+                aVirtualViewSocket.startView();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            System.out.println(aVirtualViewSocket.getNickname());
         }
         controller.startGame();
     }
