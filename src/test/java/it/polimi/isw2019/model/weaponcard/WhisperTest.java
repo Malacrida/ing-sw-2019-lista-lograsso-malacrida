@@ -70,7 +70,8 @@ public class WhisperTest {
     }
 
     @Test (expected = NoEffectException.class)
-    public void secondEffect() {
+    public void secondEffect() throws NoEffectException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test (expected = NoEffectException.class)

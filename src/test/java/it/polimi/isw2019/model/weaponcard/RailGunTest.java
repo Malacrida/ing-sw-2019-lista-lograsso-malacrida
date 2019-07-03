@@ -72,7 +72,7 @@ public class RailGunTest {
     @Test
     public void firstEffect() throws ErrorEffectException, DamageTrackException {
         card.firstEffect(gameBoard, attacker, defenders, coordinates);
-        assertEquals(11, pb1.numOfDamages());
+        assertEquals(12, pb1.numOfDamages());
     }
 
     @Test

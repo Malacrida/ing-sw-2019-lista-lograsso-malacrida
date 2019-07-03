@@ -22,8 +22,10 @@ public class CyberBladeTest {
 
     int [] coordinates = new int[4];
     int [] coordinates2 = new int[4];
+    int [] coordinates3 = new int[4];
     ArrayList<Player> defenders = new ArrayList<>();
     ArrayList<Player> defenders2 = new ArrayList<>();
+    ArrayList<Player> defenders3 = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -46,15 +48,16 @@ public class CyberBladeTest {
 
         coordinates[0] = 2;
         coordinates[1] = 3;
-        coordinates2[0] = 1;
+        coordinates2[0] = 2;
         coordinates2[1] = 2;
+        coordinates3[0] = 1;
+        coordinates3[1] = 2;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
 
-        defenders2.add(null);
-        defenders2.add(null);
-
+        defenders3.add(null);
+        defenders3.add(null);
 
     }
 
@@ -86,7 +89,7 @@ public class CyberBladeTest {
 
     @Test
     public void testSecondEffect() throws ErrorEffectException {
-        card.secondEffect(gameBoard, attacker, defenders, coordinates2);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates3);
         assertEquals(1, attacker.getX());
         assertEquals(2, attacker.getY());
     }
@@ -114,9 +117,9 @@ public class CyberBladeTest {
             e.printStackTrace();
         }
     }
-    @Test(expected = ErrorEffectException.class)
+    @Test
     public void secondTestThirdEffect() throws ErrorEffectException {
-        card.thirdEffect(gameBoard, attacker, defenders2, coordinates);
+        card.thirdEffect(gameBoard, attacker, defenders3, coordinates);
     }
 
 
