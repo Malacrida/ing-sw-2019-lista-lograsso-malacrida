@@ -8,7 +8,6 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observer;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class MainController implements Observer<PlayerMove>, VisitorController {
@@ -33,12 +32,22 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
-        model.registerObserver(firstMessage.getCLIView());
 
-        try{
-            model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
-        } catch(IndexOutOfBoundsException e){
-            model.unregisterObserver(firstMessage.getCLIView());
+        if (firstMessage.getVirtualViewSocket()==null){
+            model.registerObserver(firstMessage.getVirtualViewRmi());
+            try{
+                model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+            } catch(IndexOutOfBoundsException e){
+                model.unregisterObserver(firstMessage.getVirtualViewRmi());
+            }
+        }
+        if (firstMessage.getVirtualViewRmi()== null){
+            model.registerObserver(firstMessage.getVirtualViewSocket());
+            try{
+                model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+            } catch(IndexOutOfBoundsException e){
+                model.unregisterObserver(firstMessage.getVirtualViewSocket());
+            }
         }
 
     }
@@ -144,11 +153,15 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         }
 
         for(int i = 0;i < numEffect-1; i ++){
-            for(int j = i+1 ; j < numEffect; j++)
-            if(useWeaponCard.getEffectUsed()[i] == useWeaponCard.getEffectUsed()[j] && j != i){
-                model.updateNotCorrectAction("cannot insert twice the same effect");
+            for(int j = i+1 ; j < numEffect; j++) {
+                if (useWeaponCard.getEffectUsed()[i] == useWeaponCard.getEffectUsed()[j] && j != i) {
+                    model.updateNotCorrectAction("cannot insert twice the same effect");
+                }
             }
         }
+
+        for(int i = 0 ; i < useWeaponCard.getHandleEffectPayment().length; i++)
+            model.addCubesFromPowerUp(useWeaponCard.getHandleEffectPayment()[i]);
 
         model.useWeaponCard(useWeaponCard.getWeaponCard(), useWeaponCard.getEffectUsed(),useWeaponCard.getPeopleToBeShoot(), useWeaponCard.getHandleEffectCoordinates(), useWeaponCard.getHandleEffectPayment());
 
@@ -166,9 +179,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                if(reloadMove.getWeaponCard()[i]== 1){
                    if(!model.checkValidityPayment(reloadMove.getPayment()[i],model.getCurrentPlayer().getWeaponCards().get(i).getRechargeCube())){
                        model.updateNotCorrectAction("not enough cubes");
+                       return;
                    }
                }
             }
+                for(int i = 0 ; i < reloadMove.getPayment().length; i++)
+                    model.addCubesFromPowerUp(reloadMove.getPayment()[i]);
+
 
             model.reload(reloadMove.getPayment(), reloadMove.getWeaponCard());
     }
@@ -214,13 +231,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitControllerGrab(GrabMove grabMove) {
-        System.out.println(grabMove.getPositionWeaponCard());
-        System.out.println("payment");
         for(int i = 0; i < grabMove.getPayment().length; i++)
             System.out.println(grabMove.getPayment()[i]);
-       if(grabMove.getPositionWeaponCard()!= -1){
+        if(grabMove.getPositionWeaponCard()!= -1){
            AbstractWeaponCard weaponCard = model.getGameBoard().getGameArena().getWeaponCardsOnSquares(model.getCurrentPlayer().getX(),model.getCurrentPlayer().getY())[grabMove.getPositionWeaponCard()];
-           System.out.println(weaponCard.getID());
            System.out.println(weaponCard.getRechargeCube().length);
            if(!model.checkValidityPayment(grabMove.getPayment(),weaponCard.getRechargeCube())){
                model.updateNotCorrectAction("payment incorrect");
@@ -228,10 +242,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
            }
            else if(model.getCurrentPlayer().getWeaponCards().size() == 3){
                model.setTmpWeaponCard(weaponCard);
+               //continuare per la choice
                return;
            }
            else{
-               model.grabWeaponCard(weaponCard);
+               model.addCubesFromPowerUp(grabMove.getPayment());
                model.grabWeaponCard(weaponCard);
            }
        }
@@ -240,6 +255,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
+        //pagamento
 
     }
 

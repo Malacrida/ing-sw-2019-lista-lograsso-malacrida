@@ -9,15 +9,17 @@ import it.polimi.isw2019.utilities.Observer;
 
 import java.rmi.RemoteException;
 
-public class VirtualView extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
+public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private String nickname;
     private ClientInterface networkHandler;
     private int idPlayer;
+    private boolean active;
 
-    public VirtualView (String nickname, ClientInterface networkHandler){
+    public VirtualViewRmi(String nickname, ClientInterface networkHandler){
         this.nickname=nickname;
         this.networkHandler = networkHandler;
+        active=true;
     }
 
     public void registrationController(MainController controller){
@@ -42,11 +44,16 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void update(MoveMessage message) {
-
-        message.accept(this);
+        if (active){
+            message.accept(this);
+        }
     }
 
     public void createConnectionPlayer(String nickname, int connection){
+        if (connection==0)
+            active= false;
+        else if (connection==1)
+            active=true;
         ConnectionMove disconnectionMove = new ConnectionMove(nickname, connection);
         notifyObservers(disconnectionMove);
     }
@@ -81,9 +88,9 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         System.out.println("forzo rinvio");
     }
 
-    public void createReload(String player){
-        /*ReloadMove reloadMove = new ReloadMove(player);
-        notifyObservers(reloadMove);*/
+    public void createReload(String player, int[] weaponCard, int[][] payment){
+        ReloadMove reloadMove = new ReloadMove(player, weaponCard, payment);
+        notifyObservers(reloadMove);
     }
 
     public void createPowerUpChoice(String player, int idPowerUp){
@@ -91,14 +98,14 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         notifyObservers(powerUpChoice);
     }
 
-    public void createUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/){
-       /* UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,powerUpCardInterface);
-        notifyObservers(usePowerUpCard);*/
+    public void createUsePowerUpCard(String player){
+        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player);
+        notifyObservers(usePowerUpCard);
     }
 
-    public void createWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards, */boolean grab){
-       // WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment,/*powerUpCards,*/grab);
-        //notifyObservers(weaponCardChoice);
+    public void createWeaponCardChoice(String player, int indexWeaponCard, int[] payment){
+        WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment);
+        notifyObservers(weaponCardChoice);
     }
 
     public void createUseWeaponCard (String player, int weaponCard){
@@ -111,7 +118,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
         System.out.println("invio la move message Action a :" + actionMessage.getNicknamePlayer());
 
         try {
-            networkHandler.createActionMessage(actionMessage.getNicknamePlayer());
+            networkHandler.createActionMessage(actionMessage.getNicknamePlayer(), actionMessage.getActionYouCanPerform(), actionMessage.getActionPlayerCanPerform(), actionMessage.getIntIdAction());
         }
         catch (RemoteException e) {
             e.printStackTrace();
@@ -131,7 +138,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     @Override
     public void sendGrab(GrabMessage grabMessage) {
         try {
-            networkHandler.createGrab(grabMessage.getNicknamePlayer());
+            networkHandler.createGrab(grabMessage.getNicknamePlayer(), grabMessage.getError(), grabMessage.getWeaponCardAvailable(), grabMessage.getFeaturesAvailable(), grabMessage.isGrabWeapon(), grabMessage.getAmmoTileDescription(), grabMessage.getPowerUpDescription());
         }
         catch (RemoteException e) {
             e.printStackTrace();
@@ -140,6 +147,11 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
 
     @Override
     public void sendReload(ReloadMessage reloadMessage) {
+        try {
+            networkHandler.createReload(reloadMessage.getNicknamePlayer(),reloadMessage.getFeaturesAvailable(),reloadMessage.getWeaponYouCanReload(),reloadMessage.getError());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -175,7 +187,7 @@ public class VirtualView extends Observable<PlayerMove> implements Observer<Move
     public void sendPowerUpChoice(ChoiceCard choiceCard) {
         try {
             System.out.println("invio ChoicePower Up a:" + choiceCard.getNicknamePlayer());
-            networkHandler.createPowerUpChoice(choiceCard.getNicknamePlayer(), choiceCard.getDescriptionPowerUp(), choiceCard.getIdPowerUp());
+            networkHandler.createChoiceCard(choiceCard.getNicknamePlayer(), choiceCard.getDescriptionPowerUp(), choiceCard.getIdPowerUp(), choiceCard.getError(),choiceCard.isDiscardOne(),choiceCard.isPowerUp());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

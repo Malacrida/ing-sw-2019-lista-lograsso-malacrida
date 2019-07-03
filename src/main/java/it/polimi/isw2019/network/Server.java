@@ -1,13 +1,10 @@
 package it.polimi.isw2019.network;
 
 import it.polimi.isw2019.network.rmi.ServerRmi;
-import it.polimi.isw2019.network.rmi.VirtualView;
+import it.polimi.isw2019.network.rmi.VirtualViewRmi;
 import it.polimi.isw2019.network.socket.GathererSocket;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -50,7 +47,7 @@ public class Server {
     }
 
 
-    public static void setVirtualViewOnServer (ArrayList<VirtualView> virtualViews){
-        gathererRmi.setVirtualViews(virtualViews);
+    public static void setVirtualViewOnServer (ArrayList<VirtualViewRmi> virtualViewRmis){
+        gathererRmi.setVirtualViewRmis(virtualViewRmis);
     }
 }

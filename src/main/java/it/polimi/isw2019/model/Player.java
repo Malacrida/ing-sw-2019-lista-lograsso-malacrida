@@ -877,7 +877,7 @@ public class Player{
             for (int i = 0; i < powerUpCards.size(); i++, j++)
                 featuresAvailable[j] = powerUpCards.get(i).getId();
             for (int i = j + 1; i < 6; i++)
-                featuresAvailable[i] = -1;
+                featuresAvailable[i] = -2;
         }
     }
 

@@ -2,8 +2,9 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
-import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
+import it.polimi.isw2019.network.rmi.VirtualViewRmi;
+
+import it.polimi.isw2019.network.socket.VirtualViewSocket;
 import it.polimi.isw2019.view.CLIView;
 
 import java.io.Serializable;
@@ -12,7 +13,8 @@ public class FirstMessage extends PlayerMove implements Serializable{
 
     private String actionHero;
     private CLIView CLIView;
-    private VirtualView virtualView;
+    private VirtualViewRmi virtualViewRmi= null;
+    private VirtualViewSocket virtualViewSocket= null;
 
     public FirstMessage(CLIView CLIView, String nickname, String actionHero){
         super(nickname);
@@ -20,10 +22,18 @@ public class FirstMessage extends PlayerMove implements Serializable{
         this.actionHero = actionHero;
     }
 
-    public FirstMessage(VirtualView virtualView, String nickname, String actionHero){
+    public FirstMessage(VirtualViewRmi virtualViewRmi, String nickname, String actionHero){
         super(nickname);
-        this.virtualView=virtualView;
+        this.virtualViewRmi = virtualViewRmi;
         this.actionHero = actionHero;
+        virtualViewSocket = null;
+    }
+
+    public FirstMessage(VirtualViewSocket virtualViewSocket, String nickname, String actionHero){
+        super(nickname);
+        virtualViewRmi = null;
+        this.actionHero = actionHero;
+        this.virtualViewSocket = virtualViewSocket;
     }
 
 
@@ -46,7 +56,11 @@ public class FirstMessage extends PlayerMove implements Serializable{
         return CLIView;
     }
 
-    public VirtualView getVirtualView () {
-        return virtualView;
+    public VirtualViewRmi getVirtualViewRmi() {
+        return virtualViewRmi;
+    }
+
+    public VirtualViewSocket getVirtualViewSocket () {
+        return virtualViewSocket;
     }
 }

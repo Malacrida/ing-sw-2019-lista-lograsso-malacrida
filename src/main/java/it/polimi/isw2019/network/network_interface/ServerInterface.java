@@ -21,10 +21,6 @@ public interface ServerInterface<T> extends Remote {
 
     //public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException;
 
-    public void reconnectClient(T client, String nickname) throws RemoteException;
-
-    void removeToTheClient(String name) throws RemoteException;
-
     void receiveChooseActionMove(String player, int numAction) throws RemoteException;
 
     void receiveChooseMap(String player, int index, int color,int mod, int terminator) throws RemoteException;
@@ -35,15 +31,16 @@ public interface ServerInterface<T> extends Remote {
 
     void receiveRegisterPlayer( String player, String actionHero) throws RemoteException;
 
-    void receiveReload(String player) throws RemoteException;
+    void receiveReload(String player, int[] weaponCard, int[][] payment) throws RemoteException;
 
     void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException;
 
     void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException;
 
-    void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards*/ boolean grab) throws RemoteException;
+    void receiveWeaponCardChoice(String player, int indexWeaponCard, int[] payment) throws RemoteException;
 
     void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException;
 
     void receiveConnectionMove(String player, int connection) throws RemoteException;
+
 }

@@ -5,7 +5,7 @@ import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.TypeConnection;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
-import it.polimi.isw2019.network.rmi.VirtualView;
+import it.polimi.isw2019.network.rmi.VirtualViewRmi;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public class GathererSocket implements Runnable, GathererInterface {
@@ -105,7 +104,7 @@ public class GathererSocket implements Runnable, GathererInterface {
     }
 
     @Override
-    public void setVirtualViews(ArrayList<VirtualView> virtualViews) {
+    public void setVirtualViewRmis(ArrayList<VirtualViewRmi> virtualViewRmis) {
 
     }
 }
