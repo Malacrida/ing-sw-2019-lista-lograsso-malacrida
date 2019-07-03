@@ -311,7 +311,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 }
 
                 if (useWeaponCardMessage.getFeaturesForEffect()[cardIndex][2] != 0) {
-                    //inseert people
+                    //far scegliere al player le sue coordinate!
+                    //quindi inviare la posizione del player al ritorno
                 }
             }
 
@@ -357,20 +358,20 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         int indexMap = -1, indexColor = -1;
         if(firstMessageFirstPlayer.getPossibleMaps()!= null) {
             System.out.println("Choose one of the following Arena :");
-            for(int i = 0; i < firstMessageFirstPlayer.getPossibleMaps().length; i++)
-                        System.out.println((i+1) +" " + firstMessageFirstPlayer.getPossibleMaps()[i]);
+            for (int i = 0; i < firstMessageFirstPlayer.getPossibleMaps().length; i++)
+                System.out.println((i + 1) + " " + firstMessageFirstPlayer.getPossibleMaps()[i]);
 
 
             do {
                 tmpInput = input.next();
-                for(int i = 0 ; i <firstMessageFirstPlayer.getPossibleMaps().length ; i++){
-                    if(tmpInput.equals(String.valueOf(i+1))){
+                for (int i = 0; i < firstMessageFirstPlayer.getPossibleMaps().length; i++) {
+                    if (tmpInput.equals(String.valueOf(i + 1))) {
                         indexMap = Integer.parseInt(tmpInput);
                         inputOk = true;
                         break;
                     }
                 }
-                if(!inputOk){
+                if (!inputOk) {
                     System.out.println("try again");
                 }
                     /*(Integer.parseInt(tmpInput) >= 1 && Integer.parseInt(tmpInput) <= firstMessageFirstPlayer.getPossibleMaps().length) {
@@ -382,32 +383,37 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             mod = -1;
             System.out.println("Press 1 to choose the game mode with 5 skulls \n" +
                     "press 2 to choose the game mode with 8 skull:");
-            do {tmpInput = input.next();
+            do {
+                tmpInput = input.next();
 
-                if(tmpInput.equals(String.valueOf(1))||tmpInput.equals(String.valueOf(2))){
+                if (tmpInput.equals(String.valueOf(1)) || tmpInput.equals(String.valueOf(2))) {
                     mod = Integer.parseInt(tmpInput);
                     inputOk = true;
-                }
-                else{
+                } else {
                     System.out.println("try again");
                 }
-            } while(!inputOk);
+            } while (!inputOk);
 
-            System.out.println("Press 1 to choose the game mode terminator \n" +
-                    "press 0 to choose the game mode without terminator:");
+            if (firstMessageFirstPlayer.getError() == null) {
+                System.out.println("Press 1 to choose the game mode terminator \n" +
+                        "press 0 to choose the game mode without terminator:");
 
-            inputOk = false;
-            terminator = -1;
-            do {tmpInput = input.next();
+                inputOk = false;
+                terminator = -1;
+                do {
+                    tmpInput = input.next();
 
-                if(tmpInput.equals(String.valueOf(0) )||tmpInput.equals(String.valueOf(1))){
-                    terminator = Integer.parseInt(tmpInput);
-                    inputOk = true;
-                }
-                else{
-                    System.out.println("try again");
-                }
-            } while(!inputOk);
+                    if (tmpInput.equals(String.valueOf(0)) || tmpInput.equals(String.valueOf(1))) {
+                        terminator = Integer.parseInt(tmpInput);
+                        inputOk = true;
+                    } else {
+                        System.out.println("try again");
+                    }
+                } while (!inputOk);
+            }
+        }
+        else {
+            terminator = 0;
         }
 
         inputOk = false;
@@ -428,10 +434,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             if(!inputOk){
                 System.out.println("try again");
             }
-           /* if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)<= firstMessageFirstPlayer.getColorAvailable().size()){
-                indexColor = Integer.parseInt(tmpInput);
-                inputOk = true;
-            }*/
         } while(!inputOk);
 
 
@@ -568,11 +570,15 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
             if (actionChoosen == -1) {
                 //reload vuota
-                notifyObservers(new ReloadMove(nicknamePlayer,null,null));
+                int[][] payment = new int[1][1];
+                payment[0][0] = -1;
+                notifyObservers(new ReloadMove(nicknamePlayer,null,payment));
                 return;
             }
             else if (actionChoosen==9){
                 notifyObservers(new ConnectionMove(nicknamePlayer, 0));
+                reconnectClient();
+                return;
             }
             else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionPlayerCanPerform().size())
                 okInput = true;
@@ -584,53 +590,80 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
-
-        displayErrorMessage(usePowerUpCardMessage.getError());
+        if(usePowerUpCardMessage.getError().length()!= 0)
+                displayErrorMessage(usePowerUpCardMessage.getError());
 
         Scanner input = new Scanner(System.in);
 
         String tmpCardChoosen;
-        int cardChoosen;
+        int cardChoosen = 0;
 
         boolean inputOk = false;
-
-        int[] features = new int[3];
-        int[] payment = featuresAvailable.clone();
         UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer);
-
-        if(usePowerUpCardMessage.getStateGame() == 0) {
+        if (usePowerUpCardMessage.getStateGame() == 0)
             do {
                 System.out.println("choose one of the following PowerUp Card : ");
 
-                for (String powerUpCard : powerUpCard)
-                    System.out.println(powerUpCard);
+                for (int i = 0; i < powerUpCard.length; i++) {
+                    if (usePowerUpCardMessage.getCanBeUsed()[i]) {
+                        System.out.println((i + " " + powerUpCard[i]));
+                    }
+                }
 
                 tmpCardChoosen = input.nextLine();
+                for (int i = 0; i < powerUpCard.length; i++) {
+                    if (usePowerUpCardMessage.getCanBeUsed()[i]) {
+                        if (tmpCardChoosen.equals(i)) {
+                            cardChoosen = Integer.parseInt(tmpCardChoosen);
+                            inputOk = true;
+                        }
+                    }
+                    if (!inputOk) {
+                        System.out.println("try again");
+                    }
+                }
 
-                cardChoosen = Integer.parseInt(tmpCardChoosen);
-
-                if (cardChoosen >= 0 && cardChoosen < powerUpCard.length)
-                    inputOk = true;
 
             } while (!inputOk);
+            else if(usePowerUpCardMessage.getStateGame() == 1) {
+                inputOk = false;
+                    System.out.println("Do you want to use this power up card to infer to the one that has damaged you?\n" +
+                            "press Y if you want, otherwise N");
 
-            System.out.println("the effect of the card is:");
-            System.out.println(powerUpCard);
-
-
-
-            usePowerUpCard.setCubes(features);
-
-            for (int i = 0; i < usePowerUpCardMessage.getStateCard().length; i++) {
-                if (usePowerUpCardMessage.getStateCard()[i]) {
-
+            do {
+                tmpCardChoosen = input.nextLine();
+                if (tmpCardChoosen.equals("Y")){
+                        usePowerUpCard.setDefend(true);
+                        inputOk = true;
+                    }
+                else if(tmpCardChoosen.equals("N")){
+                    usePowerUpCard.setDefend(false);
+                    inputOk = true;
                 }
-            }
-        }
+                }while(!inputOk);
 
-            insertPayment(payment);
-            //attack e defend!
-       // }
+            }
+            else if(usePowerUpCardMessage.getStateGame() == 2) {
+
+            System.out.println("Do you want to use this power up card to damage someone you've attacked?\n" +
+                    "press Y if you want, otherwise N");
+            do {
+                tmpCardChoosen = input.nextLine();
+
+                if (tmpCardChoosen.equals("Y")){
+                    usePowerUpCard.setDefend(true);
+                    inputOk = true;
+                }
+                else if(tmpCardChoosen.equals("N")){
+                    usePowerUpCard.setDefend(false);
+                    inputOk = true;
+                }
+              //far scegliere al player le sue coordinate!
+              //quindi inviare la posizione del player al ritorno
+
+            }while(!inputOk);
+
+        }
 
         notifyObservers(usePowerUpCard);
     }
@@ -699,8 +732,11 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
             do {
                 tmpInput = input.next();
-                if (Integer.parseInt(tmpInput) >= 0 || Integer.parseInt(tmpInput) <= 2) {
-                    inputOk = true;
+                for(i = 0 ; i < 2 ; i ++){
+                    if(tmpInput.equals(i)){
+                        inputOk= true;
+                        break;
+                    }
                 }
             } while (!inputOk);
             positionWeaponCard = Integer.parseInt(tmpInput);
@@ -757,5 +793,19 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void failRegistration(FailRegistration failRegistration) {
         System.out.println("too many people : OUT");
+    }
+
+    public void reconnectClient (){
+        Scanner input = new Scanner(System.in);
+        int chosen;
+
+        do{
+            System.out.println("Insert 1 to reconnect to the server");
+            chosen = input.nextInt();
+            if (chosen == 1){
+                notifyObservers(new ConnectionMove(nicknamePlayer,1));
+                return;
+            }
+        }while (chosen!=1);
     }
 }

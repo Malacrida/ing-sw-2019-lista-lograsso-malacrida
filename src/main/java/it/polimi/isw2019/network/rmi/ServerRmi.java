@@ -23,7 +23,6 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
 
     private VisitorController controller= new MainController();
-    private HashMap<String, NetworkHandlerInterface> clientConnected = new HashMap<>();
     private ArrayList<VirtualViewRmi> virtualViewRmis = new ArrayList<>();
     private MainController mainController;
     private int port;
@@ -55,7 +54,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
                 virtualViewRmis.get(i).createConnectionPlayer(player, connection);
             }
         }
-        lobby.disconnectedClient(player);
+        lobby.analyzeConnectionClient(player, connection);
 
     }
 
@@ -63,19 +62,6 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         this.virtualViewRmis = virtualViewRmis;
     }
 
-    @Override
-    public void reconnectClient(ClientInterface client, String nickname) throws RemoteException {
-
-    }
-
-
-    @Override
-    public void removeToTheClient(String name) throws RemoteException {
-        if (!clientConnected.containsKey(name)) {
-            clientConnected.remove(name);
-        }
-
-    }
 
     @Override
     public void receiveChooseActionMove(String player, int numAction) {
@@ -91,7 +77,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void receiveChooseMap(String player, int index, int color,int mod, int terminator) {
          for (int i = 0; i< virtualViewRmis.size(); i++) {
              if (virtualViewRmis.get(i).getNickname().equals(player)) {
-                 virtualViewRmis.get(i).createChooseMap(player, index, color);
+                 virtualViewRmis.get(i).createChooseMap(player, index, color, mod, terminator);
              }
          }
     }
@@ -127,10 +113,10 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void receiveReload(String player) {
+    public void receiveReload(String player, int[] weaponCard, int[][] payment) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
-                virtualViewRmis.get(i).createReload(player);
+                virtualViewRmis.get(i).createReload(player, weaponCard, payment);
             }
         }
     }
@@ -145,19 +131,19 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) {
+    public void receiveUsePowerUpCard(String player) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
-              //  virtualViewRmis.get(i).createUsePowerUpCard(player/*, powerUpCardInterface*/);
+                virtualViewRmis.get(i).createUsePowerUpCard(player);
             }
         }
     }
 
     @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, int[] payment) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
-              //  virtualViewRmis.get(i).createWeaponCardChoice(player, indexWeaponCard,payment,/*powerUpCards,*/grab);
+                virtualViewRmis.get(i).createWeaponCardChoice(player, indexWeaponCard,payment);
             }
         }
     }

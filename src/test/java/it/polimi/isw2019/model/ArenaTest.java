@@ -187,6 +187,31 @@ public class ArenaTest {
 
     }
 
+
+    @Test
+    public void testPlayersInOneSquareOnArena (){
+        arena.spawnPlayer(ColorRoom.YELLOW,player1);
+        arena.spawnPlayer(ColorRoom.YELLOW,player2);
+        arena.spawnPlayer(ColorRoom.YELLOW,player3);
+        arena.spawnPlayer(ColorRoom.RED,player4);
+
+        ArrayList<Player> allPayers = arena.playersInOneSquareOnArena(2,3,null);
+
+        assertTrue(allPayers.contains(player1));
+        assertTrue(allPayers.contains(player2));
+        assertTrue(allPayers.contains(player3));
+        assertFalse(allPayers.contains(player4));
+
+        ArrayList<Player> players = arena.playersInOneSquareOnArena(2,3, player1);
+
+        assertFalse(players.contains(player1));
+        assertTrue(players.contains(player2));
+        assertTrue(players.contains(player3));
+        assertFalse(players.contains(player4));
+
+
+    }
+
     @Test
     public void testPlayerInTheRoomNear(){
         arena.spawnPlayer(ColorRoom.BLUE,player1);

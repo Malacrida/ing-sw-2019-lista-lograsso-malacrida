@@ -16,15 +16,23 @@ public class ActionMessage extends MoveMessage {
 
     /**
      *
-     * @param nickName
+     * @param nickname
      */
-    public ActionMessage(String nickName){
+    public ActionMessage(String nickname){
 
-        super(nickName);
+        super(nickname);
         actionYouCanPerform = new String[7];
 
         actionPlayerCanPerform = new ArrayList<>();
         intIdAction = new ArrayList<>();
+    }
+
+    public ActionMessage(String nickname,String[] actionYouCanPerform,ArrayList<String> actionPlayerCanPerform,ArrayList<Integer> intIdAction){
+
+        super(nickname);
+        this.actionYouCanPerform =actionYouCanPerform;
+        this.actionPlayerCanPerform = actionPlayerCanPerform;
+        this.intIdAction = intIdAction;
     }
 
     /**
@@ -139,6 +147,16 @@ public class ActionMessage extends MoveMessage {
 
 
         }
+
+    public void setTerminatorAction(){
+        actionYouCanPerform[7] = "RUN TIL 1 SQUARE ";
+        actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE ";
+
+    }
+
+    public void setTerminatorFrenzyAction(){
+        actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE, ALSO GIVING HIM ONE MARK ";
+    }
 
     /**
      * Setter first powered action

@@ -1,7 +1,6 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.TooManyCubes;
 import it.polimi.isw2019.model.exception.TooManyPowerUpCard;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
@@ -240,7 +239,7 @@ public class PlayerTest {
     public void testCanAddPowerUp(){
         Model model = new Model();
 
-        model.setGame(1,5);
+        model.setGame(1,5,0 );
 
         model.addPlayer(player1);
 

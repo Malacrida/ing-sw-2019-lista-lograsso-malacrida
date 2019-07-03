@@ -12,8 +12,6 @@ public class UsePowerUpCard extends PlayerMove {
     private boolean defend;
     private int positionPowerUp;
 
-
-
     public UsePowerUpCard(String player) {
         super(player);
     }
@@ -26,6 +24,7 @@ public class UsePowerUpCard extends PlayerMove {
         this.positionPowerUp = positionPowerUp;
 
     }
+
     @Override
     public void accept(VisitorController visitorController) {
         visitorController.usePowerUpCard(this);

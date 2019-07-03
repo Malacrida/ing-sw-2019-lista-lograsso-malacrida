@@ -4,13 +4,11 @@ import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.utilities.Database;
-import it.polimi.isw2019.view.CLIView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -364,7 +362,7 @@ public class ModelTest {
     @Test
     public void testSetGame(){
         model.setGameBoard(new GameBoard());
-        model.setGame(1,5);
+        model.setGame(1,5,0 );
         System.out.println(model.getGameBoard().getGameArena().getArenaRepresentation());
         System.out.println(model.getGameBoard().getGameArena().getAmmoTileOnSquare(0,1).toString());
 
@@ -389,7 +387,7 @@ public class ModelTest {
         } catch (OutOfBoundsException e) {
             e.printStackTrace();
         }
-        model.setGame(1,5);
+        model.setGame(1,5,0 );
         System.out.println(model.getGameBoard().getGameArena().getSquare(1,1).getSquareRepresentation());
         model.getGameBoard().insertPlayer(player2,ColorRoom.RED);
         AbstractWeaponCard weaponCard = model.getGameBoard().getGameArena().getWeaponCardsOnSquares(1,0)[1];

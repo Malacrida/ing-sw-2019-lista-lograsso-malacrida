@@ -32,11 +32,6 @@ public class ClientSocket extends Thread implements ClientInterface {
     private VirtualViewSocket virtualViewSocket;
 
     @Override
-    public void createReload(String nicknamePlayer) throws RemoteException {
-
-    }
-
-    @Override
     public void createUpdateView(String nicknamePlayer, String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable, String[][] weaponCardDescription, String[][] powerUpCardDescription, boolean notifyAll) throws RemoteException {
 
     }
@@ -55,12 +50,9 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void run() {
-       /* try {
+        try {
             virtualViewSocket = new VirtualViewSocket(nickname, this);
-            System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
-            MiniController miniController = new MiniController();
-            virtualViewSocket.registerObserver(miniController);
-            miniController.registerObserver(virtualViewSocket);
+
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
@@ -69,32 +61,11 @@ public class ClientSocket extends Thread implements ClientInterface {
                 };
                 Thread thread = new Thread(task);
                 thread.start();
-                //virtualViewSocket.receivePlayerMove(playerMove);
                 System.out.println("HO MANDATO LA PLAYERMOVE ALLA VIRTUALVIEW");
             }
-        }catch (IOException e){
-
-        } catch (ClassNotFoundException e) {
-                /*Runnable task = () -> {
-                    playerMove.accept(networkHandlerVisitorInterface);
-                    //System.out.println("Prendo la playermove");
-
-
-                };
-                try {
-                    output.writeObject(playerMove);
-                     Thread thread = new Thread(task);
-                    thread.start();
-
-                      }
-                } catch (IOException e) {
-                }
-            }
-       } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        }catch (IOException | ClassNotFoundException e){
+            e.getCause();
+        }
     }
 
     @Override
@@ -143,13 +114,8 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void createActionMessage(String nickname) throws RemoteException {
-
-    }
-
-    @Override
-    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException {
-
+    public void createActionMessage(String nicknamePlayer, String[] actionYouCanPerform, ArrayList<String> actionPlayerCanPerform, ArrayList<Integer> intIdAction) throws RemoteException {
+        
     }
 
     @Override
@@ -158,14 +124,13 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void createGrab(String nicknamePlayer) throws RemoteException {
+    public void createGrab(String nicknamePlayer, String error, String[] weaponCardAvailable, int[] featuresAvailable, boolean grabWeapon, String ammoTileDescription, String powerUpDescription) throws RemoteException {
 
     }
 
-
     @Override
-    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
-        EndRegistration endRegistration = new EndRegistration(nicknamePlayer);
+    public void createReload(String nicknamePlayer, int[] featuresAvailable, int[] weaponYouCanReload, String error) throws RemoteException {
+
     }
 
     @Override
@@ -173,20 +138,13 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-
     @Override
-    public void createUseWeaponCard(String nicknamePlayer) throws RemoteException {
+    public void createUseWeaponCardMessage(String nicknamePlayer, int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error) throws RemoteException {
 
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException {
-
-    }
-
-
-    @Override
-    public void createUsePowerUpCard(String nicknamePlayer) throws RemoteException {
+    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) throws RemoteException {
 
     }
 
@@ -198,6 +156,11 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void createFailRegistration(String nicknamePlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp) throws RemoteException {
 
     }
 

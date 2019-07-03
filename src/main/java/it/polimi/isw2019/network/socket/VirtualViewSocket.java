@@ -1,6 +1,7 @@
 package it.polimi.isw2019.network.socket;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.FirstMessage;
 import it.polimi.isw2019.message.playermove.PlayerMove;
 import it.polimi.isw2019.network.rmi.VirtualViewVisitorInterface;
 import it.polimi.isw2019.utilities.Observable;
@@ -11,6 +12,8 @@ import java.rmi.RemoteException;
 
 public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface  {
 
+    private FirstMessage firstMessage = null;
+    private FirstMessage newFirstMessage = null;
     private String nickname;
     private ServerImplementationSocket serverImplementationSocket;
     private ClientSocket clientSocket;
@@ -23,6 +26,11 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     public void receivePlayerMove (PlayerMove playerMove){
         System.out.println("evviva");
         System.out.println("player: " + playerMove.getPlayer());
+        System.out.println(playerMove);
+        if (playerMove.getClass().equals(firstMessage)){
+            firstMessage = (FirstMessage) playerMove;
+            //newFirstMessage = new FirstMessage(this, firstMessage.getPlayer(), firstMessage.getActionHero());
+        }
         notifyObservers(playerMove);
     }
 
@@ -44,56 +52,57 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     @Override
     public void sendActionView(ActionMessage actionMessage) {
 
+        update(actionMessage);
     }
 
     @Override
     public void sendRun(RunMessage runMessage) {
-
+        update(runMessage);
     }
 
     @Override
     public void sendGrab(GrabMessage grabMessage) {
-
+        update(grabMessage);
     }
 
     @Override
     public void sendReload(ReloadMessage reloadMessage) {
-
+        update(reloadMessage);
     }
 
     @Override
     public void sendUpdateView(UpdateMessage updateMessage) {
-
+        update(updateMessage);
     }
 
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
-        System.out.println("In attesa di iniziare il gioco");
+        update(endRegistration);
     }
 
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
-
+        update(useWeaponCardMessage);
     }
 
     @Override
     public void sendPowerUpChoice(ChoiceCard choiceCard) {
-
+        update(choiceCard);
     }
 
     @Override
     public void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
-
+        update(usePowerUpCardMessage);
     }
 
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
-
+        update(firstMessageFirstPlayer);
     }
 
     @Override
     public void sendFailRegistration(FailRegistration failRegistration) {
-
+        update(failRegistration);
     }
 
 }

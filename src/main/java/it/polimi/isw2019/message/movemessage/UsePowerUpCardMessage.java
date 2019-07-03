@@ -6,7 +6,7 @@ import it.polimi.isw2019.view.VisitorView;
 public class UsePowerUpCardMessage extends MoveMessage {
 
     private int[] featuresAvailable;
-    private boolean attacked;
+    private int stateGame;
     private boolean[] canBeUsed;
     private int[][] cooPlayer;
 
@@ -20,10 +20,10 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
-    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable, boolean attacked, boolean[] canBeUsed, String error, int[][] cooPlayer) {
+    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) {
         super(nicknamePlayer,error);
         this.featuresAvailable = featuresAvailable;
-        this.attacked = attacked;
+        this.stateGame = stateGame;
         this.canBeUsed = canBeUsed;
         this.cooPlayer = cooPlayer;
     }
@@ -36,12 +36,12 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
-    public boolean isAttacked() {
-        return attacked;
+    public int getStateGame() {
+        return stateGame;
     }
 
-    public void setAttacked(boolean attacked) {
-        this.attacked = attacked;
+    public void setStateGame(int stateGame) {
+        this.stateGame = stateGame;
     }
 
     public boolean[] getEffectCard() {
@@ -50,6 +50,22 @@ public class UsePowerUpCardMessage extends MoveMessage {
 
     public void setEffectCard(boolean[] canBeUsed) {
         this.canBeUsed = canBeUsed;
+    }
+
+    public boolean[] getCanBeUsed() {
+        return canBeUsed;
+    }
+
+    public void setCanBeUsed(boolean[] canBeUsed) {
+        this.canBeUsed = canBeUsed;
+    }
+
+    public int[][] getCooPlayer() {
+        return cooPlayer;
+    }
+
+    public void setCooPlayer(int[][] cooPlayer) {
+        this.cooPlayer = cooPlayer;
     }
 
     @Override
