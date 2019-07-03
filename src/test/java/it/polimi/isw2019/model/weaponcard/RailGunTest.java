@@ -1,12 +1,17 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RailGunTest {
 
@@ -45,7 +50,7 @@ public class RailGunTest {
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
         gameBoard.changePositionPlayer(firstDefender, 0, 1);
-        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(secondDefender, 0, 0);
         gameBoard.changePositionPlayer(thirdDefender, 0, 1);
         gameBoard.changePositionPlayer(fourDefender, 0, 1);
 
@@ -56,6 +61,8 @@ public class RailGunTest {
         defenders.add(thirdDefender);
         defenders.add(fourDefender);
 
+        firstDefender.sufferDamageOrMark(attacker.getColor(),10, 0);
+
     }
 
     @After
@@ -63,11 +70,17 @@ public class RailGunTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(11, pb1.numOfDamages());
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(12, pb1.numOfDamages());
+        assertEquals(2, pb2.numOfDamages());
     }
 
     @Test (expected = NoEffectException.class)

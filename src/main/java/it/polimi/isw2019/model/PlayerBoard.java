@@ -354,7 +354,7 @@ public class PlayerBoard{
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
-            if (damageTokens.size()>=11) {
+            if (damageTokens.size()>=12) {
                 removeMarkOfOneColor(colorPlayer);
                 throw new DamageTrackException();
             }
@@ -363,7 +363,7 @@ public class PlayerBoard{
             int n= numOfMarkOfOneColor(colorPlayer);
             for (int i=0; i<n ; i++) {
                 damageTokens.add(colorPlayer);
-                if (damageTokens.size()>=11) {
+                if (damageTokens.size()>=12) {
                     removeMarkOfOneColor(colorPlayer);
                     throw new DamageTrackException();
                 }

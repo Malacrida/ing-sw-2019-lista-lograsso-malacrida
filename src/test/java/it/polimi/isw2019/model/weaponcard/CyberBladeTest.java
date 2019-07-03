@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CyberBladeTest {
@@ -20,7 +21,9 @@ public class CyberBladeTest {
     CyberBlade card = new CyberBlade();
 
     int [] coordinates = new int[4];
+    int [] coordinates2 = new int[4];
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -41,11 +44,18 @@ public class CyberBladeTest {
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
 
-        coordinates[2] = 2;
-        coordinates[3] = 3;
+        coordinates[0] = 2;
+        coordinates[1] = 3;
+        coordinates2[0] = 1;
+        coordinates2[1] = 2;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
+
+        defenders2.add(null);
+        defenders2.add(null);
+
+
     }
 
     @After
@@ -69,8 +79,22 @@ public class CyberBladeTest {
         }
     }
 
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+            card.firstEffect(gameBoard, attacker, defenders2, coordinates);
+    }
+
     @Test
-    public void testSecondEffect() {
+    public void testSecondEffect() throws ErrorEffectException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates2);
+        assertEquals(1, attacker.getX());
+        assertEquals(2, attacker.getY());
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates2);
+
     }
 
     @Test
@@ -89,6 +113,11 @@ public class CyberBladeTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestThirdEffect() throws ErrorEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders2, coordinates);
+    }
+
+
 }

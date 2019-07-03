@@ -53,6 +53,8 @@ public class ElectroscytheTest {
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
 
+
+
     }
 
     @After
