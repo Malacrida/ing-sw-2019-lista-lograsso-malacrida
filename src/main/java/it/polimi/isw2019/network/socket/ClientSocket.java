@@ -115,7 +115,7 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void createActionMessage(String nicknamePlayer, String[] actionYouCanPerform, ArrayList<String> actionPlayerCanPerform, ArrayList<Integer> intIdAction) throws RemoteException {
-        
+
     }
 
     @Override
