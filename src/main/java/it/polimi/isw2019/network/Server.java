@@ -39,13 +39,6 @@ public class Server {
 
     }
 
-    /*public void startServer(){
-        while(isRunning){
-            Conn c = servsock.accept();
-            Thread t = new Thread(r -> register(c)).start();
-        }
-    }*/
-
     private void start(GathererInterface... gatherers){
         this.executor = Executors.newFixedThreadPool(128);
         this.executor.submit(lobby);
@@ -60,12 +53,4 @@ public class Server {
     public static void setVirtualViewOnServer (ArrayList<VirtualView> virtualViews){
         gathererRmi.setVirtualViews(virtualViews);
     }
-
-
-    //inserire start
-    //inserire main
-    //inserire stop
-    //inserire add client
-    //inserire remove client
-
 }

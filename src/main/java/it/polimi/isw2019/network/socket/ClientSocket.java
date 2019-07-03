@@ -57,10 +57,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public void run() {
         try {
             virtualViewSocket = new VirtualViewSocket(nickname, this);
-            /*System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
-            MiniController miniController = new MiniController();
-            virtualViewSocket.registerObserver(miniController);
-            miniController.registerObserver(virtualViewSocket);*/
+
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
@@ -69,31 +66,10 @@ public class ClientSocket extends Thread implements ClientInterface {
                 };
                 Thread thread = new Thread(task);
                 thread.start();
-                //virtualViewSocket.receivePlayerMove(playerMove);
                 System.out.println("HO MANDATO LA PLAYERMOVE ALLA VIRTUALVIEW");
             }
-        }catch (IOException e){
-
-        } catch (ClassNotFoundException e) {
-                /*Runnable task = () -> {
-                    playerMove.accept(networkHandlerVisitorInterface);
-                    //System.out.println("Prendo la playermove");
-
-
-                };*/
-                try {
-                    output.writeObject(playerMove);
-                    // Thread thread = new Thread(task);
-                    //thread.start();
-
-                    //  }
-                } catch (IOException e) {
-                }
-            }
-       } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException | ClassNotFoundException e){
+            e.getCause();
         }
     }
 

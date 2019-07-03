@@ -174,12 +174,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
-        try {
-            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards()*/, weaponCardChoice.isGrab());
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        //server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards()*/, weaponCardChoice.isGrab());
+        System.out.println("C'è un errore weponCardChoice.isGrab()");
     }
 
     @Override
