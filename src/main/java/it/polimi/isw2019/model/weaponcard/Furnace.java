@@ -52,15 +52,12 @@ public class Furnace extends AbstractWeaponCard {
      * Add 1 damage and 1 mark to all players in one square
      * @param gameBoard is the Gameboard where players play
      * @param attacker is the player who use Weapon card
-     * @param x1 first coordinate of square
-     * @param y1 second coordinate of square
+     * @param players array list of defenders
      */
 
-    private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, ArrayList<Player> players){
 
-        ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1,y1, null);
-
-        for (Player aPlayerList : playerList){
+        for (Player aPlayerList : players){
 
             try {
 
@@ -127,7 +124,7 @@ public class Furnace extends AbstractWeaponCard {
                 playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null); //lista di tutti i giocatori all'interno di quella cella
 
                 if(playerList != null){ // se c'è qualche giocatore dentro la stanza
-                    damageAndMarkFurnace(gameBoard, attacker, coordinates[0], coordinates[2]); // fai il danno
+                    damageAndMarkFurnace(gameBoard, attacker, defenders); // fai il danno
                 }
                 else{
                     throw new ErrorEffectException();
