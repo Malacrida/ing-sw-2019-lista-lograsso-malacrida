@@ -84,7 +84,8 @@ public class FurnaceTest {
         assertEquals(1, pb3.numOfMarkOfOneColor(attacker.getColor()));
     }
 
-    @Test
-    public void thirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }

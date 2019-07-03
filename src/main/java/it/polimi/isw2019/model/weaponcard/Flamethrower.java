@@ -14,7 +14,7 @@ public class Flamethrower extends AbstractWeaponCard {
 
     public Flamethrower() {
         super(12, "Flamethrower", ColorCube.RED, 1, 4, 2);
-        this.infoEffect[0] = "FIRST EFFECT : Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
+        this.infoEffect[0] = "FIRST EFFECT : Choose 1 player in a square 1 move away and possibly a second player in one square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
         this.infoEffect[3] = "NOTE : This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.\n";

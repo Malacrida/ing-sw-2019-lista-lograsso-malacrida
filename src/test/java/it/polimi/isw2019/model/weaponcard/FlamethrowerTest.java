@@ -1,6 +1,9 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +18,7 @@ public class FlamethrowerTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     Flamethrower card = new Flamethrower();
     ArrayList<Player> defenders = new ArrayList<>();
-    int[] coordinates = new int[6];
+    int[] coordinates = new int[4];
 
     @Before
     public void setUp() throws Exception {
@@ -44,12 +47,14 @@ public class FlamethrowerTest {
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
-        gameBoard.changePositionPlayer(firstDefender, 0, 1);
-        gameBoard.changePositionPlayer(secondDefender, 0, 3);
-        gameBoard.changePositionPlayer(thirdDefender, 0, 1);
-        gameBoard.changePositionPlayer(fourDefender, 0, 1);
+        gameBoard.changePositionPlayer(firstDefender, 1, 2);
+        gameBoard.changePositionPlayer(secondDefender, 1, 2);
+        gameBoard.changePositionPlayer(secondDefender, 2, 2);
+        gameBoard.changePositionPlayer(thirdDefender, 1, 2);
+        gameBoard.changePositionPlayer(fourDefender, 1, 2);
+        gameBoard.changePositionPlayer(fourDefender, 2, 2);
 
-        coordinates = new int[]{0, 0, 1, 2, 2, 2};
+        coordinates = new int[]{1, 2, 2, 2};
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
@@ -58,14 +63,42 @@ public class FlamethrowerTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+        assertTrue(visiblePlayers.contains(firstDefender));
+        assertTrue(visiblePlayers.contains(secondDefender));
+        assertTrue(visiblePlayers.contains(thirdDefender));
+        assertTrue(visiblePlayers.contains(fourDefender));
+
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb2.numOfDamages());
+
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+        assertTrue(visiblePlayers.contains(firstDefender));
+        assertTrue(visiblePlayers.contains(secondDefender));
+        assertTrue(visiblePlayers.contains(thirdDefender));
+        assertTrue(visiblePlayers.contains(fourDefender));
+
+
+        assertEquals(2, pb1.numOfDamages());
+        assertEquals(1, pb2.numOfDamages());
+        assertEquals(2, pb3.numOfDamages());
+        assertEquals(1, pb4.numOfDamages());
+
+
+
     }
 
-    @Test
-    public void thirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }
