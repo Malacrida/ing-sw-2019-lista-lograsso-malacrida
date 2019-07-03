@@ -126,10 +126,9 @@ public class Player{
     //state game 1 -> normale, 2 -> attaccato, 3 -> difende
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
         usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
-        usePowerUpCardMessage.setEffectCard(effectPowerUpCard());
-        usePowerUpCardMessage.setStateCard(statePowerUp());
-        //usePowerUpCardMessage.setAttacked();
-        //usePowerUpCardMessage.setStateGame();
+        //inserito in base allo state -> vedo dove farlo!
+        usePowerUpCardMessage.setAttacked(false);
+        usePowerUpCardMessage.setEffectCard(statePowerUp());
 
     }
 

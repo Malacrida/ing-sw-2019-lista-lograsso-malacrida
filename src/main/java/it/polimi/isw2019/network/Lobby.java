@@ -18,7 +18,7 @@ public class Lobby implements LobbyInterface {
 
     private static final Logger LOGGER = Logger.getLogger(Lobby.class.getName());
 
-   // private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
+    // private HashMap<String, ClientInterface> clientConnected = new HashMap<>();
     //private HashMap<String, ClientInterface> clientDisconnected = new HashMap<>();
 
     private ArrayList<VirtualViewRmi> virtualViewRmis = new ArrayList<>();
@@ -33,21 +33,19 @@ public class Lobby implements LobbyInterface {
     }
 
 
-    public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
-        if(!alreadyExistNickname(nickname)){
+    public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection) {
+        if (!alreadyExistNickname(nickname)) {
             ConnetedClient connectedClient = new ConnetedClient(nickname, clientInterface, typeConnection, true);
             connectedClients.add(connectedClient);
-            System.out.println("dim client: "+connectedClients.size());
-            System.out.println(connectedClient.getNickname()+"tipo con :" +connectedClient.getTypeConnection());
+            System.out.println("dim client: " + connectedClients.size());
+            System.out.println(connectedClient.getNickname() + "tipo con :" + connectedClient.getTypeConnection());
             return true;
-        }
-
-        else return false;
+        } else return false;
     }
 
-    public boolean alreadyExistNickname(String nickname){
-        for (int i = 0; i < connectedClients.size(); i++){
-            if (connectedClients.get(i).getNickname().equals(nickname)){
+    public boolean alreadyExistNickname(String nickname) {
+        for (int i = 0; i < connectedClients.size(); i++) {
+            if (connectedClients.get(i).getNickname().equals(nickname)) {
                 return true;
             }
         }
@@ -55,7 +53,7 @@ public class Lobby implements LobbyInterface {
     }
 
 
-    public void disconnectedClient(String nickname){
+    public void disconnectedClient(String nickname) {
       /*  if (clientConnected.containsKey(nickname)) {
             clientDisconnected.put(nickname, clientConnected.get(nickname));
             clientConnected.remove(nickname);
@@ -108,7 +106,7 @@ public class Lobby implements LobbyInterface {
                 e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
-            if(roomStartable) {
+            if (roomStartable) {
                 System.out.println("Countdown ended, starting the room.");
                 startGame();
                 return;
@@ -130,12 +128,13 @@ public class Lobby implements LobbyInterface {
         }
 
     }
+
     public void setVirtualViews() {
-        for (int i=0; i<connectedClients.size(); i++ ){
+        for (int i = 0; i < connectedClients.size(); i++) {
             VirtualViewRmi virtualViewRmi = new VirtualViewRmi(connectedClients.get(i).getNickname(), connectedClients.get(i).getClientInterface());
             virtualViewRmis.add(virtualViewRmi);
 
-             if (connectedClients.get(i).getTypeConnection() == TypeConnection.SOCKET){
+            if (connectedClients.get(i).getTypeConnection() == TypeConnection.SOCKET) {
                 VirtualViewSocket virtualViewSocket = new VirtualViewSocket(connectedClients.get(i).getNickname(), (ClientSocket) connectedClients.get(i).getClientInterface());
                 virtualViewsSocket.add(virtualViewSocket);
             }
@@ -146,37 +145,37 @@ public class Lobby implements LobbyInterface {
         return virtualViewRmis;
     }
 
-    public void startGame(){
+    public void startGame() {
         MainController controller = new MainController();
 
         setVirtualViews();
         Server.setVirtualViewOnServer(virtualViewRmis);
 
         System.out.println("ci sono :" + virtualViewRmis.size());
-        for (VirtualViewRmi virtualViewRmi : virtualViewRmis){
+        for (VirtualViewRmi virtualViewRmi : virtualViewRmis) {
             virtualViewRmi.registerObserver(controller);
             System.out.println(virtualViewRmi.getNickname());
         }
 
-        for(VirtualViewRmi virtualViewRmi : virtualViewRmis){
+        for (VirtualViewRmi virtualViewRmi : virtualViewRmis) {
             virtualViewRmi.startView();
             System.out.println(virtualViewRmi.getNickname());
 
-        for (VirtualViewSocket aVirtualViewSocket: virtualViewsSocket){
-            aVirtualViewSocket.registerObserver(controller);
-            System.out.println(aVirtualViewSocket.getNickname());
-        }
-
-
-
-        for(VirtualViewSocket aVirtualViewSocket : virtualViewsSocket){
-            try {
-                aVirtualViewSocket.startView();
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            for (VirtualViewSocket aVirtualViewSocket : virtualViewsSocket) {
+                aVirtualViewSocket.registerObserver(controller);
+                System.out.println(aVirtualViewSocket.getNickname());
             }
-            System.out.println(aVirtualViewSocket.getNickname());
+
+
+            for (VirtualViewSocket aVirtualViewSocket : virtualViewsSocket) {
+                try {
+                    aVirtualViewSocket.startView();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(aVirtualViewSocket.getNickname());
+            }
+            controller.startGame();
         }
-        controller.startGame();
     }
 }

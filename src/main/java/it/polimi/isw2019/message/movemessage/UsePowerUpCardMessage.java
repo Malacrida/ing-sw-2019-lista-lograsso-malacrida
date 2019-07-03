@@ -5,12 +5,10 @@ import it.polimi.isw2019.view.VisitorView;
 
 public class UsePowerUpCardMessage extends MoveMessage {
 
-
     private int[] featuresAvailable;
-    private boolean[] stateCard;
-    private int stateGame;
     private boolean attacked;
-    private int effectCard[];
+    private boolean[] canBeUsed;
+    private int[][] cooPlayer;
 
     public UsePowerUpCardMessage(String nicknamePlayer) {
         super(nicknamePlayer);
@@ -22,13 +20,12 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
-    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) {
+    public UsePowerUpCardMessage(String nicknamePlayer, int[] featuresAvailable, boolean attacked, boolean[] canBeUsed, String error, int[][] cooPlayer) {
         super(nicknamePlayer,error);
         this.featuresAvailable = featuresAvailable;
-        this.stateCard = stateCard;
-        this.stateGame = stateGame;
         this.attacked = attacked;
-        this.effectCard = effectCard;
+        this.canBeUsed = canBeUsed;
+        this.cooPlayer = cooPlayer;
     }
 
     public int[] getFeaturesAvailable() {
@@ -39,22 +36,6 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.featuresAvailable = featuresAvailable;
     }
 
-    public boolean[] getStateCard() {
-        return stateCard;
-    }
-
-    public void setStateCard(boolean[] stateCard) {
-        this.stateCard = stateCard;
-    }
-
-    public int getStateGame() {
-        return stateGame;
-    }
-
-    public void setStateGame(int stateGame) {
-        this.stateGame = stateGame;
-    }
-
     public boolean isAttacked() {
         return attacked;
     }
@@ -63,12 +44,12 @@ public class UsePowerUpCardMessage extends MoveMessage {
         this.attacked = attacked;
     }
 
-    public int[] getEffectCard() {
-        return effectCard;
+    public boolean[] getEffectCard() {
+        return canBeUsed;
     }
 
-    public void setEffectCard(int[] effectCard) {
-        this.effectCard = effectCard;
+    public void setEffectCard(boolean[] canBeUsed) {
+        this.canBeUsed = canBeUsed;
     }
 
     @Override

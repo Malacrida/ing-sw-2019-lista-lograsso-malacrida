@@ -245,7 +245,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
-        //pagamento
+        model.usePowerUpCard(usePowerUpCard.getPositionPowerUp(),usePowerUpCard.getIdPlayer(),usePowerUpCard.getCoordinates());
 
     }
 

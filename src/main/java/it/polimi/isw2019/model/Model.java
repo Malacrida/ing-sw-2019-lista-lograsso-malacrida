@@ -962,10 +962,11 @@ public class Model extends Observable {
     }
 
 
-    public void usePowerUpCard(PowerUpCard powerUpCard,Player player1, Player player2,int[] coo){
+    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[] coo){
 
+        PowerUpCard powerUpCard = currentPlayer.getPowerUpCards().get(positionPowerUp);
         try {
-            powerUpCard.effect(gameBoard, player1, player2, coo[0], coo[1]);
+            powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo[0], coo[1]);
 
         }catch(DamageTrackException e){
             for(Player player : players){

@@ -55,12 +55,12 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     @Override
     public void run() {
-        try {
+       /* try {
             virtualViewSocket = new VirtualViewSocket(nickname, this);
-            /*System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
+            System.out.println("HO SETTATO LA VIRTUAL VIEW COL NICK: " + nickname);
             MiniController miniController = new MiniController();
             virtualViewSocket.registerObserver(miniController);
-            miniController.registerObserver(virtualViewSocket);*/
+            miniController.registerObserver(virtualViewSocket);
             while (null != (playerMove = (PlayerMove) input.readObject())) {
                 System.out.println(playerMove);
                 System.out.println("[---CLIENTSOCKET---] Prendo la playermove");
@@ -80,13 +80,13 @@ public class ClientSocket extends Thread implements ClientInterface {
                     //System.out.println("Prendo la playermove");
 
 
-                };*/
+                };
                 try {
                     output.writeObject(playerMove);
-                    // Thread thread = new Thread(task);
-                    //thread.start();
+                     Thread thread = new Thread(task);
+                    thread.start();
 
-                    //  }
+                      }
                 } catch (IOException e) {
                 }
             }
@@ -94,7 +94,7 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
