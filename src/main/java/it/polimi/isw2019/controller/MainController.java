@@ -33,7 +33,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
 
-        if (firstMessage.getVirtualViewSocket()==null){
+      /*  if (firstMessage.getVirtualViewSocket()==null){
             model.registerObserver(firstMessage.getVirtualViewRmi());
             try{
                 model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
@@ -48,7 +48,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             } catch(IndexOutOfBoundsException e){
                 model.unregisterObserver(firstMessage.getVirtualViewSocket());
             }
-        }
+        }*/
+            model.registerObserver(firstMessage.getCLIView());
+            try{
+                model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+            } catch(IndexOutOfBoundsException e){
+                model.unregisterObserver(firstMessage.getCLIView());
+            }
 
     }
 
@@ -64,7 +70,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void chooseMap(ChooseMapMove chooseMapMove) {
 
         if(model.getCurrentPlayer().isFirstPlayer()) {
-            model.setGame(chooseMapMove.getIndex(), chooseMapMove.getMod());
+            model.setGame(chooseMapMove.getIndex(), chooseMapMove.getMod(),chooseMapMove.getTerminator());
             }
             try {
                 System.out.println("Index color available" + chooseMapMove.getIndexColor());
@@ -169,25 +175,34 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void disconnectionPlayer(ConnectionMove connectionMove) {
-        System.out.println("Disconnessione nel controller");
+        if(connectionMove.getConnection() == 0)
+            model.getCurrentPlayer().setActive(false);
+        else if (connectionMove.getConnection() == 1)
+            model.getCurrentPlayer().setActive(true);
     }
 
     @Override
     public void visitReload(ReloadMove reloadMove) {
-
-            for(int i =0 ; i<reloadMove.getPayment().length; i++){
-               if(reloadMove.getWeaponCard()[i]== 1){
-                   if(!model.checkValidityPayment(reloadMove.getPayment()[i],model.getCurrentPlayer().getWeaponCards().get(i).getRechargeCube())){
-                       model.updateNotCorrectAction("not enough cubes");
-                       return;
-                   }
-               }
+        if(reloadMove.getPayment()[0][0] == -1) {
+            model.changePlayer();
+            return;
+        }
+        else {
+            for (int i = 0; i < reloadMove.getPayment().length; i++) {
+                if (reloadMove.getWeaponCard()[i] == 1) {
+                    if (!model.checkValidityPayment(reloadMove.getPayment()[i], model.getCurrentPlayer().getWeaponCards().get(i).getRechargeCube())) {
+                        model.updateNotCorrectAction("not enough cubes");
+                        return;
+                    }
+                }
             }
-                for(int i = 0 ; i < reloadMove.getPayment().length; i++)
-                    model.addCubesFromPowerUp(reloadMove.getPayment()[i]);
+
+            for (int i = 0; i < reloadMove.getPayment().length; i++)
+                model.addCubesFromPowerUp(reloadMove.getPayment()[i]);
 
 
             model.reload(reloadMove.getPayment(), reloadMove.getWeaponCard());
+        }
     }
 
     @Override
@@ -255,10 +270,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
-        //pagamento
+
+        model.usePowerUpCard(usePowerUpCard.getPositionPowerUp(),usePowerUpCard.getIdPlayer(),usePowerUpCard.getCoordinates());
 
     }
 
-
-
+    @Override
+    public void terminatorAction(TerminatorMove terminatorMove) {
+       model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+    }
 }

@@ -28,5 +28,7 @@ public interface VisitorController {
 
     void disconnectionPlayer (ConnectionMove connectionMove);
 
+    void terminatorAction(TerminatorMove terminatorMove);
+
     //method invoked by server when the game is started
 }

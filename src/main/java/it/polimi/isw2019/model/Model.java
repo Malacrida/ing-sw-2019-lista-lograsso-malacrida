@@ -47,6 +47,8 @@ public class Model extends Observable {
     private ArrayList<Player> deadPlayer = new ArrayList<>();
     private ArrayList<Player> shootPlayer = new ArrayList<>();
 
+    private Player terminator;
+
     public ArrayList<String> getColorAvailable() {
         return colorAvailable;
     }
@@ -73,6 +75,8 @@ public class Model extends Observable {
         killShotTrack = new KillShotTrack(mod);
     }
 
+
+
     //vengono attivati con l'update
     public Model(){
 
@@ -84,6 +88,8 @@ public class Model extends Observable {
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.GREY));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.VIOLET));
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.BLUE));
+
+        killShotTrack = new KillShotTrack(5);
 
     }
 
@@ -180,6 +186,9 @@ public class Model extends Observable {
             //migliorare la map
             String[] arena = {"map1", "map2", "map3", "map4"};
             firstMessageFirstPlayer.setArenaInterfaces(arena);
+
+            if(players.size() == 5)
+                firstMessageFirstPlayer.setError("not terminator");
         }
 
         firstMessageFirstPlayer.setIdPlayer(players.indexOf(currentPlayer));
@@ -260,30 +269,44 @@ public class Model extends Observable {
             currentPlayer = players.get(index + 1);
         }
 
+        if(!currentPlayer.isActive())
+             changePlayer();
 
-        if(!killShotTrack.isFinalFrenzy()) {
+        if(sizeActivePlayer() < 3) {
+            // end game
+        }
+        else{
+            if (!killShotTrack.isFinalFrenzy()) {
 
-            if (deadPlayer.contains(currentPlayer)) {
-                updatePlayerDeath();
+                if (deadPlayer.contains(currentPlayer)) {
+                    updatePlayerDeath();
+                }
+
+                sendUpdateMessage();
+                handleNormalTurn();
+                return;
             }
 
-            sendUpdateMessage();
-            handleNormalTurn();
-            return;
+            if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
+                frenzyPlayer--;
+                handleNormalTurn();
+                return;
+            } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
+                //endgame
+            }
         }
 
-        if(killShotTrack.isFinalFrenzy() && frenzyPlayer!= 0){
-            frenzyPlayer --;
-            handleNormalTurn();
-            return;
-        }
-
-        else if (killShotTrack.isFinalFrenzy() && frenzyPlayer== 0){
-            //endgame
-        }
 
     }
 
+    public int sizeActivePlayer(){
+        int numActivePlayer = 0;
+        for(Player player: players)
+            if(player.isActive())
+                numActivePlayer++;
+
+        return numActivePlayer;
+    }
     public void handleNormalTurn(){
         if(currentPlayer.getRealPlayerBoard() == null){
             firstMessage();
@@ -361,7 +384,14 @@ public class Model extends Observable {
                 players.get(i).setCorrectFrenzyActionChooseMessage(true);
             }
 
-            for ( int i = shift ; i < players.indexOf(currentPlayer); i ++ ){
+            for ( int i = shift ; i < players.indexOf(currentPlayer)
+
+
+
+
+
+
+                    ; i ++ ){
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
@@ -536,9 +566,10 @@ public class Model extends Observable {
     /**
      * setter of the game
      * @param indexMap map choosen by the player
+     * @param terminatorVariable
      */
 
-    public void setGame(int indexMap, int mod){
+    public void setGame(int indexMap, int mod, int terminatorVariable){
 
         try {
             Database db = new Database();
@@ -554,6 +585,18 @@ public class Model extends Observable {
             featuresAvailable = new int[players.size()][];
             killShotTrack = new KillShotTrack(mod);
             frenzyPlayer = players.size();
+            if(terminatorVariable == 1) {
+                terminator = new Player("terminator", "Sterminerò tutti voi comuni mortali!");
+                try {
+                    setPlayerWithPlayerBoard(terminator,playerBoardsAvailable.get(0).getColor());
+                } catch (ColorNotAvailableException e) {
+
+                }
+
+                for(Player player : players)
+                    player.setTerminatorPlayer(terminator);
+            }
+
 
         } catch (OutOfBoundsException e) {
 
@@ -834,7 +877,6 @@ public class Model extends Observable {
 
         for(int i = 0; i < weaponToRecharge.length; i++){
             if(weaponToRecharge[i]==1){
-                //togliere i cubi che effettivamente vengono usati
                 handlePayment(currentPlayer.getWeaponCards().get(i).getRechargeCube());
                 currentPlayer.getWeaponCards().get(i).changeState(StateCard.HOLDING);
             }
@@ -856,7 +898,7 @@ public class Model extends Observable {
         try {
             currentPlayer.takeWeaponCards(tmpWeaponCard,null);
         } catch (TooManyWeaponCard tooManyWeaponCard) {
-            //tooManyWeaponCard.printStackTrace();
+
         }
 
         updateCorrectAction();
@@ -962,22 +1004,25 @@ public class Model extends Observable {
     }
 
 
-    public void usePowerUpCard(PowerUpCard powerUpCard,Player player1, Player player2,int[] coo){
+    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[] coo){
+
+        PowerUpCard powerUpCard = currentPlayer.getPowerUpCards().get(positionPowerUp);
 
         try {
-            powerUpCard.effect(gameBoard, player1, player2, coo[0], coo[1]);
+            powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo[0], coo[1]);
 
         }catch(DamageTrackException e){
+
             for(Player player : players){
-                if(!deadPlayer.contains(player) && player.getRealPlayerBoard().getDamageTokens().size() >= 11){
+                if(!deadPlayer.contains(player)){
                     deadPlayer.add(player);
                 }
             }
-
-
         }
+
         currentPlayer.getPowerUpCards().remove(powerUpCard);
         gameBoard.addPowerUpCardDiscarded(powerUpCard);
+
         updateCorrectAction();
     }
     /**
@@ -1000,31 +1045,6 @@ public class Model extends Observable {
                 toBePaid1[2] ++;
         }
         return toBePaid1;
-
-    }
-    public int[] retrievePayment(int[][] payment2){
-        int[] payment1 = new int[3];
-
-        for(int i = 0 ; i < payment1.length; i++)
-            payment1[i] = 0;
-
-        for(int i = 0 ; i <payment2.length; i++){
-            payment1[0] = payment1[0] + payment2[i][0];
-            payment1[1] = payment1[1] + payment2[i][1];
-            payment1[2] = payment1[2] + payment2[i][2];
-            if(payment2[i].length>3){
-                for (int j = 3; j < payment2.length; j++) {
-                    if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("red")) {
-                        payment1[1]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("yellow")) {
-                        payment1[2]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment2[i][j]).getColor().equals("blue")) {
-                        payment1[0]++;
-                    }
-                }
-            }
-        }
-        return payment1;
 
     }
 
@@ -1051,20 +1071,22 @@ public class Model extends Observable {
                 toBePaid1[2] ++;
              }
 
-            for (int i = 3; i < payment.length; i++) {
-                if(payment[i] >=  0) {
-                    if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.RED)) {
-                        payment[1]++;
-                    } else if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.YELLOW)) {
-                        payment[2]++;
-                    } else if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.BLUE)) {
-                        payment[0]++;
-                    }
+        for(int i = payment.length-1; i > 3 ; i--){
+            if(payment[i]!= -1){
+                try {
+                    if((currentPlayer.fromIntToColorCube(payment[i])).equals(ColorCube.BLUE))
+                        toBePaid1[0] ++;
+                    else  if((currentPlayer.fromIntToColorCube(payment[i])).equals(ColorCube.RED))
+                        toBePaid1[1] ++;
+                    else if((currentPlayer.fromIntToColorCube(payment[i])).equals(ColorCube.YELLOW))
+                        toBePaid1[2] ++;
+                } catch (NotPossesPowerUp notPossesPowerUp) {
+                    notPossesPowerUp.printStackTrace();
                 }
-        }
+            }
+            }
 
         for(int i = 0; i< 3; i++){
-            System.out.println("payment " + payment[i] + "to be paid" + toBePaid1[i]);
            if(payment[i]-toBePaid1[i]<0){
                return false;
            }
@@ -1114,13 +1136,12 @@ public class Model extends Observable {
      *  method to see player's coordinates in the game
      * @return
      */
-
-
     public int[][] returnCoordinatesOfPlayerInGame(){
-           int[][] coordinatesPlayerInGame = new int[players.size()][2];
+           int[][] coordinatesPlayerInGame = new int[players.size()][3];
            for(int i = 0; i < players.size(); i++){
-               coordinatesPlayerInGame[i][0] = players.get(i).getX();
-               coordinatesPlayerInGame[i][1] = players.get(i).getY();
+               coordinatesPlayerInGame[i][0] = players.get(i).getIndexPlayer();
+               coordinatesPlayerInGame[i][1] = players.get(i).getX();
+               coordinatesPlayerInGame[i][2] = players.get(i).getY();
            }
            return coordinatesPlayerInGame;
         }
@@ -1156,11 +1177,11 @@ public class Model extends Observable {
         }
     }
     public void updatePlayerDeath(){
-
+    if(deadPlayer.contains(currentPlayer)) {
         ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
 
         System.out.println("has died! " + deadPlayer.size());
-        addDamageOnKillShotTrack(colorPlayerDoKill.get(0),colorPlayerDoKill.size());
+        addDamageOnKillShotTrack(colorPlayerDoKill.get(0), colorPlayerDoKill.size());
 
         currentPlayer.getRealPlayerBoard().resetAfterDeath();
         // -> respawn = TRUE
@@ -1171,11 +1192,48 @@ public class Model extends Observable {
         //distribuzione dei punti
         // marchi rimangono
         //invochi set frenzy
-        if(killShotTrack.getNumSkull()==mod) {
+        if (killShotTrack.getNumSkull() == mod) {
             setFrenzyMood();
             frenzyPlayer = players.size();
         }
+
+        deadPlayer.remove(currentPlayer);
         //sendUpdateAction()!
+         }
+
+     }
+
+     public void terminatorAction(boolean shoot, int[] coordinates){
+            if(shoot){
+                ArrayList<Player> playersWhoCanSee = gameBoard.playersWhoCanSee(terminator);
+
+                for(Player player : playersWhoCanSee){
+                    if(terminator.playerDamage()>2){
+                        try {
+                            player.sufferDamageOrMark(terminator.getColor(),1,1);
+                        } catch (DamageTrackException e) {
+                          //insertDeadPlayer();
+                        }
+                    }
+                    else{
+                        try {
+                            player.sufferDamageOrMark(terminator.getColor(),1,0);
+                        } catch (DamageTrackException e) {
+                            //insertDeadPlayer
+                        }
+                    }
+                }
+
+                updateCorrectAction();
+            }
+            else {
+                if (!getGameBoard().isSquareAvailableOnArena(terminator,coordinates[0], coordinates[1])) {
+                    updateNotCorrectAction("unreachable square, insert again");
+                }
+                else{
+                    gameBoard.getGameArena().movePlayer(terminator,coordinates[0], coordinates[1]);
+                }
+            }
      }
 
     public ArrayList<Player> getDeadPlayer() {

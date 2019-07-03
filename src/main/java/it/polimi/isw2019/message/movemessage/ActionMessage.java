@@ -148,6 +148,16 @@ public class ActionMessage extends MoveMessage {
 
         }
 
+    public void setTerminatorAction(){
+        actionYouCanPerform[7] = "RUN TIL 1 SQUARE ";
+        actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE ";
+
+    }
+
+    public void setTerminatorFrenzyAction(){
+        actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE, ALSO GIVING HIM ONE MARK ";
+    }
+
     /**
      * Setter first powered action
      */

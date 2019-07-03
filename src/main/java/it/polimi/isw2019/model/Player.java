@@ -40,7 +40,7 @@ public class Player{
     private boolean firstTurn;
 
     private int numActionPerformed;
-    private final int numActionToBePerformed = 1;
+    private int numActionToBePerformed = 1;
     private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
 
@@ -52,7 +52,7 @@ public class Player{
     private PowerUpCard tmpPowerUpCard ;
     private AbstractWeaponCard tmpWeaponCard ;
     private boolean correctAction;
-
+    private boolean active;
     private ArrayList<MoveMessage> messageToBeSent = new ArrayList<>();
 
     private String error;
@@ -62,6 +62,8 @@ public class Player{
     private int[][] playerToAttack;
 
     private int[] statusPlayer = new int[14];
+
+    private ArrayList<String> terminatorAction;
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
@@ -81,7 +83,7 @@ public class Player{
     public Player(String name, String actionHeroComment) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
-
+        active = true;
         x=-1;
         y=-1;
         colorRoom= null;
@@ -126,10 +128,9 @@ public class Player{
     //state game 1 -> normale, 2 -> attaccato, 3 -> difende
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
         usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
-        usePowerUpCardMessage.setEffectCard(effectPowerUpCard());
-        usePowerUpCardMessage.setStateCard(statePowerUp());
-        //usePowerUpCardMessage.setAttacked();
-        //usePowerUpCardMessage.setStateGame();
+        //inserito in base allo state -> vedo dove farlo!
+        usePowerUpCardMessage.setStateGame(stateGame);
+        usePowerUpCardMessage.setEffectCard(statePowerUp());
 
     }
 
@@ -171,6 +172,14 @@ public class Player{
 
     public void setFrenzy(boolean frenzy) {
         this.frenzy = frenzy;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Player(int playerID){
@@ -238,6 +247,17 @@ public class Player{
 
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
+    }
+
+
+    public Player terminatorPlayer;
+
+    public Player getTerminatorPlayer() {
+        return terminatorPlayer;
+    }
+
+    public void setTerminatorPlayer(Player terminatorPlayer) {
+        this.terminatorPlayer = terminatorPlayer;
     }
     //Nel model un metodo che unisce questo del player e quello con la gameboard
     //Dalla playerMove la carta da scartare
@@ -404,6 +424,13 @@ public class Player{
         score= score+point;
     }
 
+    public ColorCube fromIntToColorCube(int idPowerUpCard) throws NotPossesPowerUp{
+        for(PowerUpCard powerUpCard : powerUpCards){
+            if(powerUpCard.getId() == idPowerUpCard)
+                return powerUpCard.getColorCard();
+        }
+        throw  new NotPossesPowerUp("Don't have that power up");
+    }
 
     /**
      * Give damage token or mark token to the player
@@ -661,6 +688,17 @@ public class Player{
         return  false;
     }
 
+    public void setTerminatorAction(){
+        terminatorAction.clear();
+        if(terminatorPlayer.playerDamage()>2){
+            terminatorAction.add("Give , also , one mark if you damage someone");
+
+        }
+        terminatorAction.add("RUN TIL ONE SQUARE");
+        terminatorAction.add("DAMAGE SOMEONE THE TERMINATOR YOU SEE");
+
+    }
+
     public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn){
 
         ActionMessage actionMessage = new ActionMessage(getName());
@@ -683,6 +721,12 @@ public class Player{
                 actionMessage.setPowerUpAction();
             }
 
+            if(isTerminator){
+                actionMessage.setTerminatorAction();
+                if(terminatorPlayer.playerDamage()> 2)
+                    actionMessage.setTerminatorFrenzyAction();
+            }
+
             if (!weaponCards.isEmpty()) {
                 if (reloadedWeaponCard()) {
                     actionMessage.setUseWeaponCard();
@@ -698,6 +742,10 @@ public class Player{
 
             messageToBeSent.clear();
             numActionCancelled = 0;
+            if(isTerminator)
+                numActionToBePerformed = 3;
+            else
+                numActionToBePerformed = 2;
         }
         if(endTurn){
 
@@ -814,9 +862,6 @@ public class Player{
         }
         else{
             numActionCancelled = 0;
-           // messageToBeSent.clear();
-            //throw new Failethird time that you've inserted an invalid action  : this action ends!dActionException("");
-            //error = "third time that you've inserted an invalid action  : this action ends!";
             messageToBeSent.clear();
             return updatePlayerMessageStatus();
         }
@@ -829,29 +874,23 @@ public class Player{
     public Boolean updatePlayerMessageStatus(){
 
         if(!messageToBeSent.isEmpty()){
-            System.out.println("ko not empty");
             return true;
         }
 
         else {
              if (numActionPerformed < numActionToBePerformed) {
                  numActionPerformed++;
-                 System.out.println(" numAc :" + numActionPerformed);
                  messageToBeSent.clear();
                  messageToBeSent.add(setCorrectNormalActionChooseMessages(false));
-                 System.out.println("size : " +messageToBeSent.size());
                  return true;
             }
              else {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
-                    System.out.println(" numAc end :" + numActionPerformed);
                     return false;
                 } else if(endTurn) {
-                    System.out.println("termino");
                     return false;
                 } else{
-                    System.out.println("end 2");
                     return messageToBeSent.add(tmpMessage);
                 }
             }
