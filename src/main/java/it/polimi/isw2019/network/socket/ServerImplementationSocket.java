@@ -53,16 +53,12 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         try{
 
             while (null != (moveMessage = (MoveMessage) input.readObject())){
-
-                Runnable task = () -> {
                     System.out.println("---SIS--- HO RICEVUTO LA MOVE MESSAGE: " + moveMessage);
                     networkHandlerSocket.receiveMoveMessage(moveMessage);
-                };
-                Thread thread = new Thread(task);
-                thread.start();
-
-            }
-        } catch (IOException | ClassNotFoundException e) {
+        }
+        }catch (IOException e){
+            e.getCause();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -71,14 +67,20 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void registerNewClient(Socket client, String nickname) throws IOException {
 
         System.out.println("TI STAI REGISTRANDO COME: " + nickname);
-        this.output.writeObject(nickname);
-        try {
+            try {
+                this.output.writeObject(nickname);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
             message = (String) this.input.readObject();
             System.out.println(message);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        this.start();
+        } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.start();
     }
 
 
@@ -105,7 +107,8 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         //send(heartbeatMessage);
     }*/
 
-    @Override
+
+   @Override
     public void receiveChooseActionMove(String player, int numAction) throws RemoteException {
 
     }

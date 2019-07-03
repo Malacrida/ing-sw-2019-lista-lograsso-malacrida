@@ -1,19 +1,22 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class ShockWaveTest {
+import static org.junit.Assert.*;
+
+public class FurnaceTest {
 
     Player attacker, firstDefender, secondDefender, thirdDefender, fourDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3, pb4;
-    ShockWave card = new ShockWave();
+    Furnace card = new Furnace();
     ArrayList<Player> defenders = new ArrayList<>();
     int [] coordinates = new int[6];
 
@@ -21,8 +24,8 @@ public class ShockWaveTest {
     public void setUp() throws Exception {
         attacker = new Player("Davide", "Speriamo che sto test vada", 1);
         firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sara", "Aiuto", 3);
-        thirdDefender = new Player("Matteotti", "Giovane Europa!", 4);
+        secondDefender = new Player("Garibaldi", "Aiuto", 3);
+        thirdDefender = new Player("Pipino il breve", "Conquisterò tutto", 4);
         fourDefender = new Player("Napoleone", "VIVA LA FRANCIA", 5);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
@@ -44,12 +47,12 @@ public class ShockWaveTest {
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
-        gameBoard.changePositionPlayer(firstDefender, 0, 1);
+        gameBoard.changePositionPlayer(firstDefender, 1, 2);
         gameBoard.changePositionPlayer(secondDefender, 0, 3);
-        gameBoard.changePositionPlayer(thirdDefender, 0, 1);
-        gameBoard.changePositionPlayer(fourDefender, 0, 1);
+        gameBoard.changePositionPlayer(thirdDefender, 1, 2);
+        gameBoard.changePositionPlayer(fourDefender, 1, 2);
 
-        coordinates = new int[]{0, 0, 1, 2, 2, 2};
+        coordinates = new int[]{1, 2, 1, 2, 1, 2};
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
@@ -57,16 +60,28 @@ public class ShockWaveTest {
         defenders.add(fourDefender);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(0, pb2.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+        assertEquals(1, pb4.numOfDamages());
+
     }
 
     @Test
-    public void firstEffect() {
-    }
+    public void secondEffect() throws ErrorEffectException {
+        System.out.println(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]));
+        System.out.println(card.oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]));
+        System.out.println(gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null));
 
-    @Test
-    public void secondEffect() {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+        assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(1, pb3.numOfMarkOfOneColor(attacker.getColor()));
     }
 
     @Test (expected = NoEffectException.class)

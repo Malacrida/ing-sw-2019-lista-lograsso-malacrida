@@ -2,18 +2,18 @@ package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.NoEffectException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class ShockWaveTest {
+import static org.junit.Assert.*;
 
+public class HellionTest {
     Player attacker, firstDefender, secondDefender, thirdDefender, fourDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3, pb4;
-    ShockWave card = new ShockWave();
+    Hellion card = new Hellion();
     ArrayList<Player> defenders = new ArrayList<>();
     int [] coordinates = new int[6];
 
@@ -22,8 +22,8 @@ public class ShockWaveTest {
         attacker = new Player("Davide", "Speriamo che sto test vada", 1);
         firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
         secondDefender = new Player("Sara", "Aiuto", 3);
-        thirdDefender = new Player("Matteotti", "Giovane Europa!", 4);
-        fourDefender = new Player("Napoleone", "VIVA LA FRANCIA", 5);
+        thirdDefender = new Player("Pipino il breve", "Conquisterò tutto", 4);
+        fourDefender = new Player("Leonardo da Vinci", "Gioconda", 5);
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);
@@ -55,10 +55,6 @@ public class ShockWaveTest {
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
         defenders.add(fourDefender);
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test

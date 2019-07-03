@@ -75,22 +75,18 @@ public class RocketLauncher extends  AbstractWeaponCard {
     @Override
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
 
-        /* PAGARE UN BLU */
-
-        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))) {
+        if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(attacker, coordinates[2], coordinates[3]))) {
 
             gameBoard.changePositionPlayer(attacker, coordinates[2], coordinates[3]);
 
-            if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[4], coordinates[5]))) {
+            if ((coordinates[4] != -1) && (coordinates[5] != -1) && (gameBoard.isSquareAvailableOnArena(attacker, coordinates[4], coordinates[5]))) {
 
                 gameBoard.changePositionPlayer(attacker, coordinates[4], coordinates[5]);
 
-            } else {
-                throw new ErrorEffectException();
             }
 
-        } else
-            throw new ErrorEffectException();
+        }
+        else throw new ErrorEffectException();
     }
 
 
@@ -112,12 +108,12 @@ public class RocketLauncher extends  AbstractWeaponCard {
         if ((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY()))) {
 
             try {
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
 
-            ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), defenders.get(0));
+            ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), null);
 
             for (Player aPlayerList : playerList) {
 
