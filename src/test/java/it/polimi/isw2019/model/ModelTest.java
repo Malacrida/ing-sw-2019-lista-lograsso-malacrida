@@ -444,7 +444,7 @@ public class ModelTest {
 
         model.setCurrentPlayer(player1);
 
-        int[] payment = {1,0,1,1,0,0};
+        int[] payment = {1,0,1,1,-1,-1};
         System.out.println(player1.getPowerUpCards().get(0).getColor());
         ColorCube[] paymentCube ={ColorCube.BLUE,ColorCube.YELLOW, ColorCube.RED};
         assertEquals(true,model.checkValidityPayment(payment,paymentCube));
@@ -453,8 +453,7 @@ public class ModelTest {
 
     @Test
     public void testHandlePayment(){
-        /*
-        Database db = new Database();
+      /*  Database db = new Database();
 
         ArrayList<PowerUpCard> powerUp = db.loadPowerUpCards();
         PowerUpCard tmpPowerUpCard = powerUp.get(0);

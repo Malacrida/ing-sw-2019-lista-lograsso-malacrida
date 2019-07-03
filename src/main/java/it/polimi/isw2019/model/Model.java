@@ -817,31 +817,25 @@ public class Model extends Observable {
 
         }
 
-    public void handlePayment(int[] payment){
+    public void handlePayment(ColorCube[] colorCubes){
 
-                try {
-                    currentPlayer.getRealPlayerBoard().removeBlueCubes(payment[0]);
-                    currentPlayer.getRealPlayerBoard().removeRedCubes(payment[1]);
-                    currentPlayer.getRealPlayerBoard().removeYellowCubes(payment[2]);
-                } catch (OutOfBoundsException e) {
-                }
-            for (int i = payment.length -1; i >= 3; i--) {
-                if(payment[i] != -1) {
-                    //prendi carta
-                    PowerUpCard tmp = currentPlayer.getPowerUpCards().get(payment[i]);
-                    //trasformi cubo
-                    currentPlayer.fromPowerUpCardIntoCubes(payment[i]);
-                    //metti tra le carte scartate
-                    gameBoard.addPowerUpCardDiscarded(tmp);
-                }
-            }
+        int[] cubes = fromCubesToInt(colorCubes);
+
+        try {
+            currentPlayer.payEffect(cubes[1],cubes[2],cubes[0]);
+        } catch (OutOfBoundsException e) {
+
         }
+
+    }
+
 
     public void reload(int[][] payment, int[] weaponToRecharge){
 
         for(int i = 0; i < weaponToRecharge.length; i++){
             if(weaponToRecharge[i]==1){
-                handlePayment(fromCubesToInt(currentPlayer.getWeaponCards().get(i).getRechargeCube()));
+                //togliere i cubi che effettivamente vengono usati
+                handlePayment(currentPlayer.getWeaponCards().get(i).getRechargeCube());
                 currentPlayer.getWeaponCards().get(i).changeState(StateCard.HOLDING);
             }
         }
@@ -851,7 +845,9 @@ public class Model extends Observable {
     }
 
     public void grabWeaponCard(AbstractWeaponCard weaponCard) {
-        handlePayment(fromCubesToInt(weaponCard.getRechargeCube()));
+
+        handlePayment(weaponCard.getRechargeCube());
+
         try {
             tmpWeaponCard = gameBoard.takeWeaponCard(weaponCard,getCurrentPlayer().getX(),getCurrentPlayer().getY());
         } catch (OutOfBoundsException e) {
@@ -860,8 +856,9 @@ public class Model extends Observable {
         try {
             currentPlayer.takeWeaponCards(tmpWeaponCard,null);
         } catch (TooManyWeaponCard tooManyWeaponCard) {
-            tooManyWeaponCard.printStackTrace();
+            //tooManyWeaponCard.printStackTrace();
         }
+
         updateCorrectAction();
     }
 
@@ -914,7 +911,7 @@ public class Model extends Observable {
                  insertDeadPlayer(defenders1);
              }
              finally {
-                 handlePayment(payment[0]);
+                 handlePayment(weaponCard.getRechargeCube());
              }
          }
 
@@ -934,7 +931,7 @@ public class Model extends Observable {
                  insertDeadPlayer(defenders1);
              }
              finally {
-                 handlePayment(payment[1]);
+                 handlePayment(weaponCard.getPaySecondEffect());
              }
          }
 
@@ -955,7 +952,7 @@ public class Model extends Observable {
                  insertDeadPlayer(defenders1);
              }
              finally {
-                 handlePayment(payment[2]);
+                 handlePayment(weaponCard.getPayThirdEffect());
              }
          }
      }
@@ -1042,6 +1039,9 @@ public class Model extends Observable {
 
         int[] toBePaid1 = new int[6];
 
+        for(int i = 0; i < toBePaid1.length; i++)
+            toBePaid1[i] = 0;
+
         for(ColorCube color : toBePaid){
             if(color.equals(ColorCube.BLUE))
                 toBePaid1[0] ++;
@@ -1051,22 +1051,20 @@ public class Model extends Observable {
                 toBePaid1[2] ++;
              }
 
-            for (int i = 3; i < payment.length; i++)
-                toBePaid1[i] = 0;
             for (int i = 3; i < payment.length; i++) {
-                if(payment[i] >  0) {
-                    if (currentPlayer.getPowerUpCards().get(payment[i]).getColorCard().equals(ColorCube.RED)) {
+                if(payment[i] >=  0) {
+                    if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.RED)) {
                         payment[1]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColorCard().equals(ColorCube.YELLOW)) {
+                    } else if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.YELLOW)) {
                         payment[2]++;
-                    } else if (currentPlayer.getPowerUpCards().get(payment[i]).getColorCard().equals(ColorCube.BLUE)) {
+                    } else if (currentPlayer.getPowerUpCards().get(i-3).getColorCard().equals(ColorCube.BLUE)) {
                         payment[0]++;
                     }
                 }
         }
 
         for(int i = 0; i< 3; i++){
-           System.out.println(payment[i]-toBePaid1[i]<0);
+            System.out.println("payment " + payment[i] + "to be paid" + toBePaid1[i]);
            if(payment[i]-toBePaid1[i]<0){
                return false;
            }
@@ -1136,9 +1134,25 @@ public class Model extends Observable {
 
     public void removePowerUpFromPlayer(int idCardChoosen){
         try {
+            //NB -> cambiare la tua power up!
             currentPlayer.takePowerUpCard(tmpPowerUpCard.get(0),currentPlayer.getPowerUpCards().get(idCardChoosen));
         } catch (TooManyPowerUpCard tooManyPowerUpCard) {
             //non ci dovrebbe mai arrivare
+        }
+    }
+
+    public void addCubesFromPowerUp(int[] features){
+
+        for(int i = features.length-1; i > 3; i --) {
+            if (features[i] != -1) {
+                for (int j = currentPlayer.getPowerUpCards().size() -1; j > 0; j--) {
+                    if (currentPlayer.getPowerUpCards().get(j).getId() == features[i]) {
+                        PowerUpCard tmp = currentPlayer.getPowerUpCards().get(i);
+                        currentPlayer.getPowerUpCards().remove(currentPlayer.getPowerUpCards().get(i));
+                        gameBoard.addPowerUpCardDiscarded(tmp);
+                    }
+                }
+            }
         }
     }
     public void updatePlayerDeath(){

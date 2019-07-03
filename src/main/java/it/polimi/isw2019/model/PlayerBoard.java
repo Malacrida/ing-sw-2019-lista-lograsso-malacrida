@@ -167,7 +167,7 @@ public class PlayerBoard{
     public void removeYellowCubes (int num) throws OutOfBoundsException {
         if (yellowCubes.size()-num>=0){
             for (int i=yellowCubes.size(); i>0;i--){
-                yellowCubes.remove(ColorCube.RED);
+                yellowCubes.remove(ColorCube.YELLOW);
             }
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi gialli");
@@ -181,7 +181,7 @@ public class PlayerBoard{
     public void removeBlueCubes (int num) throws OutOfBoundsException {
         if (blueCubes.size()-num>=0){
             for (int i=blueCubes.size(); i>0;i--){
-                blueCubes.remove(ColorCube.RED);
+                blueCubes.remove(ColorCube.BLUE);
             }
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi blu!");

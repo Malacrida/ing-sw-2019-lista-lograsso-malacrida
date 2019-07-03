@@ -54,18 +54,21 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         if(featuresAvailable!= null) {
                 System.out.println("Blue cubes available :" + featuresAvailable[0]);
                 System.out.println("Red cubes available :" + featuresAvailable[1]);
-                 System.out.println(" Yellow cubes available: " + featuresAvailable[2]);
+                System.out.println(" Yellow cubes available: " + featuresAvailable[2]);
         }
+
         if(weaponCard!= null) {
             for (String weaponCard : weaponCard) {
                 System.out.println(weaponCard);
             }
         }
+
         if(powerUpCard!= null) {
             for (String powerUp : powerUpCard) {
                 System.out.println(powerUp);
             }
         }
+
             System.out.println("Blue damage :" + playerBoard[3]);
             System.out.println("Green damage :" + playerBoard[4]);
             System.out.println("Grey damage :" + playerBoard[5]);
@@ -159,65 +162,82 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         Scanner input = new Scanner(System.in);
         String tmp ;
+
         int[] realPayment = new int[payment.length];
 
-        for(int i = 0 ; i < payment.length; i++){
+        for(int i = 0 ; i< 3 ; i++){
+            realPayment[i] = 0;
+        }
+
+        for(int i = 3 ; i<3+powerUpCard.length; i++){
             realPayment[i] = -1;
         }
+
+        for (int i = 3+powerUpCard.length; i<payment.length; i ++){
+            realPayment[i] = -2;
+        }
+
         if(payment[0] != 0){
                 do {
                     System.out.println("Insert the number of blue cubes. Press 0 not to pay with cubes");
                     tmp = input.next();
-                    if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[0]) {
-                        realPayment[0] = Integer.parseInt(tmp);
-                        endInsertment = true;
+                    for(int i = 0 ; i < 4 ; i ++) {
+                        if (tmp.equals(String.valueOf(i))) {
+                            realPayment[0] = Integer.parseInt(tmp);
+                            endInsertment = true;
+                            break;
+                        }
                     }
                 }while(!endInsertment);
                 endInsertment = false;
             }
             if(payment[1]!= 0){
                 do {
-                    System.out.println("Insert the number of red cubes.  Press 0 not to pay with cubes");
+                    System.out.println("Insert the number of red cubes. Press 0 not to pay with cubes");
                     tmp = input.next();
-                    if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[1]) {
-                        realPayment[1] = Integer.parseInt(tmp);
-                        endInsertment = true;
+                    for(int i = 0 ; i < 4 ; i ++) {
+                        if (tmp.equals(String.valueOf(i))) {
+                            realPayment[1] = Integer.parseInt(tmp);
+                            endInsertment = true;
+                            break;
+                        }
                     }
                 }while(!endInsertment);
 
                 endInsertment = false;
             }
             if(payment[2]!= 0){
-                System.out.println("Insert the number of  cubes");
                 do {
-                    System.out.println("Insert the number of yellow cubes. Press 0 not to pay with cubes ");
+                    System.out.println("Insert the number of yellow cubes. Press 0 not to pay with cubes");
                     tmp = input.next();
-                    if (Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp) <= payment[2]) {
-                        realPayment[2] = Integer.parseInt(tmp);
-                        endInsertment = true;
+                    for(int i = 0 ; i < 4 ; i ++) {
+                        if (tmp.equals(String.valueOf(i))) {
+                            realPayment[1] = Integer.parseInt(tmp);
+                            endInsertment = true;
+                            break;
+                        }
                     }
                 }while(!endInsertment);
-
-                endInsertment = false;
             }
-
-            for( int i = 3; i < payment.length; i++)
-                    realPayment[i] = -1;
-
             int i = 3;
-
             do {
+                if(payment[i] != -1) {
+                    System.out.println("Insert 0 if you want to pay with this power up card, otherwise press -1");
+                    tmp = input.next();
 
-                System.out.println("Insert 0 if you want to pay with this power up card, otherwise press -1");
-                tmp = input.next();
-                if (Integer.parseInt(tmp) == 0) {
-                    realPayment[Integer.parseInt(tmp)] = (i-3);
-                    i++;
+                    if (tmp.equals(String.valueOf(0))) {
+                        //nb id!
+                        realPayment[Integer.parseInt(tmp)] = payment[i];
+                        i++;
+                    }
+                    if (i == (payment.length - 1))
+                        endInsertment = true;
+
+                    if (tmp.equals(String.valueOf(-1)))
+                        endInsertment = true;
+                }else{
+                    endInsertment = true;
                 }
-                if(i ==  payment.length)
-                    endInsertment = true;
-                if(Integer.parseInt(tmp) == -1)
-                    endInsertment = true;
             }while(!endInsertment);
 
         return  realPayment;
@@ -434,6 +454,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         // case respawn or not!
         // case of choice of powerUpCard to be discarded
+
         if(choiceCard.isPowerUp()) {
             if (!choiceCard.isDiscardOne()) {
 
