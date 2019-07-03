@@ -2,17 +2,20 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
 public class ChooseMapMove extends PlayerMove{
 
     private int indexMap;
     private int color;
+    private int mod;
+    private int terminator;
 
-    public ChooseMapMove(String player, int index, int color) {
+    public ChooseMapMove(String player, int index, int color, int mod, int terminator) {
         super(player);
         this.indexMap = index;
         this.color = color;
+        this.mod = mod;
+        this.terminator = terminator;
     }
 
     public int getIndex() {
@@ -21,6 +24,14 @@ public class ChooseMapMove extends PlayerMove{
 
     public int getIndexColor() {
         return color;
+    }
+
+    public int getTerminator() {
+        return terminator;
+    }
+
+    public int getMod() {
+        return mod;
     }
 
     @Override
@@ -33,8 +44,4 @@ public class ChooseMapMove extends PlayerMove{
         networkHandler.sendChooseMap(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
-
-    }
 }

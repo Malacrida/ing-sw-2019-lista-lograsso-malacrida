@@ -1,8 +1,9 @@
 package it.polimi.isw2019.model;
 
-import it.polimi.isw2019.model.exception.ColorNotAvailableException;
-import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
+import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
+import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.view.CLIView;
 import org.junit.After;
 import org.junit.Before;
@@ -60,13 +61,13 @@ public class ModelTest {
         model.addPlayer(player4);
         model.addPlayer(player5);
 
-        gameBoard = new GameBoard();
+       // gameBoard = new GameBoard();
 
-        gameBoard.chooseArena(3);
+       // gameBoard.chooseArena(1);
 
-        for (int i=0; i <26; i++){
+        /*for (int i=0; i <26; i++){
             powerUpCards.add(powerUpCard);
-        }
+        }*/
 
 
     }
@@ -101,12 +102,10 @@ public class ModelTest {
     @Test
     public void testChangePlayer(){
 
-        /*
+
         model.chooseFirstPlayer(3);
 
         int oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
-
-        System.out.println(oldCurrentPlayer);
 
         model.changePlayer();
 
@@ -135,7 +134,7 @@ public class ModelTest {
             assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
             assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
-            */
+
     }
 
     @Test
@@ -360,12 +359,139 @@ public class ModelTest {
 
 
     }
-    @Test
-    //public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
-    public void testUseWeaponCard(){
+    //public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
+    @Test
+    public void testSetGame(){
+        model.setGameBoard(new GameBoard());
+        model.setGame(1,5);
+        System.out.println(model.getGameBoard().getGameArena().getArenaRepresentation());
+        System.out.println(model.getGameBoard().getGameArena().getAmmoTileOnSquare(0,1).toString());
+
 
     }
+    @Test
+    public void testUseWeaponCard(){
+        Database db = new Database();
+        gameBoard = new GameBoard();
+        try {
+            gameBoard.chooseArena(1);
+        } catch (InstanceArenaException e) {
+            e.printStackTrace();
+        } catch (OutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        gameBoard.setPowerUpCards(db.loadPowerUpCards());
+        gameBoard.setAmmoTiles(db.loadAmmoTiles());
+        gameBoard.setWeaponCardsOnBoard();
+        try {
+            gameBoard.setUpAmmoTileOnArena(1);
+        } catch (OutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        model.setGame(1,5);
+        System.out.println(model.getGameBoard().getGameArena().getSquare(1,1).getSquareRepresentation());
+        model.getGameBoard().insertPlayer(player2,ColorRoom.RED);
+        AbstractWeaponCard weaponCard = model.getGameBoard().getGameArena().getWeaponCardsOnSquares(1,0)[1];
+        try {
+            player2.takeWeaponCards(weaponCard,null);
+        } catch (TooManyWeaponCard tooManyWeaponCard) {
+            tooManyWeaponCard.printStackTrace();
+        }
+        assertEquals(6,weaponCard.getID());
+        System.out.println(model.getPlayers().size());
+
+        model.setCurrentPlayer(player2);
+
+        System.out.println(model.getCurrentPlayer().getY());
+        gameBoard.getGameArena().getAmmoTileOnSquare(1,2).setAmmoCardDescription();
+        System.out.println(gameBoard.getGameArena().getAmmoTileOnSquare(1,2).toString());
+        System.out.println(gameBoard.getGameArena().getSquare(2,2).toString());
+        gameBoard.getGameArena().movePlayer(player1,2,2);
+        gameBoard.getGameArena().movePlayer(player2,2,2);
+
+        int[] effect = {1,0,0};
+        int[][] coo = new int[2][2];
+        int[][] people = new int[2][2];
+        int[][] pay = new int[2][2];
+
+        System.out.println(player2.getWeaponCards().get(0).getID() +  " " + model.getCurrentPlayer().getName() + " effect " + effect[0]);
+        assertEquals(false,model.getDeadPlayer().contains(player1));
+       // model.useWeaponCard(0,effect,coo,people,pay);
+
+        System.out.println(model.getDeadPlayer().size());
+
+        assertEquals(false,model.getDeadPlayer().contains(player1));
+
+
+    }
+
+    @Test
+    public void testCheckValidityPayment(){
+       Database db = new Database();
+
+       ArrayList<PowerUpCard> powerUp = db.loadPowerUpCards();
+        try {
+            player1.takePowerUpCard(powerUp.get(0),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+        try {
+            player1.takePowerUpCard(powerUp.get(1),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+
+        model.setCurrentPlayer(player1);
+
+        int[] payment = {1,0,1,1,0,0};
+        System.out.println(player1.getPowerUpCards().get(0).getColor());
+        ColorCube[] paymentCube ={ColorCube.BLUE,ColorCube.YELLOW, ColorCube.RED};
+        assertEquals(true,model.checkValidityPayment(payment,paymentCube));
+
+    }
+
+    @Test
+    public void testHandlePayment(){
+        Database db = new Database();
+
+        ArrayList<PowerUpCard> powerUp = db.loadPowerUpCards();
+        PowerUpCard tmpPowerUpCard = powerUp.get(0);
+        PowerUpCard tmpPowerUpCard1 = powerUp.get(1);
+        try {
+
+            player1.takePowerUpCard(powerUp.get(0),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+        try {
+            player1.takePowerUpCard(powerUp.get(1),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+
+        model.setCurrentPlayer(player1);
+        assertEquals(2,model.getCurrentPlayer().getPowerUpCards().size());
+
+        int[] payment = {1,0,1,0,-1,-1};
+        System.out.println(player1.getPowerUpCards().get(0).getColor());
+        ColorCube[] paymentCube ={ColorCube.BLUE,ColorCube.YELLOW, ColorCube.RED};
+        assertEquals(2,model.getCurrentPlayer().getPowerUpCards().size());
+        model.handlePayment(payment);
+       //essert commentato perche mi restituisce un null pointer exception -> manca qualcosa da istanziare!(legato alla addPowerUpDiscarded)
+        assertEquals(false,model.getCurrentPlayer().getPowerUpCards().contains(tmpPowerUpCard));
+        try {
+            player1.takePowerUpCard(powerUp.get(0),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            tooManyPowerUpCard.printStackTrace();
+        }
+        int[] payment1 = {0,0,0,0,1,-1};
+        model.handlePayment(payment1);
+        assertEquals(false,model.getCurrentPlayer().getPowerUpCards().contains(tmpPowerUpCard1));
+        assertEquals(0,model.getCurrentPlayer().getPowerUpCards().size());
+    }
+
+
 
 
 }

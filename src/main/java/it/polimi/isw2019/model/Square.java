@@ -23,6 +23,7 @@ public abstract class Square{
     private String[] raw;
     private String[] center;
     private String[] bottom;
+    private String adiacence;
 
     /**
      *
@@ -153,53 +154,6 @@ public abstract class Square{
     }
 
     public void setSquareRepresentation() {
-
-        /*tmpRepresentation = new String[6];
-
-        raw = new String[6];
-        center= new String[6];
-        bottom = new String[6];
-
-        center[1] = String.valueOf(returnTypeOfCard());
-        center[2] = " ";
-        center[3] = String.valueOf(players.size());
-        center[4] = " ";
-
-        if(squareE ==null){
-                    center[0] = "|";
-                }
-                else{
-                    center[0] = " ";
-                }
-                if(squareW == null){
-                    center[5] = "|";
-                }
-                else{
-                    center[5] = " ";
-                }
-
-        for(int i = 0; i < 6; i ++){
-            raw[i] = " ";
-            bottom[i] = " ";
-        }
-        if(squareN == null){
-            for(int i = 1 ; i < 5 ; i ++){
-                raw[i] = "_";
-            }
-        }
-
-        if(squareS == null){
-            for(int i = 1 ; i < 5 ; i ++){
-                bottom[i] = "_";
-            }
-        }
-
-        String[][] tmp = new String[3][6];
-
-        tmp[0] = raw;
-        tmp[1] = center;
-        tmp[2] = bottom;*/
-
         squareRepresentation = " "+returnTypeOfCard() + " " + players.size() + " ";
 
     }

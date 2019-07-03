@@ -39,6 +39,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void update(MoveMessage message) {
+        System.out.println("player " + message.getNicknamePlayer() + " view " + nicknamePlayer+" message " + message.getClass());
         if(message.isNotifyAll()){
             message.accept(this);
         }
@@ -155,6 +156,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     public int[] insertPayment(int[] payment){
         boolean endInsertment = false;
+
         Scanner input = new Scanner(System.in);
         String tmp ;
         int[] realPayment = new int[payment.length];
@@ -162,8 +164,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         for(int i = 0 ; i < payment.length; i++){
             realPayment[i] = -1;
         }
-        if(powerUpCard!= null)
-            System.out.println("you can pay both with power up or with cubes");
         if(payment[0] != 0){
                 do {
                     System.out.println("Insert the number of blue cubes. Press 0 not to pay with cubes");
@@ -200,13 +200,18 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
                 endInsertment = false;
             }
-        if(powerUpCard!= null) {
+
+            for( int i = 3; i < payment.length; i++)
+                    realPayment[i] = -1;
+
             int i = 3;
+
             do {
-                System.out.println("Insert " + i + " if you want to pay with this power up card, otherwise press -1");
+
+                System.out.println("Insert 0 if you want to pay with this power up card, otherwise press -1");
                 tmp = input.next();
-                if (Integer.parseInt(tmp) >= 3 && Integer.parseInt(tmp) <= payment.length) {
-                    realPayment[Integer.parseInt(tmp)] = 1;
+                if (Integer.parseInt(tmp) == 0) {
+                    realPayment[Integer.parseInt(tmp)] = (i-3);
                     i++;
                 }
                 if(i ==  payment.length)
@@ -214,7 +219,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 if(Integer.parseInt(tmp) == -1)
                     endInsertment = true;
             }while(!endInsertment);
-        }
+
         return  realPayment;
     }
 
@@ -264,9 +269,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 System.out.println("insert the number of the effect you want to use or -1 to exit:");
                 tmp = input.next();
 
-                if(Integer.parseInt(tmp) >= 0 && Integer.parseInt(tmp)<=numMaxEffect){
+                if(Integer.parseInt(tmp) >= 1 && Integer.parseInt(tmp)<=numMaxEffect){
                     index = Integer.parseInt(tmp);
-                    effectUsed[i] = index+1;
+                    effectUsed[i] = Integer.parseInt(tmp);
                     i++;
                     endChoice = true;
                 }
@@ -326,81 +331,190 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         boolean inputOk = false;
 
         index = firstMessageFirstPlayer.getIdPlayer();
-
+        Scanner input = new Scanner(System.in);
+        String tmpInput;
+        int mod=-1,terminator=-1;
         int indexMap = -1, indexColor = -1;
         if(firstMessageFirstPlayer.getPossibleMaps()!= null) {
             System.out.println("Choose one of the following Arena :");
             for(int i = 0; i < firstMessageFirstPlayer.getPossibleMaps().length; i++)
-                        System.out.println(i +" " + firstMessageFirstPlayer.getPossibleMaps()[i]);
+                        System.out.println((i+1) +" " + firstMessageFirstPlayer.getPossibleMaps()[i]);
 
 
             do {
-                Scanner input = new Scanner(System.in);
-                String tmpInput = input.next();
-
-                if (Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput) <= firstMessageFirstPlayer.getPossibleMaps().length) {
+                tmpInput = input.next();
+                for(int i = 0 ; i <firstMessageFirstPlayer.getPossibleMaps().length ; i++){
+                    if(tmpInput.equals(String.valueOf(i+1))){
+                        indexMap = Integer.parseInt(tmpInput);
+                        inputOk = true;
+                        break;
+                    }
+                }
+                if(!inputOk){
+                    System.out.println("try again");
+                }
+                    /*(Integer.parseInt(tmpInput) >= 1 && Integer.parseInt(tmpInput) <= firstMessageFirstPlayer.getPossibleMaps().length) {
                     indexMap = Integer.parseInt(tmpInput);
                     inputOk = true;
-                }
+                }*/
             } while (!inputOk);
+            inputOk = false;
+            mod = -1;
+            System.out.println("Press 1 to choose the game mode with 5 skulls \n" +
+                    "press 2 to choose the game mode with 8 skull:");
+            do {tmpInput = input.next();
+
+                if(tmpInput.equals(String.valueOf(1))||tmpInput.equals(String.valueOf(2))){
+                    mod = Integer.parseInt(tmpInput);
+                    inputOk = true;
+                }
+                else{
+                    System.out.println("try again");
+                }
+            } while(!inputOk);
+
+            System.out.println("Press 1 to choose the game mode terminator \n" +
+                    "press 0 to choose the game mode without terminator:");
+
+            inputOk = false;
+            terminator = -1;
+            do {tmpInput = input.next();
+
+                if(tmpInput.equals(String.valueOf(0) )||tmpInput.equals(String.valueOf(1))){
+                    terminator = Integer.parseInt(tmpInput);
+                    inputOk = true;
+                }
+                else{
+                    System.out.println("try again");
+                }
+            } while(!inputOk);
         }
 
         inputOk = false;
         System.out.println("Choose one of the following color :");
         for(int i = 0; i < firstMessageFirstPlayer.getColorAvailable().size(); i++)
             System.out.println(i +" " + firstMessageFirstPlayer.getColorAvailable().get(i));
+
         do {
-            Scanner input = new Scanner(System.in);
+            tmpInput = input.next();
 
-            String tmpInput = input.next();
-
-            if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)<= firstMessageFirstPlayer.getColorAvailable().size()){
+            for(int i = 0 ; i <firstMessageFirstPlayer.getColorAvailable().size() ; i++){
+                if(tmpInput.equals(String.valueOf(i))){
+                    indexColor = Integer.parseInt(tmpInput);
+                    inputOk = true;
+                    break;
+                }
+            }
+            if(!inputOk){
+                System.out.println("try again");
+            }
+           /* if(Integer.parseInt(tmpInput) >= 0 && Integer.parseInt(tmpInput)<= firstMessageFirstPlayer.getColorAvailable().size()){
                 indexColor = Integer.parseInt(tmpInput);
                 inputOk = true;
-            }
+            }*/
         } while(!inputOk);
 
-        notifyObservers(new ChooseMapMove(nicknamePlayer,indexMap,indexColor));
+
+        notifyObservers(new ChooseMapMove(nicknamePlayer,indexMap,indexColor,mod, terminator));
 
 
     }
 
     @Override
-    public void powerUpChoice(ChoicePowerUpCard choicePowerUpCard) {
+    public void visitCardChoice(ChoiceCard choiceCard) {
 
-        displayErrorMessage(choicePowerUpCard.getError());
+        displayErrorMessage(choiceCard.getError());
 
         Scanner input = new Scanner(System.in);
 
         String tmpCardChoosen;
-        int cardChoosen;
+        int cardChoosen = -1;
 
         boolean inputOk = false;
 
         // case respawn or not!
         // case of choice of powerUpCard to be discarded
+        if(choiceCard.isPowerUp()) {
+            if (!choiceCard.isDiscardOne()) {
 
-        do {
-            System.out.println("choose one of the following PowerUp Card :");
+                int i = 0;
+                for (String powerUp : choiceCard.getDescriptionPowerUp()) {
+                    System.out.println("press " + i + " to select the following power up to discard, otherwise press -1:");
+                    System.out.println(powerUp);
+                    i++;
+                }
+                do {
+                    tmpCardChoosen = input.nextLine();
+                    for(i = -1 ; i < choiceCard.getDescriptionPowerUp().length ; i++) {
+                        if (tmpCardChoosen.equals(String.valueOf(i))) {
+                            cardChoosen = Integer.parseInt(tmpCardChoosen);
+                            inputOk = true;
+                            break;
+                        }
+                    }
+                    if(!inputOk)
+                        System.out.println("try again");
+                    //eventually see if it's correct
 
-            int i = 0;
-            for(String powerUp : choicePowerUpCard.getDescriptionPowerUp()){
-                System.out.println("press " + i + " to select the following power up :");
-                System.out.println(powerUp);
-                i++;
+                } while (!inputOk);
+            } else {
+
+
+                    System.out.println("you should choose if you want to discard on of your powerUpCard or not" + choiceCard.getDescriptionPowerUp());
+                    int i = 0;
+                    for (String powerUp : powerUpCard) {
+                        System.out.println("press " + i + " to select the following power up to discard from you deck, otherwise press -1:");
+                        System.out.println(powerUp);
+                        i++;
+                    }
+                    do{
+                        tmpCardChoosen = input.nextLine();
+                        for(i = -1; i < choiceCard.getDescriptionPowerUp().length ; i++) {
+                            if (tmpCardChoosen.equals(String.valueOf(i))) {
+                                cardChoosen = Integer.parseInt(tmpCardChoosen);
+                                inputOk = true;
+                                break;
+                            }
+                        }
+                        if(!inputOk)
+                            System.out.println("try again");
+                        //eventually see if it's correct
+
+                    } while (!inputOk);
+
             }
+            notifyObservers(new PowerUpChoice(nicknamePlayer,cardChoosen));
+        } else{
+            do {
+                System.out.println("you should choose if you want to discard on of your weaponCard or not" + choiceCard.getDescriptionPowerUp());
+                int i = 0;
+                for (String weaponCards : weaponCard) {
+                    System.out.println("press " + i + " to select the following weapon to discard from you deck, otherwise press -1:");
+                    System.out.println(weaponCards);
+                    i++;
+                }
+                do{
+                    tmpCardChoosen = input.nextLine();
+                    for(i = -1 ; i < weaponCard.length ; i++) {
+                        if (tmpCardChoosen.equals(String.valueOf(i))) {
+                            cardChoosen = Integer.parseInt(tmpCardChoosen);
+                            inputOk = true;
+                            break;
+                        }
+                    }
+                    if(!inputOk)
+                        System.out.println("try again");
+                    //eventually see if it's correct
 
-            tmpCardChoosen = input.nextLine();
+                } while (!inputOk);
 
-            cardChoosen = Integer.parseInt(tmpCardChoosen);
-
-            //eventually see if it's correct
-            if (cardChoosen >= 0 && cardChoosen < choicePowerUpCard.getDescriptionPowerUp().length)
-                inputOk = true;
-
-        } while (!inputOk);
-
-        notifyObservers(new PowerUpChoice(nicknamePlayer,cardChoosen));
+            } while (!inputOk);
+            int[] payment = new int[featuresAvailable.length];
+            if(cardChoosen != -1){
+                insertPayment(payment);
+            }
+            notifyObservers(new WeaponCardChoice(nicknamePlayer,cardChoosen,payment));
+        }
 
     }
 
@@ -418,6 +532,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         System.out.println("Nickname " + nicknamePlayer);
         do {
             int i = 0;
+            System.out.println("Choose one of the following action to be performed or -1 to end your turn");
+
             for (String action : actionMessage.getActionPlayerCanPerform()) {
                 System.out.println(i + " " + action);
                 i++;
@@ -529,10 +645,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             for (int i = 0; i < powerUpCard.length; i++)
                 System.out.println(powerUpCard[i]);
         }
-
-
-        //for(int i = 0; i < gameBoard.length(); i ++)
-            //System.out.println(gameBoard.length());
     }
 
     @Override

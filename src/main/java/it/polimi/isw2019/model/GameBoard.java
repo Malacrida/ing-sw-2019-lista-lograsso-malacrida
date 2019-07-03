@@ -454,33 +454,41 @@ public class GameBoard{
     public void addAmmoTileDiscarded (AmmoTile ammoTile){
         grabedAmmoTiles.add(ammoTile);
     }
-
+    public void addWeaponCardToDiscarded(AbstractWeaponCard weaponCard){
+        weaponCardsDischarged.add(weaponCard);}
 
     public void setGameBoardDescription(){
 
         getGameArena().setArenaRepresentation();
-        gameBoardDescription = getGameArena().getArenaRepresentation();
+
+        gameBoardDescription = getGameArena().getArenaRepresentation() + " \n";
         gameBoardDescription += "Red Spawn : ";
         for(int i = 0 ; i < weaponCardsRed.length; i++)
-            gameBoardDescription += weaponCardsRed[i].getName() + " ";
+            gameBoardDescription += i + " " + weaponCardsRed[i].getName() + " ";
         gameBoardDescription += "\n";
         gameBoardDescription += "Blue Spawn : ";
         for(int i = 0 ; i < weaponCardsBlue.length; i++)
-            gameBoardDescription += weaponCardsBlue[i].getName() + " ";
+            gameBoardDescription += i + " " +weaponCardsBlue[i].getName() + " ";
         gameBoardDescription += "\n";
         gameBoardDescription += "Yellow Spawn : ";
         for(int i = 0 ; i < weaponCardsYellow.length; i++)
-            gameBoardDescription += weaponCardsYellow[i].getName() + " ";
+            gameBoardDescription += i + " " +weaponCardsYellow[i].getName() + " ";
         gameBoardDescription += "\n";
         //introdurre anche i vari danni
-        gameBoardDescription += "Num Skull : "+ killShotTrack.getNumSkull() + "\n";
-
-
+//        gameBoardDescription += "Num Skull : "+ killShotTrack.getNumSkull() + "\n";
 
 
     }
 
+        public AbstractWeaponCard getWeaponCardFromGameboard(){
+            AbstractWeaponCard tmpWeaponCard = weaponCards.get(0);
+            weaponCards.remove(0);
+            return tmpWeaponCard;
+        }
+
+
         public String getGameBoardDescription () {
+            setGameBoardDescription();
             return gameBoardDescription;
         }
 

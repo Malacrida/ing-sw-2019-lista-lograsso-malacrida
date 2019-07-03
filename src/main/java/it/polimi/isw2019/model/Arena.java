@@ -129,7 +129,6 @@ public class Arena {
     public ArrayList<Player> playersInOneSquareOnArena(int x, int y, Player player) {
         ArrayList<Player> players = squares[x][y].getPlayers();
         if (players.contains(player)) {
-            //remove or get ?
             players.remove(player);
         }
         return players;
@@ -394,10 +393,11 @@ public class Arena {
 
 
     public void setArenaRepresentation() {
-
         arenaRepresentation = " ";
-
+        arenaRepresentation ="      0     1     2     3 \n";
+        arenaRepresentation += " ";
         for (int i = 0; i < 3; i++) {
+            arenaRepresentation += " "+i + " ";
             for (int j = 0; j < 4; j++) {
                 if(squares[i][j]!= null)
                         arenaRepresentation += " " +squares[i][j].getSquareRepresentation() ;
@@ -407,6 +407,8 @@ public class Arena {
             arenaRepresentation+= "\n";
             arenaRepresentation += " ";
         }
+
+
 
     }
 
@@ -439,42 +441,6 @@ public class Arena {
 
 
     public void setTmpArena() {
-        /*int raw = 0, column = 0;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (j == 0) {
-                    column = 0;
-                } else if (j == 1) {
-                    column = 6;
-                } else if (j == 2) {
-                    column = 12;
-                } else if (j == 3) {
-                    column = 18;
-                }
-                //righe
-                if (i == 0) {
-                    raw = 1;
-                } else if (i == 1) {
-                    raw = 3;
-                } else if (i == 2) {
-                    raw = 5;
-                }
-                insertSquareInRepresentation(squares[i][j], raw, column);
-            }
-
-
-
-        }
-
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 24; j++) {
-                arenaRepresentation += tmpArena[i][j];
-                if (j == 23) {
-                    arenaRepresentation += "\n";
-                }
-            }
-         }*/
         arenaRepresentation += "  0    1    2    3  ";
         arenaRepresentation += "\n";
         for(int i = 0; i < 3; i ++) {

@@ -88,13 +88,12 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void receiveChooseMap(String player, int index, int color) {
-        for (int i = 0; i< virtualViewRmis.size(); i++){
-            if(virtualViewRmis.get(i).getNickname().equals(player)){
-                virtualViewRmis.get(i).createChooseMap(player, index, color);
-            }
-        }
-
+    public void receiveChooseMap(String player, int index, int color,int mod, int terminator) {
+         for (int i = 0; i< virtualViewRmis.size(); i++) {
+             if (virtualViewRmis.get(i).getNickname().equals(player)) {
+                 virtualViewRmis.get(i).createChooseMap(player, index, color);
+             }
+         }
     }
 
     @Override

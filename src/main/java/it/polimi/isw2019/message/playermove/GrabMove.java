@@ -1,8 +1,8 @@
 package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
+
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
 public class GrabMove extends PlayerMove {
 
@@ -50,8 +50,5 @@ public class GrabMove extends PlayerMove {
         networkHandler.sendGrab(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
 
-    }
 }

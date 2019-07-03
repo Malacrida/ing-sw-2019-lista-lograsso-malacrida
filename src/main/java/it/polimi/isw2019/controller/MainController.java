@@ -3,6 +3,7 @@ package it.polimi.isw2019.controller;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.ColorNotAvailableException;
+import it.polimi.isw2019.model.exception.TooManyWeaponCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observer;
@@ -14,8 +15,6 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
 
     private Model model;
-    private ArrayList<String> colorAvailable;
-    private String cubeInserted;
 
 
     public MainController() {
@@ -27,27 +26,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void update(PlayerMove playerMove){
-            System.out.println("controller : " + playerMove.getPlayer());
+           // System.out.println("controller : " + playerMove.getPlayer());
             playerMove.accept(this);
     }
 
-    public ColorPlayer returnColorPlayerFromString(String color){
-
-        switch (color){
-            case "blue" :
-                return ColorPlayer.BLUE;
-            case "red" :
-                return  ColorPlayer.VIOLET;
-            case "violet":
-                return ColorPlayer.YELLOW;
-            case"grey":
-                return ColorPlayer.GREY;
-            case"green":
-                return ColorPlayer.GREEN;
-
-        }
-    return null;
-    }
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
@@ -73,10 +55,12 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void chooseMap(ChooseMapMove chooseMapMove) {
 
         if(model.getCurrentPlayer().isFirstPlayer()) {
-            model.setGame(chooseMapMove.getIndex());
+            model.setGame(chooseMapMove.getIndex(), chooseMapMove.getMod());
             }
             try {
-                model.setPlayerWithPlayerBoard(model.getCurrentPlayer(),returnColorPlayerFromString(model.getColorAvailable().get(chooseMapMove.getIndexColor())));
+                System.out.println("Index color available" + chooseMapMove.getIndexColor());
+                model.setPlayerWithPlayerBoard(model.getCurrentPlayer(), model.getPlayerBoardsAvailable().get(chooseMapMove.getIndexColor()).getColor());
+                model.colorAvailable();
                 model.changePlayer();
             } catch (ColorNotAvailableException e) {
                 //normally impossible!
@@ -87,56 +71,46 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
 
         if(powerUpChoice.getIdPowerUpTake() < model.getTmpPowerUpCard().size() && (powerUpChoice.getIdPowerUpTake() >= 0 )){
-
-            model.movePlayerToRespawnSquare(powerUpChoice.getIdPowerUpTake());
+            if(!model.getCurrentPlayer().isRespawn()) {
+                //gestisce quello di due
+                model.movePlayerToRespawnSquare(powerUpChoice.getIdPowerUpTake());
+            }
+            else{
+                //gestisce quello di uno
+                model.removePowerUpFromPlayer(powerUpChoice.getIdPowerUpTake());
+            }
+        }
+        else if(powerUpChoice.getIdPowerUpTake() == -1){
+            model.getGameBoard().addPowerUpCardDiscarded(model.getTmpPowerUpCard().get(0));
+            model.getTmpPowerUpCard().clear();
+            model.updateCorrectAction();
         }
 
-        //che se ne ha piu di tre ( da controllare prima) selezionarne una tfra quelle che ha da scartare
     }
 
     @Override
     public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
         model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
-        System.out.println("ok action Move");
         model.sendActionMessage();
     }
 
     @Override
-    public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
-
-        /*if(weaponCardChoice.getIndexWeaponCard() >= 0 ){
-            if(weaponCardChoice.isGrabWeapon()){
-                if(!model.getGameBoard().getGameArena().isRespawnSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY())){
-                    //setUp error message, you're NOT in a respawn square : or try to grab an ammo card or you'action will be ended!
-                }
-                else{
-                   if(weaponCardChoice.getIndexWeaponCard() < model.getGameBoard().getGameArena().getSquare(model.getCurrentPlayer().getX(), model.getCurrentPlayer().getY()).getWeaponCards().length){
-                                if(!checkPayment(weaponCardChoice.getPayment())){
-                                    model.getCurrentPlayer().getSingleMessageToBeSent().setError("the input" + weaponCardChoice.getPayment()+"is wrong!");
-                                    }
-                       //grabWeaponCard
-                   }
-                   else{
-                       //setErrorMessage -> index out of bound
-                   }
-                }
+    public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice){
+        if(weaponCardChoice.getIndexWeaponCard() == -1){
+            model.getGameBoard().addWeaponCardToDiscarded(model.getTmpWeaponCard());
+            model.setTmpWeaponCard(null);
+            model.sendActionUpdateMessage();
+        }
+        else{
+            try {
+                model.getCurrentPlayer().takeWeaponCards(model.getTmpWeaponCard(),model.getCurrentPlayer().getWeaponCards().get(weaponCardChoice.getIndexWeaponCard()));
+                model.setTmpWeaponCard(null);
+            } catch (TooManyWeaponCard tooManyWeaponCard) {
+                //tooManyWeaponCard.printStackTrace();
+                //non ci dovrebbe mai arrivare
             }
-            else{
-                if(weaponCardChoice.getIndexWeaponCard() < model.getCurrentPlayer().getWeaponCards().size()) {
-                    if (model.getCurrentPlayer().getWeaponCards().get(weaponCardChoice.getIndexWeaponCard()).getStateCard().equals(StateCard.DISCHARGE)) {
-                        //cannot use this weapon card : stop action or reload
-                    } else {
-    /*
-                        try {
-                           model.grabWeaponCard(weaponCardChoice.getIndexWeaponCard(), translateInputIntoCubes(weaponCardChoice.getPayment()));
-                        } catch (OutOfBoundsException e) {
-                            e.printStackTrace();
-                        }
-                        */
-                 /*   }
-                }
-            }
-        }*/
+            model.sendActionUpdateMessage();
+        }
     }
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
@@ -233,7 +207,9 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
        }
        else
            coordinates = runMove.getMovement();
-        model.run(coordinates);
+
+            model.run(coordinates);
+
     }
 
     @Override

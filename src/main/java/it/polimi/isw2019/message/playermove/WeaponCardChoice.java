@@ -2,23 +2,18 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
-import java.util.ArrayList;
 
 public class WeaponCardChoice extends PlayerMove {
 
     private int indexWeaponCard;
-    private String[] payment;
-    //private ArrayList<InterfacePowerUpCard> powerUpCards;
-    private boolean grab;
+    private int[] payment;
 
-    public WeaponCardChoice(String player, int indexWeaponCard, String[] payment/*, ArrayList<InterfacePowerUpCard> powerUpCards,*/, boolean grab) {
+
+    public WeaponCardChoice(String player, int indexWeaponCard, int[] payment) {
         super(player);
         this.indexWeaponCard = indexWeaponCard;
         this.payment = payment;
-       // this.powerUpCards = powerUpCards;
-        this.grab = grab;
     }
 
 
@@ -26,17 +21,9 @@ public class WeaponCardChoice extends PlayerMove {
         return indexWeaponCard;
     }
 
-    public String[] getPayment() {
+    public int[] getPayment() {
         return payment;
     }
-
-    public boolean isGrab() {
-        return grab;
-    }
-
-  /*  public ArrayList<InterfacePowerUpCard> getPowerUpCards() {
-        return powerUpCards;
-    }*/
 
 
     @Override
@@ -49,8 +36,5 @@ public class WeaponCardChoice extends PlayerMove {
         networkHandler.sendWeaponCardChoice(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
 
-    }
 }

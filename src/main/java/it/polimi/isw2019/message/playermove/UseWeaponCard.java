@@ -2,7 +2,6 @@ package it.polimi.isw2019.message.playermove;
 
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
-import it.polimi.isw2019.network.socket.MiniController;
 
 
 public class UseWeaponCard extends PlayerMove {
@@ -80,8 +79,4 @@ public class UseWeaponCard extends PlayerMove {
         networkHandler.sendUseWeaponCard(this);
     }
 
-    @Override
-    public void accept(MiniController miniController) {
-
-    }
 }
