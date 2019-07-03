@@ -3,7 +3,6 @@ package it.polimi.isw2019.network;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 
-import it.polimi.isw2019.network.rmi.NetworkHandlerInterface;
 import it.polimi.isw2019.network.rmi.NetworkHandlerRmi;
 import it.polimi.isw2019.network.socket.NetworkHandlerSocket;
 import it.polimi.isw2019.network.socket.ServerImplementationSocket;

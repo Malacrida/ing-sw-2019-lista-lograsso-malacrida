@@ -16,15 +16,23 @@ public class ActionMessage extends MoveMessage {
 
     /**
      *
-     * @param nickName
+     * @param nickname
      */
-    public ActionMessage(String nickName){
+    public ActionMessage(String nickname){
 
-        super(nickName);
+        super(nickname);
         actionYouCanPerform = new String[7];
 
         actionPlayerCanPerform = new ArrayList<>();
         intIdAction = new ArrayList<>();
+    }
+
+    public ActionMessage(String nickname,String[] actionYouCanPerform,ArrayList<String> actionPlayerCanPerform,ArrayList<Integer> intIdAction){
+
+        super(nickname);
+        this.actionYouCanPerform =actionYouCanPerform;
+        this.actionPlayerCanPerform = actionPlayerCanPerform;
+        this.intIdAction = intIdAction;
     }
 
     /**

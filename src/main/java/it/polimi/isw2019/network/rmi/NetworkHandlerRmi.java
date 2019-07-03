@@ -59,6 +59,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     }
 
+
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
         try {
@@ -93,8 +94,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         try {
             server.receiveChooseMap(chooseMapMove.getPlayer(),chooseMapMove.getIndex(),chooseMapMove.getIndexColor(),chooseMapMove.getMod(), chooseMapMove.getTerminator());
         } catch (RemoteException e) {
-
-
+            e.printStackTrace();
         }
     }
 
@@ -144,7 +144,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendReload(ReloadMove reloadMove) {
         try {
-            server.receiveReload(reloadMove.getPlayer());
+            server.receiveReload(reloadMove.getPlayer(), reloadMove.getWeaponCard(), reloadMove.getPayment());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -175,7 +175,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
         try {
-            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment()/* weaponCardChoice.getPowerUpCards()*/, weaponCardChoice.isGrab());
+            server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment());
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -186,7 +186,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     public void sendUseWeaponCard(UseWeaponCard useWeaponCard) {
         try {
             server.receiveUseWeaponCard(useWeaponCard.getPlayer(),useWeaponCard.getWeaponCard());
-
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -194,17 +193,10 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
 
-
     @Override
-    public void createActionMessage(String nickname) {
-        System.out.println("ricevo move message Action");
-        ActionMessage actionMessage= new ActionMessage(nickname);
+    public void createActionMessage(String nicknamePlayer, String[] actionYouCanPerform, ArrayList<String> actionPlayerCanPerform, ArrayList<Integer> intIdAction) {
+        ActionMessage actionMessage = new ActionMessage(nickname,actionYouCanPerform, actionPlayerCanPerform, intIdAction);
         notifyObservers(actionMessage);
-    }
-
-    @Override
-    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException {
-
     }
 
     @Override
@@ -214,14 +206,14 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createGrab(String nicknamePlayer) {
-        GrabMessage grabMessage= new GrabMessage(nicknamePlayer);
+    public void createGrab(String nicknamePlayer, String error,String[] weaponCardAvailable,int[] featuresAvailable,boolean grabWeapon, String ammoTileDescription, String powerUpDescription){
+        GrabMessage grabMessage= new GrabMessage(nicknamePlayer, error,weaponCardAvailable,featuresAvailable,grabWeapon,ammoTileDescription,powerUpDescription);
         notifyObservers(grabMessage);
     }
 
     @Override
-    public void createReload(String nicknamePlayer) {
-        ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer);
+    public void createReload(String nicknamePlayer, int[] featuresAvailable, int[] weaponYouCanReload, String error) {
+        ReloadMessage reloadMessage= new ReloadMessage(nicknamePlayer, featuresAvailable, weaponYouCanReload, error);
         notifyObservers(reloadMessage);
     }
 
@@ -231,10 +223,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         notifyObservers(updateMessage);
     }
 
-    @Override
-    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException {
-
-    }
 
     @Override
     public void createWaitForStart(String nicknamePlayer) {
@@ -245,21 +233,24 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createUseWeaponCard(String nicknamePlayer) {
+    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error){
+        UseWeaponCardMessage useWeaponCardMessage = new UseWeaponCardMessage(nicknamePlayer, weaponCard, featuresAvailable, playersToAttack, error);
+        notifyObservers(useWeaponCardMessage);
 
     }
 
     @Override
-    public void createPowerUpChoice(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp ) throws RemoteException {
+    public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp ) throws RemoteException {
         System.out.println("ricevo la Move message choice PU");
-     //   ChoicePowerUpCard choicePowerUpCard = new ChoicePowerUpCard(nicknamePlayer, descriptionPowerUp, idPowerUp);
-       // notifyObservers(choicePowerUpCard);
+        ChoiceCard choiceCard = new ChoiceCard(nicknamePlayer,descriptionPowerUp,idPowerUp,error,discardOne, isPowerUp);
+        notifyObservers(choiceCard);
     }
 
 
     @Override
-    public void createUsePowerUpCard(String nicknamePlayer) {
-
+    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) {
+        UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateCard,stateGame,attacked,effectCard,error);
+        notifyObservers(usePowerUpCardMessage);
     }
 
     @Override

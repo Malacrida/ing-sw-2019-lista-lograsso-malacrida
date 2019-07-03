@@ -93,22 +93,6 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         output.reset();
     }
 
-
-   /* @Override
-    public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException {
-        //send(heartbeatMessage);
-    }*/
-
-    @Override
-    public void reconnectClient(Socket client, String nickname) throws RemoteException {
-
-    }
-
-    @Override
-    public void removeToTheClient(String name) throws RemoteException {
-
-    }
-
     @Override
     public void receiveChooseActionMove(String player, int numAction) throws RemoteException {
 
@@ -135,7 +119,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveReload(String player) throws RemoteException {
+    public void receiveReload(String player, int[] weaponCard, int[][] payment) throws RemoteException {
 
     }
 
@@ -145,12 +129,12 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException {
+    public void receiveUsePowerUpCard(String player) throws RemoteException {
 
     }
 
     @Override
-    public void receiveWeaponCardChoice(String player, int indexWeaponCard, String[] payment,/* ArrayList<InterfacePowerUpCard> powerUpCards,*/ boolean grab) throws RemoteException {
+    public void receiveWeaponCardChoice(String player, int indexWeaponCard, int[] payment) throws RemoteException {
 
     }
 
@@ -163,6 +147,14 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     public void receiveConnectionMove(String player, int connection) throws RemoteException {
 
     }
+
+
+   /* @Override
+    public void sendHeartBeat(HeartbeatMessage heartbeatMessage) throws RemoteException {
+        //send(heartbeatMessage);
+    }*/
+
+
 
 
 

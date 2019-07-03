@@ -55,11 +55,29 @@ public class Lobby implements LobbyInterface {
     }
 
 
-    public void disconnectedClient(String nickname){
-      /*  if (clientConnected.containsKey(nickname)) {
-            clientDisconnected.put(nickname, clientConnected.get(nickname));
-            clientConnected.remove(nickname);
-        }*/
+    public void analyzeConnectionClient(String nickname, int connection){
+        if (alreadyExistNickname(nickname)){
+            for (int i=0; i<connectedClients.size(); i++){
+                if (connectedClients.get(i).getNickname().equals(nickname)){
+                    if (connection==0){
+                        connectedClients.get(i).setActive(false);
+                        System.out.println("ho disconnesso :" + nickname);
+                    }
+                    if (connection==1){
+                        connectedClients.get(i).setActive(true);
+                        System.out.println("ho riconesso :" + nickname);
+                    }
+                }
+            }
+        }
+    }
+
+    public void riconnectedClient (String nickname){
+        if (alreadyExistNickname(nickname)){
+            for (int i=0; i<connectedClients.size(); i++){
+
+            }
+        }
     }
 
 
@@ -158,15 +176,15 @@ public class Lobby implements LobbyInterface {
             System.out.println(virtualViewRmi.getNickname());
         }
 
-        for(VirtualViewRmi virtualViewRmi : virtualViewRmis){
-            virtualViewRmi.startView();
-            System.out.println(virtualViewRmi.getNickname());
-
         for (VirtualViewSocket aVirtualViewSocket: virtualViewsSocket){
             aVirtualViewSocket.registerObserver(controller);
             System.out.println(aVirtualViewSocket.getNickname());
         }
 
+        for(VirtualViewRmi virtualViewRmi : virtualViewRmis) {
+            virtualViewRmi.startView();
+            System.out.println(virtualViewRmi.getNickname());
+        }
 
 
         for(VirtualViewSocket aVirtualViewSocket : virtualViewsSocket){

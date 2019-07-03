@@ -552,6 +552,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             }
             else if (actionChoosen==9){
                 notifyObservers(new ConnectionMove(nicknamePlayer, 0));
+                reconnectClient();
+                return;
             }
             else if (actionChoosen >= 0 && actionChoosen < actionMessage.getActionPlayerCanPerform().size())
                 okInput = true;
@@ -736,5 +738,19 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void failRegistration(FailRegistration failRegistration) {
         System.out.println("too many people : OUT");
+    }
+
+    public void reconnectClient (){
+        Scanner input = new Scanner(System.in);
+        int chosen;
+
+        do{
+            System.out.println("Insert 1 to reconnect to the server");
+            chosen = input.nextInt();
+            if (chosen == 1){
+                notifyObservers(new ConnectionMove(nicknamePlayer,1));
+                return;
+            }
+        }while (chosen!=1);
     }
 }

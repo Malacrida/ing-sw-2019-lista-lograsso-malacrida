@@ -31,30 +31,27 @@ public interface ClientInterface extends Remote {
 
     public void logInFail () throws RemoteException;
 
-    public void createActionMessage(String nickname) throws RemoteException;
-
-    public void createSetupView(String idMoveMessage, ArrayList<String> colorAvailable) throws RemoteException;
+    public void createActionMessage(String nicknamePlayer,String[] actionYouCanPerform,ArrayList<String> actionPlayerCanPerform,ArrayList<Integer> intIdAction)throws RemoteException;
 
     public void createRun(String nicknamePlayer, String error, int numMovement) throws RemoteException;
 
-    public void createGrab(String nicknamePlayer) throws RemoteException;
+    public void createGrab(String nicknamePlayer, String error,String[] weaponCardAvailable,int[] featuresAvailable,boolean grabWeapon, String ammoTileDescription, String powerUpDescription) throws RemoteException;
 
-    public void createReload(String nicknamePlayer) throws RemoteException;
+    public void createReload(String nicknamePlayer, int[] featuresAvailable, int[] weaponYouCanReload, String error) throws RemoteException;
 
     public void createUpdateView(String nicknamePlayer,String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable,String[][] weaponCardDescription, String[][] powerUpCardDescription,boolean notifyAll) throws RemoteException;
 
-    public void createOkRegistration(String nicknamePlayer, String actionHero, ArrayList<String> colors) throws RemoteException;
-
     public void createWaitForStart(String nicknamePlayer) throws RemoteException;
 
-    public void createUseWeaponCard(String nicknamePlayer) throws RemoteException;
+    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error)throws RemoteException;
 
-    public void createPowerUpChoice(String nicknamePlayer,String[] descriptionPowerUp, int[] idPowerUp) throws RemoteException;
-
-    public void createUsePowerUpCard(String nicknamePlayer) throws RemoteException;
+    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) throws RemoteException;
 
     public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException;
 
     public void createFailRegistration(String nicknamePlayer) throws RemoteException;
+
+    public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp ) throws RemoteException ;
+
 
 }
