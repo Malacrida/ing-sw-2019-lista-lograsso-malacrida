@@ -42,27 +42,31 @@ public class Flamethrower extends AbstractWeaponCard {
         char dir1;
         char dir2;
 
+        if (visilePlayers.contains(defenders.get(0))){
 
-        if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //SE È IN UNA CELLA ADIACENTE
-            dir1 = direction(attacker, defenders.get(0)); //SALVO LA DIREZIONE
+            if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //SE È IN UNA CELLA ADIACENTE
+                dir1 = direction(attacker, defenders.get(0)); //SALVO LA DIREZIONE
 
-            try{
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //FAI UN DANNO
-            } catch (DamageTrackException e) {
-                e.getMessage();
-            }
-
-            dir2 = direction(attacker, defenders.get(1)); //SALVO LA DIREZIONE DEL SECONDO DIFENSORE RISPETTO ALL'ATTACCANTE
-
-            if ((gameBoard.isSquareAvailableOnArena(defenders.get(0), defenders.get(1).getX(), defenders.get(1).getY())) && (dir1 == dir2)){ //SE LA SECONDA CELLA È ADIACENTE ALLA PRIMA E LA dir1 = dir2 (STESSA DIREZIONE) ALLORA FAI UN DANNO
                 try{
-                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //FAI UN DANNO
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
+
+                dir2 = direction(attacker, defenders.get(1)); //SALVO LA DIREZIONE DEL SECONDO DIFENSORE RISPETTO ALL'ATTACCANTE
+
+                if ((gameBoard.isSquareAvailableOnArena(defenders.get(0), defenders.get(1).getX(), defenders.get(1).getY())) && (dir1 == dir2)){ //SE LA SECONDA CELLA È ADIACENTE ALLA PRIMA E LA dir1 = dir2 (STESSA DIREZIONE) ALLORA FAI UN DANNO
+                    try{
+                        defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    } catch (DamageTrackException e) {
+                        e.getMessage();
+                    }
+                }
             }
-        }
-        else {
+            else {
+                throw new ErrorEffectException();
+            }
+        } else {
             throw new ErrorEffectException();
         }
     }

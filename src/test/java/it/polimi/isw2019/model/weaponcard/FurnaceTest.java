@@ -18,7 +18,9 @@ public class FurnaceTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     Furnace card = new Furnace();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[6];
+    int [] coordinates2 = new int[6];
 
     @Before
     public void setUp() throws Exception {
@@ -53,11 +55,15 @@ public class FurnaceTest {
         gameBoard.changePositionPlayer(fourDefender, 1, 2);
 
         coordinates = new int[]{1, 2, 1, 2, 1, 2};
+        coordinates2[0] = 1;
+        coordinates2[1] = 1 ;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
         defenders.add(fourDefender);
+
+        defenders2.add(null);
     }
 
     @Test
@@ -70,8 +76,10 @@ public class FurnaceTest {
 
     }
 
+
+
     @Test
-    public void secondEffect() throws ErrorEffectException {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
         System.out.println(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]));
         System.out.println(card.oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]));
         System.out.println(gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null));
@@ -82,6 +90,16 @@ public class FurnaceTest {
         assertEquals(1, pb3.numOfDamages());
         assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
         assertEquals(1, pb3.numOfMarkOfOneColor(attacker.getColor()));
+    }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 0, 2);
+        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(thirdDefender, 0, 2);
+        gameBoard.changePositionPlayer(fourDefender, 0, 2);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+
     }
 
     @Test (expected = NoEffectException.class)

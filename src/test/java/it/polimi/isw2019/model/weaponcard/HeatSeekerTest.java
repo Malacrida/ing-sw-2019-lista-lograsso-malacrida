@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.security.auth.DestroyFailedException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -18,6 +19,7 @@ public class HeatSeekerTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     HeatSeeker card = new HeatSeeker();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[4];
 
     @Before
@@ -53,7 +55,6 @@ public class HeatSeekerTest {
 
         defenders.add(firstDefender);
 
-
     }
 
     @After
@@ -62,24 +63,15 @@ public class HeatSeekerTest {
 
     @Test
     public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        assertFalse(visiblePlayers.contains(firstDefender));
+        assertEquals(3, pb1.numOfDamages());
+    }
 
-        /*try{
-            card.firstEffect(gameBoard, attacker, defenders, coordinates);
-
-
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-
-
-            assertFalse(visiblePlayers.contains(firstDefender));
-
-
-            assertEquals(3, pb1.numOfDamages());
-
-
-
-        } catch (ErrorEffectException e) {
-            e.printStackTrace();
-        }*/
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders2, coordinates);
     }
 
     @Test (expected = NoEffectException.class)
