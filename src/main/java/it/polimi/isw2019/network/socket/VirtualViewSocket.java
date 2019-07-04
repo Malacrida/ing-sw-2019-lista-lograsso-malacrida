@@ -10,7 +10,7 @@ import it.polimi.isw2019.utilities.Observer;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface  {
+public class VirtualViewSocket extends Observable<PlayerMove> implements Observer<MoveMessage>, VirtualViewVisitorInterface {
 
     private FirstMessage firstMessage = null;
     private FirstMessage newFirstMessage = null;
@@ -18,16 +18,16 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     private ServerImplementationSocket serverImplementationSocket;
     private ClientSocket clientSocket;
 
-    public VirtualViewSocket(String nickname, ClientSocket clientSocket){
+    public VirtualViewSocket(String nickname, ClientSocket clientSocket) {
         this.nickname = nickname;
         this.clientSocket = clientSocket;
     }
 
-    public void receivePlayerMove (PlayerMove playerMove){
+    public void receivePlayerMove(PlayerMove playerMove) {
         System.out.println("evviva");
         System.out.println("player: " + playerMove.getPlayer());
         System.out.println(playerMove);
-        if (playerMove.getClass().equals(firstMessage)){
+        if (playerMove.getClass().equals(firstMessage)) {
             firstMessage = (FirstMessage) playerMove;
             newFirstMessage = new FirstMessage(this, firstMessage.getPlayer(), firstMessage.getActionHero());
             notifyObservers(newFirstMessage);
@@ -89,9 +89,4 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
     }
-
-    @Override
-    public void sendFailRegistration(FailRegistration failRegistration) {
-    }
-
 }

@@ -59,6 +59,10 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     }
 
+    @Override
+    public void reconnectionClient() throws RemoteException {
+        System.out.println("reconnection to the server");
+    }
 
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
@@ -123,7 +127,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendGrab(GrabMove grabMove) {
         try {
-            server.receiveGrab(grabMove.getPlayer());
+            server.receiveGrab(grabMove.getPlayer(), grabMove.getPositionWeaponCard(), grabMove.getPayment());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -185,7 +189,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUseWeaponCard(UseWeaponCard useWeaponCard) {
         try {
-            server.receiveUseWeaponCard(useWeaponCard.getPlayer(),useWeaponCard.getWeaponCard());
+            server.receiveUseWeaponCard(useWeaponCard.getPlayer(),useWeaponCard.getWeaponCard(), useWeaponCard.getEffectUsed(), useWeaponCard.getHandleEffectCoordinates(),useWeaponCard.getPeopleToBeShoot());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -248,10 +252,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
 
     @Override
-    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) {
-
-       /* UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateCard,stateGame,attacked,effectCard,error);
-        notifyObservers(usePowerUpCardMessage);*/
+    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) {
+        UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateGame,canBeUsed,error, cooPlayer);
+        notifyObservers(usePowerUpCardMessage);
     }
 
     @Override
@@ -263,14 +266,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
 
     @Override
-    public void createFailRegistration(String nicknamePlayer) {
-        FailRegistration failRegistration = new FailRegistration(nicknamePlayer);
-        notifyObservers(failRegistration);
-    }
-
-
-
-    @Override
     public void setNickname(String nickname) {
 
     }
@@ -279,6 +274,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     public String getNickname() {
         return null;
     }
+
 
     @Override
     public Boolean isYourTurn() throws RemoteException {

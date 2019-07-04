@@ -27,7 +27,7 @@ public class Player{
 
     private boolean frenzy;
 
-    private boolean isTerminator;
+    private boolean isTerminator = false;
     private boolean moveTerminator;
 
     private int runAndGrab;
@@ -40,7 +40,7 @@ public class Player{
     private boolean firstTurn;
 
     private int numActionPerformed;
-    private int numActionToBePerformed = 1;
+    private int numActionToBePerformed = 2;
     private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
 
@@ -742,11 +742,13 @@ public class Player{
 
             messageToBeSent.clear();
             numActionCancelled = 0;
+
             if(isTerminator)
-                numActionToBePerformed = 3;
-            else
                 numActionToBePerformed = 2;
+            else
+                numActionToBePerformed = 1;
         }
+
         if(endTurn){
 
             if (!powerUpCards.isEmpty() && canAddPowerUp()) {
@@ -790,7 +792,6 @@ public class Player{
 
         messageToBeSent.clear();
         numActionCancelled = 0;
-        numActionPerformed = 0;
 
         return actionMessage;
     }
@@ -886,11 +887,10 @@ public class Player{
             }
              else {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
+                 numActionPerformed = 0;
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
                     return false;
-                } else if(endTurn) {
-                    return false;
-                } else{
+                } else {
                     return messageToBeSent.add(tmpMessage);
                 }
             }

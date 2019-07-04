@@ -22,10 +22,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         active=true;
     }
 
-    public void registrationController(MainController controller){
-        this.registerObserver(controller);
-        //System.out.println("start view di :" +networkHandler);
-        //startView();
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public void startView (){
@@ -42,10 +40,17 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         return nickname;
     }
 
+    public void setNetworkHandler(ClientInterface networkHandler) {
+        this.networkHandler = networkHandler;
+    }
+
     @Override
     public void update(MoveMessage message) {
-        if (active){
+        System.out.println("ricevo un messagio per: "+message.getNicknamePlayer() +" sono in :"+nickname);
+        if (active && (message.getNicknamePlayer().equals(nickname) || message.isNotifyAll())){
             message.accept(this);
+            System.out.println("procedo con l'update per: " + message.getNicknamePlayer());
+            System.out.println("sono in : " +nickname);
         }
     }
 
@@ -61,7 +66,6 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
 
     public void createChooseActionMove (String player, int numAction){
         ChooseActionMove chooseActionMove= new ChooseActionMove(player,numAction);
-        System.out.println("ricreo la player move di: "+ player);
         notifyObservers(chooseActionMove);
     }
 
@@ -75,17 +79,14 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         notifyObservers(runMove);
     }
 
-    public void createGrab(String player){
-        GrabMove grabMove= new GrabMove(player);
+    public void createGrab(String player, int positionWeaponCard, int[] paymen){
+        GrabMove grabMove= new GrabMove(player, positionWeaponCard, paymen);
         notifyObservers(grabMove);
     }
 
     public void createRegisterPlayer( String player, String actionHero){
-        System.out.println("ricreo una registrazione");
         FirstMessage firstMessage = new FirstMessage(this, player, actionHero);
         notifyObservers(firstMessage);
-
-        System.out.println("forzo rinvio");
     }
 
     public void createReload(String player, int[] weaponCard, int[][] payment){
@@ -108,8 +109,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         notifyObservers(weaponCardChoice);
     }
 
-    public void createUseWeaponCard (String player, int weaponCard){
-        UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard);
+    public void createUseWeaponCard (String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot){
+        UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard, effectUsed, handleEffectCoordinates, peopleToBeShoot);
         notifyObservers(useWeaponCard);
     }
 
@@ -170,7 +171,6 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     @Override
     public void sendWaitForStart(EndRegistration endRegistration) {
         try {
-            System.out.println("ritorno endRegistration");
             networkHandler.createWaitForStart(endRegistration.getNicknamePlayer());
         }
         catch (RemoteException e) {
@@ -180,7 +180,12 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
 
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
-
+        try {
+            networkHandler.createUseWeaponCardMessage(useWeaponCardMessage.getNicknamePlayer(),useWeaponCardMessage.getWeaponCard(), useWeaponCardMessage.getFeaturesAvailable(), useWeaponCardMessage.getPlayersToAttack(), useWeaponCardMessage.getError());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -196,6 +201,12 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
 
     @Override
     public void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
+        try {
+            networkHandler.createUsePowerUpCard(usePowerUpCardMessage.getNicknamePlayer(), usePowerUpCardMessage.getFeaturesAvailable(),usePowerUpCardMessage.getStateGame(),usePowerUpCardMessage.getCanBeUsed(), usePowerUpCardMessage.getError(), usePowerUpCardMessage.getCooPlayer());
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -208,14 +219,5 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         }
     }
 
-    @Override
-    public void sendFailRegistration(FailRegistration failRegistration) {
-        try {
-            networkHandler.createFailRegistration(failRegistration.getNicknamePlayer());
-        }
-        catch (RemoteException e) {
-            e.printStackTrace();
-        }
 
-    }
 }

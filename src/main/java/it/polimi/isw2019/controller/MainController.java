@@ -32,8 +32,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
 
-
-      /*  if (firstMessage.getVirtualViewSocket()==null){
+        /*
+        if (firstMessage.getVirtualViewSocket()==null){
             model.registerObserver(firstMessage.getVirtualViewRmi());
             try{
                 model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
@@ -49,12 +49,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 model.unregisterObserver(firstMessage.getVirtualViewSocket());
             }
         }*/
-            model.registerObserver(firstMessage.getCLIView());
-            try{
-                model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
-            } catch(IndexOutOfBoundsException e){
-                model.unregisterObserver(firstMessage.getCLIView());
-            }
+
+        model.registerObserver(firstMessage.getVirtualViewRmi());
+        try{
+            model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
+        } catch(IndexOutOfBoundsException e){
+            model.unregisterObserver(firstMessage.getVirtualViewRmi());
+        }
 
     }
 
