@@ -47,6 +47,7 @@ public class RailGun extends AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
@@ -72,17 +73,19 @@ public class RailGun extends AbstractWeaponCard {
     public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         char firstDirection = direction(attacker, defenders.get(0));
-        char secondDirection = direction(attacker, defenders.get(0));
+        char secondDirection = direction(attacker, defenders.get(1));
 
         if ((firstDirection != 'n') && (firstDirection == secondDirection)){
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException  e) {
                 e.getMessage();
             }
             try {
                 defenders.get(1).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }

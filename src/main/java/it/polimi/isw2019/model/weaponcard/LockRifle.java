@@ -43,6 +43,7 @@ public class LockRifle extends AbstractWeaponCard {
         if (visiblePlayers.contains(defenders.get(0))){
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 1);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }

@@ -47,6 +47,7 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
@@ -109,21 +110,14 @@ public class RocketLauncher extends  AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
 
             ArrayList<Player> playerList = gameBoard.playersInOneSquare(defenders.get(0).getX(), defenders.get(0).getY(), null);
 
-            for (Player aPlayerList : playerList) {
-
-                try {
-                    aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (DamageTrackException  e) {
-                    e.getMessage();
-                }
-
-            }
+            oneDamageMorePlayers(gameBoard, attacker, playerList);
 
             if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) { //tenere conto che le prime coordinate sono per il movimento del defenders.get(0) quando viene invocato questa carta
 

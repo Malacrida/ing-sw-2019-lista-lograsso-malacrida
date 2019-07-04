@@ -244,27 +244,13 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         }
     }
 
-    /* 1 danno a tutti i player in una cella */
-
-    protected void oneDamageAllPlayersInOneSquare(Player attacker, ArrayList<Player> playerList) {
-        for (Player aPlayerList : playerList) {
-
-            try {
-
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-
-            } catch (DamageTrackException e) {
-                e.getMessage();
-            }
-        }
-    }
-
     /* danni a un giocatore nella stessa stanza dell'attaccante*/
 
     protected void damagesInSameSquare(Player attacker, Player defender, int damages) throws ErrorEffectException { //utile per SledgeHammer e CyberBlade
         if (sameSquare(attacker.getX(), attacker.getY(), defender.getX(), defender.getY())){
             try {
                 defender.sufferDamageOrMark(attacker.getColor(),damages,0);
+
             }catch (DamageTrackException e){
                 e.getMessage();
             }
@@ -328,6 +314,53 @@ public abstract class AbstractWeaponCard implements WeaponCardInterface {
         for(int i=0;i<getInfoEffect().length; i++)
             weaponCardDescription += getInfoEffect()[i] + " ";
         weaponCardDescription += "\n";
+    }
+
+    public void controlPlayersDamages(GameBoard gameBoard, Player player){
+        gameBoard.addPlayerShooted(player);
+        if (player.getRealPlayerBoard().numOfDamages() == 11){
+            gameBoard.addKillPlayer(player);
+        }
+        else if (player.getRealPlayerBoard().numOfDamages() == 12){
+            gameBoard.addOverKillPlayer(player);
+        }
+    }
+
+    /**
+     * Give a damage to all players in one square
+     * @param gameBoard gameboard
+     * @param attacker player that give damage
+     * @param defenders players that suffer damage
+     */
+
+    protected void oneDamageMorePlayers(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders){
+        for (Player player : defenders) {
+
+            try {
+                player.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, player);
+            } catch (DamageTrackException e) {
+                e.getMessage();
+            }
+        }
+    }
+    /**
+     * Give two damage to all players in one square
+     * @param gameBoard gameboard
+     * @param attacker player that give damages
+     * @param defenders players that suffer damages
+     */
+
+    protected void twoDamageMorePlayers(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders){
+        for (Player player : defenders) {
+
+            try {
+                player.sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, player);
+            } catch (DamageTrackException e) {
+                e.getMessage();
+            }
+        }
     }
 
     public String getWeaponCardDescription(){

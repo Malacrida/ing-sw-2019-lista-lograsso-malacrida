@@ -35,6 +35,7 @@ public class Hellion extends AbstractWeaponCard {
         if(visiblePlayers.contains(defenders.get(0))){ // se defenders.get(0) è contenuto nella lista di player visiili dall'attaccante allora procedo
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
