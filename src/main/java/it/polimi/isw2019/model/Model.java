@@ -22,6 +22,7 @@ public class Model extends Observable {
     private AbstractWeaponCard tmpWeaponCard;
     private int mod;
     private int frenzyPlayer;
+    private boolean isFrenzy = false;
 
     //assume that the player are in order!!
     //se un giocatore si disconnette, mettiamo il suo STATO a DISCONNECTED
@@ -140,6 +141,7 @@ public class Model extends Observable {
      * @param actionHeroComment action phrase of player
      * @throws IndexOutOfBoundsException
      */
+
     public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException {
 
         if(players.size()<5) {
@@ -257,7 +259,7 @@ public class Model extends Observable {
      * method to change turn
      */
 
-    public void changePlayer(){
+    /*public void changePlayer(){
          //end turn !!
         //updateEndTurn();
 
@@ -269,13 +271,13 @@ public class Model extends Observable {
             currentPlayer = players.get(index + 1);
         }
 
-        if(!currentPlayer.isActive())
-             changePlayer();
+        //if(!currentPlayer.isActive())
+             //changePlayer();
 
-        if(sizeActivePlayer() < 3) {
-            // end game
-        }
-        else{
+       // if(sizeActivePlayer() < 3) {
+            //// end game
+       // }
+        //else{
             if (!killShotTrack.isFinalFrenzy()) {
 
                 if (deadPlayer.contains(currentPlayer)) {
@@ -294,8 +296,39 @@ public class Model extends Observable {
             } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
                 //endgame
             }
+        //}
+
+
+    }*/
+
+
+    public void changePlayer(){
+        //end turn !!
+        int index = players.indexOf(currentPlayer);
+
+        if (index == players.size() - 1) {
+            currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(index + 1);
         }
 
+        if(!isFrenzy) {
+
+           /* if (deadPlayer.contains(currentPlayer)) {
+                updatePlayerDeath();
+            }*/
+            sendUpdateMessage();
+            handleNormalTurn();
+        }
+
+        else if(isFrenzy && frenzyPlayer!= 0){
+            frenzyPlayer --;
+            handleNormalTurn();
+        }
+
+        else{
+            //endgame
+        }
 
     }
 
@@ -1136,14 +1169,19 @@ public class Model extends Observable {
      *  method to see player's coordinates in the game
      * @return
      */
+
+
     public int[][] returnCoordinatesOfPlayerInGame(){
-           int[][] coordinatesPlayerInGame = new int[players.size()][3];
+           int[][] coordinatesPlayerInGame = new int[players.size()+1][3];
            for(int i = 0; i < players.size(); i++){
                coordinatesPlayerInGame[i][0] = players.get(i).getIndexPlayer();
                coordinatesPlayerInGame[i][1] = players.get(i).getX();
                coordinatesPlayerInGame[i][2] = players.get(i).getY();
            }
-           return coordinatesPlayerInGame;
+        coordinatesPlayerInGame[players.size()][0] = -1;
+        coordinatesPlayerInGame[players.size()][1] = terminator.getX();
+        coordinatesPlayerInGame[players.size()][2] = terminator.getY();
+        return coordinatesPlayerInGame;
         }
 
     public void updateEndTurn(){
