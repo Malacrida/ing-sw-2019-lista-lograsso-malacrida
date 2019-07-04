@@ -93,6 +93,7 @@ public class CyberBlade extends AbstractWeaponCard{
             damagesInSameSquare(attacker, defenders.get(1), 2);
             controlPlayersDamages(gameBoard, defenders.get(1));
         }
+        else throw new ErrorEffectException();
     }
 
 

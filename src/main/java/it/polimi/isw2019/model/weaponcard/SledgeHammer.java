@@ -60,11 +60,13 @@ public class SledgeHammer extends AbstractWeaponCard {
             if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
 
                 gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
-            }
-            if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))){
 
-                gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+                if ((coordinates[2] != -1) && (coordinates[3] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[2], coordinates[3]))){
+
+                    gameBoard.changePositionPlayer(defenders.get(0), coordinates[2], coordinates[3]);
+                }
             }
+
 
         } else {
             throw new ErrorEffectException();

@@ -80,7 +80,7 @@ public class PlasmaGun extends AbstractWeaponCard{
 
         /* PAGA UN BLU */
 
-        if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), firstIsValid)){ //se quella funzione torna falso allora lancia l'eccezione
+        if (!oneDamageIfFirstIsValid(attacker, defenders.get(0), this.firstIsValid)){ //se quella funzione torna falso allora lancia l'eccezione
             throw new ErrorEffectException();
         }
     }

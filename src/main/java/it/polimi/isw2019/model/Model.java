@@ -283,10 +283,10 @@ public class Model extends Observable<MoveMessage> {
             System.out.println("number of player less 3");
             // end game
         }
-
         else{
             if (!killShotTrack.isFinalFrenzy()) {
-                updatePlayerDeath();
+                //updatePlayerDeath();
+                updateEndTurn();
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
@@ -462,10 +462,6 @@ public class Model extends Observable<MoveMessage> {
      */
 
     public void updateGameStatus(){
-
-        //entireGameDescription = "GameBoard";
-        //gameBoard.setGameBoardDescription();
-        //entireGameDescription += gameBoard.getGameBoardDescription();
         getGameBoard().getGameArena().setArenaRepresentation();
         entireGameDescription += gameBoard.getGameArena().getArenaRepresentation();
         for(Player player : players) {
@@ -504,6 +500,9 @@ public class Model extends Observable<MoveMessage> {
        else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
             currentPlayer.setPlayerInUsePowerUpMessage(returnCoordinatesOfPlayerInGame());
         }
+       else if(currentPlayer.getSingleMessageToBeSent() instanceof TerminatorMessage){
+            currentPlayer.setPlayerInUseTerminator(returnCoordinatesOfPlayerInGame());
+       }
         sendMessage();
 
       // notifyObservers(currentPlayer.getSingleMessageToBeSent());
@@ -554,7 +553,7 @@ public class Model extends Observable<MoveMessage> {
                // notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
             } else {
-                ChoiceCard choiceCard = new ChoiceCard(currentPlayer.getName());
+               // ChoiceCard choiceCard = new ChoiceCard(currentPlayer.getName());
                 tmpWeaponCard = gameBoard.getWeaponCardFromGameboard();
                 String[] repWeapon = {tmpWeaponCard.getWeaponCardDescription()};
                 int[] idWeapon = {tmpWeaponCard.getID()};
@@ -933,28 +932,6 @@ public class Model extends Observable<MoveMessage> {
         updateCorrectAction();
     }
 
-    //think about it
-    public ArrayList<Player> fromArrayToArrayListPlayer(int[] defenders){
-        ArrayList<Player> playerDefender = new ArrayList<>();
-        for(int i = 0; i < defenders.length; i++){
-            playerDefender.add(players.get(defenders[i]));
-        }
-        return playerDefender;
-    }
-
-    public void insertDeadPlayer(ArrayList<Player> players){
-        for(Player player : players){
-            if(player.getRealPlayerBoard().numOfDamages()>= 1){
-                deadPlayer.add(player);
-            }
-        }
-    }
-
-    public void insertShootPlayer(ArrayList<Player> players){
-        for(Player player : players){
-            shootPlayer.add(player);
-        }
-    }
 
     public ArrayList<Player> playerToBeShoot(int[] coordinates, int maxPeopleToBeShoot){
         ArrayList<Player> player = new ArrayList<>();
@@ -1069,15 +1046,40 @@ public class Model extends Observable<MoveMessage> {
     }
 
 
-    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[] coo){
+    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[][] coo){
 
         PowerUpCard powerUpCard = currentPlayer.getPowerUpCards().get(positionPowerUp);
 
-        try {
-            powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo[0], coo[1]);
+        switch(powerUpCard.getName()){
+            case "Targeting Scope":
+                if(!currentPlayer.getRealPlayerBoard().handlePaymentAnyCubes()){
+                    updateNotCorrectAction("Cannot use that power up card");
+                }
+                return;
+            case "Tagback Grenade":
+                if(positionPlayer == -1){
+                    updateNotCorrectAction("Cannot mark terminator");
+                    return;
+                } else if(!gameBoard.getPlayersShooted().contains(players.get(positionPlayer))){
+                    updateNotCorrectAction("Cannot mark him");
+                    return;
+                }
+                break;
+            default:
 
-        }catch(DamageTrackException e){
-            //mettere nei player morti
+        }
+
+        try {
+
+            Player tmp;
+            if(positionPlayer == -1)
+                tmp = terminator;
+            else
+                tmp = players.get(positionPlayer);
+            //da cambiare
+            powerUpCard.effect(gameBoard, currentPlayer, tmp,1,1);
+        }
+        catch(DamageTrackException e){
         }
 
         currentPlayer.getPowerUpCards().remove(powerUpCard);
@@ -1223,7 +1225,7 @@ public class Model extends Observable<MoveMessage> {
         }
 
     public void updateEndTurn(){
-
+        gameBoard.getPlayersShooted().clear();
         gameBoard.getGameArena().setStatusCardOnBoard();
         updatePlayerDeath();
 
@@ -1334,7 +1336,7 @@ public class Model extends Observable<MoveMessage> {
     }
 
     public void sendMessage (){
-        timer.startTimer();
+        //timer.startTimer();
         notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 

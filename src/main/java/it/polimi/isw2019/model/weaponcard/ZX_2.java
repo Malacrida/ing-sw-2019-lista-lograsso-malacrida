@@ -68,7 +68,7 @@ public class ZX_2 extends AbstractWeaponCard {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if((!defenders.isEmpty()) && (defenders.size() < 3)){
+        if((!defenders.isEmpty()) && (defenders.size() < 4)){
 
             for (Player defender : defenders) {
                 if (visiblePlayers.contains(defender)) {

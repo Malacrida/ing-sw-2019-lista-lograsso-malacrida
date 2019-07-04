@@ -27,7 +27,7 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
         System.out.println("evviva");
         System.out.println("player: " + playerMove.getPlayer());
         System.out.println(playerMove);
-        if (playerMove.getClass().equals(firstMessage)) {
+        if (playerMove instanceof FirstMessage) {
             firstMessage = (FirstMessage) playerMove;
             newFirstMessage = new FirstMessage(this, firstMessage.getPlayer(), firstMessage.getActionHero());
             notifyObservers(newFirstMessage);

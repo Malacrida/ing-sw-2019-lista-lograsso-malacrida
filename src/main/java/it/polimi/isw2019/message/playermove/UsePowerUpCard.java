@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class UsePowerUpCard extends PlayerMove {
 
-    private int[] coordinates;
+    private int[][] coordinates;
     private int idPlayer;
     private boolean defend;
     private int positionPowerUp;
@@ -16,7 +16,7 @@ public class UsePowerUpCard extends PlayerMove {
         super(player);
     }
 
-    public UsePowerUpCard(String player, String error, int[] coordinates, int idPlayer, boolean defend, int positionPowerUp) {
+    public UsePowerUpCard(String player,int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp) {
         super(player);
         this.coordinates = coordinates;
         this.idPlayer = idPlayer;
@@ -35,11 +35,11 @@ public class UsePowerUpCard extends PlayerMove {
         networkHandler.sendUsePowerUpCard(this);
     }
 
-    public int[] getCoordinates() {
+    public int[][] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(int[] coordinates) {
+    public void setCoordinates(int[][] coordinates) {
         this.coordinates = coordinates;
     }
 

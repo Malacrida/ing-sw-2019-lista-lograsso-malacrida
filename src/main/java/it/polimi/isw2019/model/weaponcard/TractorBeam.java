@@ -82,9 +82,9 @@ public class TractorBeam extends AbstractWeaponCard {
                 }
             }
 
-            if (sameSquare(attacker.getX(), attacker.getY(), defenders.get(1).getX(), defenders.get(1).getY())) {
+            if (sameSquare(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY())) {
                 try {
-                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 3, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 0);
                     controlPlayersDamages(gameBoard, defenders.get(1));
                 } catch (DamageTrackException e) {
                     e.getMessage();

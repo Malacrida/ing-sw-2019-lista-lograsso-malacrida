@@ -1,7 +1,6 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
-import it.polimi.isw2019.message.playermove.UsePowerUpCard;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -29,7 +28,6 @@ public class Player{
     private boolean frenzy;
 
     private boolean isTerminator = false;
-    private boolean moveTerminator;
 
     private int runAndGrab;
     private int run;
@@ -44,6 +42,7 @@ public class Player{
     private int numActionToBePerformed = 2;
     private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
+    private int numActionTerminator;
 
     private int[] featuresAvailable = new int[6];
 
@@ -67,6 +66,9 @@ public class Player{
     private ArrayList<String> terminatorAction;
 
     private MoveMessage tmpMoveMessage;
+
+    private int setTerminatorSpawn;
+
 
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
@@ -129,15 +131,13 @@ public class Player{
             updateMessage((UseWeaponCardMessage) (messageToBeSent.get(0)));
         } else if(messageToBeSent.get(0) instanceof GrabMessage){
             updateMessage((GrabMessage) (messageToBeSent.get(0)));
-        }
+        } else if(messageToBeSent.get(0) instanceof TerminatorMessage)
+            updateMessage((TerminatorMessage) (messageToBeSent.get(0)));
 
         return messageToBeSent.get(0);
     }
 
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
-        //usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
-        //inserito in base allo state -> vedo dove farlo!
-        //usePowerUpCardMessage.setStateGame(stateGame);
         usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
 
     }
@@ -150,6 +150,10 @@ public class Player{
 
     }
 
+    public void updateMessage(TerminatorMessage terminatorMessage){
+        terminatorMessage.setCooPeople(playerToAttack);
+    }
+
     public void setPlayerInUseWeaponCardMessage(int[][] playerInUseWeaponCardMessage){
         playerToAttack = playerInUseWeaponCardMessage;
     }
@@ -158,6 +162,9 @@ public class Player{
         playerToAttack = playerInUseWeaponCardMessage;
     }
 
+    public void setPlayerInUseTerminator(int[][] playerInUSeTerminator){
+        playerToAttack = playerInUSeTerminator;
+    }
     public void updateMessage(ReloadMessage reloadMessage){
         reloadMessage.setWeaponYouCanReload(getWeaponDischarge());
     }
@@ -178,14 +185,6 @@ public class Player{
         this.name = name;
     }
 
-    public boolean isFrenzy() {
-        return frenzy;
-    }
-
-    public void setFrenzy(boolean frenzy) {
-        this.frenzy = frenzy;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -197,14 +196,17 @@ public class Player{
     public Player(int playerID){
         this.playerID = playerID;
     }
-
-    public void setNicknameAndActionHeroComment(String nickName, String actionHeroComment){
-        this.name = nickName;
-        this.actionHeroComment = actionHeroComment;
-    }
     public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
+    }
+
+    public int getNumActionTerminator() {
+        return numActionTerminator;
+    }
+
+    public void setNumActionTerminator(int numActionTerminator) {
+        this.numActionTerminator = numActionTerminator;
     }
 
     public void setFirstPlayer(boolean firstPlayer) {
@@ -435,7 +437,6 @@ public class Player{
     public void addScore (int point){
         score= score+point;
     }
-
     public ColorCube fromIntToColorCube(int idPowerUpCard) throws NotPossesPowerUp{
         for(PowerUpCard powerUpCard : powerUpCards){
             if(powerUpCard.getId() == idPowerUpCard)
@@ -711,12 +712,10 @@ public class Player{
     public void setTerminatorAction(){
         terminatorAction.clear();
         if(terminatorPlayer.playerDamage()>2){
-            terminatorAction.add("Give , also , one mark if you damage someone");
-
+            terminatorAction.add("DAMAGE SOMEONE THE TERMINATOR YOU SEE AND GIVE ONE MARK");
         }
         terminatorAction.add("RUN TIL ONE SQUARE");
         terminatorAction.add("DAMAGE SOMEONE THE TERMINATOR YOU SEE");
-
     }
 
     public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn1){
@@ -742,9 +741,11 @@ public class Player{
             }
 
             if(terminatorPlayer != null){
-                actionMessage.setTerminatorAction();
-                if(terminatorPlayer.playerDamage()> 2)
-                    actionMessage.setTerminatorFrenzyAction();
+                if(numActionTerminator == 1) {
+                    actionMessage.setTerminatorAction();
+                    if (terminatorPlayer.playerDamage() > 2)
+                        actionMessage.setTerminatorFrenzyAction();
+                }
             }
 
             if (!weaponCards.isEmpty()) {
@@ -762,11 +763,7 @@ public class Player{
 
             messageToBeSent.clear();
             numActionCancelled = 0;
-
-            if(isTerminator)
-                numActionToBePerformed = 2;
-            else
-                numActionToBePerformed = 1;
+            numActionToBePerformed = 1;
         }
 
         if(endTurn1){
@@ -870,6 +867,19 @@ public class Player{
             //fare modifiche
             messageToBeSent.add(powerUpCardMessage);
         }
+        else if(idAction==7){
+            TerminatorMessage terminatorMessage = new TerminatorMessage(name);
+            //terminator
+            terminatorMessage.setMovement(1);
+            terminatorMessage.setRunOrDamage(true);
+            messageToBeSent.add(terminatorMessage);
+        }
+        else if(idAction == 8){
+            TerminatorMessage terminatorMessage = new TerminatorMessage(name);
+            //terminator
+            terminatorMessage.setRunOrDamage(false);
+            messageToBeSent.add(terminatorMessage);
+        }
 
     }
 
@@ -899,16 +909,26 @@ public class Player{
         }
 
         else {
+
              if (numActionPerformed < numActionToBePerformed) {
                  messageToBeSent.clear();
+                 if(terminatorPlayer != null){
+                     if(tmpMoveMessage instanceof TerminatorMessage&& numActionTerminator == 1){
+                         numActionTerminator--;
+                     }
+                 }
+
                  if(!(tmpMoveMessage instanceof UsePowerUpCardMessage))
-                    numActionPerformed++;
+                     numActionPerformed++;
+
                  messageToBeSent.add(setCorrectNormalActionChooseMessages(false));
+
                  return true;
             }
              else {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
                  numActionPerformed = 0;
+                 numActionTerminator = 1;
                  endTurn = true;
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
                     return false;
@@ -919,15 +939,6 @@ public class Player{
         }
 
     }
-
-    public int getNumActionCancelled() {
-        return numActionCancelled;
-    }
-
-    public void setNumActionCancelled(int numActionCancelled) {
-        this.numActionCancelled = numActionCancelled;
-    }
-
 
     public void featuresAvailable(){
         if(playerBoard!= null) {
@@ -990,26 +1001,6 @@ public class Player{
      * @return effect
      */
 
-    public int[] effectPowerUpCard(){
-        int[] effectPowerUp = new int[powerUpCards.size()];
-        for(int i = 0 ; i < powerUpCards.size();i++){
-            switch (powerUpCards.get(i).getName()){
-                case "Newton":
-                    effectPowerUp[i] = 2;
-                    break;
-                case "Teleporter":
-                    effectPowerUp[i] = 1;
-                    break;
-                case "Tagback Grenade":
-                    effectPowerUp[i] = -1;
-                    break;
-                case "Targeting Scope":
-                    effectPowerUp[i] = -2;
-                    break;
-            }
-        }
-        return effectPowerUp;
-    }
 
     public ArrayList<ColorPlayer> returnKillDamage(){
         ArrayList<ColorPlayer> damage = new ArrayList<>();
