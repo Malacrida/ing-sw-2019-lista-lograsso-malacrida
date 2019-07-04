@@ -51,23 +51,22 @@ public class LockRifleTest {
     }
 
     @Test
-    public void testFirstEffect() {
-        try {
-            card.firstEffect(gameBoard, attacker, defenders, coordinates);
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-            System.out.println(visiblePlayers.get(0));
-            assertTrue(visiblePlayers.contains(firstDefender));
-            System.out.println(pb1.numOfDamages());
-            assertEquals(2, pb1.numOfDamages());
-        } catch (ErrorEffectException | DamageTrackException e) {
-            e.printStackTrace();
-        }
+    public void testFirstEffect() throws ErrorEffectException, DamageTrackException {
+
+        firstDefender.changePosition(2, 3, ColorRoom.YELLOW);
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
 
     }
 
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+            gameBoard.changePositionPlayer(firstDefender, 0,1);
+            gameBoard.changePositionPlayer(firstDefender, 1,1);
+            card.firstEffect(gameBoard, attacker, defenders, coordinates);
+    }
+
     @Test
-    public void testSecondEffect() {
-       try {
+    public void testSecondEffect() throws ErrorEffectException, DamageTrackException {
            card.firstEffect(gameBoard, attacker, defenders, coordinates);
            card.secondEffect(gameBoard,attacker,defenders,coordinates);
            System.out.println(defenders.get(1).getName());
@@ -77,11 +76,23 @@ public class LockRifleTest {
 
            assertEquals(1, pb2.numOfMarkOfOneColor(attacker.getColor()));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstIsValid = true;
+        gameBoard.changePositionPlayer(attacker, 0, 1);
+        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(secondDefender, 1, 3);
+        card.secondEffect(gameBoard,attacker,defenders,coordinates);
+    }
+
+    /*@Test (expected = DamageTrackException.class)
+    public void thirdTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstIsValid = true;
+        secondDefender.sufferDamageOrMark(attacker.getColor(), 0, 3);
+        card.secondEffect(gameBoard,attacker,defenders,coordinates);
+    }*/
 
 
     @Test (expected = NoEffectException.class)

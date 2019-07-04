@@ -1,11 +1,16 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 public class WhisperTest {
 
@@ -44,7 +49,7 @@ public class WhisperTest {
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
         gameBoard.changePositionPlayer(firstDefender, 0, 1);
-        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(firstDefender, 0, 0);
         gameBoard.changePositionPlayer(thirdDefender, 0, 1);
         gameBoard.changePositionPlayer(fourDefender, 0, 1);
 
@@ -64,15 +69,25 @@ public class WhisperTest {
     }
 
     @Test
-    public void firstEffect() {
-
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(3, pb1.numOfDamages());
     }
 
-    @Test
-    public void secondEffect() {
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 1, 0);
+
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
     }
 
-    @Test
-    public void thirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void secondEffect() throws NoEffectException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+    }
+
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }

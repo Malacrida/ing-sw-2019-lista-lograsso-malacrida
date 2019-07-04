@@ -31,19 +31,12 @@ public class Furnace extends AbstractWeaponCard {
      * @param y1 second coordinate of square
      */
 
-    private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1){
+    private void damageFurnace(GameBoard gameBoard, Player attacker, int x1, int y1) throws DamageTrackException {
 
         ArrayList<Player> playerList = gameBoard.playersInOneSquare(x1, y1, null);
 
         for (Player aPlayerList : playerList){
-
-            try {
-
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
-            } catch ( DamageTrackException e) {
-                e.getMessage();
-            }
-
+            aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
         }
 
     }
@@ -55,17 +48,10 @@ public class Furnace extends AbstractWeaponCard {
      * @param players array list of defenders
      */
 
-    private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, ArrayList<Player> players){
+    private void damageAndMarkFurnace(GameBoard gameBoard, Player attacker, ArrayList<Player> players) throws DamageTrackException {
 
         for (Player aPlayerList : players){
-
-            try {
-
-                aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
-            } catch ( DamageTrackException e) {
-                e.getMessage();
-            }
-
+            aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
         }
 
     }
@@ -114,7 +100,7 @@ public class Furnace extends AbstractWeaponCard {
      */
 
     @Override
-    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException {
+    public void secondEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playerList;
 
@@ -123,7 +109,7 @@ public class Furnace extends AbstractWeaponCard {
             if(oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1])) { //se dista esattamente 1
                 playerList = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null); //lista di tutti i giocatori all'interno di quella cella
 
-                if(playerList != null){ // se c'è qualche giocatore dentro la stanza
+                if(!playerList.isEmpty()){ // se c'è qualche giocatore dentro la stanza
                     damageAndMarkFurnace(gameBoard, attacker, defenders); // fai il danno
                 }
                 else{

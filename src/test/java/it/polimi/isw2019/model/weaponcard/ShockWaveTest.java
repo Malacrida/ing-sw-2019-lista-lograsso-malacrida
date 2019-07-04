@@ -1,12 +1,17 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ShockWaveTest {
 
@@ -62,7 +67,26 @@ public class ShockWaveTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 0, 2);
+        gameBoard.changePositionPlayer(firstDefender, 1, 2);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+
+        assertTrue(visiblePlayers.contains(firstDefender));
+        assertTrue(visiblePlayers.contains(secondDefender));
+        assertTrue(visiblePlayers.contains(thirdDefender));
+
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb2.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+    }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestfirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(thirdDefender, 1, 1);
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test

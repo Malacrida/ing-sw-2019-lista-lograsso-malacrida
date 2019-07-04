@@ -21,6 +21,7 @@ public class RailGunTest {
     RailGun card = new RailGun();
     ArrayList<Player> defenders = new ArrayList<>();
     int [] coordinates = new int[6];
+    int[] coordinates2 = new int[4];
 
     @Before
     public void setUp() throws Exception {
@@ -45,7 +46,7 @@ public class RailGunTest {
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
@@ -55,6 +56,11 @@ public class RailGunTest {
         gameBoard.changePositionPlayer(fourDefender, 0, 1);
 
         coordinates = new int[]{0, 0, 1, 2, 2, 2};
+
+
+        coordinates2[0] = 0;
+        coordinates2[1] = 2;
+
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
@@ -72,15 +78,32 @@ public class RailGunTest {
     @Test
     public void firstEffect() throws ErrorEffectException, DamageTrackException {
         card.firstEffect(gameBoard, attacker, defenders, coordinates);
-        assertEquals(11, pb1.numOfDamages());
+        assertEquals(12, pb1.numOfDamages());
+    }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 1, 1);
+        System.out.println(attacker.getX());
+        System.out.println(attacker.getY());
+        System.out.println(firstDefender.getX());
+        System.out.println(firstDefender.getY());
+        card.firstEffect(gameBoard, attacker, defenders, coordinates2);
     }
 
     @Test
     public void secondEffect() throws ErrorEffectException, DamageTrackException {
+
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
         card.secondEffect(gameBoard, attacker, defenders, coordinates);
         assertEquals(12, pb1.numOfDamages());
         assertEquals(2, pb2.numOfDamages());
+    }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 1, 1);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test (expected = NoEffectException.class)

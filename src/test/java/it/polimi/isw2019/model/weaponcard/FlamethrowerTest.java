@@ -18,6 +18,7 @@ public class FlamethrowerTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     Flamethrower card = new Flamethrower();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int[] coordinates = new int[4];
 
     @Before
@@ -60,6 +61,8 @@ public class FlamethrowerTest {
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
         defenders.add(fourDefender);
+
+        defenders2.add(fourDefender);
     }
 
     @Test
@@ -77,6 +80,18 @@ public class FlamethrowerTest {
 
     }
 
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 2, 2);
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void thirdTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.insertPlayer(fourDefender, ColorRoom.RED);
+        card.firstEffect(gameBoard, attacker, defenders2, coordinates);
+    }
+
     @Test
     public void secondEffect() throws ErrorEffectException, DamageTrackException {
         card.secondEffect(gameBoard, attacker, defenders, coordinates);
@@ -92,9 +107,18 @@ public class FlamethrowerTest {
         assertEquals(1, pb2.numOfDamages());
         assertEquals(2, pb3.numOfDamages());
         assertEquals(1, pb4.numOfDamages());
+    }
 
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        coordinates = new int[]{2, 2, 2, 2};
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+    }
 
-
+    @Test(expected = ErrorEffectException.class)
+    public void thirdTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        coordinates = new int[]{2, 2, 2, 2};
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test (expected = NoEffectException.class)
