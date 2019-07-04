@@ -171,7 +171,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
-            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer());
+            server.receiveUsePowerUpCard(usePowerUpCard.getPlayer(),usePowerUpCard.getCoordinates(), usePowerUpCard.getIdPlayer(), usePowerUpCard.isDefend(), usePowerUpCard.getIdPlayer());
 
         } catch (RemoteException e) {
             e.printStackTrace();

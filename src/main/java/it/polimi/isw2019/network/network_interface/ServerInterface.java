@@ -35,7 +35,7 @@ public interface ServerInterface<T> extends Remote {
 
     void receivePowerUpChoice(String player, int idPowerUp) throws RemoteException;
 
-    void receiveUsePowerUpCard(String player/*, InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException;
+    void receiveUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp) throws RemoteException;
 
     void receiveWeaponCardChoice(String player, int indexWeaponCard, int[] payment) throws RemoteException;
 

@@ -378,7 +378,33 @@ public class PlayerBoard{
 
 
     }
+    public boolean handlePaymentAnyCubes(){
+        if(redCubes.size()>0) {
+            try {
+                removeRedCubes(1);
+                return true;
+            } catch (OutOfBoundsException e) {
+                //e.printStackTrace();
+            }
+        }
+        else if(blueCubes.size() > 0)
+            try {
+                removeBlueCubes(1);
+                return true;
 
+        } catch (OutOfBoundsException e) {
+               // e.printStackTrace();
+            }
+        else if(yellowCubes.size() > 0){
+            try {
+                removeYellowCubes(1);
+                return true;
+            } catch (OutOfBoundsException e) {
+
+            }
+        }
+      return false;
+    }
     /**
      * add marks of one color
      * @param colorPlayer color of marks

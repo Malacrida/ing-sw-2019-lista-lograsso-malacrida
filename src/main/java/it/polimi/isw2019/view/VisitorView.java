@@ -28,4 +28,6 @@ public interface VisitorView{
     void failRegistration(FailRegistration failRegistration);
 
     void visitStartView (StartMessage startMessage);
+
+    void terminatorAction(TerminatorMessage terminatorMessage);
 }
