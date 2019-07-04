@@ -3,6 +3,7 @@ package it.polimi.isw2019.network.rmi;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 
+import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
 import it.polimi.isw2019.network.network_interface.ServerInterface;
 import it.polimi.isw2019.utilities.Observable;
@@ -21,6 +22,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
 //forse va qui il riferimento al registro
 
+    ConfigLoader cl = new ConfigLoader();
 
     ServerInterface server;
     ClientInterface remoteClient;
@@ -31,7 +33,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://localhost:8080/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://"+ cl.getHostIp()+":" + cl.getRmiPort()+ "/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {

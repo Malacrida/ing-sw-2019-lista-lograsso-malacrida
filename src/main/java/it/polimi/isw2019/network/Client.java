@@ -101,12 +101,13 @@ public class Client {
 
 
     private static void startView (String nickname) throws RemoteException {
+        ConfigLoader cl = new ConfigLoader();
         CLIView view = new CLIView(nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
         //192.168.43.154
         try {
-            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
+            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://"+cl.getHostIp()+":"+cl.getRmiPort()+"/ServerRmi");
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.getCause();
         }
