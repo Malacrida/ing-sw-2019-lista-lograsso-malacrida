@@ -33,7 +33,8 @@ public class Server {
 
 
         Server server = new Server();
-        server.start(gathererSocket, gathererRmi);
+        //server.start(gathererSocket, gathererRmi);
+        server.start(gathererRmi);
 
     }
 

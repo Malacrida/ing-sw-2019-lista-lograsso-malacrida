@@ -70,7 +70,7 @@ public class Client {
         ServerInterface serverInterface = null;
 
         if (typeServer == 0){
-            System.out.println("Starting SOCKET");
+           /* System.out.println("Starting SOCKET");
 
             try {
 
@@ -83,7 +83,7 @@ public class Client {
 
             } catch (IOException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
             /*
