@@ -50,7 +50,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }*/
 
-        model.registerObserver(firstMessage.getVirtualViewRmi());
+        model.registerObserver(firstMessage.getCLIView());
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
