@@ -29,9 +29,13 @@ public class PowerUpCard implements PowerUpCardInterface{
 
     private boolean terminatorTag;
 
+    private int usageCard;
+
+    private int numMovement;
+
 
     /* Costruttore */
-    public PowerUpCard (int id, String name, String color, String infoEffect/*, ColorCube colorCard*/){
+    public PowerUpCard (int id, String name, String color, String infoEffect){
 
         this.id = id;
         this.name = name;
@@ -52,9 +56,30 @@ public class PowerUpCard implements PowerUpCardInterface{
         setColor(color);
         this.infoEffect = infoEffect;
 
+        if(name.equals("Newton")){
+            usageCard = 0;
+        }
+        else if (name.equals("Teleporter")){
+            usageCard = 1;
+        }
+        else if (name.equals("Tagback Grenade")){
+            usageCard = 3;
+        }
+        else{
+            usageCard = 2;
+        }
+
         setPowerUpDescription();
 
 
+    }
+
+    public int getUsageCard() {
+        return usageCard;
+    }
+
+    public int getNumMovement() {
+        return numMovement;
     }
 
     public boolean isTerminatorTag() {
@@ -202,8 +227,8 @@ public class PowerUpCard implements PowerUpCardInterface{
     public void setPowerUpDescription(){
         powerUpDescription = name + "\n";
         powerUpDescription += "Id :"+ id + "\n";
-        powerUpDescription += infoEffect + "\n";
-        powerUpDescription += colorCard.getColorCubeRepresentation();
+        powerUpDescription += "InfoEffect: " +infoEffect + "\n";
+        powerUpDescription +="Color Card: "+ colorCard.getColorCubeRepresentation();
     }
 
     public String getPowerUpCardRepresentation(){

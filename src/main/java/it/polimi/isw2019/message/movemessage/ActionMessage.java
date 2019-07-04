@@ -21,7 +21,7 @@ public class ActionMessage extends MoveMessage {
     public ActionMessage(String nickname){
 
         super(nickname);
-        actionYouCanPerform = new String[7];
+        actionYouCanPerform = new String[9];
 
         actionPlayerCanPerform = new ArrayList<>();
         intIdAction = new ArrayList<>();
