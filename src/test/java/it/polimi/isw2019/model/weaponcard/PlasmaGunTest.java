@@ -98,8 +98,7 @@ public class PlasmaGunTest {
 
     @Test(expected = ErrorEffectException.class)
     public void thirdTestSecondEffect() throws ErrorEffectException, DamageTrackException {
-        gameBoard.changePositionPlayer(secondDefender, 1, 1);
-        gameBoard.changePositionPlayer(secondDefender, 1, 2);
+        coordinates = new int[]{-1, -1, -1, -1, 2, 2};
         card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
