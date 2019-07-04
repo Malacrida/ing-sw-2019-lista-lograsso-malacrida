@@ -70,7 +70,7 @@ public class Client {
         ServerInterface serverInterface = null;
 
         if (typeServer == 0){
-            System.out.println("Starting SOCKET");
+           /* System.out.println("Starting SOCKET");
 
             try {
 
@@ -83,7 +83,7 @@ public class Client {
 
             } catch (IOException e) {
                 e.getCause();
-            }
+            }*/
         }
         if (typeServer==1){
             /*
@@ -106,7 +106,7 @@ public class Client {
 
         //192.168.43.154
         try {
-            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
+            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://192.168.43.210:3000/ServerRmi");
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.getCause();
         }

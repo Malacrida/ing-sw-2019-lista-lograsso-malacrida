@@ -31,7 +31,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     public NetworkHandlerRmi (String nickname){
         try {
-            server = (ServerInterface) Naming.lookup("rmi://localhost:8080/ServerRmi");
+            server = (ServerInterface) Naming.lookup("rmi://192.168.43.210:3000/ServerRmi");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
