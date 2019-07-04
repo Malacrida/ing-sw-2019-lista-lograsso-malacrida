@@ -87,8 +87,8 @@ public class ConfigLoader {
 
                 InputStream inputStream = getClass().getResourceAsStream(CONFIG_FILE_PATH);
                 config.load(inputStream);
-                setHostIp(config.getProperty(HOST));
                 setRmiPort(config.getProperty(RMI_PORT));
+                setHostIp(config.getProperty(HOST));
                 //setSktPort(config.getProperty(SOCKET_PORT));
                 //setTimerStart(config.getProperty(TIMER_START));
                 //setTimerUser(config.getProperty(TIMER_USER));

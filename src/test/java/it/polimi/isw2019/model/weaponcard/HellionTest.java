@@ -1,6 +1,8 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,7 @@ public class HellionTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     Hellion card = new Hellion();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[6];
 
     @Before
@@ -58,11 +61,32 @@ public class HellionTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(1, pb3.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(1, pb4.numOfMarkOfOneColor(attacker.getColor()));
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(firstDefender, 0, 2);
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(2, pb1.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(2, pb3.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(2, pb4.numOfMarkOfOneColor(attacker.getColor()));
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        card.secondEffect(gameBoard, attacker, defenders2, coordinates);
     }
 
     @Test (expected = NoEffectException.class)
