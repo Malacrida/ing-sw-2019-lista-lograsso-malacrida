@@ -56,8 +56,7 @@ public class CyberBladeTest {
         defenders.add(firstDefender);
         defenders.add(secondDefender);
 
-        defenders3.add(null);
-        defenders3.add(null);
+        defenders3.add(firstDefender);
 
     }
 
@@ -117,7 +116,7 @@ public class CyberBladeTest {
             e.printStackTrace();
         }
     }
-    @Test
+    @Test(expected = ErrorEffectException.class)
     public void secondTestThirdEffect() throws ErrorEffectException {
         card.thirdEffect(gameBoard, attacker, defenders3, coordinates);
     }

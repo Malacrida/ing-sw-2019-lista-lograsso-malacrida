@@ -54,6 +54,8 @@ public class Model extends Observable<MoveMessage> {
 
     private Player terminator;
 
+
+
     public ArrayList<String> getColorAvailable() {
         return colorAvailable;
     }
@@ -97,7 +99,7 @@ public class Model extends Observable<MoveMessage> {
 
         killShotTrack = new KillShotTrack(5);
 
-        timer = new TimerPlayer(30);
+        timer = new TimerPlayer(60);
         timer.setModel(this);
     }
 
@@ -763,10 +765,15 @@ public class Model extends Observable<MoveMessage> {
                 players.get(i).addScore(2);
             if (players.get(i).getPlayerID()==killShotTable[4][0] && killShotTable[4][1]!=0)
                 players.get(i).addScore(1);
+        }
+    }
+
+    public void endScore (){
+        for (int i=0; i<players.size(); i++){
 
         }
-
     }
+
 
     /**
      * respawn action

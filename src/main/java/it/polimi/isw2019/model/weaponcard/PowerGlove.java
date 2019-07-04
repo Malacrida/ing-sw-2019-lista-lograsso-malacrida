@@ -94,6 +94,8 @@ public class PowerGlove extends AbstractWeaponCard {
                 throw new ErrorEffectException();
             }
 
+        } else {
+            throw new ErrorEffectException();
         }
     }
 
