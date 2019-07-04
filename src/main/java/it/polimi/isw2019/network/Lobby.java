@@ -86,7 +86,7 @@ public class Lobby implements LobbyInterface {
         while (lobbyIsRunning) {
             boolean roomStartable = true;
             System.out.println("Waiting for at least 3 clients.");
-            while (connectedClients.size() < 1) { //era 3
+            while (connectedClients.size() < 3) { //era 3
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -103,12 +103,12 @@ public class Lobby implements LobbyInterface {
             try {
                 for (int i = 0; i < countDown; i++) {
                     TimeUnit.SECONDS.sleep(1);
-                    if (connectedClients.size() < 1) {//era 3
+                    if (connectedClients.size() < 3) {//era 3
                         i = countDown + 1;
                         roomStartable = false;
                         System.out.println("Countdown reset, not enough players to start the room.");
 
-                    } else if (connectedClients.size() == 2) { //era 5
+                    } else if (connectedClients.size() == 5) { //era 5
                         i = countDown + 1;
                         roomStartable = true;
                     } else if ((countDown - i) % 5 == 0 && (countDown - i) != 0) {

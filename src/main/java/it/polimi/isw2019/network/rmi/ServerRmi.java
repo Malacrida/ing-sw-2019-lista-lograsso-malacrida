@@ -2,6 +2,7 @@ package it.polimi.isw2019.network.rmi;
 
 import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.controller.VisitorController;
+import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.network.GathererInterface;
 import it.polimi.isw2019.network.Lobby;
 import it.polimi.isw2019.network.TypeConnection;
@@ -185,6 +186,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     @Override
     public void run() {
+        ConfigLoader cl = new ConfigLoader();
+
         try {
             LocateRegistry.createRegistry(port);
         }
@@ -193,9 +196,11 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         }
 
         try {
+
             //localhost
+
             //Naming.rebind("rmi://192.168.43.154:"+port+"/ServerRmi", this);
-            Naming.rebind("rmi://localhost:"+port+"/ServerRmi", this);
+            Naming.rebind("rmi://"+ cl.getHostIp() + ":"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
             System.out.println("Error remote");
