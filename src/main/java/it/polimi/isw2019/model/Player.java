@@ -146,6 +146,10 @@ public class Player{
         playerToAttack = playerInUseWeaponCardMessage;
     }
 
+    public void setPlayerInUsePowerUpMessage(int[][] playerInUseWeaponCardMessage){
+        playerToAttack = playerInUseWeaponCardMessage;
+    }
+
     public void updateMessage(ReloadMessage reloadMessage){
         reloadMessage.setWeaponYouCanReload(getWeaponDischarge());
     }
@@ -699,12 +703,12 @@ public class Player{
 
     }
 
-    public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn){
+    public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn1){
 
         ActionMessage actionMessage = new ActionMessage(getName());
 
-        if(!endTurn) {
-
+        if(!endTurn1) {
+            endTurn = false;
             run = 3;
             actionMessage.setRunAction(3);
 
@@ -749,8 +753,8 @@ public class Player{
                 numActionToBePerformed = 1;
         }
 
-        if(endTurn){
-
+        if(endTurn1){
+             endTurn = true;
             if (!powerUpCards.isEmpty() && canAddPowerUp()) {
                 actionMessage.setPowerUpAction();
             }
@@ -888,6 +892,7 @@ public class Player{
              else {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
                  numActionPerformed = 0;
+                 endTurn = true;
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
                     return false;
                 } else {

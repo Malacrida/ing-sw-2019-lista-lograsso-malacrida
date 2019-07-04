@@ -277,6 +277,7 @@ public class Model extends Observable {
         if(sizeActivePlayer() < 3) {
             // end game
         }
+
         else{
             if (!killShotTrack.isFinalFrenzy()) {
 
@@ -502,6 +503,9 @@ public class Model extends Observable {
        else if(currentPlayer.getSingleMessageToBeSent() instanceof UseWeaponCardMessage) {
            currentPlayer.setPlayerInUseWeaponCardMessage(returnCoordinatesOfPlayerInGame());
        }
+       else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
+            currentPlayer.setPlayerInUsePowerUpMessage(returnCoordinatesOfPlayerInGame());
+        }
 
        notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
