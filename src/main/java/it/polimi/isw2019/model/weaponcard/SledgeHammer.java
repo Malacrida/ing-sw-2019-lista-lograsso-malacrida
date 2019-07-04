@@ -37,6 +37,7 @@ public class SledgeHammer extends AbstractWeaponCard {
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
         if(!defenders.isEmpty()){
             damagesInSameSquare(attacker, defenders.get(0),2);
+            controlPlayersDamages(gameBoard, defenders.get(0));
         } else {
             throw new ErrorEffectException();
         }

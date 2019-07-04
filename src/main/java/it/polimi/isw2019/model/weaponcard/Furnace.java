@@ -37,6 +37,7 @@ public class Furnace extends AbstractWeaponCard {
 
         for (Player aPlayerList : playerList){
             aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
+            controlPlayersDamages(gameBoard, aPlayerList);
         }
 
     }
@@ -52,6 +53,7 @@ public class Furnace extends AbstractWeaponCard {
 
         for (Player aPlayerList : players){
             aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 1);
+            controlPlayersDamages(gameBoard, aPlayerList);
         }
 
     }

@@ -41,6 +41,7 @@ public class Thor extends AbstractWeaponCard{
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
         twoDamageAndSetFirstIsValid(attacker, defenders.get(0), visiblePlayers);
+        controlPlayersDamages(gameBoard, defenders.get(0));
     }
 
     /**
@@ -63,6 +64,7 @@ public class Thor extends AbstractWeaponCard{
 
             try {
                 defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, defenders.get(1));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }

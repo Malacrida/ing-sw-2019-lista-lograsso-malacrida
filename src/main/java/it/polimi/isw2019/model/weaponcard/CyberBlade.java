@@ -47,6 +47,7 @@ public class CyberBlade extends AbstractWeaponCard{
 
         if (!defenders.isEmpty()) {
             damagesInSameSquare(attacker, defenders.get(0),2);
+            controlPlayersDamages(gameBoard, defenders.get(0));
         }
         else {
             throw new ErrorEffectException();
@@ -88,8 +89,9 @@ public class CyberBlade extends AbstractWeaponCard{
 
         //AGGIUNGERE PAGARE UN GIALLO
 
-        if (defenders.get(1) != null){
+        if (defenders.size() > 1){
             damagesInSameSquare(attacker, defenders.get(1), 2);
+            controlPlayersDamages(gameBoard, defenders.get(1));
         }
     }
 

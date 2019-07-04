@@ -40,6 +40,7 @@ public class ZX_2 extends AbstractWeaponCard {
         if((!defenders.isEmpty()) && (visiblePlayers.contains(defenders.get(0)))){
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 2);
+                controlPlayersDamages(gameBoard, defenders.get(1));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }

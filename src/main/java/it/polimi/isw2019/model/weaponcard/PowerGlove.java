@@ -42,6 +42,7 @@ public class PowerGlove extends AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 2);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
@@ -74,6 +75,7 @@ public class PowerGlove extends AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
@@ -83,6 +85,7 @@ public class PowerGlove extends AbstractWeaponCard {
 
                 try {
                     defenders.get(1).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(1));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }

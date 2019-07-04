@@ -36,7 +36,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
-        if(defenders.get(0) != null){
+        if(!defenders.isEmpty()){
             if (coordinates[0] != -1 && coordinates[1] != -1){
                 gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
                 if (coordinates[2] != -1 && coordinates[3] != -1){
@@ -46,6 +46,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }
@@ -73,7 +74,7 @@ public class TractorBeam extends AbstractWeaponCard {
 
         /*PAGA GIALLO ROSSO*/
 
-        if(defenders.get(0) != null) {
+        if(!defenders.isEmpty()) {
             if (coordinates[0] != -1 && coordinates[1] != -1) {
                 gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
                 if (coordinates[2] != -1 && coordinates[3] != -1) {
@@ -84,6 +85,7 @@ public class TractorBeam extends AbstractWeaponCard {
             if (sameSquare(attacker.getX(), attacker.getY(), defenders.get(1).getX(), defenders.get(1).getY())) {
                 try {
                     defenders.get(1).sufferDamageOrMark(attacker.getColor(), 3, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(1));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
