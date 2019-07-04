@@ -51,7 +51,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }*/
 
-        model.registerObserver(firstMessage.getVirtualViewRmi());
+        model.registerObserver(firstMessage.getCLIView());
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
@@ -113,6 +113,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice){
+
         if(weaponCardChoice.getIndexWeaponCard() == -1){
             model.getGameBoard().addWeaponCardToDiscarded(model.getTmpWeaponCard());
             model.setTmpWeaponCard(null);
@@ -129,6 +130,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.sendActionUpdateMessage();
         }
     }
+
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
 
@@ -177,18 +179,22 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void disconnectionPlayer(ConnectionMove connectionMove) {
-        if(connectionMove.getConnection() == 0)
+        if(connectionMove.getConnection() == 0) {
             model.getCurrentPlayer().setActive(false);
+            model.changePlayer();
+        }
         else if (connectionMove.getConnection() == 1)
             model.getCurrentPlayer().setActive(true);
     }
 
     @Override
     public void visitReload(ReloadMove reloadMove) {
+
         if(reloadMove.getPayment()[0][0] == -1) {
             model.changePlayer();
             return;
         }
+
         else {
             for (int i = 0; i < reloadMove.getPayment().length; i++) {
                 if (reloadMove.getWeaponCard()[i] == 1) {
@@ -248,12 +254,13 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void visitControllerGrab(GrabMove grabMove) {
-        for(int i = 0; i < grabMove.getPayment().length; i++)
-            System.out.println(grabMove.getPayment()[i]);
         if(grabMove.getPositionWeaponCard()!= -1){
            AbstractWeaponCard weaponCard = model.getGameBoard().getGameArena().getWeaponCardsOnSquares(model.getCurrentPlayer().getX(),model.getCurrentPlayer().getY())[grabMove.getPositionWeaponCard()];
-           System.out.println(weaponCard.getRechargeCube().length);
-           if(!model.checkValidityPayment(grabMove.getPayment(),weaponCard.getRechargeCube())){
+           ColorCube[] rechargeCube = new ColorCube[weaponCard.getRechargeCube().length-1];
+           int i ,j;
+           for(i = 1, j = 0 ; i < weaponCard.getRechargeCube().length; i++, j++)
+               rechargeCube[j] = weaponCard.getRechargeCube()[i];
+           if(!model.checkValidityPayment(grabMove.getPayment(),rechargeCube)){
                model.updateNotCorrectAction("payment incorrect");
                return;
            }
@@ -264,7 +271,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
            }
            else{
                model.addCubesFromPowerUp(grabMove.getPayment());
-               model.grabWeaponCard(weaponCard);
+
+               model.grabWeaponCard(weaponCard, rechargeCube);
            }
        }
     }

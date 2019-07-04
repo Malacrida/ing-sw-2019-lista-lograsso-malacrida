@@ -67,6 +67,27 @@ public class GameBoard{
 
     }
 
+    public void cancelKillPlayerFromOverkill(){
+        for(Player killPlayer1 : killPlayer)
+            if(overkillPlayer.contains(killPlayer1))
+                killPlayer.remove(killPlayer1);
+    }
+
+    public ArrayList<Player> getPlayersShooted() {
+        return playersShooted;
+    }
+
+    public ArrayList<PowerUpCard> getUsedPowerUpCards() {
+        return usedPowerUpCards;
+    }
+
+    public ArrayList<AmmoTile> getAmmoTiles() {
+        return ammoTiles;
+    }
+
+    public ArrayList<AmmoTile> getGrabedAmmoTiles() {
+        return grabedAmmoTiles;
+    }
 
     /**
      * method to choose arena
@@ -461,14 +482,17 @@ public class GameBoard{
     public void addWeaponCardToDiscarded(AbstractWeaponCard weaponCard){
         weaponCardsDischarged.add(weaponCard);}
 
-    public void addOverKillPlayer(Player player){
-        overkillPlayer.add(player);
+    public void addOverKillPlayer(Player player) {
+        if(!overkillPlayer.contains(player) && (player.getIndexPlayer()!= -1))
+                overkillPlayer.add(player);
     }
     public void addKillPlayer(Player player){
-        killPlayer.add(player);
+        if(!killPlayer.contains(player) && (player.getIndexPlayer()!= -1))
+            killPlayer.add(player);
     }
     public void addPlayerShooted(Player player){
-        playersShooted.add(player);
+        if(!playersShooted.contains(player) && (player.getIndexPlayer() != -1))
+            playersShooted.add(player);
     }
 
 

@@ -11,7 +11,7 @@ public abstract class MoveMessage implements VisitableMessageMove, Serializable 
     //little model that contains all the structure of the model and updates the view.
     private int idPlayer;
     private String nicknamePlayer;
-    private String error;
+    private String error = null;
     private boolean notifyAll = false;
 
 

@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.message.playermove.UsePowerUpCard;
 import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
@@ -65,6 +66,8 @@ public class Player{
 
     private ArrayList<String> terminatorAction;
 
+    private MoveMessage tmpMoveMessage;
+
     public Player(String name, String actionHeroComment, int playerID) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
@@ -111,6 +114,8 @@ public class Player{
         featuresAvailable();
 
         if(messageToBeSent.get(0) instanceof  ReloadMessage){
+            //endTurn
+            //changePlayer
             updateMessage((ReloadMessage)(messageToBeSent.get(0)));
         }
         else if(messageToBeSent.get(0) instanceof UsePowerUpCardMessage){
@@ -125,12 +130,11 @@ public class Player{
         return messageToBeSent.get(0);
     }
 
-    //state game 1 -> normale, 2 -> attaccato, 3 -> difende
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
-        usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
+        //usePowerUpCardMessage.setFeaturesAvailable(getFeaturesAvailable());
         //inserito in base allo state -> vedo dove farlo!
-        usePowerUpCardMessage.setStateGame(stateGame);
-        usePowerUpCardMessage.setEffectCard(statePowerUp());
+        //usePowerUpCardMessage.setStateGame(stateGame);
+        usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
 
     }
 
@@ -254,7 +258,7 @@ public class Player{
     }
 
 
-    public Player terminatorPlayer;
+    public Player terminatorPlayer = null;
 
     public Player getTerminatorPlayer() {
         return terminatorPlayer;
@@ -669,6 +673,14 @@ public class Player{
         return false;
     }
 
+    public boolean canAddPowerUpTerminator(){
+        for(PowerUpCard powerUpCard : powerUpCards){
+            if(powerUpCard.isTerminatorTag()){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * reloade weapon card
      * @return boolean
@@ -725,7 +737,7 @@ public class Player{
                 actionMessage.setPowerUpAction();
             }
 
-            if(isTerminator){
+            if(terminatorPlayer != null){
                 actionMessage.setTerminatorAction();
                 if(terminatorPlayer.playerDamage()> 2)
                     actionMessage.setTerminatorFrenzyAction();
@@ -873,19 +885,20 @@ public class Player{
     }
 
     public void removeMessageToBeSend(){
-        messageToBeSent.remove(0);
-    }
+            tmpMoveMessage = messageToBeSent.get(0);
+            messageToBeSent.remove(0);
+        }
 
     public Boolean updatePlayerMessageStatus(){
-
         if(!messageToBeSent.isEmpty()){
             return true;
         }
 
         else {
              if (numActionPerformed < numActionToBePerformed) {
-                 numActionPerformed++;
                  messageToBeSent.clear();
+                 if(!(tmpMoveMessage instanceof UsePowerUpCardMessage))
+                    numActionPerformed++;
                  messageToBeSent.add(setCorrectNormalActionChooseMessages(false));
                  return true;
             }
@@ -960,12 +973,12 @@ public class Player{
         return featuresAvailable;
     }
 
-    public boolean[] statePowerUp(){
-        boolean[] powerUpState = new boolean[powerUpCards.size()];
+    public int[] statePowerUp(){
+        int[] effectCard = new int[powerUpCards.size()];
         for(int i = 0; i < powerUpCards.size();i++){
-            powerUpState[i] = powerUpCards.get(i).isCanBeUsed();
+            effectCard[i] = powerUpCards.get(i).getUsageCard();
         }
-        return powerUpState;
+        return effectCard;
     }
 
     /**
