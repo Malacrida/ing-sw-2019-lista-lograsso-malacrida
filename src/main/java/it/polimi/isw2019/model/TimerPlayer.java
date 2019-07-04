@@ -4,9 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerPlayer implements Runnable {
 
-    Model model;
-    int time;
-    boolean answer= false;
+    private Model model;
+    private int time;
+    private boolean answer= false;
+    private Thread thread;
 
     TimerPlayer(int time){
         this.time= time;
@@ -33,12 +34,13 @@ public class TimerPlayer implements Runnable {
                 model.playerNotAnswer();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            thread.interrupt();
         }
 
     }
 
     public void startTimer (){
-        Thread thread = new Thread(this);
+        thread = new Thread(this);
         thread.start();
     }
 
