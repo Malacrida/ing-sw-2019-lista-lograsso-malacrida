@@ -113,8 +113,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         notifyObservers(useWeaponCard);
     }
 
-    public void createTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn){
-        TerminatorMove terminatorMove = new TerminatorMove(player,coordinates,shootPeople,colorSpawn);
+    public void createTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn, int[] idPlayerToShoot){
+        TerminatorMove terminatorMove = new TerminatorMove(player,coordinates,shootPeople,colorSpawn, idPlayerToShoot);
         notifyObservers(terminatorMove);
     }
 
@@ -228,6 +228,15 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         try {
             networkHandler.createEndGame(endGame.getRanking(),endGame.getPoints(),endGame.getPointMax(),endGame.getWinner(),endGame.getPhrase());
         }catch (RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendTerminatorMessage(TerminatorMessage terminatorMessage) {
+        try {
+            networkHandler.createTerminatorMessage(terminatorMessage.getNicknamePlayer(),terminatorMessage.isRunOrDamage(), terminatorMessage.getColorSpawn(),terminatorMessage.getMovement(),terminatorMessage.getNumPeopleToKill(),terminatorMessage.getCooPeople(),terminatorMessage.getError());
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }

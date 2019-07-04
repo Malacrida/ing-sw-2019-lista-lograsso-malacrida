@@ -53,5 +53,7 @@ public interface ClientInterface extends Remote {
 
     public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp ) throws RemoteException ;
 
+    public void createTerminatorMessage (String nicknamePlayer, boolean runOrDamage, ArrayList<String> colorSpawn, int movement, int numPeopleToKill, int[][] cooPeople,String error) throws RemoteException;
+
     public void createEndGame(String[] ranking, int [] points, int pointMax, String winner, String phrase) throws RemoteException;
 }

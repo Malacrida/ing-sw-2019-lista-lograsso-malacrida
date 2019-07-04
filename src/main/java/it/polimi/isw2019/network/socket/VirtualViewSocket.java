@@ -94,4 +94,9 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     public void sendEndGame(EndGame endGame) {
 
     }
+
+    @Override
+    public void sendTerminatorMessage(TerminatorMessage terminatorMessage) {
+
+    }
 }
