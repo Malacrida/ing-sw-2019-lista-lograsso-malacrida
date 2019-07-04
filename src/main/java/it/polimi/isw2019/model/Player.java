@@ -111,6 +111,8 @@ public class Player{
         featuresAvailable();
 
         if(messageToBeSent.get(0) instanceof  ReloadMessage){
+            //endTurn
+            //changePlayer
             updateMessage((ReloadMessage)(messageToBeSent.get(0)));
         }
         else if(messageToBeSent.get(0) instanceof UsePowerUpCardMessage){
@@ -669,6 +671,14 @@ public class Player{
         return false;
     }
 
+    public boolean canAddPowerUpTerminator(){
+        for(PowerUpCard powerUpCard : powerUpCards){
+            if(powerUpCard.isTerminatorTag()){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * reloade weapon card
      * @return boolean

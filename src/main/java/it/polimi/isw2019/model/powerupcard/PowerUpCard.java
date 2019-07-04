@@ -2,10 +2,6 @@ package it.polimi.isw2019.model.powerupcard;
 
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.InvalidInsert;
-import it.polimi.isw2019.model.exception.OutOfBoundsException;
-
-import java.util.ArrayList;
 
 public class PowerUpCard implements PowerUpCardInterface{
 
@@ -31,6 +27,8 @@ public class PowerUpCard implements PowerUpCardInterface{
 
     private boolean canBeUsed;
 
+    private boolean terminatorTag;
+
 
     /* Costruttore */
     public PowerUpCard (int id, String name, String color, String infoEffect/*, ColorCube colorCard*/){
@@ -43,6 +41,13 @@ public class PowerUpCard implements PowerUpCardInterface{
         else{
             canBeUsed = false;
         }
+
+        if(name.equals("Newton") || name.equals("Tagback Grenade")){
+            terminatorTag = true;
+        }
+        else{
+            terminatorTag = false;
+        }
         this.color = color;
         setColor(color);
         this.infoEffect = infoEffect;
@@ -50,6 +55,14 @@ public class PowerUpCard implements PowerUpCardInterface{
         setPowerUpDescription();
 
 
+    }
+
+    public boolean isTerminatorTag() {
+        return terminatorTag;
+    }
+
+    public void setTerminatorTag(boolean terminatorTag) {
+        this.terminatorTag = terminatorTag;
     }
     /* Methods */
 
