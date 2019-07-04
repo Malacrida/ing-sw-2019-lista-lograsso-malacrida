@@ -33,10 +33,10 @@ public class CyberBlade extends AbstractWeaponCard{
 
     /**
      * Deal 2 damage to 1 target on attacker's square
-     * @param gameBoard
-     * @param attacker
-     * @param defenders
-     * @param coordinates
+     * @param gameBoard is the Gameboard where players play
+     * @param attacker is the player who use Weapon card
+     * @param defenders are players attacked
+     * @param coordinates some coordinates used to move players or to indicate squares to attack players
      * @throws ErrorEffectException
      * @throws DamageTrackException
      */

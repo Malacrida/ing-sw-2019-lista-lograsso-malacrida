@@ -19,6 +19,7 @@ public class MachineGunTest {
     PlayerBoard pba, pb1, pb2, pb3;
     MachineGun card = new MachineGun();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[6];
 
 
@@ -50,6 +51,9 @@ public class MachineGunTest {
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
 
+        defenders2.add(null);
+        defenders2.add(null);
+
     }
 
     @After
@@ -66,7 +70,12 @@ public class MachineGunTest {
 
         assertEquals(1, pb1.numOfDamages());
         assertEquals(1, pb2.numOfDamages());
+    }
 
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestfirstEffect() throws ErrorEffectException, DamageTrackException {
+
+        card.firstEffect(gameBoard, attacker, defenders2, coordinates);
 
     }
 
@@ -80,8 +89,12 @@ public class MachineGunTest {
         assertTrue(visiblePlayers.contains(secondDefender));
 
         assertEquals(2, pb1.numOfDamages());
+    }
 
-
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws DamageTrackException, ErrorEffectException {
+        card.firstIsValid = false;
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test
@@ -97,5 +110,11 @@ public class MachineGunTest {
         assertEquals(2, pb2.numOfDamages());
         assertEquals(1, pb3.numOfDamages());
 
+    }
+
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestThirdEffect() throws DamageTrackException, ErrorEffectException, NoEffectException {
+        card.firstIsValid = false;
+        card.thirdEffect(gameBoard, attacker, defenders2, coordinates);
     }
 }

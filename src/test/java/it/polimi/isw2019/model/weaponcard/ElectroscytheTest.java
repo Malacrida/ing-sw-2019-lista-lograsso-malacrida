@@ -3,6 +3,7 @@ package it.polimi.isw2019.model.weaponcard;
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,6 +83,11 @@ public class ElectroscytheTest {
             e.printStackTrace();
         }
     }
+    @Test (expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        gameBoard.changePositionPlayer(attacker, 1, 2);
+        card.firstEffect(gameBoard,attacker, defenders, coordinates);
+    }
 
     @Test
     public void testSecondEffect() {
@@ -106,7 +112,8 @@ public class ElectroscytheTest {
         }
     }
 
-    @Test
-    public void testThirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }

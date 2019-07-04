@@ -253,8 +253,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) {
-        UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateCard,stateGame,attacked,effectCard,error);
-        notifyObservers(usePowerUpCardMessage);
+
+       /* UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateCard,stateGame,attacked,effectCard,error);
+        notifyObservers(usePowerUpCardMessage);*/
     }
 
     @Override

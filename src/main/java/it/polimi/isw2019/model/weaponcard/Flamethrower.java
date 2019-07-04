@@ -14,7 +14,7 @@ public class Flamethrower extends AbstractWeaponCard {
 
     public Flamethrower() {
         super(12, "Flamethrower", ColorCube.RED, 1, 4, 2);
-        this.infoEffect[0] = "FIRST EFFECT : Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
+        this.infoEffect[0] = "FIRST EFFECT : Choose 1 player in a square 1 move away and possibly a second player in one square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n";
         this.infoEffect[1] = "SECOND EFFECT: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n";
         this.infoEffect[2] = "THIRD EFFECT : This effect doesn't exist;\n";
         this.infoEffect[3] = "NOTE : This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.\n";
@@ -42,27 +42,31 @@ public class Flamethrower extends AbstractWeaponCard {
         char dir1;
         char dir2;
 
+        if (visilePlayers.contains(defenders.get(0))){
 
-        if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //SE È IN UNA CELLA ADIACENTE
-            dir1 = direction(attacker, defenders.get(0)); //SALVO LA DIREZIONE
+            if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())) { //SE È IN UNA CELLA ADIACENTE
+                dir1 = direction(attacker, defenders.get(0)); //SALVO LA DIREZIONE
 
-            try{
-                defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //FAI UN DANNO
-            } catch (DamageTrackException e) {
-                e.getMessage();
-            }
-
-            dir2 = direction(attacker, defenders.get(1)); //SALVO LA DIREZIONE DEL SECONDO DIFENSORE RISPETTO ALL'ATTACCANTE
-
-            if ((gameBoard.isSquareAvailableOnArena(defenders.get(0), defenders.get(1).getX(), defenders.get(1).getY())) && (dir1 == dir2)){ //SE LA SECONDA CELLA È ADIACENTE ALLA PRIMA E LA dir1 = dir2 (STESSA DIREZIONE) ALLORA FAI UN DANNO
                 try{
-                    defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //FAI UN DANNO
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
+
+                dir2 = direction(attacker, defenders.get(1)); //SALVO LA DIREZIONE DEL SECONDO DIFENSORE RISPETTO ALL'ATTACCANTE
+
+                if ((gameBoard.isSquareAvailableOnArena(defenders.get(0), defenders.get(1).getX(), defenders.get(1).getY())) && (dir1 == dir2)){ //SE LA SECONDA CELLA È ADIACENTE ALLA PRIMA E LA dir1 = dir2 (STESSA DIREZIONE) ALLORA FAI UN DANNO
+                    try{
+                        defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    } catch (DamageTrackException e) {
+                        e.getMessage();
+                    }
+                }
             }
-        }
-        else {
+            else {
+                throw new ErrorEffectException();
+            }
+        } else {
             throw new ErrorEffectException();
         }
     }

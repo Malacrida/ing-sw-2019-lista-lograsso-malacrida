@@ -352,6 +352,7 @@ public class PlayerBoard{
 
     //Aggiungere i danni al giocatore
     public void takeDamage (ColorPlayer colorPlayer, int numberOfDamage)throws DamageTrackException{
+
         for (int i=0; i<numberOfDamage; i++){
             damageTokens.add(colorPlayer);
             if (damageTokens.size()>=12) {
@@ -371,8 +372,7 @@ public class PlayerBoard{
             removeMarkOfOneColor(colorPlayer);
         }
 
-        if (damageTokens.size()>=11) {
-            //System.out.println("ok exception take damage");
+        if (damageTokens.size() >= 11) {
             throw new DamageTrackException();
         }
 
@@ -421,7 +421,7 @@ public class PlayerBoard{
 
     public ColorPlayer killShot (){
         if (damageTokens.size()>=11)
-        return damageTokens.get(10);
+            return damageTokens.get(10);
         else return null;
     }
 

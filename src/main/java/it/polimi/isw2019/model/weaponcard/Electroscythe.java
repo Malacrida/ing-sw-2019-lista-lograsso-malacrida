@@ -38,15 +38,14 @@ public class Electroscythe extends AbstractWeaponCard {
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
         ArrayList<Player> playersList = gameBoard.playersInOneSquare(attacker.getX(), attacker.getY(), attacker); //PLAYERS IN UN QUADRATO;
+
         if(!playersList.isEmpty()){
                 for (Player aPlayerList:playersList) {
                     try {
-                        System.out.println("ok");
                         aPlayerList.sufferDamageOrMark(attacker.getColor(), 1, 0);
                     } catch (DamageTrackException e) {
                         e.getMessage();
-                        System.out.println("ok exception take damage!");
-                        throw new DamageTrackException();
+
                     }
                 }
 

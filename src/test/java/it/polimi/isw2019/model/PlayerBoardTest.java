@@ -38,7 +38,7 @@ public class PlayerBoardTest {
         model.setPlayerWithPlayerBoard(player1,ColorPlayer.BLUE);
         model.setPlayerWithPlayerBoard(player2,ColorPlayer.VIOLET);
         model.setPlayerWithPlayerBoard(player3,ColorPlayer.GREEN);
-        model.setGame(1,5);
+        model.setGame(1,5,0 );
 
 
     }

@@ -4,30 +4,29 @@ import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
 import it.polimi.isw2019.model.exception.NoEffectException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class RailGunTest {
+public class FurnaceTest {
 
     Player attacker, firstDefender, secondDefender, thirdDefender, fourDefender;
     GameBoard gameBoard;
     PlayerBoard pba, pb1, pb2, pb3, pb4;
-    RailGun card = new RailGun();
+    Furnace card = new Furnace();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[6];
-    int[] coordinates2 = new int[4];
+    int [] coordinates2 = new int[6];
 
     @Before
     public void setUp() throws Exception {
         attacker = new Player("Davide", "Speriamo che sto test vada", 1);
         firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Stavri", "Palestra, palestra, palestra", 3);
+        secondDefender = new Player("Garibaldi", "Aiuto", 3);
         thirdDefender = new Player("Pipino il breve", "Conquisterò tutto", 4);
         fourDefender = new Player("Napoleone", "VIVA LA FRANCIA", 5);
         pba = new PlayerBoard(ColorPlayer.BLUE);
@@ -46,64 +45,61 @@ public class RailGunTest {
 
         gameBoard.insertPlayer(attacker, ColorRoom.BLUE);
         gameBoard.insertPlayer(firstDefender, ColorRoom.BLUE);
-        gameBoard.insertPlayer(secondDefender, ColorRoom.RED);
+        gameBoard.insertPlayer(secondDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
-        gameBoard.changePositionPlayer(firstDefender, 0, 1);
-        gameBoard.changePositionPlayer(secondDefender, 0, 0);
-        gameBoard.changePositionPlayer(thirdDefender, 0, 1);
-        gameBoard.changePositionPlayer(fourDefender, 0, 1);
+        gameBoard.changePositionPlayer(firstDefender, 1, 2);
+        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(thirdDefender, 1, 2);
+        gameBoard.changePositionPlayer(fourDefender, 1, 2);
 
-        coordinates = new int[]{0, 0, 1, 2, 2, 2};
-
-
-        coordinates2[0] = 0;
-        coordinates2[1] = 2;
-
+        coordinates = new int[]{1, 2, 1, 2, 1, 2};
+        coordinates2[0] = 1;
+        coordinates2[1] = 1 ;
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
         defenders.add(thirdDefender);
         defenders.add(fourDefender);
 
-        firstDefender.sufferDamageOrMark(attacker.getColor(),10, 0);
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
+        defenders2.add(null);
     }
 
     @Test
     public void firstEffect() throws ErrorEffectException, DamageTrackException {
         card.firstEffect(gameBoard, attacker, defenders, coordinates);
-        assertEquals(12, pb1.numOfDamages());
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(0, pb2.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+        assertEquals(1, pb4.numOfDamages());
+
     }
 
-    @Test (expected = ErrorEffectException.class)
-    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
-        gameBoard.changePositionPlayer(firstDefender, 1, 1);
-        System.out.println(attacker.getX());
-        System.out.println(attacker.getY());
-        System.out.println(firstDefender.getX());
-        System.out.println(firstDefender.getY());
-        card.firstEffect(gameBoard, attacker, defenders, coordinates2);
-    }
+
 
     @Test
     public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        System.out.println(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]));
+        System.out.println(card.oneDistance(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]));
+        System.out.println(gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null));
 
-        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
         card.secondEffect(gameBoard, attacker, defenders, coordinates);
-        assertEquals(12, pb1.numOfDamages());
-        assertEquals(2, pb2.numOfDamages());
+
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+        assertEquals(1, pb1.numOfMarkOfOneColor(attacker.getColor()));
+        assertEquals(1, pb3.numOfMarkOfOneColor(attacker.getColor()));
     }
 
     @Test (expected = ErrorEffectException.class)
     public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
-        gameBoard.changePositionPlayer(firstDefender, 1, 1);
+        gameBoard.changePositionPlayer(firstDefender, 0, 2);
+        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(thirdDefender, 0, 2);
+        gameBoard.changePositionPlayer(fourDefender, 0, 2);
         card.secondEffect(gameBoard, attacker, defenders, coordinates);
+
     }
 
     @Test (expected = NoEffectException.class)

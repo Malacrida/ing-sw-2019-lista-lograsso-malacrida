@@ -19,7 +19,7 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void update(PlayerMove message) {
-        //metodo per inviare la player move
+        serverImplementationSocket.setPlayerMove(message);
     }
 
     public void receiveMoveMessage (MoveMessage moveMessage){
@@ -29,22 +29,19 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void sendChooseMap(ChooseMapMove chooseMapMove) {
-
+        update(chooseMapMove);
     }
 
     @Override
     public void sendActionChoose(ChooseActionMove chooseActionMove) {
-
     }
 
     @Override
     public void sendRun(RunMove runMove) {
-
     }
 
     @Override
     public void sendGrab(GrabMove grabMove) {
-
     }
 
     @Override
@@ -53,32 +50,26 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
 
     @Override
     public void sendReload(ReloadMove reloadMove) {
-
     }
 
     @Override
     public void sendPowerUpChoice(PowerUpChoice powerUpChoice) {
-
     }
 
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
-
     }
 
     @Override
     public void sendWeaponCardChoice(WeaponCardChoice weaponCardChoice) {
-
     }
 
     @Override
     public void sendUseWeaponCard(UseWeaponCard useWeaponCard) {
-
     }
 
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
-
     }
 
 

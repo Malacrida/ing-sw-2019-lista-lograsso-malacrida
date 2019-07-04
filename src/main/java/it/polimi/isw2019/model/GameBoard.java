@@ -33,6 +33,9 @@ public class GameBoard{
 
     private String gameBoardDescription;
 
+    private ArrayList<Player> killPlayer = new ArrayList<>();
+    private ArrayList<Player> overkillPlayer = new ArrayList<>();
+
     private int[][] descriptionGameBoard;
 
     public GameBoard (){
@@ -456,6 +459,21 @@ public class GameBoard{
     }
     public void addWeaponCardToDiscarded(AbstractWeaponCard weaponCard){
         weaponCardsDischarged.add(weaponCard);}
+
+    public void addOverKillPlayer(Player player){
+        overkillPlayer.add(player);
+    }
+    public void addKillPlayer(Player player){
+        killPlayer.add(player);
+    }
+
+    public ArrayList<Player> getKillPlayer() {
+        return killPlayer;
+    }
+
+    public ArrayList<Player> getOverkillPlayer() {
+        return overkillPlayer;
+    }
 
     public void setGameBoardDescription(){
 

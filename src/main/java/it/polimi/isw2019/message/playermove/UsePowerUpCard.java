@@ -7,19 +7,27 @@ import java.util.ArrayList;
 
 public class UsePowerUpCard extends PlayerMove {
 
-    private int[] cubes;
-    private int[][] coordinates;
+    private int[] coordinates;
+    private int idPlayer;
     private boolean defend;
-    //private PlayerInterface playerToAttack;
-
+    private int positionPowerUp;
 
     public UsePowerUpCard(String player) {
         super(player);
     }
 
+    public UsePowerUpCard(String player, String error, int[] coordinates, int idPlayer, boolean defend, int positionPowerUp) {
+        super(player);
+        this.coordinates = coordinates;
+        this.idPlayer = idPlayer;
+        this.defend = defend;
+        this.positionPowerUp = positionPowerUp;
+
+    }
+
     @Override
     public void accept(VisitorController visitorController) {
-
+        visitorController.usePowerUpCard(this);
     }
 
     @Override
@@ -27,11 +35,11 @@ public class UsePowerUpCard extends PlayerMove {
         networkHandler.sendUsePowerUpCard(this);
     }
 
-    public int[][] getCoordinates() {
+    public int[] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(int[][] coordinates) {
+    public void setCoordinates(int[] coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -43,20 +51,19 @@ public class UsePowerUpCard extends PlayerMove {
         this.defend = defend;
     }
 
-    /*public PlayerInterface getPlayerToAttack() {
-        return playerToAttack;
-    }*/
-
-    /*public void setPlayerToAttack(PlayerInterface playerToAttack) {
-        this.playerToAttack = playerToAttack;
-    }*/
-
-
-    public int[] getCubes() {
-        return cubes;
+    public int getIdPlayer() {
+        return idPlayer;
     }
 
-    public void setCubes(int[] cubes) {
-        this.cubes = cubes;
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
+    }
+
+    public int getPositionPowerUp() {
+        return positionPowerUp;
+    }
+
+    public void setPositionPowerUp(int positionPowerUp) {
+        this.positionPowerUp = positionPowerUp;
     }
 }

@@ -3,10 +3,12 @@ package it.polimi.isw2019.model.weaponcard;
 import it.polimi.isw2019.model.*;
 import it.polimi.isw2019.model.exception.DamageTrackException;
 import it.polimi.isw2019.model.exception.ErrorEffectException;
+import it.polimi.isw2019.model.exception.NoEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.security.auth.DestroyFailedException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -17,6 +19,7 @@ public class HeatSeekerTest {
     PlayerBoard pba, pb1, pb2, pb3, pb4;
     HeatSeeker card = new HeatSeeker();
     ArrayList<Player> defenders = new ArrayList<>();
+    ArrayList<Player> defenders2 = new ArrayList<>();
     int [] coordinates = new int[4];
 
     @Before
@@ -52,7 +55,6 @@ public class HeatSeekerTest {
 
         defenders.add(firstDefender);
 
-
     }
 
     @After
@@ -61,31 +63,24 @@ public class HeatSeekerTest {
 
     @Test
     public void firstEffect() throws ErrorEffectException, DamageTrackException {
-
-        /*try{
-            card.firstEffect(gameBoard, attacker, defenders, coordinates);
-
-
-            ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
-
-
-            assertFalse(visiblePlayers.contains(firstDefender));
-
-
-            assertEquals(3, pb1.numOfDamages());
-
-
-
-        } catch (ErrorEffectException e) {
-            e.printStackTrace();
-        }*/
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
+        assertFalse(visiblePlayers.contains(firstDefender));
+        assertEquals(3, pb1.numOfDamages());
     }
 
-    @Test
-    public void secondEffect() {
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestFirstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders2, coordinates);
     }
 
-    @Test
-    public void thirdEffect() {
+    @Test (expected = NoEffectException.class)
+    public void secondEffect() throws NoEffectException {
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+    }
+
+    @Test (expected = NoEffectException.class)
+    public void thirdEffect() throws NoEffectException {
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }

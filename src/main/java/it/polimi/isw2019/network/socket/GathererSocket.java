@@ -56,10 +56,6 @@ public class GathererSocket implements Runnable, GathererInterface {
             System.out.println("Provo a inviare la player move");
             clientHandlerSocket(newConnection);
 
-            /*ClientSocket cs = new ClientSocket(newConnection, output, input);
-            cs.setLobby(lobby);
-            cs.start();*/
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,8 +83,7 @@ public class GathererSocket implements Runnable, GathererInterface {
             }*/
 
             //messaggio di output per la registrazione avvenuta
-            String outputString = "REGISTRAZIONE AVVENUTA DA: ";
-            output.writeObject(outputString + messageInput);
+            output.writeObject( "REGISTRAZIONE AVVENUTA DA: " + messageInput);
             output.flush();
             output.reset();
 
