@@ -91,9 +91,4 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
 
     }
 
-    @Override
-    public void sendFailRegistration(FailRegistration failRegistration) {
-
-    }
-
 }

@@ -27,9 +27,9 @@ public interface ServerInterface<T> extends Remote {
 
     void receiveRun(String player,int[][] movement) throws RemoteException;
 
-    void receiveGrab(String player)throws RemoteException;
+    void receiveGrab(String player, int positionWeaponCard, int[] paymen)throws RemoteException;
 
-    void receiveRegisterPlayer( String player, String actionHero) throws RemoteException;
+    void receiveRegisterPlayer(String player, String actionHero) throws RemoteException;
 
     void receiveReload(String player, int[] weaponCard, int[][] payment) throws RemoteException;
 
@@ -39,7 +39,7 @@ public interface ServerInterface<T> extends Remote {
 
     void receiveWeaponCardChoice(String player, int indexWeaponCard, int[] payment) throws RemoteException;
 
-    void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException;
+    void receiveUseWeaponCard (String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot) throws RemoteException;
 
     void receiveConnectionMove(String player, int connection) throws RemoteException;
 

@@ -112,6 +112,11 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
+    public void reconnectionClient() throws RemoteException {
+
+    }
+
+    @Override
     public Boolean isYourTurn() throws RemoteException {
         return true;
     }
@@ -178,11 +183,6 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-
-    @Override
-    public void createFailRegistration(String nicknamePlayer) throws RemoteException {
-
-    }
 
     @Override
     public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp) throws RemoteException {

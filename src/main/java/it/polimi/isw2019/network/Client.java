@@ -86,12 +86,13 @@ public class Client {
             }
         }
         if (typeServer==1){
+            /*
             //192.168.43.154
             try {
                 serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
             } catch (RemoteException | NotBoundException | MalformedURLException e) {
                 e.getCause();
-            }
+            }*/
             startView(nickname);
         }
 
@@ -103,11 +104,18 @@ public class Client {
         CLIView view = new CLIView(nickname);
         NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
 
+        //192.168.43.154
+        try {
+            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            e.getCause();
+        }
 
         try {
             ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
             networkHandler.setRemoteClient(remoteClient);
             serverRmi.registerNewClient(remoteClient, nickname);
+
 
         } catch (RemoteException e) {
             e.printStackTrace();

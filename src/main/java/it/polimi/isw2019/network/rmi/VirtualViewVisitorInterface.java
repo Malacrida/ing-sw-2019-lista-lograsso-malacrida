@@ -25,5 +25,4 @@ public interface VirtualViewVisitorInterface {
 
     void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
 
-    void sendFailRegistration(FailRegistration failRegistration);
 }

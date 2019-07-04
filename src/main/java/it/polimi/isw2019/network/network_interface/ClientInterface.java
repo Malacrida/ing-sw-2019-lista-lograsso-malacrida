@@ -19,6 +19,8 @@ public interface ClientInterface extends Remote {
 
     public String getNickname() throws RemoteException;
 
+    public void reconnectionClient () throws RemoteException;
+
     public Boolean isYourTurn() throws RemoteException;
 
     //per fargli fare la scelta della modalità di gioco e mappa
@@ -48,8 +50,6 @@ public interface ClientInterface extends Remote {
     public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable,boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) throws RemoteException;
 
     public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException;
-
-    public void createFailRegistration(String nicknamePlayer) throws RemoteException;
 
     public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp ) throws RemoteException ;
 

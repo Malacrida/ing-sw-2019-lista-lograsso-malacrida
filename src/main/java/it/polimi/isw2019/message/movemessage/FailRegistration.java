@@ -15,7 +15,7 @@ public class FailRegistration extends MoveMessage {
 
     @Override
     public void accept(VirtualViewVisitorInterface virtualView) {
-        virtualView.sendFailRegistration(this);
+       // virtualView.sendFailRegistration(this);
     }
 
 }

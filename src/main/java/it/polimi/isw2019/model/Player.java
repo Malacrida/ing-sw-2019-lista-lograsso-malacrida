@@ -844,6 +844,7 @@ public class Player{
             }
              else {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
+                 numActionPerformed = 0;
                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
                     System.out.println(" numAc end :" + numActionPerformed);
                     return false;

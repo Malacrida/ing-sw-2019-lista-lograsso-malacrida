@@ -151,12 +151,13 @@ public class Lobby implements LobbyInterface {
     public void setVirtualViews() {
         for (int i=0; i<connectedClients.size(); i++ ){
             VirtualViewRmi virtualViewRmi = new VirtualViewRmi(connectedClients.get(i).getNickname(), connectedClients.get(i).getClientInterface());
+            System.out.println("creo Virtual View di "+ connectedClients.get(i).getNickname());
             virtualViewRmis.add(virtualViewRmi);
-
+/*
              if (connectedClients.get(i).getTypeConnection() == TypeConnection.SOCKET){
                 VirtualViewSocket virtualViewSocket = new VirtualViewSocket(connectedClients.get(i).getNickname(), (ClientSocket) connectedClients.get(i).getClientInterface());
                 virtualViewsSocket.add(virtualViewSocket);
-            }
+            }*/
         }
     }
 
@@ -170,23 +171,20 @@ public class Lobby implements LobbyInterface {
         setVirtualViews();
         Server.setVirtualViewOnServer(virtualViewRmis);
 
-        System.out.println("ci sono :" + virtualViewRmis.size());
         for (VirtualViewRmi virtualViewRmi : virtualViewRmis){
             virtualViewRmi.registerObserver(controller);
-            System.out.println(virtualViewRmi.getNickname());
         }
-
+/*
         for (VirtualViewSocket aVirtualViewSocket: virtualViewsSocket){
             aVirtualViewSocket.registerObserver(controller);
             System.out.println(aVirtualViewSocket.getNickname());
-        }
+        }*/
 
         for(VirtualViewRmi virtualViewRmi : virtualViewRmis) {
             virtualViewRmi.startView();
-            System.out.println(virtualViewRmi.getNickname());
         }
 
-
+/*
         for(VirtualViewSocket aVirtualViewSocket : virtualViewsSocket){
             try {
                 aVirtualViewSocket.startView();
@@ -194,7 +192,9 @@ public class Lobby implements LobbyInterface {
                 e.printStackTrace();
             }
             System.out.println(aVirtualViewSocket.getNickname());
-        }
+        }*/
+
+
         controller.startGame();
     }
 }
