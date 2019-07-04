@@ -164,6 +164,11 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
+    @Override
+    public void createEndGame(String[] ranking, int[] points, int pointMax, String winner, String phrase) throws RemoteException {
+
+    }
+
     public ObjectOutputStream getObjectOutputStream(){
         return this.output;
     }

@@ -4,7 +4,6 @@ import it.polimi.isw2019.message.movemessage.*;
 
 public interface VirtualViewVisitorInterface {
 
-
     void sendActionView(ActionMessage actionMessage);
 
     void sendRun(RunMessage runMessage);
@@ -24,5 +23,7 @@ public interface VirtualViewVisitorInterface {
     void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage);
 
     void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer);
+
+    void sendEndGame (EndGame endGame);
 
 }

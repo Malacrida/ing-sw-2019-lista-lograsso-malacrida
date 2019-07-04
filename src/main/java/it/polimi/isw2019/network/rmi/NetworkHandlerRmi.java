@@ -77,6 +77,15 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
+    public void sendTerminatorMove(TerminatorMove terminatorMove) {
+        try {
+            server.receiveTerminatorMove(terminatorMove.getPlayer(),terminatorMove.getCoordinates(),terminatorMove.isShootPeople(),terminatorMove.getColorSpawn());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void startViewClient() throws RemoteException {
         StartMessage startMessage = new StartMessage(nickname);
         startMessage.setNotifyAll(true);
@@ -250,6 +259,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         System.out.println("ricevo la Move message choice PU");
         ChoiceCard choiceCard = new ChoiceCard(nicknamePlayer,descriptionPowerUp,idPowerUp,error,discardOne, isPowerUp);
         notifyObservers(choiceCard);
+    }
+
+    @Override
+    public void createEndGame(String[] ranking, int[] points, int pointMax, String winner, String phrase) throws RemoteException {
+        EndGame endGame = new EndGame(ranking, points,pointMax,winner,phrase);
+        notifyObservers(endGame);
     }
 
 

@@ -43,4 +43,6 @@ public interface ServerInterface<T> extends Remote {
 
     void receiveConnectionMove(String player, int connection) throws RemoteException;
 
+    void receiveTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn) throws RemoteException;
+
 }

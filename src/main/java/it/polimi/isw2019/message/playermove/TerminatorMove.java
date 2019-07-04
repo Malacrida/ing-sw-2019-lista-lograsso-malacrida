@@ -47,6 +47,6 @@ public class TerminatorMove extends PlayerMove {
 
     @Override
     public void accept(NetworkHandlerVisitorInterface networkHandler) {
-
+        networkHandler.sendTerminatorMove(this);
     }
 }

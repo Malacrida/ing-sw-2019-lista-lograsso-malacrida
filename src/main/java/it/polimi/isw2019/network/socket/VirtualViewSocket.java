@@ -89,4 +89,9 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     @Override
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
     }
+
+    @Override
+    public void sendEndGame(EndGame endGame) {
+
+    }
 }
