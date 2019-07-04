@@ -10,8 +10,10 @@ import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
-public class Model extends Observable {
+public class Model extends Observable<MoveMessage> {
 
     private Player currentPlayer;
     private int turn;
@@ -48,7 +50,11 @@ public class Model extends Observable {
     private ArrayList<Player> deadPlayer = new ArrayList<>();
     private ArrayList<Player> shootPlayer = new ArrayList<>();
 
+    private TimerPlayer timer;
+
     private Player terminator;
+
+
 
     public ArrayList<String> getColorAvailable() {
         return colorAvailable;
@@ -78,6 +84,7 @@ public class Model extends Observable {
 
 
 
+
     //vengono attivati con l'update
     public Model(){
 
@@ -92,6 +99,8 @@ public class Model extends Observable {
 
         killShotTrack = new KillShotTrack(5);
 
+        timer = new TimerPlayer(60);
+        timer.setModel(this);
     }
 
     public ArrayList<PlayerBoard> getPlayerBoards() {
@@ -153,7 +162,6 @@ public class Model extends Observable {
         }
     }
 
-    //used for the tests
     public void addPlayer(Player player) {
         players.add(player);
     }
@@ -260,9 +268,6 @@ public class Model extends Observable {
      */
 
     public void changePlayer(){
-         //end turn !!
-        //updateEndTurn();
-
         int index = players.indexOf(currentPlayer);
 
         if (index == players.size() - 1) {
@@ -275,16 +280,13 @@ public class Model extends Observable {
              changePlayer();
 
         if(sizeActivePlayer() < 3) {
+            System.out.println("number of player less 3");
             // end game
         }
 
         else{
             if (!killShotTrack.isFinalFrenzy()) {
-
-                if (deadPlayer.contains(currentPlayer)) {
-                    updatePlayerDeath();
-                }
-
+                updatePlayerDeath();
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
@@ -292,6 +294,7 @@ public class Model extends Observable {
 
             if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
                 frenzyPlayer--;
+                sendUpdateMessage();
                 handleNormalTurn();
                 return;
             } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
@@ -304,6 +307,7 @@ public class Model extends Observable {
 
     public int sizeActivePlayer(){
         int numActivePlayer = 0;
+
         for(Player player: players)
             if(player.isActive())
                 numActivePlayer++;
@@ -453,7 +457,8 @@ public class Model extends Observable {
             sendUpdateMessage();
 
             if(currentPlayer.updatePlayerMessageStatus())
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
             else
                 changePlayer();
 
@@ -506,8 +511,9 @@ public class Model extends Observable {
        else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
             currentPlayer.setPlayerInUsePowerUpMessage(returnCoordinatesOfPlayerInGame());
         }
+        sendMessage();
 
-       notifyObservers(currentPlayer.getSingleMessageToBeSent());
+      // notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 
     /**
@@ -544,13 +550,15 @@ public class Model extends Observable {
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setDescriptionPowerUp(repPowerUp);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setIdPowerUp(idPowerUp);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setPowerUp(true);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+                //notifyObservers(currentPlayer.getSingleMessageToBeSent());
             }
         } else {
             if (currentPlayer.getWeaponCards().size() < 3) {
                 ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setWeaponCardAvailable(gameBoard.getWeaponCardDescription(currentPlayer.getColorRoom()));
                 ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(true);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
             } else {
                 ChoiceCard choiceCard = new ChoiceCard(currentPlayer.getName());
@@ -560,7 +568,8 @@ public class Model extends Observable {
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setDescriptionPowerUp(repWeapon);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setIdPowerUp(idWeapon);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setPowerUp(false);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
             }
         }
@@ -568,6 +577,7 @@ public class Model extends Observable {
     public void setGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
+
 
     /**
      * setter of the game
@@ -756,10 +766,15 @@ public class Model extends Observable {
                 players.get(i).addScore(2);
             if (players.get(i).getPlayerID()==killShotTable[4][0] && killShotTable[4][1]!=0)
                 players.get(i).addScore(1);
+        }
+    }
+
+    public void endScore (){
+        for (int i=0; i<players.size(); i++){
 
         }
-
     }
+
 
     /**
      * respawn action
@@ -892,9 +907,9 @@ public class Model extends Observable {
 
     }
 
-    public void grabWeaponCard(AbstractWeaponCard weaponCard) {
+    public void grabWeaponCard(AbstractWeaponCard weaponCard, ColorCube[] rechargeCube) {
 
-        handlePayment(weaponCard.getRechargeCube());
+        handlePayment(rechargeCube);
 
         try {
             tmpWeaponCard = gameBoard.takeWeaponCard(weaponCard,getCurrentPlayer().getX(),getCurrentPlayer().getY());
@@ -910,6 +925,7 @@ public class Model extends Observable {
         updateCorrectAction();
     }
 
+    //think about it
     public ArrayList<Player> fromArrayToArrayListPlayer(int[] defenders){
         ArrayList<Player> playerDefender = new ArrayList<>();
         for(int i = 0; i < defenders.length; i++){
@@ -931,6 +947,32 @@ public class Model extends Observable {
             shootPlayer.add(player);
         }
     }
+
+    public ArrayList<Player> playerToBeShoot(int[] coordinates, int maxPeopleToBeShoot){
+        ArrayList<Player> player = new ArrayList<>();
+        int j = 0;
+        for(int i = 0 ; i<coordinates.length; i++){
+            if(coordinates[i]== -1 && j < maxPeopleToBeShoot) {
+                player.add(terminator);
+                j++;
+            }
+            else if(coordinates[i]!= -2 && j < maxPeopleToBeShoot){
+                player.add(players.get(coordinates[i]));
+                j++;
+            }
+        }
+
+        return player;
+    }
+
+    public ArrayList<Player> removePlayerFromOneEffectToAnother(ArrayList<Player> players){
+        ArrayList<Player> newPlayer = new ArrayList<>();
+        for(Player player: players){
+            if(!gameBoard.getOverkillPlayer().contains(player))
+                newPlayer.add(player);
+        }
+        return newPlayer;
+    }
     /**
      * implementation of shoot action
      * @param indexCard index of weapon card
@@ -942,21 +984,24 @@ public class Model extends Observable {
     public void useWeaponCard( int indexCard,int[] orderEffect,int[][] defenders, int[][] coordinates, int[][] payment){
 
         AbstractWeaponCard weaponCard = currentPlayer.getWeaponCards().get(indexCard);
-
+        ArrayList<Player> defender = new ArrayList<>();
      for(int i = 0 ; i < orderEffect.length; i ++) {
          if(orderEffect[i] == 1) {
-             ArrayList<Player> defenders1= fromArrayToArrayListPlayer(defenders[0]);
+             if(weaponCard.getNumMaxDefenders()!= 0){
+                 defender.clear();
+                 defender = playerToBeShoot(defenders[0], weaponCard.getMaxPossibleDefenders());
+             }
+
              try {
-                 weaponCard.firstEffect(gameBoard,currentPlayer,defenders1,coordinates[0]);
-                 insertShootPlayer(defenders1);
+                 weaponCard.firstEffect(gameBoard,currentPlayer,defender,coordinates[0]);
+                 //insertShootPlayer(defender);
 
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
              } catch (ErrorEffectException e) {
                  updateNotCorrectAction(e.getMessage());
              } catch (DamageTrackException e) {
-                 insertShootPlayer(defenders1);
-                 insertDeadPlayer(defenders1);
+                 //how to handle shoot player -> new method
              }
              finally {
                  handlePayment(weaponCard.getRechargeCube());
@@ -964,10 +1009,14 @@ public class Model extends Observable {
          }
 
          if (orderEffect[i] == 2) {
-             ArrayList<Player> defenders1= fromArrayToArrayListPlayer(defenders[1]);
+             if(weaponCard.getNumMaxDefenders()!= 0){
+                 defender.clear();
+                 defender = playerToBeShoot(defenders[1], weaponCard.getMaxPossibleDefenders());
+                 defender = removePlayerFromOneEffectToAnother(defender);
+             }
              try {
-                 weaponCard.secondEffect(gameBoard,currentPlayer, defenders1, coordinates[1]);
-                 insertShootPlayer(defenders1);
+                 weaponCard.secondEffect(gameBoard,currentPlayer, defender, coordinates[1]);
+                 //insertShootPlayer(defender);
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -975,8 +1024,7 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
-                 insertShootPlayer(defenders1);
-                 insertDeadPlayer(defenders1);
+                 //new method
              }
              finally {
                  handlePayment(weaponCard.getPaySecondEffect());
@@ -984,11 +1032,15 @@ public class Model extends Observable {
          }
 
          if (orderEffect[i] == 3) {
-             ArrayList<Player> defenders1= fromArrayToArrayListPlayer(defenders[2]);
+             if(weaponCard.getNumMaxDefenders()!= 0){
+                 defender.clear();
+                 defender = playerToBeShoot(defenders[2], weaponCard.getMaxPossibleDefenders());
+                 defender = removePlayerFromOneEffectToAnother(defender);
+             }
              try {
 
-                 weaponCard.thirdEffect(gameBoard,currentPlayer, defenders1, coordinates[2]);
-                 insertShootPlayer(defenders1);
+                 weaponCard.thirdEffect(gameBoard,currentPlayer, defender, coordinates[2]);
+                 //insertShootPlayer(defender);
              } catch (NoEffectException e) {
                  updateNotCorrectAction(e.getMessage());
                  return;
@@ -996,14 +1048,13 @@ public class Model extends Observable {
                  updateNotCorrectAction(e.getMessage());
                  return;
              } catch (DamageTrackException e) {
-                 insertShootPlayer(defenders1);
-                 insertDeadPlayer(defenders1);
              }
              finally {
                  handlePayment(weaponCard.getPayThirdEffect());
              }
          }
      }
+
      currentPlayer.getWeaponCards().get(indexCard).changeState(StateCard.DISCHARGE);
      sendActionUpdateMessage();
 
@@ -1018,12 +1069,7 @@ public class Model extends Observable {
             powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo[0], coo[1]);
 
         }catch(DamageTrackException e){
-
-            for(Player player : players){
-                if(!deadPlayer.contains(player)){
-                    deadPlayer.add(player);
-                }
-            }
+            //mettere nei player morti
         }
 
         currentPlayer.getPowerUpCards().remove(powerUpCard);
@@ -1199,11 +1245,22 @@ public class Model extends Observable {
         }
     }
     public void updatePlayerDeath(){
-    if(deadPlayer.contains(currentPlayer)) {
+    if(gameBoard.getKillPlayer().contains(currentPlayer) || gameBoard.getOverkillPlayer().contains(currentPlayer)) {
+
         ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
 
         System.out.println("has died! " + deadPlayer.size());
-        addDamageOnKillShotTrack(colorPlayerDoKill.get(0), colorPlayerDoKill.size());
+            addDamageOnKillShotTrack(colorPlayerDoKill.get(0), colorPlayerDoKill.size());
+         if (gameBoard.getOverkillPlayer().contains(currentPlayer)){
+             for(Player player : players)
+                 if(player.getColor().equals(colorPlayerDoKill.get(0))) {
+                     try {
+                         player.sufferDamageOrMark(currentPlayer.getColor(), 0, 1);
+                     } catch (DamageTrackException e) {
+                         gameBoard.addKillPlayer(player);
+                     }
+                 }
+        }
 
         currentPlayer.getRealPlayerBoard().resetAfterDeath();
         // -> respawn = TRUE
@@ -1219,7 +1276,7 @@ public class Model extends Observable {
             frenzyPlayer = players.size();
         }
 
-        deadPlayer.remove(currentPlayer);
+        gameBoard.getKillPlayer().remove(currentPlayer);
         //sendUpdateAction()!
          }
 
@@ -1262,6 +1319,22 @@ public class Model extends Observable {
         return deadPlayer;
     }
 
+
+
+    public void receiveAnswer (){
+        timer.stopTimer();
+    }
+
+    public void sendMessage (){
+        timer.startTimer();
+        notifyObservers(currentPlayer.getSingleMessageToBeSent());
+    }
+
+    public void playerNotAnswer (){
+        System.out.println("Disattivo il palyer");
+        currentPlayer.setActive(false);
+        changePlayer();
+    }
 }
 
 

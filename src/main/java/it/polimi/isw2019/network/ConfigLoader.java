@@ -9,7 +9,7 @@ public class ConfigLoader {
         /**
          * Relative path of the configuration file
          */
-        private static final String CONFIG_FILE_PATH = "/config/config.cfg";
+        private static final String CONFIG_FILE_PATH = "/config.txt";
 
         /**
          * Tag to get the info on the port used for the RMI connection
