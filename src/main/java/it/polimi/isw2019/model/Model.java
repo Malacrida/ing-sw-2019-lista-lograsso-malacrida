@@ -259,7 +259,7 @@ public class Model extends Observable {
      * method to change turn
      */
 
-    /*public void changePlayer(){
+    public void changePlayer(){
          //end turn !!
         //updateEndTurn();
 
@@ -271,13 +271,13 @@ public class Model extends Observable {
             currentPlayer = players.get(index + 1);
         }
 
-        //if(!currentPlayer.isActive())
-             //changePlayer();
+        if(!currentPlayer.isActive())
+             changePlayer();
 
-       // if(sizeActivePlayer() < 3) {
-            //// end game
-       // }
-        //else{
+        if(sizeActivePlayer() < 3) {
+            // end game
+        }
+        else{
             if (!killShotTrack.isFinalFrenzy()) {
 
                 if (deadPlayer.contains(currentPlayer)) {
@@ -296,39 +296,8 @@ public class Model extends Observable {
             } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
                 //endgame
             }
-        //}
-
-
-    }*/
-
-
-    public void changePlayer(){
-        //end turn !!
-        int index = players.indexOf(currentPlayer);
-
-        if (index == players.size() - 1) {
-            currentPlayer = players.get(0);
-        } else {
-            currentPlayer = players.get(index + 1);
         }
 
-        if(!isFrenzy) {
-
-           /* if (deadPlayer.contains(currentPlayer)) {
-                updatePlayerDeath();
-            }*/
-            sendUpdateMessage();
-            handleNormalTurn();
-        }
-
-        else if(isFrenzy && frenzyPlayer!= 0){
-            frenzyPlayer --;
-            handleNormalTurn();
-        }
-
-        else{
-            //endgame
-        }
 
     }
 
@@ -1104,7 +1073,7 @@ public class Model extends Observable {
                 toBePaid1[2] ++;
              }
 
-        for(int i = payment.length-1; i > 3 ; i--){
+        for(int i = payment.length-1; i !=2 ; i--){
             if(payment[i]!= -1){
                 try {
                     if((currentPlayer.fromIntToColorCube(payment[i])).equals(ColorCube.BLUE))
@@ -1114,7 +1083,7 @@ public class Model extends Observable {
                     else if((currentPlayer.fromIntToColorCube(payment[i])).equals(ColorCube.YELLOW))
                         toBePaid1[2] ++;
                 } catch (NotPossesPowerUp notPossesPowerUp) {
-                    notPossesPowerUp.printStackTrace();
+                    //notPossesPowerUp.printStackTrace();
                 }
             }
             }
@@ -1172,16 +1141,27 @@ public class Model extends Observable {
 
 
     public int[][] returnCoordinatesOfPlayerInGame(){
-           int[][] coordinatesPlayerInGame = new int[players.size()+1][3];
+
+           int[][] coordinatesPlayerInGame ;
+           if(terminator!= null)
+               coordinatesPlayerInGame =new int[players.size()+1][3];
+           else
+               coordinatesPlayerInGame = new int[players.size()][3];
+
            for(int i = 0; i < players.size(); i++){
                coordinatesPlayerInGame[i][0] = players.get(i).getIndexPlayer();
                coordinatesPlayerInGame[i][1] = players.get(i).getX();
                coordinatesPlayerInGame[i][2] = players.get(i).getY();
            }
-        coordinatesPlayerInGame[players.size()][0] = -1;
-        coordinatesPlayerInGame[players.size()][1] = terminator.getX();
-        coordinatesPlayerInGame[players.size()][2] = terminator.getY();
-        return coordinatesPlayerInGame;
+           if(terminator == null)
+               return coordinatesPlayerInGame;
+           else {
+               coordinatesPlayerInGame[players.size()][0] = -1;
+               coordinatesPlayerInGame[players.size()][1] = terminator.getX();
+               coordinatesPlayerInGame[players.size()][2] = terminator.getY();
+               return coordinatesPlayerInGame;
+           }
+
         }
 
     public void updateEndTurn(){

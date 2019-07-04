@@ -92,16 +92,18 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             System.out.println("Insert the coordinate or -1 to terminate : \n ");
             tmp = input.next();
             insert = Integer.parseInt(tmp);
-
-            if(insert >=0 && insert <= rawOrColum){
+            for( int i = 0 ; i <= rawOrColum; i ++){
+                if(tmp.equals(String.valueOf(i))){
+                    insert = Integer.parseInt(tmp);
+                    inputOk = true;
+                }
+            }
+            if(tmp.equals(String.valueOf(-1))) {
+                insert = Integer.parseInt(tmp);
                 inputOk = true;
             }
-            else if(insert == -1){
-                inputOk = true;
-            }
-            else{
-                System.out.println("try again");
-            }
+            if(!inputOk)
+                System.out.println("TRY AGAIN");
 
         }while(!inputOk);
         return insert;
@@ -727,18 +729,25 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             for(String weaponCard : grabMessage.getWeaponCardAvailable()) {
                 System.out.println("press" + i + "to take the following card");
                 System.out.println(weaponCard);
-                i ++;
+                i++;
             }
 
             do {
+
                 tmpInput = input.next();
+
                 for(i = 0 ; i < 2 ; i ++){
-                    if(tmpInput.equals(i)){
+                    if(tmpInput.equals(String.valueOf(i))){
                         inputOk= true;
                         break;
                     }
                 }
+
+                if(!inputOk){
+                    System.out.println("TRY AGAIN");
+                }
             } while (!inputOk);
+
             positionWeaponCard = Integer.parseInt(tmpInput);
 
             System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[positionWeaponCard]);
