@@ -39,11 +39,12 @@ public class VortexCannon extends AbstractWeaponCard {
 
         ArrayList<Player> visiblePlayers = gameBoard.playersWhoCanSee(attacker);
 
-        if((defenders.get(0) != null) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))){
+        if((!defenders.isEmpty()) && (visiblePlayers.contains(defenders.get(0))) && (!sameSquare(attacker.getX(), attacker.getY(), coordinates[0], coordinates[1]))){
             if (oneDistance(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1]) || sameSquare(defenders.get(0).getX(), defenders.get(0).getY(), coordinates[0], coordinates[1])){
                 gameBoard.changePositionPlayer(defenders.get(0), coordinates[0], coordinates[1]);
                 try {
                     defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(0));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
@@ -82,6 +83,7 @@ public class VortexCannon extends AbstractWeaponCard {
 
                 try {
                     defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(1));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
@@ -92,6 +94,7 @@ public class VortexCannon extends AbstractWeaponCard {
 
                     try {
                         defenders.get(2).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                        controlPlayersDamages(gameBoard, defenders.get(2));
                     } catch (DamageTrackException e) {
                         e.getMessage();
                     }

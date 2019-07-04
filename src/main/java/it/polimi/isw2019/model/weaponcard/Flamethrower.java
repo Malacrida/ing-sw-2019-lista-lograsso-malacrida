@@ -49,6 +49,7 @@ public class Flamethrower extends AbstractWeaponCard {
 
                 try{
                     defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //FAI UN DANNO
+                    controlPlayersDamages(gameBoard, defenders.get(0));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }
@@ -58,6 +59,7 @@ public class Flamethrower extends AbstractWeaponCard {
                 if ((gameBoard.isSquareAvailableOnArena(defenders.get(0), defenders.get(1).getX(), defenders.get(1).getY())) && (dir1 == dir2)){ //SE LA SECONDA CELLA È ADIACENTE ALLA PRIMA E LA dir1 = dir2 (STESSA DIREZIONE) ALLORA FAI UN DANNO
                     try{
                         defenders.get(1).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                        controlPlayersDamages(gameBoard, defenders.get(1));
                     } catch (DamageTrackException e) {
                         e.getMessage();
                     }
@@ -90,14 +92,8 @@ public class Flamethrower extends AbstractWeaponCard {
 
         if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0],  coordinates[1])){ //VERIFICO SE LA CELLA È ADIACENTE
 
-            for (Player player:playersListFirstSquare) {
+            twoDamageMorePlayers(gameBoard, attacker, playersListFirstSquare);
 
-                try {
-                    player.sufferDamageOrMark(attacker.getColor(), 2, 0); //DUE DANNI
-                } catch (DamageTrackException e){
-                    e.getMessage();
-                }
-            }
         }else {
             throw new ErrorEffectException();
         }
@@ -107,14 +103,8 @@ public class Flamethrower extends AbstractWeaponCard {
 
         if ((gameBoard.isSquareAvailableOnArena(playersListFirstSquare.get(0), coordinates[2], coordinates[3])) && (dir1 == dir2)) { //SE LA CELLA È ADIACENTE ALLA PRIMA SELEZIONATA E LA DIREZIONE È UGUALE ALLORA FAI 1 DANNI A TUTTI
 
-            for (Player player : playersListSecondSquare) {
+            oneDamageMorePlayers(gameBoard, attacker, playersListSecondSquare);
 
-                try {
-                    player.sufferDamageOrMark(attacker.getColor(), 1, 0);
-                } catch (DamageTrackException e) {
-                    e.getMessage();
-                }
-            }
         }else {
             throw new ErrorEffectException();
         }

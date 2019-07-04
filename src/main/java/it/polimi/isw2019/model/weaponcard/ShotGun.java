@@ -36,6 +36,7 @@ public class ShotGun extends AbstractWeaponCard {
 
         if (!defenders.isEmpty()) {
             damagesInSameSquare(attacker, defenders.get(0), 3);
+            controlPlayersDamages(gameBoard, defenders.get(0));
 
             if ((coordinates[0] != -1) && (coordinates[1] != -1) && (gameBoard.isSquareAvailableOnArena(defenders.get(0), coordinates[0], coordinates[1]))) {
 
@@ -62,6 +63,7 @@ public class ShotGun extends AbstractWeaponCard {
         if (gameBoard.isSquareAvailableOnArena(attacker, defenders.get(0).getX(), defenders.get(0).getY())){
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 2, 0);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }

@@ -30,8 +30,9 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
         if (playerMove.getClass().equals(firstMessage)) {
             firstMessage = (FirstMessage) playerMove;
             newFirstMessage = new FirstMessage(this, firstMessage.getPlayer(), firstMessage.getActionHero());
+            notifyObservers(newFirstMessage);
         }
-        notifyObservers(playerMove);
+        else notifyObservers(playerMove);
     }
 
     public String getNickname() {

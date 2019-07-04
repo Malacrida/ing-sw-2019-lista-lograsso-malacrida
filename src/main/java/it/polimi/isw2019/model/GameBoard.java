@@ -35,6 +35,7 @@ public class GameBoard{
 
     private ArrayList<Player> killPlayer = new ArrayList<>();
     private ArrayList<Player> overkillPlayer = new ArrayList<>();
+    private ArrayList<Player> playersShooted = new ArrayList<>();
 
     private int[][] descriptionGameBoard;
 
@@ -466,6 +467,10 @@ public class GameBoard{
     public void addKillPlayer(Player player){
         killPlayer.add(player);
     }
+    public void addPlayerShooted(Player player){
+        playersShooted.add(player);
+    }
+
 
     public ArrayList<Player> getKillPlayer() {
         return killPlayer;

@@ -42,6 +42,7 @@ public class    Whisper extends AbstractWeaponCard {
         if((moreThanTwoDistance(attacker.getX(), attacker.getY(), defenders.get(0).getX(), defenders.get(0).getY())) && (visiblePlayers.contains(defenders.get(0)))){
             try {
                 defenders.get(0).sufferDamageOrMark(attacker.getColor(), 3, 1);
+                controlPlayersDamages(gameBoard, defenders.get(0));
             } catch (DamageTrackException e) {
                 e.getMessage();
             }

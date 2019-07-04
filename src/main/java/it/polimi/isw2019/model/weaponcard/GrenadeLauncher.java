@@ -45,6 +45,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
             if (visiblePlayers.contains(defenders.get(0))) { //vedo se è presente in quelli visibili
                 try {
                     defenders.get(0).sufferDamageOrMark(attacker.getColor(), 1, 0); //fai un danno
+                    controlPlayersDamages(gameBoard, defenders.get(0));
                 } catch ( DamageTrackException e) {
                     e.getMessage();
                 }
@@ -85,7 +86,7 @@ public class GrenadeLauncher extends AbstractWeaponCard {
 
             if (visiblePlayers.contains(squarePlayers.get(0))){ //se almeno uno è visibile
 
-                oneDamageAllPlayersInOneSquare(attacker, squarePlayers); //dai un danno a tutti i giocatori presenti nel quadrato
+                oneDamageMorePlayers(gameBoard, attacker, squarePlayers);//dai un danno a tutti i giocatori presenti nel quadrato
 
             }else{
                 throw new ErrorEffectException();

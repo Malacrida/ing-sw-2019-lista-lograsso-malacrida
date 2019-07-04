@@ -41,6 +41,7 @@ public class MachineGun extends AbstractWeaponCard {
         if (visiblePlayers.contains(defender)){ //se non è vuoto e se defenders.get(0) è visibile
             try {
                 defender.sufferDamageOrMark(attacker.getColor(), 1, 0);
+                controlPlayersDamages(gameBoard, defender);
             } catch ( DamageTrackException e) {
                 e.getMessage();
             }
@@ -62,9 +63,9 @@ public class MachineGun extends AbstractWeaponCard {
     @Override
     public void firstEffect(GameBoard gameBoard, Player attacker, ArrayList<Player> defenders, int[] coordinates) throws ErrorEffectException, DamageTrackException {
 
-        if(defenders.get(0) != null){
+        if(!defenders.isEmpty()){
             ifIsVisibleOneDamage(gameBoard, attacker, defenders.get(0));
-            if(defenders.get(1) != null){ /* Se seleziona il secondo giocatore da attaccare */
+            if(defenders.size() > 1){ /* Se seleziona il secondo giocatore da attaccare */
                 ifIsVisibleOneDamage(gameBoard, attacker, defenders.get(1));
             }
         } else {
@@ -109,13 +110,14 @@ public class MachineGun extends AbstractWeaponCard {
 
         /*PAGO UN BLU*/
 
-        if (defenders.get(1) != null){
+        if (defenders.size() > 1){
             if (!oneDamageIfFirstIsValid(attacker, defenders.get(1), firstIsValid)){
                 throw new ErrorEffectException();
             }
-            if(defenders.get(2) != null){
+            if(defenders.size() > 2){
                 try {
                     defenders.get(2).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(2));
                 } catch (DamageTrackException e) {
                     e.getMessage();
                 }

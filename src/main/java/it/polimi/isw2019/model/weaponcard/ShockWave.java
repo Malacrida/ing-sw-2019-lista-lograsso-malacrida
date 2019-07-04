@@ -40,6 +40,7 @@ public class ShockWave extends AbstractWeaponCard {
 
                 for (int i = 0; i < 3; i++){
                     defenders.get(i).sufferDamageOrMark(attacker.getColor(), 1, 0);
+                    controlPlayersDamages(gameBoard, defenders.get(i));
                 }
 
             } catch (DamageTrackException e) {
@@ -71,15 +72,15 @@ public class ShockWave extends AbstractWeaponCard {
         if (!firstSquare.equals(secondSquare) && !firstSquare.equals(thirdSquare) && !secondSquare.equals(thirdSquare)){
 
             if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[0], coordinates[1]) && !firstSquare.isEmpty()){
-                oneDamageAllPlayersInOneSquare(attacker, firstSquare);
+                oneDamageMorePlayers(gameBoard, attacker, firstSquare);
             }
 
             else if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[2], coordinates[3]) && !secondSquare.isEmpty()){
-                oneDamageAllPlayersInOneSquare(attacker, secondSquare);
+                oneDamageMorePlayers(gameBoard, attacker, secondSquare);
             }
 
             else if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[4], coordinates[5]) && !thirdSquare.isEmpty()){
-                oneDamageAllPlayersInOneSquare(attacker, thirdSquare);
+                oneDamageMorePlayers(gameBoard, attacker, thirdSquare);
             }
 
         } else{
