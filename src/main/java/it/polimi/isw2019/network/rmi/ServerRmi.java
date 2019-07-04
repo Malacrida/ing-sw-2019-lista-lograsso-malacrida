@@ -18,6 +18,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<ClientInterface>, Remote, GathererInterface {
@@ -37,6 +38,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void setLobby(Lobby lobby) {
         this.lobby= lobby;
     }
+
+
 
     @Override
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
@@ -82,7 +85,6 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     @Override
     public void receiveChooseActionMove(String player, int numAction) {
-        System.out.println("ricevuto una invocazione");
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
                 virtualViewRmis.get(i).createChooseActionMove(player, numAction);
@@ -120,7 +122,6 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     @Override
     public void receiveRegisterPlayer(String player, String actionHero) {
-        System.out.println("ricevo una registrazione da: "+player);
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
                 virtualViewRmis.get(i).createRegisterPlayer(player,actionHero);
@@ -133,6 +134,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void receiveReload(String player, int[] weaponCard, int[][] payment) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
+
                 virtualViewRmis.get(i).createReload(player, weaponCard, payment);
             }
         }

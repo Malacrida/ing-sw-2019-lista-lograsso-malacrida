@@ -25,7 +25,7 @@ public class Lobby implements LobbyInterface {
     private ArrayList<VirtualViewSocket> virtualViewsSocket = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
     private ArrayList<ConnetedClient> connectedClients = new ArrayList<>();
-    private int countDown = 60;
+    private int countDown = 10;
     boolean lobbyIsRunning = true;
 
     public Lobby() {

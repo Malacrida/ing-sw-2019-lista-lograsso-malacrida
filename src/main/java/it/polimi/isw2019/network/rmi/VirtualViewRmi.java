@@ -48,6 +48,7 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     public void update(MoveMessage message) {
         System.out.println("ricevo un messagio per: "+message.getNicknamePlayer() +" sono in :"+nickname);
         if (active && (message.getNicknamePlayer().equals(nickname) || message.isNotifyAll())){
+
             message.accept(this);
             System.out.println("procedo con l'update per: " + message.getNicknamePlayer());
             System.out.println("sono in : " +nickname);
