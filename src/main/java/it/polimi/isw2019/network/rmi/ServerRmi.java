@@ -41,10 +41,26 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
         System.out.println("richiesta di login: "+ nickname);
         System.out.println(client.getNickname());
-        if (lobby.addConnectedClient(nickname,client,TypeConnection.RMI))
-            client.logInCorrect();
-        else client.logInFail();
+        if (containAlreadyClient(nickname, client) && !virtualViewRmis.isEmpty()){
+            client.reconnectionClient();
+        }
+        else {
+            if (lobby.addConnectedClient(nickname, client, TypeConnection.RMI))
+                client.logInCorrect();
+            else client.logInFail();
+        }
 
+    }
+
+    public boolean containAlreadyClient (String nickname, ClientInterface client){
+        for (int i=0; i<virtualViewRmis.size(); i++){
+            if (virtualViewRmis.get(i).getNickname().equals(nickname)){
+                virtualViewRmis.get(i).setNetworkHandler(client);
+                virtualViewRmis.get(i).setActive(true);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -92,10 +108,10 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
     @Override
-    public void receiveGrab(String player) {
+    public void receiveGrab(String player, int positionWeaponCard, int[] paymen) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
-                virtualViewRmis.get(i).createGrab(player);
+                virtualViewRmis.get(i).createGrab(player, positionWeaponCard, paymen);
             }
         }
     }
@@ -150,10 +166,10 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
 
     @Override
-    public void receiveUseWeaponCard(String player, int weaponCard) {
+    public void receiveUseWeaponCard(String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot) {
         for (int i = 0; i< virtualViewRmis.size(); i++){
             if(virtualViewRmis.get(i).getNickname().equals(player)){
-                virtualViewRmis.get(i).createUseWeaponCard(player, weaponCard);
+                virtualViewRmis.get(i).createUseWeaponCard(player, weaponCard, effectUsed, handleEffectCoordinates, peopleToBeShoot);
             }
         }
     }

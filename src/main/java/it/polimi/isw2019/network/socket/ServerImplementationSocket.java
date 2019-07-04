@@ -124,7 +124,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveGrab(String player) throws RemoteException {
+    public void receiveGrab(String player, int positionWeaponCard, int[] paymen) throws RemoteException {
 
     }
 
@@ -154,9 +154,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUseWeaponCard(String player, int weaponCard) throws RemoteException {
+    public void receiveUseWeaponCard(String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot) throws RemoteException {
 
     }
+
 
     @Override
     public void receiveConnectionMove(String player, int connection) throws RemoteException {
