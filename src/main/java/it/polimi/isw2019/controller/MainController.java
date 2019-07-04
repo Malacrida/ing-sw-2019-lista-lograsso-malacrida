@@ -26,6 +26,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void update(PlayerMove playerMove){
            // System.out.println("controller : " + playerMove.getPlayer());
+            model.receiveAnswer();
             playerMove.accept(this);
     }
 

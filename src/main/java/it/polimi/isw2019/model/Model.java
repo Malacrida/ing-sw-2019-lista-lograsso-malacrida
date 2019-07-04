@@ -10,8 +10,10 @@ import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
-public class Model extends Observable {
+public class Model extends Observable<MoveMessage> {
 
     private Player currentPlayer;
     private int turn;
@@ -48,6 +50,8 @@ public class Model extends Observable {
     private ArrayList<Player> deadPlayer = new ArrayList<>();
     private ArrayList<Player> shootPlayer = new ArrayList<>();
 
+    private TimerPlayer timer;
+
     private Player terminator;
 
     public ArrayList<String> getColorAvailable() {
@@ -78,6 +82,7 @@ public class Model extends Observable {
 
 
 
+
     //vengono attivati con l'update
     public Model(){
 
@@ -92,6 +97,8 @@ public class Model extends Observable {
 
         killShotTrack = new KillShotTrack(5);
 
+        timer = new TimerPlayer(30);
+        timer.setModel(this);
     }
 
     public ArrayList<PlayerBoard> getPlayerBoards() {
@@ -275,6 +282,7 @@ public class Model extends Observable {
              changePlayer();
 
         if(sizeActivePlayer() < 3) {
+            System.out.println("number of player less 3");
             // end game
         }
 
@@ -304,6 +312,7 @@ public class Model extends Observable {
 
     public int sizeActivePlayer(){
         int numActivePlayer = 0;
+
         for(Player player: players)
             if(player.isActive())
                 numActivePlayer++;
@@ -453,7 +462,8 @@ public class Model extends Observable {
             sendUpdateMessage();
 
             if(currentPlayer.updatePlayerMessageStatus())
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
             else
                 changePlayer();
 
@@ -506,8 +516,9 @@ public class Model extends Observable {
        else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
             currentPlayer.setPlayerInUsePowerUpMessage(returnCoordinatesOfPlayerInGame());
         }
+        sendMessage();
 
-       notifyObservers(currentPlayer.getSingleMessageToBeSent());
+      // notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 
     /**
@@ -544,13 +555,15 @@ public class Model extends Observable {
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setDescriptionPowerUp(repPowerUp);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setIdPowerUp(idPowerUp);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setPowerUp(true);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+                //notifyObservers(currentPlayer.getSingleMessageToBeSent());
             }
         } else {
             if (currentPlayer.getWeaponCards().size() < 3) {
                 ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setWeaponCardAvailable(gameBoard.getWeaponCardDescription(currentPlayer.getColorRoom()));
                 ((GrabMessage) currentPlayer.getSingleMessageToBeSent()).setGrabWeapon(true);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
             } else {
                 ChoiceCard choiceCard = new ChoiceCard(currentPlayer.getName());
@@ -560,7 +573,8 @@ public class Model extends Observable {
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setDescriptionPowerUp(repWeapon);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setIdPowerUp(idWeapon);
                 ((ChoiceCard) currentPlayer.getSingleMessageToBeSent()).setPowerUp(false);
-                notifyObservers(currentPlayer.getSingleMessageToBeSent());
+                sendMessage();
+               // notifyObservers(currentPlayer.getSingleMessageToBeSent());
 
             }
         }
@@ -1262,6 +1276,22 @@ public class Model extends Observable {
         return deadPlayer;
     }
 
+
+
+    public void receiveAnswer (){
+        timer.stopTimer();
+    }
+
+    public void sendMessage (){
+        timer.startTimer();
+        notifyObservers(currentPlayer.getSingleMessageToBeSent());
+    }
+
+    public void playerNotAnswer (){
+        System.out.println("Disattivo il palyer");
+        currentPlayer.setActive(false);
+        changePlayer();
+    }
 }
 
 
