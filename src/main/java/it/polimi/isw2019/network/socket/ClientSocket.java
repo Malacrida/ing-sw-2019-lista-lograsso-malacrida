@@ -149,7 +149,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     }
 
     @Override
-    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, boolean[] stateCard, int stateGame, boolean attacked, int[] effectCard, String error) throws RemoteException {
+    public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) throws RemoteException {
 
     }
 
