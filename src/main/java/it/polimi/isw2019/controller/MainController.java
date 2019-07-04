@@ -286,6 +286,23 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void terminatorAction(TerminatorMove terminatorMove) {
-       model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+        if(terminatorMove.getColorSpawn()!= -1){
+            if(terminatorMove.getColorSpawn()== 0) {
+                //change player positiom red
+            }
+            if(terminatorMove.getColorSpawn()== 1){
+                //change player position blue
+            }
+            if(terminatorMove.getColorSpawn()== 2){
+                //change player position yellow
+            }
+
+            model.getCurrentPlayer().setCorrectNormalActionChooseMessages(false);
+            model.sendActionMessage();
+
+        }
+        else{
+            model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+        }
     }
 }

@@ -180,7 +180,10 @@ public class Model extends Observable<MoveMessage> {
             players.get(i).setIndexPlayer(j);
         }
 
+        players.get(shift+1).setSetTerminatorSpawn(true);
+
         currentPlayer = players.get(shift);
+
 
     }
 
@@ -206,7 +209,6 @@ public class Model extends Observable<MoveMessage> {
         firstMessageFirstPlayer.setNotifyAll(false);
 
         notifyObservers(firstMessageFirstPlayer);
-
 
     }
 
@@ -284,6 +286,17 @@ public class Model extends Observable<MoveMessage> {
             // end game
         }
         else{
+            if(!currentPlayer.isFirstTurn() && currentPlayer.getSetTerminatorSpawn()){
+                currentPlayer.setSetTerminatorSpawn(false);
+                TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
+                ArrayList<String> colorSpawn = new ArrayList<>();
+                colorSpawn.add("red");
+                colorSpawn.add("blue");
+                colorSpawn.add("yellow");
+                terminatorMessage.setColorSpawn(colorSpawn);
+                notifyObservers(terminatorMessage);
+            }
+
             if (!killShotTrack.isFinalFrenzy()) {
                 //updatePlayerDeath();
                 updateEndTurn();
