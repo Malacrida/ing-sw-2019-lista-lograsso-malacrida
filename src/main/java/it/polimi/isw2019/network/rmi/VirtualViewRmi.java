@@ -202,7 +202,7 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     @Override
     public void sendUsePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
         try {
-            networkHandler.createUsePowerUpCard(usePowerUpCardMessage.getNicknamePlayer(), usePowerUpCardMessage.getFeaturesAvailable(),usePowerUpCardMessage.getStateCard(),usePowerUpCardMessage.getStateGame(),usePowerUpCardMessage.isAttacked(),usePowerUpCardMessage.getEffectCard(),usePowerUpCardMessage.getError());
+            networkHandler.createUsePowerUpCard(usePowerUpCardMessage.getNicknamePlayer(), usePowerUpCardMessage.getFeaturesAvailable(),usePowerUpCardMessage.getStateGame(),usePowerUpCardMessage.getCanBeUsed(), usePowerUpCardMessage.getError(), usePowerUpCardMessage.getCooPlayer());
         }
         catch (RemoteException e) {
             e.printStackTrace();
