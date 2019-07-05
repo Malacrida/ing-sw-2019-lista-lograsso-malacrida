@@ -49,8 +49,11 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
             client.reconnectionClient();
         }
         else {
-            if (lobby.addConnectedClient(nickname, client, TypeConnection.RMI))
+            if (lobby.addConnectedClient(nickname, client, TypeConnection.RMI)) {
+                System.out.println("Ho inserito il player all'interno della lobby");
                 client.logInCorrect();
+                System.out.println("gli ho mandato il messaggio di login corretto");
+            }
             else client.logInFail();
         }
 
