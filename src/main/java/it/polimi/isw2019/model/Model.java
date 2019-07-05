@@ -386,11 +386,6 @@ public class Model extends Observable<MoveMessage> {
         return cardRepresentation;
     }
 
-    public String[] setDescriptionWeaponCard(){
-        String[] cardRepresentation = new String[9];
-        return cardRepresentation;
-    }
-
     /**
      * setter of frenzy mode
      */
@@ -543,9 +538,6 @@ public class Model extends Observable<MoveMessage> {
         setGameRepresentation();
         notifyObservers(new UpdateMessage(currentPlayer.getName(),gameBoard.getGameBoardDescription(),playerRepresentation,featuresAvailable,weaponCardDescription,powerUpCardDescription,true));
      }
-
-
-
 
     public void updateMessagesWithStatusGame(){
 
@@ -915,8 +907,6 @@ public class Model extends Observable<MoveMessage> {
      * method to implements action run
      * @param movement matrix of cooridinates (x,y) where x represents row and y represents column
      */
-
-
 
     public void run(int[][] movement){
 
