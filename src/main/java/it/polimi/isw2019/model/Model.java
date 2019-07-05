@@ -1459,7 +1459,7 @@ public class Model extends Observable<MoveMessage> {
     }
 
     public void sendMessage (){
-        timer.startTimer();
+        //timer.startTimer();
         notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 

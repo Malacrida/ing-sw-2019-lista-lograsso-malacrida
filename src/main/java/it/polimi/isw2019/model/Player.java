@@ -253,7 +253,9 @@ public class Player{
     }
 
 
-
+    public int getNumActionToBePerformed(){
+        return numActionToBePerformed;
+    }
 
     public Player getTerminatorPlayer() {
         return terminatorPlayer;

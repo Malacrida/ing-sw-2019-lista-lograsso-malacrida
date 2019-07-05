@@ -250,8 +250,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error){
-        UseWeaponCardMessage useWeaponCardMessage = new UseWeaponCardMessage(nicknamePlayer, weaponCard, featuresAvailable, playersToAttack, error);
+    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[][] featuresForEffect, int[] featuresAvailable, int[][] playersToAttack, String error){
+        UseWeaponCardMessage useWeaponCardMessage = new UseWeaponCardMessage(nicknamePlayer, weaponCard, featuresForEffect, featuresAvailable, playersToAttack, error);
         notifyObservers(useWeaponCardMessage);
 
     }

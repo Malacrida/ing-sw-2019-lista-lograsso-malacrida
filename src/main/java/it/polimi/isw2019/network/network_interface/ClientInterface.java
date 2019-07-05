@@ -45,7 +45,7 @@ public interface ClientInterface extends Remote {
 
     public void createWaitForStart(String nicknamePlayer) throws RemoteException;
 
-    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error)throws RemoteException;
+    public void createUseWeaponCardMessage(String nicknamePlayer,int[] weaponCard, int[][] featuresForEffect, int[] featuresAvailable, int[][] playersToAttack, String error)throws RemoteException;
 
     public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) throws RemoteException;
 

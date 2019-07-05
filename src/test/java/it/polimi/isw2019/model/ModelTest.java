@@ -53,12 +53,15 @@ public class ModelTest {
         playerBoard5 = new PlayerBoard(ColorPlayer.VIOLET);
         player5.setPlayerBoardAndColor(playerBoard5,ColorPlayer.VIOLET);
 
+
         model.addPlayer(player1);
         model.addPlayer(player2);
         model.addPlayer(player3);
         model.addPlayer(player4);
         model.addPlayer(player5);
 
+        for(Player player : model.getPlayers())
+            player.setActive(true);
        // gameBoard = new GameBoard();
 
        // gameBoard.chooseArena(1);
@@ -138,7 +141,7 @@ public class ModelTest {
     @Test
     public void testSetFrenzyMood(){
 
-        /*
+
         model.chooseFirstPlayer(3);
 
         model.changePlayer();
@@ -167,7 +170,7 @@ public class ModelTest {
         assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
         assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformed());
         assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformed());
-        */
+
 
     }
 
