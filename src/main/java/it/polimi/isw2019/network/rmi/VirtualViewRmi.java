@@ -60,6 +60,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         }
     }
 
+
+    
     public void createConnectionPlayer(String nickname, int connection){
         System.out.println("ricevo una connection di: " +nickname);
         System.out.println("sono in: " +this.nickname);
@@ -191,7 +193,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
             e.printStackTrace();
         }
     }
-//String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error
+
+
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
         try {

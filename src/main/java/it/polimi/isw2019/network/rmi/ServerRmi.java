@@ -60,6 +60,12 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     }
 
+    /**
+     * search the client
+     * @param nickname nickname of client
+     * @param client interface client
+     * @return true if client is already in the game false otherwise
+     */
     public boolean containAlreadyClient (String nickname, ClientInterface client){
         for (int i=0; i<virtualViewRmis.size(); i++){
             if (virtualViewRmis.get(i).getNickname().equals(nickname)){
@@ -201,8 +207,9 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     }
 
 
-
-
+    /**
+     * set register
+     */
     @Override
     public void run() {
         ConfigLoader cl = new ConfigLoader();
