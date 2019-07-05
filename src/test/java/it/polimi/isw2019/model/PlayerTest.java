@@ -1,7 +1,7 @@
 package it.polimi.isw2019.model;
 
-import it.polimi.isw2019.model.exception.DamageTrackException;
-import it.polimi.isw2019.model.exception.TooManyPowerUpCard;
+import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
 import it.polimi.isw2019.utilities.Database;
@@ -344,5 +344,140 @@ public class PlayerTest {
            // player1.getRealPlayerBoard().numOfBlueCubes()
             assertEquals(0,player1.getPowerUpCards().size());
             assertEquals(23,powerUpCards.size());
+    }
+
+    @Test
+    public void testGetSingleMessageToBeSent(){
+        MoveMessage moveMessage1 = new TerminatorMessage(player1.getName());
+        MoveMessage moveMessage3 = new UsePowerUpCardMessage(player1.getName());
+        MoveMessage moveMessage4 = new GrabMessage(player1.getName());
+        int[][] players = new int[3][3];
+
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+
+        moveMessages.add(moveMessage1);
+
+        player1.insertMessagesToBeSend(moveMessages);
+
+        player1.setPlayerToAttack(players);
+
+        player1.getSingleMessageToBeSent();
+
+        assertEquals(true, ((TerminatorMessage) moveMessage1).getCooPeople().equals(players));
+
+        ArrayList<MoveMessage> moveMessages2 = new ArrayList<>();
+
+        moveMessages2.add(moveMessage3);
+
+        player1.insertMessagesToBeSend(moveMessages2);
+
+        player1.setPlayerToAttack(players);
+
+        player1.getSingleMessageToBeSent();
+
+        assertEquals(true, (((UsePowerUpCardMessage) moveMessage3).getCooPlayer().equals(players)));
+
+        ArrayList<MoveMessage> moveMessages3 = new ArrayList<>();
+        moveMessages3.add(moveMessage4);
+
+        player1.insertMessagesToBeSend(moveMessages3);
+
+        player1.featuresAvailable();
+
+        player1.getSingleMessageToBeSent();
+
+        assertEquals(true, (((GrabMessage) moveMessage4).getFeaturesAvailable().equals(player1.getFeaturesAvailable())));
+    }
+
+    @Test
+    public void testUpdateMessageUseWeaponCard(){
+
+        MoveMessage moveMessage1 = new UseWeaponCardMessage(player1.getName());
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+        moveMessages.add(moveMessage1);
+        player1.insertMessagesToBeSend(moveMessages);
+        int[][] players = new int[3][3];
+        player1.setPlayerToAttack(players);
+
+        player1.updateMessage((UseWeaponCardMessage) (player1.getSingleMessageToBeSent()));
+
+        assertEquals(true, ((UseWeaponCardMessage) moveMessage1).getPlayersToAttack().equals(players));
+
+    }
+
+    @Test
+    public void testUpdateMessageTerminator(){
+
+        MoveMessage moveMessage1 = new GrabMessage(player1.getName());
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+        moveMessages.add(moveMessage1);
+        player1.insertMessagesToBeSend(moveMessages);
+
+        player1.updateMessage((GrabMessage) (player1.getSingleMessageToBeSent()));
+
+        assertEquals(true, ((GrabMessage) moveMessage1).getFeaturesAvailable().equals(player1.getFeaturesAvailable()));
+
+
+
+    }
+    @Test
+    public void testUpdateMessageGrab(){
+        MoveMessage moveMessage1 = new UseWeaponCardMessage(player1.getName());
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+        moveMessages.add(moveMessage1);
+        player1.insertMessagesToBeSend(moveMessages);
+        int[][] players = new int[3][3];
+        player1.setPlayerToAttack(players);
+
+        player1.updateMessage((UseWeaponCardMessage) (player1.getSingleMessageToBeSent()));
+
+        assertEquals(true, ((UseWeaponCardMessage) moveMessage1).getPlayersToAttack().equals(players));
+    }
+
+    @Test
+    public void testUsePowerUpCard(){
+        Database db = new Database();
+        ArrayList<PowerUpCard> powerUpCards = db.loadPowerUpCards();
+
+        try {
+            player1.takePowerUpCard(powerUpCards.get(0),null);
+        } catch (TooManyPowerUpCard tooManyPowerUpCard) {
+            fail();
+        }
+
+        assertEquals(1, player1.getPowerUpCards().size());
+        player1.usePowerUpCard(powerUpCards.get(0));
+
+        assertEquals(0, player1.getPowerUpCards().size());
+    }
+
+    @Test
+    public void testPayEffect(){
+
+        player1.setPlayerBoardAndColor(playerBoard1,player1.getColor());
+        try {
+            player1.getRealPlayerBoard().addCube(ColorCube.RED);
+        } catch (TooManyCubes tooManyCubes) {
+            fail();
+        }
+        try {
+            player1.getRealPlayerBoard().addCube(ColorCube.YELLOW);
+        } catch (TooManyCubes tooManyCubes) {
+            fail();
+        }
+        try {
+            player1.getRealPlayerBoard().addCube(ColorCube.BLUE);
+        } catch (TooManyCubes tooManyCubes) {
+            fail();
+        }
+
+        assertEquals(2,player1.getRealPlayerBoard().numOfRedCubes());
+        try {
+            player1.payEffect(1,0,0);
+        } catch (OutOfBoundsException e) {
+            fail();
+        }
+        assertEquals(1,player1.getRealPlayerBoard().numOfRedCubes());
+
     }
 }
