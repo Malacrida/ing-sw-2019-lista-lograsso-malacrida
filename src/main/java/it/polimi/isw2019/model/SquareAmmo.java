@@ -4,9 +4,6 @@ import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.AmmoTileUseException;
 
 
-/**
- * Class represents the squares where there are ammo tile
- */
 public class SquareAmmo extends Square {
 
     private AmmoTile ammoTile;

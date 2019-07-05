@@ -167,6 +167,9 @@ public class AmmoTile{
         this.checkState = checkState;
     }
 
+    public AmmoTile getAmmoTile(){
+        return this;
+    }
     public String toString(){
         String rep = " ";
         setAmmoCardDescription();

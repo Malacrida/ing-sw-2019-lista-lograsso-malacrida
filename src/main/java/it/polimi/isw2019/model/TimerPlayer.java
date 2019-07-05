@@ -18,7 +18,7 @@ public class TimerPlayer implements Runnable {
     }
 
     public void run (){
-        answer=false;
+
         try {
             for (int i =0; i<time; i++){
                 TimeUnit.SECONDS.sleep(1);
@@ -40,6 +40,7 @@ public class TimerPlayer implements Runnable {
     }
 
     public void startTimer (){
+        answer=false;
         thread = new Thread(this);
         thread.start();
     }

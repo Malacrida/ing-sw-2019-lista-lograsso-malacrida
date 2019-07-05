@@ -10,6 +10,7 @@ import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
@@ -178,7 +179,10 @@ public class Model extends Observable<MoveMessage> {
             players.get(i).setIndexPlayer(j);
         }
 
-        players.get(shift+1).setSetTerminatorSpawn(true);
+        if(shift < 2)
+           players.get(shift+1).setSetTerminatorSpawn(true);
+        else
+            players.get(0).setSetTerminatorSpawn(true);
 
         currentPlayer = players.get(shift);
 
@@ -280,36 +284,25 @@ public class Model extends Observable<MoveMessage> {
              changePlayer();
 
         if(sizeActivePlayer() < 3) {
-            System.out.println("number of player less 3");
-            // end game
+            endGame();
         }
-        else{
-            if(!currentPlayer.isFirstTurn() && currentPlayer.getSetTerminatorSpawn()){
-                currentPlayer.setSetTerminatorSpawn(false);
-                TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
-                ArrayList<String> colorSpawn = new ArrayList<>();
-                colorSpawn.add("red");
-                colorSpawn.add("blue");
-                colorSpawn.add("yellow");
-                terminatorMessage.setColorSpawn(colorSpawn);
-                notifyObservers(terminatorMessage);
-            }
 
-            if (!killShotTrack.isFinalFrenzy()) {
-                //updatePlayerDeath();
-                updateEndTurn();
+        else{
+            if (!killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
+                if(!currentPlayer.isFirstTurn())
+                    updateEndTurn();
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
             }
-
-            if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
+            else if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
                 frenzyPlayer--;
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
+
             } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
-                //endgame
+                endGame();
             }
         }
 
@@ -325,16 +318,28 @@ public class Model extends Observable<MoveMessage> {
 
         return numActivePlayer;
     }
-    public void handleNormalTurn(){
-        if(currentPlayer.getRealPlayerBoard() == null){
+    public void handleNormalTurn() {
+        if (currentPlayer.getRealPlayerBoard() == null) {
             firstMessage();
             return;
-        }
-        else {
+        } else {
             if (currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
                 notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
                 return;
             } else if (!currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
+                ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+                if (currentPlayer.getSetTerminatorSpawn() && terminator != null) {
+                    System.out.println("OK");
+                    currentPlayer.setSetTerminatorSpawn(false);
+                    TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
+                    ArrayList<String> colorSpawn = new ArrayList<>();
+                    colorSpawn.add("red");
+                    colorSpawn.add("blue");
+                    colorSpawn.add("yellow");
+                    terminatorMessage.setColorSpawn(colorSpawn);
+                    moveMessages.add(terminatorMessage);
+                }
+
                 tmpPowerUpCard.clear();
                 ChoiceCard choiceCard = new ChoiceCard(currentPlayer.getName());
 
@@ -343,9 +348,12 @@ public class Model extends Observable<MoveMessage> {
 
                 choiceCard.setDescriptionPowerUp(setDescriptionPowerUp());
                 choiceCard.setPowerUp(true);
-                currentPlayer.setFirstTurn(true);
+                currentPlayer.setFirstTurn(false);
                 //currentPlayer.setRespawned(true);
-                notifyObservers(choiceCard);
+                moveMessages.add(choiceCard);
+                //notifyObservers(choiceCard);
+                currentPlayer.insertMessagesToBeSend(moveMessages);
+                notifyObservers(currentPlayer.getSingleMessageToBeSent());
                 return;
             } else if (!currentPlayer.isRespawn() && !currentPlayer.isFirstTurn()) {
                 tmpPowerUpCard.clear();
@@ -355,6 +363,10 @@ public class Model extends Observable<MoveMessage> {
                 currentPlayer.setRespawned(true);
                 choiceCard.setPowerUp(true);
                 notifyObservers(choiceCard);
+                return;
+            } else if (currentPlayer.isRespawn() && !(currentPlayer.isFirstTurn())) {
+                //dire a sara per timer
+                notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
                 return;
             }
         }
@@ -469,20 +481,40 @@ public class Model extends Observable<MoveMessage> {
     }
 
     public void spawnTerminator(int colorSpawn){
+
         if(colorSpawn== 0) {
             //change player positiom red
-           gameBoard.getGameArena().spawnPlayer(ColorRoom.RED,terminator);
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.RED,terminator);
         }
         if(colorSpawn== 1){
             //change player position blue
             gameBoard.getGameArena().spawnPlayer(ColorRoom.BLUE,terminator);
         }
-        if(colorSpawn== 2){
+        if(colorSpawn== 2) {
             //change player position yellow
-            gameBoard.getGameArena().spawnPlayer(ColorRoom.YELLOW,terminator);
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.YELLOW, terminator);
         }
-        currentPlayer.setCorrectNormalActionChooseMessages(false);
-        //chiedere
+
+        try {
+            for(PlayerBoard playerBoard : playerBoardsAvailable){
+                if(playerBoard!= null){
+                    setPlayerWithPlayerBoard(terminator,playerBoard.getColor());
+                }
+            }
+
+        } catch (ColorNotAvailableException e) {
+
+        }
+
+        for(Player player : players)
+            player.setTerminatorPlayer(terminator);
+
+        System.out.println(currentPlayer.getTerminatorPlayer().getName());
+
+
+
+        //currentPlayer.setCorrectNormalActionChooseMessages(false);
+        currentPlayer.removeMessageToBeSend();
         sendActionMessage();
 
     }
@@ -513,25 +545,35 @@ public class Model extends Observable<MoveMessage> {
      }
 
 
-    /**
-     * send message of the acction
-     */
 
-    public void sendActionMessage(){
 
-       if (currentPlayer.getSingleMessageToBeSent() instanceof GrabMessage) {
+    public void updateMessagesWithStatusGame(){
+
+        if (currentPlayer.getSingleMessageToBeSent() instanceof GrabMessage) {
             updateGrabMessage();
             return;
         }
-       else if(currentPlayer.getSingleMessageToBeSent() instanceof UseWeaponCardMessage) {
-           currentPlayer.setPlayerInUseWeaponCardMessage(returnCoordinatesOfPlayerInGame());
-       }
-       else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
-            currentPlayer.setPlayerInUsePowerUpMessage(returnCoordinatesOfPlayerInGame());
+        else if(currentPlayer.getSingleMessageToBeSent() instanceof UseWeaponCardMessage) {
+            currentPlayer.setPlayerToAttack(returnCoordinatesOfPlayerInGame());
         }
-       else if(currentPlayer.getSingleMessageToBeSent() instanceof TerminatorMessage){
-            currentPlayer.setPlayerInUseTerminator(returnCoordinatesOfPlayerInGame());
-       }
+        else if(currentPlayer.getSingleMessageToBeSent() instanceof UsePowerUpCardMessage) {
+                currentPlayer.setPlayerToAttack(returnCoordinatesOfPlayerInGame());
+            if(returnCoordinatesOfPlayerInGame().length == 0) {
+                currentPlayer.updatePlayerStatusIncorrectAction("player size you can shoot is equal to 0");
+            }
+        }
+        else if(currentPlayer.getSingleMessageToBeSent() instanceof TerminatorMessage){
+            currentPlayer.setPlayerToAttack(returnCoordinatesOfPlayerInGame());
+        }
+
+    }
+
+    /**
+     * send message of the acction
+     */
+    public void sendActionMessage(){
+
+        updateMessagesWithStatusGame();
         sendMessage();
 
       // notifyObservers(currentPlayer.getSingleMessageToBeSent());
@@ -624,14 +666,6 @@ public class Model extends Observable<MoveMessage> {
             frenzyPlayer = players.size();
             if(terminatorVariable == 1) {
                 terminator = new Player("terminator", "Sterminerò tutti voi comuni mortali!");
-                try {
-                    setPlayerWithPlayerBoard(terminator,playerBoardsAvailable.get(0).getColor());
-                } catch (ColorNotAvailableException e) {
-
-                }
-
-                for(Player player : players)
-                    player.setTerminatorPlayer(terminator);
             }
 
 
@@ -871,7 +905,6 @@ public class Model extends Observable<MoveMessage> {
             if(getCurrentPlayer().getSingleMessageToBeSent() instanceof GrabMessage){
                 updateGrabMessage();
             }
-
             notifyObservers(getCurrentPlayer().getSingleMessageToBeSent());
         }
         else
@@ -1003,16 +1036,27 @@ public class Model extends Observable<MoveMessage> {
          if(orderEffect[i] == 1) {
              if(weaponCard.getNumMaxDefenders()!= 0){
                  defender.clear();
-                 defender = playerToBeShoot(defenders[0], weaponCard.getMaxPossibleDefenders());
+                 if(defenders[i]!= null){
+                     updateNotCorrectAction("no player inserted");
+                 }
+                 else {
+                     defender = playerToBeShoot(defenders[i], weaponCard.getMaxPossibleDefenders());
+                 }
              }
 
              try {
-                 weaponCard.firstEffect(gameBoard,currentPlayer,defender,coordinates[0]);
+                 weaponCard.firstEffect(gameBoard,currentPlayer,defender,coordinates[i]);
                  //insertShootPlayer(defender);
 
              } catch (NoEffectException e) {
+                 if(currentPlayer.getNumActionCancelled()== 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+                 }
                  updateNotCorrectAction(e.getMessage());
              } catch (ErrorEffectException e) {
+                 if(currentPlayer.getNumActionCancelled()== 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+                 }
                  updateNotCorrectAction(e.getMessage());
              } catch (DamageTrackException e) {
                  //how to handle shoot player -> new method
@@ -1025,18 +1069,27 @@ public class Model extends Observable<MoveMessage> {
          if (orderEffect[i] == 2) {
              if(weaponCard.getNumMaxDefenders()!= 0){
                  defender.clear();
-                 defender = playerToBeShoot(defenders[1], weaponCard.getMaxPossibleDefenders());
-                 defender = removePlayerFromOneEffectToAnother(defender);
+                 if(defenders[i]!= null){
+                     updateNotCorrectAction("no player inserted");
+                 }
+                 else {
+                     defender = playerToBeShoot(defenders[i], weaponCard.getMaxPossibleDefenders());
+                     defender = removePlayerFromOneEffectToAnother(defender);
+                 }
              }
              try {
-                 weaponCard.secondEffect(gameBoard,currentPlayer, defender, coordinates[1]);
-                 //insertShootPlayer(defender);
+                 weaponCard.secondEffect(gameBoard,currentPlayer, defender, coordinates[i]);
              } catch (NoEffectException e) {
+                 if(currentPlayer.getNumActionCancelled() == 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+                 }
                  updateNotCorrectAction(e.getMessage());
-                 return;
              } catch (ErrorEffectException e) {
+                 if(currentPlayer.getNumActionCancelled() == 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+
+                 }
                  updateNotCorrectAction(e.getMessage());
-                 return;
              } catch (DamageTrackException e) {
                  //new method
              }
@@ -1048,19 +1101,27 @@ public class Model extends Observable<MoveMessage> {
          if (orderEffect[i] == 3) {
              if(weaponCard.getNumMaxDefenders()!= 0){
                  defender.clear();
-                 defender = playerToBeShoot(defenders[2], weaponCard.getMaxPossibleDefenders());
-                 defender = removePlayerFromOneEffectToAnother(defender);
+                 if(defenders[i]!= null){
+                     updateNotCorrectAction("no player inserted");
+                 }
+                 else {
+                     defender = playerToBeShoot(defenders[i], weaponCard.getMaxPossibleDefenders());
+                     defender = removePlayerFromOneEffectToAnother(defender);
+                 }
              }
              try {
 
-                 weaponCard.thirdEffect(gameBoard,currentPlayer, defender, coordinates[2]);
-                 //insertShootPlayer(defender);
+                 weaponCard.thirdEffect(gameBoard,currentPlayer, defender, coordinates[i]);
              } catch (NoEffectException e) {
+                 if(currentPlayer.getNumActionCancelled() == 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+                 }
                  updateNotCorrectAction(e.getMessage());
-                 return;
              } catch (ErrorEffectException e) {
+                 if(currentPlayer.getNumActionCancelled() == 1) {
+                     weaponCard.changeState(StateCard.DISCHARGE);
+                 }
                  updateNotCorrectAction(e.getMessage());
-                 return;
              } catch (DamageTrackException e) {
              }
              finally {
@@ -1084,13 +1145,25 @@ public class Model extends Observable<MoveMessage> {
                 if(!currentPlayer.getRealPlayerBoard().handlePaymentAnyCubes()){
                     updateNotCorrectAction("Cannot use that power up card");
                 }
+                if(currentPlayer.getNumActionCancelled() == 1){
+                    currentPlayer.getPowerUpCards().remove(powerUpCard);
+                    gameBoard.addPowerUpCardDiscarded(powerUpCard);
+                }
                 return;
             case "Tagback Grenade":
                 if(positionPlayer == -1){
                     updateNotCorrectAction("Cannot mark terminator");
+                    if(currentPlayer.getNumActionCancelled() == 1){
+                        currentPlayer.getPowerUpCards().remove(powerUpCard);
+                        gameBoard.addPowerUpCardDiscarded(powerUpCard);
+                    }
                     return;
                 } else if(!gameBoard.getPlayersShooted().contains(players.get(positionPlayer))){
                     updateNotCorrectAction("Cannot mark him");
+                    if(currentPlayer.getNumActionCancelled() == 1){
+                        currentPlayer.getPowerUpCards().remove(powerUpCard);
+                        gameBoard.addPowerUpCardDiscarded(powerUpCard);
+                    }
                     return;
                 }
                 break;
@@ -1242,6 +1315,10 @@ public class Model extends Observable<MoveMessage> {
                coordinatesPlayerInGame[i][1] = players.get(i).getX();
                coordinatesPlayerInGame[i][2] = players.get(i).getY();
            }
+
+            for(int i = 0 ; i < 3; i ++){
+                System.out.println("index " + coordinatesPlayerInGame[i][0] + " x " + coordinatesPlayerInGame[i][1] + " y " + coordinatesPlayerInGame[i][2]);
+            }
            if(terminator == null)
                return coordinatesPlayerInGame;
            else {
@@ -1284,12 +1361,13 @@ public class Model extends Observable<MoveMessage> {
         }
     }
     public void updatePlayerDeath(){
+
     if(gameBoard.getKillPlayer().contains(currentPlayer) || gameBoard.getOverkillPlayer().contains(currentPlayer)) {
 
         ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
 
-        System.out.println("has died! " + deadPlayer.size());
-            addDamageOnKillShotTrack(colorPlayerDoKill.get(0), colorPlayerDoKill.size());
+        addDamageOnKillShotTrack(colorPlayerDoKill.get(0), currentPlayer.playerDamage());
+
          if (gameBoard.getOverkillPlayer().contains(currentPlayer)){
              for(Player player : players)
                  if(player.getColor().equals(colorPlayerDoKill.get(0))) {
@@ -1316,33 +1394,34 @@ public class Model extends Observable<MoveMessage> {
         }
 
         gameBoard.getKillPlayer().remove(currentPlayer);
-        //sendUpdateAction()!
+            //sendUpdateAction();
          }
 
      }
 
-     public void terminatorAction(boolean shoot, int[] coordinates){
-            if(shoot){
+     public void terminatorAction(boolean shoot, int[] coordinates, int[] peopleToBeKilled){
+            if(shoot) {
+
                 ArrayList<Player> playersWhoCanSee = gameBoard.playersWhoCanSee(terminator);
+                for (int i = 0; i < peopleToBeKilled.length; i++) {
+                    if (playersWhoCanSee.contains(players.get(i)) && peopleToBeKilled[i] != -1) {
+                        Player tmp = players.get(i);
+                        if (terminator.playerDamage() > 2) {
+                            try {
+                                tmp.sufferDamageOrMark(terminator.getColor(), 1, 1);
+                            } catch (DamageTrackException e) {
 
-                for(Player player : playersWhoCanSee){
-                    if(terminator.playerDamage()>2){
-                        try {
-                            player.sufferDamageOrMark(terminator.getColor(),1,1);
-                        } catch (DamageTrackException e) {
-                          //insertDeadPlayer();
+                            }
+                        } else {
+                            try {
+                                tmp.sufferDamageOrMark(terminator.getColor(), 1, 0);
+                            } catch (DamageTrackException e) {
+
+                            }
                         }
                     }
-                    else{
-                        try {
-                            player.sufferDamageOrMark(terminator.getColor(),1,0);
-                        } catch (DamageTrackException e) {
-                            //insertDeadPlayer
-                        }
-                    }
+                    updateCorrectAction();
                 }
-
-                updateCorrectAction();
             }
             else {
                 if (!getGameBoard().isSquareAvailableOnArena(terminator,coordinates[0], coordinates[1])) {
@@ -1350,6 +1429,7 @@ public class Model extends Observable<MoveMessage> {
                 }
                 else{
                     gameBoard.getGameArena().movePlayer(terminator,coordinates[0], coordinates[1]);
+                    updateCorrectAction();
                 }
             }
      }
@@ -1365,7 +1445,7 @@ public class Model extends Observable<MoveMessage> {
     }
 
     public void sendMessage (){
-        //timer.startTimer();
+        timer.startTimer();
         notifyObservers(currentPlayer.getSingleMessageToBeSent());
     }
 

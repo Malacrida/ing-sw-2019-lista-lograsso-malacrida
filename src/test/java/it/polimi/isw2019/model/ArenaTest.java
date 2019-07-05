@@ -272,55 +272,44 @@ public class ArenaTest {
     @Test
     public void testPlayerWhoSeeOnArena (){
 
-        arena.spawnPlayer(ColorRoom.BLUE,player1);
-
-        arena.spawnPlayer(ColorRoom.BLUE,player2);
-
-        arena.spawnPlayer(ColorRoom.BLUE,player3);
-
-
+        arena.spawnPlayer(ColorRoom.RED,player1);
+        arena.spawnPlayer(ColorRoom.RED,player2);
+        arena.spawnPlayer(ColorRoom.RED,player3);
         arena.spawnPlayer(ColorRoom.YELLOW,player4);
 
 
-        if(arena.isSquaresAvailable(player1,1,2)){
-            player1.changePosition(1,2,ColorRoom.YELLOW);
+        if(arena.isSquaresAvailable(player2,0,0)){
+            player2.changePosition(0,0,ColorRoom.YELLOW);
         }
         else fail();
 
-        arena.teleporterMove(player3,1,3);
 
-        if(arena.isSquaresAvailable(player4,2,2)){
-            player4.changePosition(2,2,ColorRoom.YELLOW);
+        if(arena.isSquaresAvailable(player3,2,0)){
+            player3.changePosition(2,0,ColorRoom.YELLOW);
         }
-        else fail();
+
+
 
         ArrayList<Player> playersWhoSeePlayer1 = arena.playerWhoSeeOnArena(player1);
 
-       // assertEquals(3,playersWhoSeePlayer1.size());
+        assertEquals(2,playersWhoSeePlayer1.size());
         assertFalse(playersWhoSeePlayer1.contains(player1));
-//        assertTrue(playersWhoSeePlayer1.contains(player2));
+        assertTrue(playersWhoSeePlayer1.contains(player2));
         assertTrue(playersWhoSeePlayer1.contains(player3));
-        assertTrue(playersWhoSeePlayer1.contains(player4));
+        assertFalse(playersWhoSeePlayer1.contains(player4));
 
-
-        ArrayList<Player> playersWhoSeePlayer2 = arena.playerWhoSeeOnArena(player2);
-
-//        assertEquals(3,playersWhoSeePlayer2.size());
-        assertTrue(playersWhoSeePlayer2.contains(player1));
-        assertFalse(playersWhoSeePlayer2.contains(player2));
-        assertTrue(playersWhoSeePlayer2.contains(player3));
-        assertTrue(playersWhoSeePlayer2.contains(player4));
-/*
-        ArrayList<Player> playersWhoSeePlayer3 = arena.playerWhoSeeOnArena(player3);
-
-        assertEquals(2,playersWhoSeePlayer3.size());
-        assertTrue(playersWhoSeePlayer3.contains(player1));
-        assertFalse(playersWhoSeePlayer3.contains(player2));
-        assertFalse(playersWhoSeePlayer3.contains(player3));
-        assertTrue(playersWhoSeePlayer3.contains(player4));*/
-
+        ArrayList<Player> playerWhoSeePlayer4 = arena.playerWhoSeeOnArena(player4);
+        assertEquals(0,playerWhoSeePlayer4.size());
+        assertFalse(playerWhoSeePlayer4.contains(player1));
+        assertFalse(playerWhoSeePlayer4.contains(player2));
+        assertFalse(playerWhoSeePlayer4.contains(player3));
+        assertFalse(playerWhoSeePlayer4.contains(player4));
 
     }
+
+
+
+
 
 
     @Test
@@ -360,7 +349,7 @@ public class ArenaTest {
 
 
         ArrayList<Player> players3= arena.playerInTheRoomNear(player3);
-     //   assertEquals(2,players3.size());
+        assertEquals(1,players3.size());
         assertFalse(players3.contains(player1));
         assertFalse(players3.contains(player2));
         assertTrue(players3.contains(player3));
@@ -408,15 +397,41 @@ public class ArenaTest {
         assertFalse(playersWhoSeePlayer3.contains(player2));
         assertFalse(playersWhoSeePlayer3.contains(player3));
         assertFalse(playersWhoSeePlayer3.contains(player4));
-/*
+    }
+
+    @Test
+    public void testPlayerWhoSeeOnArena3 (){
+        arena.spawnPlayer(ColorRoom.BLUE,player1);
+
+
+        arena.spawnPlayer(ColorRoom.BLUE,player2);
+
+        arena.spawnPlayer(ColorRoom.YELLOW,player3);
+
+
+        arena.spawnPlayer(ColorRoom.RED,player4);
+
+
+        arena.teleporterMove(player1,1,1);
+
+
+        if(arena.isSquaresAvailable(player2,0,1)){
+            player2.changePosition(0,1,ColorRoom.BLUE);
+        }
+
+        if(arena.isSquaresAvailable(player3,1,3)) arena.movePlayer(player3,1,3);
+
+        arena.teleporterMove(player4,2,1);
+
         ArrayList<Player> playersWhoSeePlayer4 = arena.playerWhoSeeOnArena(player4);
 
-        //assertEquals(3,playersWhoSeePlayer4.size());
+        assertEquals(2,playersWhoSeePlayer4.size());
         assertTrue(playersWhoSeePlayer4.contains(player1));
-        assertTrue(playersWhoSeePlayer4.contains(player2));
+        assertFalse(playersWhoSeePlayer4.contains(player2));
         assertTrue(playersWhoSeePlayer4.contains(player3));
-        assertFalse(playersWhoSeePlayer4.contains(player4));*/
+        assertFalse(playersWhoSeePlayer4.contains(player4));
     }
+
 
 
 
@@ -428,12 +443,6 @@ public class ArenaTest {
 
         arena.spawnPlayer(ColorRoom.BLUE,player3);
 
-
-      /*  ArrayList <Player> playersInOneRoom1 = arena.playersInOneRoom(player1.getColorRoom(),player1);
-        assertEquals(1,playersInOneRoom1.size());
-        assertFalse(playersInOneRoom1.contains(player1));
-        assertFalse(playersInOneRoom1.contains(player2));
-        assertTrue(playersInOneRoom1.contains(player3));*/
 
         ArrayList<Player> playersInOneRoom2= arena.playersInOneRoom(player2.getColorRoom(),player2);
         assertEquals(0,playersInOneRoom2.size());
@@ -541,5 +550,23 @@ public class ArenaTest {
         assertEquals(1, playersRoomGrey.size());
         assertTrue(playersRoomGrey.contains(player1));
         assertEquals(ColorRoom.GREY, player1.getColorRoom());
+    }
+
+    @Test
+    public void testSquaresSpawn(){
+        assertTrue(arena.isSpawnSquare(0,2));
+        assertTrue(arena.isSpawnSquare(1,0));
+        assertTrue(arena.isSpawnSquare(2,3));
+        assertFalse(arena.isSpawnSquare(0,0));
+        assertFalse(arena.isSpawnSquare(1,2));
+    }
+
+
+    @Test
+    public void testSetStatusCardOnBoard(){
+        arena.setWeaponsCardOnSquareSpawn(weaponCards1,weaponCards2,weaponCards3);
+        arena.setStatusCardOnBoard();
+        Square[][] squares = arena.getSquares();
+        //        assertEquals(StateCard.ON_BOARD,  squares[0][0].getAmmoTile().getCheckState());
     }
 }

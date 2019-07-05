@@ -1,6 +1,7 @@
 package it.polimi.isw2019.view;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.model.exception.EndTurn;
 
 
 public interface VisitorView{
@@ -28,4 +29,6 @@ public interface VisitorView{
     void visitStartView (StartMessage startMessage);
 
     void terminatorAction(TerminatorMessage terminatorMessage);
+
+    void visitEndGame(EndGame endGame);
 }

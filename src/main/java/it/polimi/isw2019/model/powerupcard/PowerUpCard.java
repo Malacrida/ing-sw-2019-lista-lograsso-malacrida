@@ -57,7 +57,7 @@ public class PowerUpCard implements PowerUpCardInterface{
         this.infoEffect = infoEffect;
 
         if(name.equals("Newton")){
-            usageCard = 0;
+            usageCard = 2;
         }
         else if (name.equals("Teleporter")){
             usageCard = 1;
@@ -66,7 +66,7 @@ public class PowerUpCard implements PowerUpCardInterface{
             usageCard = 3;
         }
         else{
-            usageCard = 2;
+            usageCard = 0;
         }
 
         setPowerUpDescription();

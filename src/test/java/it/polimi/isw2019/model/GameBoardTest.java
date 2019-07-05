@@ -66,6 +66,8 @@ public class GameBoardTest {
         weaponCards.add(weaponCard8);
         weaponCards.add(weaponCard9);
 
+
+
         try {
             gameBoard = new GameBoard();
             Database db = new Database();
@@ -78,12 +80,11 @@ public class GameBoardTest {
                 ammoTiles.add(deckAmmoTiles.get(i));
             }
 
+
             powerUpCards = db.loadPowerUpCards();
 
-        } catch (OutOfBoundsException e) {
-
-        } catch(InstanceArenaException e) {
-
+        } catch (OutOfBoundsException | InstanceArenaException e) {
+            fail();
         }
 
 
@@ -144,6 +145,14 @@ public class GameBoardTest {
         }
         catch (OutOfBoundsException e){
             fail();
+        }
+
+        try {
+            AbstractWeaponCard[] square = gameBoard.weaponCardsOnSquares(3,1);
+            assertNull(square);
+            fail();
+        }catch (OutOfBoundsException e){
+
         }
     }
 
@@ -211,7 +220,6 @@ public class GameBoardTest {
 
     @Test
     public void testSetUpAmmoTileOnArena() {
-        //fare una nuova gameboard istanziare le ammo e vedere quante ne rimangono
 
         gameBoard.setAmmoTiles(ammoTiles);
 
@@ -235,9 +243,8 @@ public class GameBoardTest {
 
     @Test
     public void testPlaceAmmoTile() {
-
-       // gameBoard.placeAmmoTile(ammoTile, 0,0);
-       // assert (gameBoard.getAmmoTileOnSquare(0,0)==ammoTile);
+        gameBoard.placeAmmoTile(0,0);
+        assertTrue (gameBoard.useAmmoTileOnSquare(0,0));
     }
 
     @Test
@@ -259,6 +266,7 @@ public class GameBoardTest {
 
             ammoTileTaken=gameBoard.pickUpAmmoTile(1,2);
             assertFalse (gameBoard.useAmmoTileOnSquare(1,2));
+            assertNotNull(ammoTileTaken);
 
 
         }
@@ -274,6 +282,8 @@ public class GameBoardTest {
         catch (AmmoTileUseException e){
             assertFalse (gameBoard.useAmmoTileOnSquare(1,2));
         }
+
+
     }
 
 

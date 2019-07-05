@@ -113,66 +113,24 @@ public class ActionMessage extends MoveMessage {
         intIdAction.add(4);
     }
 
-    /**
-     * setter of not frenzy action
-     */
-
-    public void setNormalAction(){
-            actionYouCanPerform[0] = "RUN TIL 3 SQUARE ";
-            actionYouCanPerform[1] = "RUN TIL 1 SQUARE AND GRAB";
-            actionYouCanPerform[2] = "USE WEAPON CARD";
-
-        }
-
-    /**
-     * Setter of frenzy action
-     */
-
-    public void setFrenzyAction(){
-            actionYouCanPerform[0] = "RUN TIL 4 SQUARE ";
-            actionYouCanPerform[1] = "RUN TIL 2 SQUARE AND GRAB";
-            actionYouCanPerform[4] = "RUN TIL 2 SQUARE ,RELOAD AND USE WEAPON CARD";
-
-        }
-
-    /**
-     * setter frenzy action of first player
-     */
-
-
-    public void setFrenzyFirstPlayerAction(){
-
-            actionYouCanPerform[1] = "RUN TIL 3 SQUARE AND GRAB";
-            actionYouCanPerform[4] = "RUN TIL 2 SQUARE ,RELOAD AND USE WEAPON CARD";
-
-
-        }
 
     public void setTerminatorAction(){
         actionYouCanPerform[7] = "RUN TIL 1 SQUARE ";
         actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE ";
 
+        actionPlayerCanPerform.add("TERMINATOR RUN TIL 1 SQUARE ");
+        intIdAction.add(7);
+
+        actionPlayerCanPerform.add("DAMAGE SOMEONE THE TERMINATOR SEE ");
+        intIdAction.add(8);
     }
 
     public void setTerminatorFrenzyAction(){
         actionYouCanPerform[8] = "DAMAGE SOMEONE THE TERMINATOR SEE, ALSO GIVING HIM ONE MARK ";
+
+        actionPlayerCanPerform.add("DAMAGE SOMEONE THE TERMINATOR SEE, ALSO GIVING HIM ONE MARK");
+        intIdAction.add(8);
     }
-
-    /**
-     * Setter first powered action
-     */
-
-    public void setFirstPoweredAction(){
-            actionYouCanPerform[1] = "RUN TIL 2 SQUARE AND GRAB";
-        }
-
-    /**
-     * Setter second powered action
-     */
-
-    public void setSecondPoweredAction(){
-            actionYouCanPerform[3] = "RUN TIL 1 SQUARE  AND USE WEAPON CARD";
-        }
 
         public String[] getActionYouCanPerform() {
             return this.actionYouCanPerform;

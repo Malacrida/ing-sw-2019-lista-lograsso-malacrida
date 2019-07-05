@@ -51,7 +51,9 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }*/
 
+        //TO CHANGE
         model.registerObserver(firstMessage.getVirtualViewRmi());
+
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
@@ -62,8 +64,9 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     public void startGame(){
         Random rand = new Random();
-        System.out.println(model.getPlayers().size());
-        model.chooseFirstPlayer(rand.nextInt(model.getPlayers().size()));
+        int randVariable = rand.nextInt(model.getPlayers().size());
+        System.out.println(randVariable);
+        model.chooseFirstPlayer(randVariable);
         model.firstMessage();
 
     }
@@ -108,6 +111,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     @Override
     public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
         model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
+        model.getCurrentPlayer().setPlayerToAttack(model.returnCoordinatesOfPlayerInGame());
         model.sendActionMessage();
     }
 
@@ -288,10 +292,10 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     public void terminatorAction(TerminatorMove terminatorMove) {
         if(terminatorMove.getColorSpawn()!= -1){
             model.spawnTerminator(terminatorMove.getColorSpawn());
-
         }
         else{
-            model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+            model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates(),terminatorMove.getIdPlayerToShoot());
         }
+
     }
 }

@@ -24,7 +24,7 @@ public class Player{
     private int x;
     private int y;
     private ColorRoom colorRoom;
-
+    private boolean hasReloaded = false;
     private boolean frenzy;
 
     private boolean isTerminator = false;
@@ -42,7 +42,7 @@ public class Player{
     private int numActionToBePerformed = 2;
     private int numActionToBePerformedFrenzy;
     private int numActionCancelled;
-    private int numActionTerminator;
+    private int numActionTerminator = 1;
 
     private int[] featuresAvailable = new int[6];
 
@@ -59,15 +59,16 @@ public class Player{
 
     private String descriptionPlayer;
 
-    private int[][] playerToAttack;
+    private int[][] playerToAttack = new int[3][];
 
     private int[] statusPlayer = new int[14];
-
-    private ArrayList<String> terminatorAction;
 
     private MoveMessage tmpMoveMessage;
 
     private boolean setTerminatorSpawn = false;
+
+
+    public Player terminatorPlayer = null;
 
 
     public Player(String name, String actionHeroComment, int playerID) {
@@ -103,14 +104,6 @@ public class Player{
         return actionHeroComment;
     }
 
-    public int getNumActionPerformed() {
-        return numActionPerformed;
-    }
-
-    public int getNumActionToBePerformed() {
-        return numActionToBePerformed;
-    }
-
     public ArrayList<MoveMessage> getMessageToBeSent() {
         return messageToBeSent;
     }
@@ -123,13 +116,15 @@ public class Player{
         this.setTerminatorSpawn = setTerminatorSpawn;
     }
 
+    public boolean isEndTurn() {
+        return endTurn;
+    }
+
     public MoveMessage getSingleMessageToBeSent(){
 
         featuresAvailable();
 
         if(messageToBeSent.get(0) instanceof  ReloadMessage){
-            //endTurn
-            //changePlayer
             updateMessage((ReloadMessage)(messageToBeSent.get(0)));
         }
         else if(messageToBeSent.get(0) instanceof UsePowerUpCardMessage){
@@ -147,6 +142,8 @@ public class Player{
 
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
         usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
+        usePowerUpCardMessage.setCooPlayer(playerToAttack);
+        usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
 
     }
 
@@ -162,17 +159,10 @@ public class Player{
         terminatorMessage.setCooPeople(playerToAttack);
     }
 
-    public void setPlayerInUseWeaponCardMessage(int[][] playerInUseWeaponCardMessage){
-        playerToAttack = playerInUseWeaponCardMessage;
+    public void setPlayerToAttack(int[][] playerToAttack){
+        this.playerToAttack = playerToAttack;
     }
 
-    public void setPlayerInUsePowerUpMessage(int[][] playerInUseWeaponCardMessage){
-        playerToAttack = playerInUseWeaponCardMessage;
-    }
-
-    public void setPlayerInUseTerminator(int[][] playerInUSeTerminator){
-        playerToAttack = playerInUSeTerminator;
-    }
     public void updateMessage(ReloadMessage reloadMessage){
         reloadMessage.setWeaponYouCanReload(getWeaponDischarge());
     }
@@ -207,14 +197,6 @@ public class Player{
     public void setPlayerBoardAndColor (PlayerBoard playerBoard, ColorPlayer color) {
         this.playerBoard = playerBoard;
         this.color = color;
-    }
-
-    public int getNumActionTerminator() {
-        return numActionTerminator;
-    }
-
-    public void setNumActionTerminator(int numActionTerminator) {
-        this.numActionTerminator = numActionTerminator;
     }
 
     public void setFirstPlayer(boolean firstPlayer) {
@@ -272,7 +254,7 @@ public class Player{
     }
 
 
-    public Player terminatorPlayer = null;
+
 
     public Player getTerminatorPlayer() {
         return terminatorPlayer;
@@ -717,13 +699,9 @@ public class Player{
         return  false;
     }
 
-    public void setTerminatorAction(){
-        terminatorAction.clear();
-        if(terminatorPlayer.playerDamage()>2){
-            terminatorAction.add("DAMAGE SOMEONE THE TERMINATOR YOU SEE AND GIVE ONE MARK");
-        }
-        terminatorAction.add("RUN TIL ONE SQUARE");
-        terminatorAction.add("DAMAGE SOMEONE THE TERMINATOR YOU SEE");
+
+    public int getNumActionCancelled() {
+        return numActionCancelled;
     }
 
     public ActionMessage setCorrectNormalActionChooseMessages(boolean endTurn1){
@@ -750,6 +728,7 @@ public class Player{
 
             if(terminatorPlayer != null){
                 if(numActionTerminator == 1) {
+                    System.out.println("vengono inserite le action del terminator!!");
                     actionMessage.setTerminatorAction();
                     if (terminatorPlayer.playerDamage() > 2)
                         actionMessage.setTerminatorFrenzyAction();
@@ -776,7 +755,7 @@ public class Player{
 
         if(endTurn1){
              endTurn = true;
-            if (!powerUpCards.isEmpty() && canAddPowerUp()) {
+            if (!powerUpCards.isEmpty() /*&& canAddPowerUp()*/) {
                 actionMessage.setPowerUpAction();
             }
             if (notReloadedWeaponCard()) {
@@ -821,6 +800,10 @@ public class Player{
         return actionMessage;
     }
 
+    public void insertMessagesToBeSend(ArrayList<MoveMessage> moveMessages){
+        messageToBeSent.clear();
+        messageToBeSent = moveMessages;
+    }
 
     public void setMessagesToBeSent(int idAction) {
 
@@ -867,6 +850,7 @@ public class Player{
         else  if(idAction == 5) {
             ReloadMessage reloadMessage = new ReloadMessage(name);
             //modifiche
+            hasReloaded = true;
             endTurn = true;
             messageToBeSent.add(reloadMessage);
         }
@@ -875,6 +859,7 @@ public class Player{
             //fare modifiche
             messageToBeSent.add(powerUpCardMessage);
         }
+
         else if(idAction==7){
             TerminatorMessage terminatorMessage = new TerminatorMessage(name);
             //terminator
@@ -882,6 +867,7 @@ public class Player{
             terminatorMessage.setRunOrDamage(true);
             messageToBeSent.add(terminatorMessage);
         }
+
         else if(idAction == 8){
             TerminatorMessage terminatorMessage = new TerminatorMessage(name);
             //terminator
@@ -918,7 +904,7 @@ public class Player{
 
         else {
 
-             if (numActionPerformed < numActionToBePerformed) {
+             if (numActionPerformed < numActionToBePerformed && !hasReloaded) {
                  messageToBeSent.clear();
                  if(terminatorPlayer != null){
                      if(tmpMoveMessage instanceof TerminatorMessage&& numActionTerminator == 1){
@@ -933,17 +919,22 @@ public class Player{
 
                  return true;
             }
-             else {
+             else if(numActionPerformed == numActionToBePerformed && !hasReloaded) {
                  ActionMessage tmpMessage = setCorrectNormalActionChooseMessages(true);
                  numActionPerformed = 0;
                  numActionTerminator = 1;
                  endTurn = true;
-                if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
-                    return false;
-                } else {
-                    return messageToBeSent.add(tmpMessage);
-                }
-            }
+                 if (tmpMessage.getActionPlayerCanPerform().isEmpty()) {
+                     return false;
+                 } else {
+                     return messageToBeSent.add(tmpMessage);
+                 }
+                 }
+            else {
+                 hasReloaded = false;
+                 return false;
+             }
+
         }
 
     }
@@ -1025,6 +1016,8 @@ public class Player{
         descriptionPlayer += "Score : " + score + "\n";
         return descriptionPlayer;
     }
+
+
 
 
 }
