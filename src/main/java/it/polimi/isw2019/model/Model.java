@@ -877,8 +877,10 @@ public class Model extends Observable<MoveMessage> {
             currentPlayer.setRespawned(true);
 
         sendUpdateMessage();
-
-        notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+        moveMessages.add(currentPlayer.setCorrectNormalActionChooseMessages(false));
+        currentPlayer.insertMessagesToBeSend(moveMessages);
+        sendMessage();
         //updateCorrectAction();
 
     }
@@ -1149,30 +1151,32 @@ public class Model extends Observable<MoveMessage> {
                 if(!currentPlayer.getRealPlayerBoard().handlePaymentAnyCubes()){
                     updateNotCorrectAction("Cannot use that power up card");
                 }
-                if(currentPlayer.getNumActionCancelled() == 1){
+                else if(currentPlayer.getNumActionCancelled() == 1){
                     currentPlayer.getPowerUpCards().remove(powerUpCard);
                     gameBoard.addPowerUpCardDiscarded(powerUpCard);
+                    updateNotCorrectAction("Cannot use that power up card");
                 }
                 return;
             case "Tagback Grenade":
                 if(positionPlayer == -1){
-                    updateNotCorrectAction("Cannot mark terminator");
                     if(currentPlayer.getNumActionCancelled() == 1){
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
                     }
+                    updateNotCorrectAction("Cannot mark terminator");
                     return;
                 } else if(!gameBoard.getPlayersShooted().contains(players.get(positionPlayer))){
-                    updateNotCorrectAction("Cannot mark him");
+
                     if(currentPlayer.getNumActionCancelled() == 1){
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
                     }
+                    updateNotCorrectAction("Cannot mark him");
                     return;
                 }
                 break;
             default:
-
+                break;
         }
 
         /*try {
