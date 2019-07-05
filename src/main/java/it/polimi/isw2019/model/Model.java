@@ -6,6 +6,7 @@ import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
+import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
@@ -98,8 +99,8 @@ public class Model extends Observable<MoveMessage> {
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.BLUE));
 
         killShotTrack = new KillShotTrack(5);
-
-        timer = new TimerPlayer(60);
+        ConfigLoader configLoader = new ConfigLoader();
+        timer = new TimerPlayer(configLoader.getTimerAction());
         timer.setModel(this);
     }
 
@@ -151,14 +152,11 @@ public class Model extends Observable<MoveMessage> {
      * @throws IndexOutOfBoundsException
      */
 
-    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException {
+    public void addPlayer(String nickName, String actionHeroComment) {
 
         if(players.size()<5) {
             players.add(new Player(nickName, actionHeroComment));
             notifyObservers(new EndRegistration(nickName));
-        } else {
-            notifyObservers(new FailRegistration(nickName));
-            throw new IndexOutOfBoundsException();
         }
     }
 
@@ -180,7 +178,10 @@ public class Model extends Observable<MoveMessage> {
             players.get(i).setIndexPlayer(j);
         }
 
+        players.get(shift+1).setSetTerminatorSpawn(true);
+
         currentPlayer = players.get(shift);
+
 
     }
 
@@ -206,7 +207,6 @@ public class Model extends Observable<MoveMessage> {
         firstMessageFirstPlayer.setNotifyAll(false);
 
         notifyObservers(firstMessageFirstPlayer);
-
 
     }
 
@@ -284,6 +284,17 @@ public class Model extends Observable<MoveMessage> {
             // end game
         }
         else{
+            if(!currentPlayer.isFirstTurn() && currentPlayer.getSetTerminatorSpawn()){
+                currentPlayer.setSetTerminatorSpawn(false);
+                TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
+                ArrayList<String> colorSpawn = new ArrayList<>();
+                colorSpawn.add("red");
+                colorSpawn.add("blue");
+                colorSpawn.add("yellow");
+                terminatorMessage.setColorSpawn(colorSpawn);
+                notifyObservers(terminatorMessage);
+            }
+
             if (!killShotTrack.isFinalFrenzy()) {
                 //updatePlayerDeath();
                 updateEndTurn();
@@ -457,6 +468,24 @@ public class Model extends Observable<MoveMessage> {
 
     }
 
+    public void spawnTerminator(int colorSpawn){
+        if(colorSpawn== 0) {
+            //change player positiom red
+           gameBoard.getGameArena().spawnPlayer(ColorRoom.RED,terminator);
+        }
+        if(colorSpawn== 1){
+            //change player position blue
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.BLUE,terminator);
+        }
+        if(colorSpawn== 2){
+            //change player position yellow
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.YELLOW,terminator);
+        }
+        currentPlayer.setCorrectNormalActionChooseMessages(false);
+        //chiedere
+        sendActionMessage();
+
+    }
     /**
      * send update of game state
      */
@@ -1069,7 +1098,7 @@ public class Model extends Observable<MoveMessage> {
 
         }
 
-        try {
+        /*try {
 
             Player tmp;
             if(positionPlayer == -1)
@@ -1080,7 +1109,7 @@ public class Model extends Observable<MoveMessage> {
             powerUpCard.effect(gameBoard, currentPlayer, tmp,1,1);
         }
         catch(DamageTrackException e){
-        }
+        }*/
 
         currentPlayer.getPowerUpCards().remove(powerUpCard);
         gameBoard.addPowerUpCardDiscarded(powerUpCard);

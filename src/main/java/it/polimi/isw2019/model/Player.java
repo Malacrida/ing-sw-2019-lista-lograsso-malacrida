@@ -67,7 +67,7 @@ public class Player{
 
     private MoveMessage tmpMoveMessage;
 
-    private int setTerminatorSpawn;
+    private boolean setTerminatorSpawn = false;
 
 
     public Player(String name, String actionHeroComment, int playerID) {
@@ -113,6 +113,14 @@ public class Player{
 
     public ArrayList<MoveMessage> getMessageToBeSent() {
         return messageToBeSent;
+    }
+
+    public boolean getSetTerminatorSpawn() {
+        return setTerminatorSpawn;
+    }
+
+    public void setSetTerminatorSpawn(boolean setTerminatorSpawn) {
+        this.setTerminatorSpawn = setTerminatorSpawn;
     }
 
     public MoveMessage getSingleMessageToBeSent(){

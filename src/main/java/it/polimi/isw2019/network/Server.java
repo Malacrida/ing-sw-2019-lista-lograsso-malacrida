@@ -19,13 +19,13 @@ public class Server {
 
     public static void main(String[] args){
 
-        ConfigLoader cl = new ConfigLoader();
-        GathererInterface gathererSocket= new GathererSocket(1111);
+        ConfigLoader configLoader = new ConfigLoader();
+        //GathererInterface gathererSocket= new GathererSocket(1111);
 
-        System.setProperty("java.rmi.server.hostname", cl.getHostIp());
+        System.setProperty("java.rmi.server.hostname", configLoader.getHostIp());
 
         try {
-            gathererRmi = new ServerRmi(cl.getRmiPort());
+            gathererRmi = new ServerRmi(configLoader.getRmiPort());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

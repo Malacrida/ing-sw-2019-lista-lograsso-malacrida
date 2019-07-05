@@ -34,7 +34,7 @@ public class WhisperTest {
         pb3 = new PlayerBoard(ColorPlayer.VIOLET);
         pb4= new PlayerBoard(ColorPlayer.GREY);
         gameBoard = new GameBoard();
-        gameBoard.chooseArena(4);
+        gameBoard.chooseArena(2);
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
