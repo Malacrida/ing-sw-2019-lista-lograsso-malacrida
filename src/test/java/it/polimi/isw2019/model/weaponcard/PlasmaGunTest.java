@@ -25,11 +25,11 @@ public class PlasmaGunTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Davide", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Superman", "Una S grazie", 3);
-        thirdDefender = new Player("Pinocchio", "Non ho mai mentito", 4);
-        fourDefender = new Player("Napoleone", "VIVA LA FRANCIA", 5);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Superman", "Una S grazie");
+        thirdDefender = new Player("Pinocchio", "Non ho mai mentito");
+        fourDefender = new Player("Napoleone", "VIVA LA FRANCIA");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

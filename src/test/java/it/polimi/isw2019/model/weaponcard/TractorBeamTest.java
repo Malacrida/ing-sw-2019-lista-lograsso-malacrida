@@ -25,11 +25,11 @@ public class TractorBeamTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Davide", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sara", "Aiuto", 3);
-        thirdDefender = new Player("Matteotti", "Giovane Europa!", 4);
-        fourDefender = new Player("Draghi", "Sputo fuoco", 5);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Sara", "Aiuto");
+        thirdDefender = new Player("Matteotti", "Giovane Europa!");
+        fourDefender = new Player("Draghi", "Sputo fuoco");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

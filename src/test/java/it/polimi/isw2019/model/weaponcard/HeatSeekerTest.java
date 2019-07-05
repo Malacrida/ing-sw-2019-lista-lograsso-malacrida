@@ -24,11 +24,11 @@ public class HeatSeekerTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Alba", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Lion", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sara", "Tanto attaccano sempre Alba", 3);
-        thirdDefender = new Player("Asdrubale",  "ma chi sono?", 4);
-        //fourDefender = new Player("Giuseppino",  "ma chi sono?", 4);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Stavri", "Palestra, palestra, palestra");
+        thirdDefender = new Player("Pipino il breve", "Conquisterò tutto");
+        //fourDefender = new Player("Napoleone", "VIVA LA FRANCIA");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

@@ -27,10 +27,10 @@ public class PlayerTest {
 
     @Before
     public void setUp() throws Exception {
-        player1 = new Player("Alba", "Attenti che ci sara' un secondo Big Bang!", 1);
-        player2 = new Player("Sara", "Con la mia potenza vi devastero'!", 2);
-        player3 = new Player("Lion", "Con la CIPOLLA vi attacchero'", 3);
-        player4 = new Player("Davide", "Vi mettero tutti KO", 4);
+        player1 = new Player("Alba", "Attenti che ci sara' un secondo Big Bang!");
+        player2 = new Player("Sara", "Con la mia potenza vi devastero'!");
+        player3 = new Player("Lion", "Con la CIPOLLA vi attacchero'");
+        player4 = new Player("Davide", "Vi mettero tutti KO");
         colorPlayer1 = ColorPlayer.BLUE;
         playerBoard1 = new PlayerBoard(colorPlayer1);
         colorPlayer2 = ColorPlayer.GREEN;
@@ -209,7 +209,7 @@ public class PlayerTest {
 
         // relationship between  color player and color of arena
 
-        model.addPlayer(player1);
+        model.addPlayer("Alba", "Attenti che ci sara' un secondo Big Bang!");
 
         model.setCurrentPlayer(player1);
 
@@ -231,7 +231,7 @@ public class PlayerTest {
 
         // relationship between  color player and color of arena
 
-        model.addPlayer(player1);
+        model.addPlayer("Alba", "Attenti che ci sara' un secondo Big Bang!");
 
         model.setCurrentPlayer(player1);
 
@@ -251,7 +251,7 @@ public class PlayerTest {
         Model model = new Model();
         // relationship between  color player and color of arena
 
-        model.addPlayer(player1);
+        model.addPlayer("Alba", "Attenti che ci sara' un secondo Big Bang!");
 
         model.setCurrentPlayer(player1);
 
@@ -268,7 +268,7 @@ public class PlayerTest {
 
         model.setGame(1,5,0 );
 
-        model.addPlayer(player1);
+        model.addPlayer("Alba", "Attenti che ci sara' un secondo Big Bang!");
 
         model.setCurrentPlayer(player1);
 
@@ -290,7 +290,7 @@ public class PlayerTest {
 
         model.getGameBoard().setPowerUpCards(powerUpCard1);
 
-        model.addPlayer(player2);
+        model.addPlayer("Sara", "Con la mia potenza vi devastero'!");
         model.setCurrentPlayer(player2);
 
         player2.getPowerUpCards().add(powerUpCard1.get(0));

@@ -44,9 +44,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
+    /*
     public String convertIpToString(InetAddress ip){
         return ip.toString();
-    }
+    }*/
 
     @Override
     public void run() {
@@ -93,20 +94,6 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
-    @Override
-    public Boolean isYourTurn() throws RemoteException {
-        return true;
-    }
-
-    @Override
-    public void selectModeGameAndMap() throws RemoteException {
-
-    }
-
-    @Override
-    public void startRound() throws RemoteException {
-
-    }
 
     @Override
     public void logInCorrect() throws RemoteException {
@@ -183,7 +170,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public ObjectInputStream getObjectInputStream(){
         return this.input;
     }
-
+/*
     public void setMoveMessage(MoveMessage moveMessage){
         this.moveMessage = moveMessage;
         System.out.println("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
@@ -194,7 +181,7 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.printStackTrace();
         }
     }
-
+*/
     public void write (Object object) throws IOException {
         this.output.writeObject(object);
         this.output.flush();

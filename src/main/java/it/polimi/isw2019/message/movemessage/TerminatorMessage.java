@@ -75,6 +75,6 @@ public class TerminatorMessage extends MoveMessage {
 
     @Override
     public void accept(VirtualViewVisitorInterface virtualView) {
-
+        virtualView.sendTerminatorMessage(this);
     }
 }

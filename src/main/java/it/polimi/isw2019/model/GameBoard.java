@@ -79,17 +79,6 @@ public class GameBoard{
         return playersShooted;
     }
 
-    public ArrayList<PowerUpCard> getUsedPowerUpCards() {
-        return usedPowerUpCards;
-    }
-
-    public ArrayList<AmmoTile> getAmmoTiles() {
-        return ammoTiles;
-    }
-
-    public ArrayList<AmmoTile> getGrabedAmmoTiles() {
-        return grabedAmmoTiles;
-    }
 
     /**
      * method to choose arena

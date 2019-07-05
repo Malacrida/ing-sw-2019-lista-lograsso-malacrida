@@ -26,10 +26,10 @@ public class MachineGunTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Sara", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Speriamo che sto test vada", 2);
-        secondDefender = new Player("Davide", "Speriamo che sto test vada", 3);
-        thirdDefender = new Player("Sassari", "Basta test", 4);
+        attacker = new Player("Sara", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Speriamo che sto test vada");
+        secondDefender = new Player("Davide", "Speriamo che sto test vada");
+        thirdDefender = new Player("Sassari", "Basta test");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

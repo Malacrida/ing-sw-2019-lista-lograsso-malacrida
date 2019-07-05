@@ -20,8 +20,6 @@ import java.util.Scanner;
 
 public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observer<PlayerMove>, ClientInterface, Remote, NetworkHandlerVisitorInterface {
 
-//forse va qui il riferimento al registro
-
     ConfigLoader cl = new ConfigLoader();
 
     ServerInterface server;
@@ -50,8 +48,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void logInFail() throws RemoteException {
-        System.out.println("Nickname already present");
-        System.out.println("Insert new nickname");
+        System.out.println("---ERROR--- Nickname already present");
+        System.out.println("Insert new nickname: ");
         nickname = input.nextLine();
         try {
             server.registerNewClient(remoteClient, nickname);
@@ -63,13 +61,13 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void reconnectionClient() throws RemoteException {
-        System.out.println("reconnection to the server");
+        System.out.println("Reconnection to the server: ");
     }
 
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
         try {
-            System.out.println("invio exit");
+            System.out.println("Send exit");
             server.receiveConnectionMove(connectionMove.getPlayer(), connectionMove.getConnection());
         }
         catch (RemoteException e) {
@@ -292,7 +290,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
 
-    @Override
     public void setNickname(String nickname) {
 
     }
@@ -302,21 +299,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         return null;
     }
 
-
-    @Override
-    public Boolean isYourTurn() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public void selectModeGameAndMap() throws RemoteException {
-
-    }
-
-    @Override
-    public void startRound() throws RemoteException {
-
-    }
 
 
 

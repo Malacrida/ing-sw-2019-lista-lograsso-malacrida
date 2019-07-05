@@ -38,17 +38,12 @@ public class Client {
         //String connectionType = null;
 
         while(!chooseOk){
-            System.out.println("Insert your nickname: \n");
+            System.out.println("Insert your nickname: ");
             nickname = input.nextLine();
 
             chooseOk = true;
         }
 
-        try {
-            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
-        } catch (RemoteException | NotBoundException | MalformedURLException e) {
-            e.getCause();
-        }
             startView(nickname);
         }
 
@@ -76,7 +71,7 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("registrazione completata");
+            System.out.println("Registration completed!");
 
 
             view.registerObserver(networkHandler);

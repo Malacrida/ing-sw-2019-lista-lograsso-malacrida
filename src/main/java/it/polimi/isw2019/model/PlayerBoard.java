@@ -127,7 +127,7 @@ public class PlayerBoard{
 
     public void addYellowCubes () throws OutOfBoundsException {
         if (yellowCubes.size()<3){
-            yellowCubes.add(ColorCube.RED);
+            yellowCubes.add(ColorCube.YELLOW);
 
         }
         else throw new OutOfBoundsException("Cannot add yellow cubes");
@@ -140,7 +140,7 @@ public class PlayerBoard{
 
     public void addBlueCubes () throws OutOfBoundsException {
         if (blueCubes.size()<3){
-                blueCubes.add(ColorCube.RED);
+                blueCubes.add(ColorCube.BLUE);
         }
         else throw new OutOfBoundsException("Cannot add blue cubes");
     }
@@ -469,133 +469,6 @@ public class PlayerBoard{
         else return null;
     }
 
-    public void updateCubes(ColorCube[] payment) throws OutOfBoundsException {
-        for(int i = 0; i < payment.length; i++){
-            if(payment[i].equals(ColorCube.RED))
-                removeRedCubes(1);
-            else if(payment[i].equals(ColorCube.YELLOW)){
-                removeYellowCubes(1);
-            }
-            else if(payment[i].equals(ColorCube.BLUE)){
-                removeBlueCubes(1);
-            }
-        }
-
-    }
-
-
-    /**
-     *
-     * @return
-     */
-
-    public String[] getSkullsRepresentation() {
-        return skullsRepresentation;
-    }
-
-    /**
-     * set skull representation
-     */
-
-    public void setSkullsRepresentation() {
-        skullsRepresentation = new String[6];
-        skullsRepresentation[0] = "8";
-        skullsRepresentation[1] = "6";
-        skullsRepresentation[2] = "4";
-        skullsRepresentation[3] = "2";
-        skullsRepresentation[4] = "1";
-        skullsRepresentation[5] = "1";
-    }
-
-    /**
-     * set skull representation of frenzy mode
-     */
-
-    public void setSkullsFrenzyRepresentation() {
-        skullsRepresentation = new String[4];
-        skullsRepresentation[0] = "4";
-        skullsRepresentation[1] = "2";
-        skullsRepresentation[2] = "1";
-        skullsRepresentation[3] = "1";
-
-    }
-
-    /**
-     * get mark representation
-     * @return
-     */
-
-    public String[] getMarkRepresentation() {
-        return markRepresentation;
-    }
-
-    /**
-     * get mark representation
-     * @return
-     */
-
-    public void setMarkRepresentation() {
-        markRepresentation = new String[12];
-    }
-
-    public String[] getDamageRepresentation() {
-        return damageRepresentation;
-    }
-
-    public void setDamageRepresentation() {
-        damageRepresentation = new String[12];
-    }
-
-    public String getColorRepresentation() {
-        return colorRepresentation;
-    }
-
-    public String returnColor(ColorPlayer color){
-        String tmpColor = " ";
-        switch(color) {
-            case BLUE:
-                tmpColor =  "blue";
-                break;
-            case VIOLET:
-                tmpColor = "violet";
-                break;
-            case YELLOW:
-                tmpColor = "yellow";
-                break;
-            case GREY:
-                tmpColor = "grey";
-                break;
-            case GREEN:
-                tmpColor = "green";
-                break;
-        }
-        return tmpColor;
-    }
-
-    public void setColorRepresentation() {
-        colorRepresentation = returnColor(color);
-    }
-
-    public String[][] getTmp() {
-        return tmp;
-    }
-
-    public void setTmp(boolean frenzy) {
-        tmp = new String[4][];
-        setColorRepresentation();
-        setDamageRepresentation();
-        setMarkRepresentation();
-        setSkullsRepresentation();
-        tmp[0][0] = getColorRepresentation();
-        tmp[1] = getMarkRepresentation();
-        tmp[2] = getDamageRepresentation();
-        if(frenzy){
-            setSkullsFrenzyRepresentation();
-        }
-        tmp[2] = getSkullsRepresentation();
-
-
-    }
 
     public String getPlayerBoardRepresentation() {
         return playerBoardRepresentation;

@@ -89,7 +89,7 @@ public class GameBoardTest {
 
 
 
-        player = new Player("name", "Comment", 1);
+        player = new Player("name", "Comment");
     }
 
     @After
