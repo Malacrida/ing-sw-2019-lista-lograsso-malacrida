@@ -299,21 +299,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
 
-    @Override
-    public Boolean isYourTurn() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public void selectModeGameAndMap() throws RemoteException {
-
-    }
-
-    @Override
-    public void startRound() throws RemoteException {
-
-    }
-
 
 
 
