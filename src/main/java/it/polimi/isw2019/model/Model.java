@@ -243,12 +243,6 @@ public class Model extends Observable<MoveMessage> {
      * @throws ColorNotAvailableException
      */
 
-    public boolean containsColor(ColorPlayer color) throws ColorNotAvailableException {
-        for (int i = 0; i < playerBoardsAvailable.size(); i++) {
-            if (playerBoardsAvailable.get(i).getColor() == color) return true;
-        }
-        throw new ColorNotAvailableException();
-    }
 
     public void colorAvailable(){
 
@@ -1280,11 +1274,6 @@ public class Model extends Observable<MoveMessage> {
     public String toString(){
         updateGameStatus();
         return getEntireGameDescription();
-    }
-
-    public int[][] getPlayerRepresentation() {
-        setGameRepresentation();
-        return playerRepresentation;
     }
 
     /**

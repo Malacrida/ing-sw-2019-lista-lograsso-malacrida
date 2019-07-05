@@ -46,6 +46,7 @@ public class ModelTest {
 
         playerBoard1 = new PlayerBoard(ColorPlayer.BLUE);
         player1.setPlayerBoardAndColor(playerBoard1,ColorPlayer.BLUE);
+
         playerBoard2 = new PlayerBoard(ColorPlayer.GREEN);
         player2.setPlayerBoardAndColor(playerBoard2,ColorPlayer.GREEN);
         playerBoard3 = new PlayerBoard(ColorPlayer.YELLOW);
@@ -110,6 +111,9 @@ public class ModelTest {
 
 
 
+        for(Player player : model.getPlayers())
+            player.setActive(true);
+
         //gameBoard = new GameBoard();
 
         //gameBoard.chooseArena(1);
@@ -158,7 +162,8 @@ public class ModelTest {
 
     @Test
     public void testChangePlayer(){
-        /*model.chooseFirstPlayer(1);
+
+        model.chooseFirstPlayer(1);
 
         int oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
 
@@ -190,7 +195,7 @@ public class ModelTest {
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
             assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
-            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));*/
+            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
 
     }
 
@@ -203,19 +208,19 @@ public class ModelTest {
         model.changePlayer();
         model.changePlayer();
 
-        System.out.println(model.getPlayers().indexOf(model.getCurrentPlayer()));
+        //System.out.println(model.getPlayers().indexOf(model.getCurrentPlayer()));
 
         model.setFrenzyMood();
 
-        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
+        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformedFrenzy());
+        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformedFrenzy());
 
         model.chooseFirstPlayer(0);
         model.setCurrentPlayer(model.getPlayers().get(0));
         model.setFrenzyMood();
 
-        assertEquals(1 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
+        assertEquals(1 ,model.getCurrentPlayer().getNumActionToBePerformedFrenzy());
+        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformedFrenzy());
 
         model.chooseFirstPlayer(0);
         model.setCurrentPlayer(model.getPlayers().get(0));
@@ -223,38 +228,24 @@ public class ModelTest {
 
         model.setFrenzyMood();
 
-        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformed());
+        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformedFrenzy());
+        assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformedFrenzy());
+        assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformedFrenzy());
 
 
-    }
-
-    //riesco a prendere quella playerboard. NON FUNZIONA
-    @Test
-    public void testContainsColor() {
-
-        /*
-        try{
-
-            assertEquals(false,model.containsColor(ColorPlayer.BLUE));
-            assertNotEquals(true,model.containsColor(ColorPlayer.GREEN));
-            fail();
-        }catch(ColorNotAvailableException e){
-
-        }
-*/
     }
 
     @Test
     public void testPositionPlayerBoardAvailable() {
-        /*
-        try{
-            assertNotEquals(model.positionPlayerBoardAvailable(ColorPlayer.BLUE),2);
-            fail();
-        }catch(ColorNotAvailableException e){
 
-        }*/
+        assertEquals(5 ,model.getPlayerBoardsAvailable().size());
+        try {
+            model.setPlayerWithPlayerBoard(player2,player2.getColor());
+        } catch (ColorNotAvailableException e) {
+            fail();
+        }
+        assertNotEquals(5 ,model.getPlayerBoardsAvailable().size());
+        assertEquals(4 ,model.getPlayerBoardsAvailable().size());
     }
 
     @Test
@@ -353,6 +344,7 @@ public class ModelTest {
             player5.sufferDamageOrMark(player1.getColor(),3,0);
         }
         catch (DamageTrackException e){
+
             assertEquals(player4.getColor(), player5.firstPlayerDoDamage());
             model.addScoreAfterDeath(player5);
             assertEquals(3,player4.getScore());
@@ -414,6 +406,8 @@ public class ModelTest {
 
     @Test
     public void testAddScoreToKillShotTrack (){
+
+            KillShotTrack killShotTrack = new KillShotTrack(1);
 
 
     }

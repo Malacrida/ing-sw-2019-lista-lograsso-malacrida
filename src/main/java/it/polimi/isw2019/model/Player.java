@@ -93,10 +93,6 @@ public class Player{
         return numActionPerformed;
     }
 
-    public int getNumActionToBePerformed() {
-        return numActionToBePerformed;
-    }
-
     public ArrayList<MoveMessage> getMessageToBeSent() {
         return messageToBeSent;
     }
@@ -243,6 +239,11 @@ public class Player{
 
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
+    }
+
+
+    public int getNumActionToBePerformedFrenzy(){
+        return numActionToBePerformedFrenzy;
     }
 
     public Player getTerminatorPlayer() {
@@ -751,7 +752,7 @@ public class Player{
             run = 4;
             actionMessage.setRunAndGrab(3);
             runAndGrab = 3;
-            numActionToBePerformedFrenzy = 1;
+            numActionToBePerformedFrenzy = 2;
         }
 
         else{
@@ -760,7 +761,7 @@ public class Player{
                 actionMessage.setRunReloadAndUseWeaponCard(2);
             }
             runAndGrab = 3;
-            numActionToBePerformedFrenzy = 2;
+            numActionToBePerformedFrenzy = 1;
             actionMessage.setRunAndGrab(3);
         }
 

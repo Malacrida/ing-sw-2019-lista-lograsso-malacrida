@@ -62,6 +62,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         }
     }
 
+
+    
     public void createConnectionPlayer(String nickname, int connection){
         if (connection==0)
             active= false;
@@ -188,7 +190,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
             e.getCause();
         }
     }
-//String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error
+
+
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
         try {

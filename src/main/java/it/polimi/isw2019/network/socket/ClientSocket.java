@@ -47,9 +47,10 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
+    /*
     public String convertIpToString(InetAddress ip){
         return ip.toString();
-    }
+    }*/
 
     @Override
     public void run() {
@@ -172,7 +173,7 @@ public class ClientSocket extends Thread implements ClientInterface {
     public ObjectInputStream getObjectInputStream(){
         return this.input;
     }
-
+/*
     public void setMoveMessage(MoveMessage moveMessage){
         this.moveMessage = moveMessage;
         LOGGER.info("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
@@ -183,7 +184,7 @@ public class ClientSocket extends Thread implements ClientInterface {
             e.getCause();
         }
     }
-
+*/
     public void write (Object object) throws IOException {
         this.output.writeObject(object);
         this.output.flush();

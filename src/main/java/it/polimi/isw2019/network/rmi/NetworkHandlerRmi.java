@@ -278,7 +278,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
 
-    @Override
     public void setNickname(String nickname) {
 
     }
