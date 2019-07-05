@@ -10,6 +10,7 @@ import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -329,7 +330,6 @@ public class Model extends Observable<MoveMessage> {
             } else if (!currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
                 ArrayList<MoveMessage> moveMessages = new ArrayList<>();
                 if (currentPlayer.getSetTerminatorSpawn() && terminator != null) {
-                    System.out.println("OK");
                     currentPlayer.setSetTerminatorSpawn(false);
                     TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
                     ArrayList<String> colorSpawn = new ArrayList<>();
@@ -890,8 +890,10 @@ public class Model extends Observable<MoveMessage> {
 
     public void updateNotCorrectAction(String error){
 
-        if(currentPlayer.updatePlayerStatusIncorrectAction(error))
-            notifyObservers(getCurrentPlayer().getSingleMessageToBeSent());
+        if(currentPlayer.updatePlayerStatusIncorrectAction(error)) {
+           // notifyObservers(getCurrentPlayer().getSingleMessageToBeSent());
+            sendMessage();
+        }
         else
             changePlayer();
     }
@@ -1143,50 +1145,60 @@ public class Model extends Observable<MoveMessage> {
     public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[][] coo){
 
         PowerUpCard powerUpCard = currentPlayer.getPowerUpCards().get(positionPowerUp);
-
+        System.out.println(powerUpCard.getName());
         switch(powerUpCard.getName()){
             case "Targeting Scope":
                 if(!currentPlayer.getRealPlayerBoard().handlePaymentAnyCubes()){
                     updateNotCorrectAction("Cannot use that power up card");
+                    return;
                 }
-                if(currentPlayer.getNumActionCancelled() == 1){
+                else if(currentPlayer.getNumActionCancelled() == 1){
                     currentPlayer.getPowerUpCards().remove(powerUpCard);
                     gameBoard.addPowerUpCardDiscarded(powerUpCard);
+                    System.out.println("KO 2");
+                    updateNotCorrectAction("Cannot use that power up card");
+                    return;
                 }
-                return;
+                else{
+                    updateNotCorrectAction("cannot perform this action");
+                    return;
+                }
             case "Tagback Grenade":
-                if(positionPlayer == -1){
-                    updateNotCorrectAction("Cannot mark terminator");
+                if(positionPlayer == -1 && terminator!= null){
                     if(currentPlayer.getNumActionCancelled() == 1){
+                        System.out.println("KO 3");
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
+
                     }
+                    updateNotCorrectAction("Cannot mark terminator");
                     return;
                 } else if(!gameBoard.getPlayersShooted().contains(players.get(positionPlayer))){
-                    updateNotCorrectAction("Cannot mark him");
+                    System.out.println("KO 4");
                     if(currentPlayer.getNumActionCancelled() == 1){
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
                     }
+                    updateNotCorrectAction("Cannot mark him");
                     return;
                 }
                 break;
             default:
-
+            break;
         }
 
-        /*try {
-
+        try {
             Player tmp;
             if(positionPlayer == -1)
                 tmp = terminator;
             else
                 tmp = players.get(positionPlayer);
-            //da cambiare
-            powerUpCard.effect(gameBoard, currentPlayer, tmp,1,1);
+
+            powerUpCard.effect(gameBoard, currentPlayer, tmp,coo);
         }
         catch(DamageTrackException e){
-        }*/
+
+        }
 
         currentPlayer.getPowerUpCards().remove(powerUpCard);
         gameBoard.addPowerUpCardDiscarded(powerUpCard);

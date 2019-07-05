@@ -99,6 +99,7 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     }
 
     public void createUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp){
+        System.out.println("la sto creando");
         UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,coordinates,idPlayer,defend,positionPowerUp);
         notifyObservers(usePowerUpCard);
     }
