@@ -366,7 +366,11 @@ public class Model extends Observable<MoveMessage> {
                 return;
             } else if (currentPlayer.isRespawn() && !(currentPlayer.isFirstTurn())) {
                 //dire a sara per timer
-                notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
+                ArrayList<MoveMessage> tmpMoveMessage = new ArrayList<>();
+                tmpMoveMessage.add(currentPlayer.setCorrectNormalActionChooseMessages(false));
+                currentPlayer.insertMessagesToBeSend(tmpMoveMessage);
+                sendMessage();
+                //notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
                 return;
             }
         }

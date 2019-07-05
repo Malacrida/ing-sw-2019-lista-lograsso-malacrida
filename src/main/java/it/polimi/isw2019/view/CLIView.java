@@ -627,22 +627,23 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             tmpActionChoosen = input.nextLine();
 
             for( i = 0 ; i < actionMessage.getActionYouCanPerform().length; i ++){
-                if(tmpActionChoosen.equals(String.valueOf(i))){
+                 if(tmpActionChoosen.equals(String.valueOf(9))){
                     actionChoosen = Integer.parseInt(tmpActionChoosen);
-                    okInput = true;
-                    break;
-                }
-                else if(tmpActionChoosen.equals(String.valueOf(9))){
-                    actionChoosen = Integer.parseInt(tmpActionChoosen);
+                     okInput = true;
                     break;
                 }
                 else if(tmpActionChoosen.equals(String.valueOf(-1))) {
                     actionChoosen = Integer.parseInt(tmpActionChoosen);
+                    okInput = true;
                     break;
                 }
+                else if (tmpActionChoosen.equals(String.valueOf(i))){
+                    actionChoosen = Integer.parseInt(tmpActionChoosen);
+                    okInput = true;
+                    break;
+                }
+
             }
-            if(!okInput)
-                System.out.println("Try again");
 
             if (actionChoosen == -1) {
                 int[][] payment = new int[1][1];
@@ -651,10 +652,14 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 return;
             }
             else if (actionChoosen==9){
+                System.out.println("I'M IN");
                 notifyObservers(new ConnectionMove(nicknamePlayer, 0));
                 reconnectClient();
                 return;
             }
+
+            if(!okInput)
+                System.out.println("Try again");
 
         } while (!okInput);
 
@@ -931,6 +936,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitEndGame(EndGame endGame) {
-
+        System.out.println("ENDED GAME");
     }
 }
