@@ -19,10 +19,6 @@ public class Arena {
     }
 
 
-    public ArrayList<Room> getRooms() {
-        return rooms;
-    }
-
     /**
      * This method is used to choose on which arena do you want play
      * @param numArena is an identifier of type arena
@@ -226,8 +222,6 @@ public class Arena {
      * @param colorRoomToSpawn color of spawn
      * @param player who spawn
      */
-
-    //Controllo sul colore scelto dal giocatore dove spownare
     public void spawnPlayer(ColorRoom colorRoomToSpawn, Player player) {
         switch (colorRoomToSpawn) {
             case RED:
@@ -294,12 +288,6 @@ public class Arena {
         }
     }
 
-    public boolean isRespawnSquare(int x, int y){
-        if((x == 2 && y == 3) || (x == 0 && y == 2) ||(x ==0 && y == 1))
-            return true;
-        else
-            return false;
-    }
 
     /**
      * teleport player who use this method
@@ -367,29 +355,6 @@ public class Arena {
         return squares[x][y];
     }
 
-    public ColorRoom getColorRoom(Square square) {
-        ColorRoom colorRoom = null;
-        for (Room room : rooms) {
-            if (room.containsSquare(square)) {
-                colorRoom = room.getColorRoom();
-                break;
-            }
-
-        }
-        return colorRoom;
-    }
-
-    public int[] coordinateOfSquare(Square square) {
-        int[] index = new int[2];
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; i < 4; j++)
-                if (square.equals(squares[i][j])) {
-                    index[0] = i;
-                    index[1] = j;
-                }
-        return index;
-    }
-
 
 
     public void setArenaRepresentation() {
@@ -410,33 +375,6 @@ public class Arena {
 
 
 
-    }
-
-    public void insertSquareInRepresentation(Square square,int startingPointRaw,int startingPointColumn){
-        if(square!= null) {
-            square.setSquareRepresentation();
-            for (int i = startingPointColumn, j = 0; i < startingPointColumn + 6; i++, j++) {
-                tmpArena[startingPointRaw - 1][i] = square.getRaw()[j];
-                tmpArena[startingPointRaw][i] = square.getCenter()[j];
-                tmpArena[startingPointRaw + 1][i] = square.getCenter()[j];
-            }
-        }
-        else{
-            for (int i = startingPointColumn, j = 0; i < startingPointColumn + 6; i++, j++) {
-                tmpArena[startingPointRaw - 1][i] = "_";
-                tmpArena[startingPointRaw][i] = " ";
-                tmpArena[startingPointRaw + 1][i] = "_";
-
-            }
-
-            tmpArena[startingPointRaw - 1][startingPointColumn] = "|";
-            tmpArena[startingPointRaw][startingPointColumn] = "|";
-            tmpArena[startingPointRaw + 1][startingPointColumn] = "|";
-
-            tmpArena[startingPointRaw - 1][startingPointColumn + 5] = "|";
-            tmpArena[startingPointRaw][startingPointColumn+ 5] = "|";
-            tmpArena[startingPointRaw + 1][startingPointColumn+ 5] = "|";
-        }
     }
 
 
@@ -466,12 +404,14 @@ public class Arena {
         return arenaRepresentation;
     }
 
+
+
     public void setStatusCardOnBoard(){
         for(int i = 0; i < 3 ; i ++){
             for(int j = 0 ; j < 4 ; j ++){
                 if(!squares[i][j].isCanUseAmmo())
-                    squares[i][j].getAmmoTile().setCheckState(StateCard.ON_BOARD);
-                else if(squares[i][j] instanceof SquareSpawn){
+                    squares[i][j].changeStatus(StateCard.ON_BOARD);
+                else if(isSpawnSquare(i,j)){
                     for(AbstractWeaponCard weaponCards: squares[i][j].getWeaponCards()){
                         if(weaponCards.getStateCard() != StateCard.ON_BOARD){
                             weaponCards.changeState(StateCard.ON_BOARD);

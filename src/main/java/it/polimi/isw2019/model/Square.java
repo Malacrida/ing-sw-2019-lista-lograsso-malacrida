@@ -7,10 +7,6 @@ import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
 import java.util.ArrayList;
 
 
-/**
- * Abstract class who represents the general squares
- */
-
 public abstract class Square{
     private Square squareN;
     private Square squareE;
@@ -23,7 +19,6 @@ public abstract class Square{
     private String[] raw;
     private String[] center;
     private String[] bottom;
-    private String adiacence;
 
     /**
      *
@@ -35,7 +30,7 @@ public abstract class Square{
 
 
     /**
-     * setter of squares
+     *
      * @param squareN reference to the north cell
      * @param squareE reference to the east cell
      * @param squareS reference to the south cell
@@ -149,47 +144,12 @@ public abstract class Square{
     }
 
     public String getSquareRepresentation() {
-        setSquareRepresentation();
         return squareRepresentation;
     }
 
-    public void setSquareRepresentation() {
-        squareRepresentation = " "+returnTypeOfCard() + " " + players.size() + " ";
-
-    }
-
-
-
-    public String[] getRaw() {
-        return raw;
-    }
-
-
-    public String[] getCenter() {
-        return center;
-    }
-
-    public void setCenter(String[] center) {
-        this.center = center;
-    }
-
-    public String[] getBottom() {
-        return bottom;
-    }
-
-    public void setBottom(String[] bottom) {
-        this.bottom = bottom;
-    }
 
     public String toString(){
-        setSquareRepresentation();
         return getSquareRepresentation();
-    }
-
-    public char returnTypeOfCard(){
-        if(this.spawnPoint)
-            return 'W';
-        else return 'A';
     }
 
 }
