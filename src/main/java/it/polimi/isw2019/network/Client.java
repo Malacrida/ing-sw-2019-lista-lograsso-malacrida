@@ -43,7 +43,7 @@ public class Client {
 
             chooseOk = true;
         }
-        
+
         try {
             serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
