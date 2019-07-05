@@ -9,17 +9,12 @@ public class ConfigLoader {
         /**
          * Relative path of the configuration file
          */
-        private static final String CONFIG_FILE_PATH = "/config.txt";
+        private static final String FILE_PATH = "/config.txt";
 
         /**
          * Tag to get the info on the port used for the RMI connection
          */
         private static final String RMI_PORT = "RMI_PORT";
-
-        /**
-         * Tag to get the info on the port used for the Socket connection
-         */
-        private static final String SOKET_PORT = "SKT_PORT";
 
         /**
          * Tag to get the info on the IP address of the server
@@ -29,27 +24,17 @@ public class ConfigLoader {
         /**
          * Tag to get the value of the timer for the connection waiting for the various players
          */
-        private static final String TIMER_START = "TIMER_START";
+        private static final String TIMER_LOBBY = "TIMER_LOBBY";
 
         /**
          * Tag to get the timer value for the player to make the move
          */
-        private static final String TIMER_USER = "TIMER_USER";
-
-        /**
-         * Tag to get the number of attempts to make before considering a disconnected client
-         */
-        private static final String MAX_RECONNECTION = "MAX_RECONNECTION";
-
+        private static final String TIMER_ACTION = "TIMER_ACTION";
+        
         /**
          * IP address of the server
          */
         private String hostIp;
-
-        /**
-         * Port used for the Socket connection
-         */
-        private int soketPort;
 
         /**
          * Port used for the RMI connection
@@ -59,17 +44,12 @@ public class ConfigLoader {
         /**
          * Value of the timer for the connection waiting for the various players
          */
-        private int timerStart;
+        private int timerLobby;
 
         /**
          * Value of the timer for the player's move
          */
-        private int timerUser;
-
-        /**
-         * Number of attempts to connect to a customer before considering it disconnected
-         */
-        private int maxReconnection;
+        private int timerAction;
 
         /**
          * Constructor. Launch the load method
@@ -85,14 +65,12 @@ public class ConfigLoader {
             Properties config = new Properties();
             try {
 
-                InputStream inputStream = getClass().getResourceAsStream(CONFIG_FILE_PATH);
+                InputStream inputStream = getClass().getResourceAsStream(FILE_PATH);
                 config.load(inputStream);
                 setRmiPort(config.getProperty(RMI_PORT));
                 setHostIp(config.getProperty(HOST));
-                //setSktPort(config.getProperty(SOCKET_PORT));
-                //setTimerStart(config.getProperty(TIMER_START));
-                //setTimerUser(config.getProperty(TIMER_USER));
-                //setMaxReconnection(config.getProperty(MAX_RECONNECTION));
+                setTimerLobby(config.getProperty(TIMER_LOBBY));
+                setTimerAction(config.getProperty(TIMER_ACTION));
             } catch (IOException e) {
                 System.err.println("Error reading configuration file.");
             }
@@ -118,21 +96,12 @@ public class ConfigLoader {
         }
 
         /**
-         * Sets the sktPort attribute
-         *
-         * @param s Port used for the Socket connection
-         */
-        private void setSktPort(String s){
-            soketPort = Integer.parseInt(s);
-        }
-
-        /**
          * Sets the timerStart attribute
          *
          * @param s Value of the timer for the connection waiting for the various players
          */
-        private void setTimerStart(String s){
-            timerStart = Integer.parseInt(s);
+        private void setTimerLobby(String s){
+           timerLobby = Integer.parseInt(s);
         }
 
         /**
@@ -140,26 +109,8 @@ public class ConfigLoader {
          *
          * @param s Value of the timer for the player's move
          */
-        private void setTimerUser(String s){
-            timerUser = Integer.parseInt(s);
-        }
-
-        /**
-         * Sets the maxReconnection attribute
-         *
-         * @param s Number of attempts to connect to a customer before considering it disconnected
-         */
-        private void setMaxReconnection(String s){
-            maxReconnection = Integer.parseInt(s);
-        }
-
-        /**
-         * Returns the value of sktPort attribute
-         *
-         * @return Port used for the Socket connection
-         */
-        public int getSktPort() {
-            return soketPort;
+        private void setTimerAction(String s){
+            timerAction = Integer.parseInt(s);
         }
 
         /**
@@ -176,8 +127,8 @@ public class ConfigLoader {
          *
          * @return Value of the timer for the connection waiting for the various players
          */
-        public int getTimerStart() {
-            return timerStart;
+        public int getTimerLobby() {
+            return timerLobby;
         }
 
         /**
@@ -185,17 +136,8 @@ public class ConfigLoader {
          *
          * @return Value of the timer for the player's move
          */
-        public int getTimerUser() {
-            return timerUser;
-        }
-
-        /**
-         * Returns the value of maxReconnection attribute
-         *
-         * @return Number of attempts to connect to a customer before considering it disconnected
-         */
-        public int getMaxReconnection() {
-            return maxReconnection;
+        public int getTimerAction() {
+            return timerAction;
         }
 
         /**

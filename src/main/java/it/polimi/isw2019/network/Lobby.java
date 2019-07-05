@@ -25,13 +25,9 @@ public class Lobby implements LobbyInterface {
     private ArrayList<VirtualViewSocket> virtualViewsSocket = new ArrayList<>();
     private ArrayList<String> nicknames = new ArrayList<>();
     private ArrayList<ConnetedClient> connectedClients = new ArrayList<>();
-    private int countDown = 10;
+    private ConfigLoader configLoader = new ConfigLoader();
+    private int countDown = configLoader.getTimerLobby();
     boolean lobbyIsRunning = true;
-
-    public Lobby() {
-
-    }
-
 
     public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
         if(!alreadyExistNickname(nickname)){
@@ -83,6 +79,8 @@ public class Lobby implements LobbyInterface {
 
     @Override
     public void run() {
+
+
         while (lobbyIsRunning) {
             boolean roomStartable = true;
             System.out.println("Waiting for at least 3 clients.");
