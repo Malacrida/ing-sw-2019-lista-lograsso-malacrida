@@ -181,6 +181,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
+            System.out.println("invio power up");
             server.receiveUsePowerUpCard(usePowerUpCard.getPlayer(),usePowerUpCard.getCoordinates(), usePowerUpCard.getIdPlayer(), usePowerUpCard.isDefend(), usePowerUpCard.getIdPlayer());
 
         } catch (RemoteException e) {
@@ -279,6 +280,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) {
         UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateGame,canBeUsed,error, cooPlayer);
+        System.out.println("notifico");
         notifyObservers(usePowerUpCardMessage);
     }
 

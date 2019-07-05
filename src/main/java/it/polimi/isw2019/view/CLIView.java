@@ -247,7 +247,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     public int[] choosePeopleToKill(int[][] coordinates){
 
-        System.out.println("LENGHT COO" + coordinates.length);
+        //System.out.println("LENGHT COO" + coordinates.length);
         int[] peopleToKill = new int[coordinates.length];
 
         Scanner input = new Scanner(System.in);
@@ -261,9 +261,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         for(int i = 0 ; i < coordinates.length; i++){
             System.out.println("Press 1 to shoot the following player, otherwise press 0");
-            tmp = input.next();
             inputOk  = false;
             do{
+            tmp = input.next();
+
             if(tmp.equals(String.valueOf(1))){
                 peopleToKill[i] = coordinates[i][0];
                 inputOk = true;
@@ -272,7 +273,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 peopleToKill[i] = -2;
                 inputOk = true;
             }
-            else{
+            if(!inputOk){
                 System.out.println("TRY AGAIN");
                 }
             }while (!inputOk);
@@ -701,11 +702,13 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         int cardIndex = index;
         int[] peopleToBeShoot = null;
+
         if(usePowerUpCardMessage.getCooPlayer().length != 0)
                 peopleToBeShoot = new int[usePowerUpCardMessage.getCooPlayer().length];
 
-        int[][] coordinates = null;
+        int[][] coordinates =  null;
 
+        System.out.println();
 
         inputOk = false;
         boolean endChoice = false;
@@ -726,12 +729,12 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                usePowerUpCard.setDefend(true);
                break;
             default:
-
+                break;
        }
        int person = 0 ;
 
        for(int i = 0 ; i < peopleToBeShoot.length; i ++){
-           if(peopleToBeShoot[i]!= -1) {
+           if(peopleToBeShoot[i]!= -2) {
                person = peopleToBeShoot[i];
                break;
            }

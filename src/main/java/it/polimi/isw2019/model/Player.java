@@ -143,7 +143,6 @@ public class Player{
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
         usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
         usePowerUpCardMessage.setCooPlayer(playerToAttack);
-        usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
 
     }
 
@@ -986,7 +985,6 @@ public class Player{
     public String toString(){
         descriptionPlayer = "Name : " + name ;
         descriptionPlayer += "\n";
-        // descriptionPlayer += "Current position :" + x + " " + y + " " + colorRoom.getColorRoomRepresentation() + "\n";
         descriptionPlayer += "Score : " + score + "\n";
         return descriptionPlayer;
     }
