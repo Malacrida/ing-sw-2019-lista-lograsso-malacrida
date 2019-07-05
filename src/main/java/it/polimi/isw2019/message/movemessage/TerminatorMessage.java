@@ -70,7 +70,7 @@ public class TerminatorMessage extends MoveMessage {
 
     @Override
     public void accept(VisitorView visitorview) {
-
+            visitorview.terminatorAction(this);
     }
 
     @Override

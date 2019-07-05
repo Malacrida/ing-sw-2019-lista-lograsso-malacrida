@@ -835,11 +835,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         notifyObservers(new ReloadMove(nicknamePlayer,tmpWeaponCard,payment));
     }
 
-    @Override
-    public void failRegistration(FailRegistration failRegistration) {
-        System.out.println("too many people : OUT");
-    }
-
     public void reconnectClient (){
         Scanner input = new Scanner(System.in);
         int chosen;

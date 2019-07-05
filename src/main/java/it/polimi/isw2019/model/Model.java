@@ -151,14 +151,11 @@ public class Model extends Observable<MoveMessage> {
      * @throws IndexOutOfBoundsException
      */
 
-    public void addPlayer(String nickName, String actionHeroComment) throws IndexOutOfBoundsException {
+    public void addPlayer(String nickName, String actionHeroComment) {
 
         if(players.size()<5) {
             players.add(new Player(nickName, actionHeroComment));
             notifyObservers(new EndRegistration(nickName));
-        } else {
-            notifyObservers(new FailRegistration(nickName));
-            throw new IndexOutOfBoundsException();
         }
     }
 
