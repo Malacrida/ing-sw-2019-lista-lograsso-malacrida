@@ -74,12 +74,12 @@ public class ArenaTest {
         }
 
 
-        player = new Player("name", "Comment", 0);
+        player = new Player("name", "Comment");
 
-        player1= new Player("name1","Wow",1);
-        player2= new Player("name2","Wow",2);
-        player3= new Player("name3","Wow",3);
-        player4= new Player("name4","Wow",4);
+        player1= new Player("name1","Wow");
+        player2= new Player("name2","Wow");
+        player3= new Player("name3","Wow");
+        player4= new Player("name4","Wow");
 
 
         arena = new Arena();

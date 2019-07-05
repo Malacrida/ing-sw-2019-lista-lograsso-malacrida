@@ -35,9 +35,9 @@ public class RoomTest {
         squareAmmo3.setSquareAdjacent(squareAmmo1,squareSpawn,null,null);
         squareSpawn.setSquareAdjacent(squareAmmo2,null,null,squareAmmo3);
 
-        player1= new Player("name1", null,1);
-        player2= new Player("name2", null,2);
-        player3= new Player("name3", null,3);
+        player1= new Player("name1", null);
+        player2= new Player("name2", null);
+        player3= new Player("name3", null);
 
     }
 

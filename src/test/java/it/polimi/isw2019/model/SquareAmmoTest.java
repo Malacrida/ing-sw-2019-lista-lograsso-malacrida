@@ -29,8 +29,8 @@ public class SquareAmmoTest {
         squareAmmo3= new SquareAmmo();
         ArrayList<AmmoTile> ammoTiles;
         ammoTile=  new AmmoTile(1, "RED","YELLOW","BLUE");
-        player1= new Player("name1", null, 1);
-        player1= new Player("name2", null, 2);
+        player1= new Player("name1", null);
+        player1= new Player("name2", null);
     }
 
     @After

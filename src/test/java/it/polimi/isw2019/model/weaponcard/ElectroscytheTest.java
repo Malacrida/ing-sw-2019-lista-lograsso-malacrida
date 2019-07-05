@@ -24,10 +24,10 @@ public class ElectroscytheTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Giampierpaolo", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Davide", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sara", "Tanto attaccano sempre Alba", 3);
-        thirdDefender = new Player("Virginia", "Devo fare le pulzie?", 4);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Superman", "Una S grazie");
+        thirdDefender = new Player("Pinocchio", "Non ho mai mentito");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

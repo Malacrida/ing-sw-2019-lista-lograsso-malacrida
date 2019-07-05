@@ -7,11 +7,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ClientInterface extends Remote {
-    //update model
-
-    //info card
-
-    //altre info
 
     public void startViewClient () throws RemoteException;
 
@@ -20,14 +15,6 @@ public interface ClientInterface extends Remote {
     public String getNickname() throws RemoteException;
 
     public void reconnectionClient () throws RemoteException;
-
-    public Boolean isYourTurn() throws RemoteException;
-
-    //per fargli fare la scelta della modalità di gioco e mappa
-    public void selectModeGameAndMap () throws RemoteException;
-
-    //per attivare il giocatore nel suo turno
-    public void startRound () throws RemoteException;
 
     public void logInCorrect () throws RemoteException;
 

@@ -40,8 +40,8 @@ public class SquareSpawnTest {
         weaponCards[0]=weaponCard1;
         weaponCards[1]=weaponCard2;
         weaponCards[2]=weaponCard3;
-        player1= new Player("name1", null, 1);
-        player2= new Player("name2", null, 2);
+        player1= new Player("name1", null);
+        player2= new Player("name2", null);
     }
 
     @After

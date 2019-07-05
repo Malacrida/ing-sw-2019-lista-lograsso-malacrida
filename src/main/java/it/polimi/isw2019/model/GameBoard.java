@@ -66,30 +66,12 @@ public class GameBoard{
 
     }
 
-    public void cancelKillPlayerFromOverkill(){
-        ArrayList<Player> tmpPlayers = new ArrayList<>();
-        for(Player killPlayer1 : killPlayer) {
-            if (overkillPlayer.contains(killPlayer1))
-                tmpPlayers.add(killPlayer1);
-        }
-        killPlayer.removeAll(tmpPlayers);
-    }
+
 
     public ArrayList<Player> getPlayersShooted() {
         return playersShooted;
     }
 
-    public ArrayList<PowerUpCard> getUsedPowerUpCards() {
-        return usedPowerUpCards;
-    }
-
-    public ArrayList<AmmoTile> getAmmoTiles() {
-        return ammoTiles;
-    }
-
-    public ArrayList<AmmoTile> getGrabedAmmoTiles() {
-        return grabedAmmoTiles;
-    }
 
     /**
      * method to choose arena

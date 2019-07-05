@@ -20,8 +20,6 @@ import java.util.Scanner;
 
 public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observer<PlayerMove>, ClientInterface, Remote, NetworkHandlerVisitorInterface {
 
-//forse va qui il riferimento al registro
-
     ConfigLoader cl = new ConfigLoader();
 
     ServerInterface server;
@@ -302,21 +300,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         return null;
     }
 
-
-    @Override
-    public Boolean isYourTurn() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public void selectModeGameAndMap() throws RemoteException {
-
-    }
-
-    @Override
-    public void startRound() throws RemoteException {
-
-    }
 
 
 
