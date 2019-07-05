@@ -366,7 +366,11 @@ public class Model extends Observable<MoveMessage> {
                 return;
             } else if (currentPlayer.isRespawn() && !(currentPlayer.isFirstTurn())) {
                 //dire a sara per timer
-                notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
+                ArrayList<MoveMessage> tmpMoveMessage = new ArrayList<>();
+                tmpMoveMessage.add(currentPlayer.setCorrectNormalActionChooseMessages(false));
+                currentPlayer.insertMessagesToBeSend(tmpMoveMessage);
+                sendMessage();
+                //notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
                 return;
             }
         }
@@ -820,8 +824,8 @@ public class Model extends Observable<MoveMessage> {
         String [] ranking = new String[players.size()];
         int[] points = new int[players.size()];
         int pointMax=0;
-        String winner= null;
-        String phrase= null;
+        String winner= players.get(0).getName();
+        String phrase= players.get(0).getActionHeroComment();
 
         for (int i=0; i<players.size(); i++){
             ranking [i] = players.get(i).getName();
@@ -832,8 +836,8 @@ public class Model extends Observable<MoveMessage> {
                 phrase= players.get(i).getActionHeroComment();
             }
         }
-
-        notifyObservers(new EndGame(ranking,points,pointMax,winner,phrase));
+        System.out.println("sono in end game");
+        notifyObservers(new EndGame(currentPlayer.getName(),ranking,points,pointMax,winner,phrase,true));
 
     }
 

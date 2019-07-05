@@ -59,12 +59,12 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         }*/
 
         //TO CHANGE
-        model.registerObserver(firstMessage.getCLIView());
+        model.registerObserver(firstMessage.getVirtualViewRmi());
 
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
-            model.unregisterObserver(firstMessage.getCLIView());
+            model.unregisterObserver(firstMessage.getVirtualViewRmi());
         }
 
     }
@@ -219,7 +219,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
      */
 
     @Override
-    public void disconnectionPlayer(ConnectionMove connectionMove) {
+    public void connectionPlayer(ConnectionMove connectionMove) {
         if(connectionMove.getConnection() == 0) {
             model.getCurrentPlayer().setActive(false);
             model.changePlayer();

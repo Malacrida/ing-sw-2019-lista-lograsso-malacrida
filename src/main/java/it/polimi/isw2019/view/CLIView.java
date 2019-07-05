@@ -19,6 +19,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     private int[] playerBoard;
     private String gameBoard;
     private int index;
+    private boolean endGame=false;
 
     public CLIView(String nicknamePlayer){
         this.nicknamePlayer = nicknamePlayer;
@@ -641,8 +642,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     break;
                 }
             }
-            if(!okInput)
-                System.out.println("Try again");
 
             if (actionChoosen == -1) {
                 int[][] payment = new int[1][1];
@@ -655,6 +654,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 reconnectClient();
                 return;
             }
+
+            if(!okInput)
+                System.out.println("Try again");
 
         } while (!okInput);
 
@@ -877,14 +879,17 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         Scanner input = new Scanner(System.in);
         int chosen;
 
-        do{
-            System.out.println("Insert 1 to reconnect to the server");
-            chosen = input.nextInt();
-            if (chosen == 1){
-                notifyObservers(new ConnectionMove(nicknamePlayer,1));
-                return;
-            }
-        }while (chosen!=1);
+        if (!endGame){
+            do{
+                System.out.println("Insert 1 to reconnect to the server");
+                chosen = input.nextInt();
+                if (chosen == 1){
+                    notifyObservers(new ConnectionMove(nicknamePlayer,1));
+                    return;
+                }
+            }while (chosen!=1);
+        }
+
     }
 
     @Override
@@ -931,6 +936,17 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitEndGame(EndGame endGame) {
+        this.endGame=true;
+        System.out.println("END GAME");
+
+        System.out.println("The winner is: " +endGame.getWinner());
+        System.out.println("The points is: " + endGame.getPointMax());
+        System.out.println("The winner says: " +endGame.getPhrase());
+
+        System.out.println("All score: ");
+        for (int i=0; i<endGame.getRanking().length; i++){
+            System.out.println(endGame.getRanking()[i] + " : "+endGame.getPoints()[i]);
+        }
 
     }
 }

@@ -18,7 +18,7 @@ public class ConnectionMove extends PlayerMove {
 
     @Override
     public void accept(VisitorController visitorController) {
-        visitorController.disconnectionPlayer(this);
+        visitorController.connectionPlayer(this);
     }
 
     @Override

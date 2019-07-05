@@ -51,9 +51,14 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
             System.out.println("procedo con l'update per: " + message.getNicknamePlayer());
             System.out.println("sono in : " +nickname);
         }
+        if(message instanceof EndGame){
+            message.accept(this);
+        }
     }
 
     public void createConnectionPlayer(String nickname, int connection){
+        System.out.println("ricevo una connection di: " +nickname);
+        System.out.println("sono in: " +this.nickname);
         if (connection==0)
             active= false;
         else if (connection==1)
@@ -226,7 +231,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     @Override
     public void sendEndGame(EndGame endGame) {
         try {
-            networkHandler.createEndGame(endGame.getRanking(),endGame.getPoints(),endGame.getPointMax(),endGame.getWinner(),endGame.getPhrase());
+            System.out.println("invio una endGame a: " +nickname);
+            networkHandler.createEndGame(endGame.getNicknamePlayer(),endGame.getRanking(),endGame.getPoints(),endGame.getPointMax(),endGame.getWinner(),endGame.getPhrase(), endGame.isNotifyAll());
         }catch (RemoteException e){
             e.printStackTrace();
         }
