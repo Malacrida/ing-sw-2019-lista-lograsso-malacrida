@@ -9,6 +9,10 @@ import it.polimi.isw2019.view.CLIView;
 
 import java.io.Serializable;
 
+/**
+ * player move of first message to register player in model
+ */
+
 public class FirstMessage extends PlayerMove implements Serializable{
 
     private String actionHero;
@@ -47,20 +51,31 @@ public class FirstMessage extends PlayerMove implements Serializable{
         networkHandler.sendRegisterPlayer(this);
     }
 
+    /**
+     * getter of phrase attack
+     * @return player's phrase
+     */
 
     public String getActionHero() {
         return actionHero;
     }
 
+    /**
+     * getter of cli
+     * @return cli
+     */
+
     public CLIView getCLIView() {
         return CLIView;
     }
+
+    /**
+     * getter of virtual view rmi
+     * @return virtual view rmi
+     */
 
     public VirtualViewRmi getVirtualViewRmi() {
         return virtualViewRmi;
     }
 
-    public VirtualViewSocket getVirtualViewSocket () {
-        return virtualViewSocket;
-    }
 }

@@ -3,6 +3,10 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
+/**
+ * player move of choice power up by player
+ */
+
 public class PowerUpChoice extends PlayerMove{
 
     private int idPowerUpDischarge;
@@ -14,9 +18,19 @@ public class PowerUpChoice extends PlayerMove{
         this.idPowerUpDischarge = idPowerUp;
     }
 
+    /**
+     * getter id of power up that player discharge if he has other 3
+     * @return id of power up discharge
+     */
+
     public int getIdPowerUpDischarge() {
         return idPowerUpDischarge;
     }
+
+    /**
+     * getter id of power up that player taken
+     * @return id power up
+     */
 
     public int getIdPowerUpTake() {
         return idPowerUpTake;

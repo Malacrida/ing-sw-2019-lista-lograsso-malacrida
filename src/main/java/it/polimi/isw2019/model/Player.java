@@ -329,21 +329,10 @@ public class Player{
         powerUpCards.remove(powerUpCard);
     }
 
-    public boolean isShoot() {
-        return isShoot;
-    }
-
-    public void setShoot(boolean shoot) {
-        isShoot = shoot;
-    }
-
     public void setTmpPowerUpChoice(PowerUpCard powerUpCard){
         tmpPowerUpCard = powerUpCard;
     }
 
-    public void setTmpWeaponCardChoice(AbstractWeaponCard weaponCardChoice){
-        tmpWeaponCard = weaponCardChoice;
-    }
     /**
      * method used to pay cubes to use weapon card's effect
      * @param costRed number of red cubes
@@ -669,14 +658,6 @@ public class Player{
         return false;
     }
 
-    public boolean canAddPowerUpTerminator(){
-        for(PowerUpCard powerUpCard : powerUpCards){
-            if(powerUpCard.isTerminatorTag()){
-                return true;
-            }
-        }
-        return false;
-    }
     /**
      * reloade weapon card
      * @return boolean
@@ -1016,8 +997,5 @@ public class Player{
         descriptionPlayer += "Score : " + score + "\n";
         return descriptionPlayer;
     }
-
-
-
 
 }

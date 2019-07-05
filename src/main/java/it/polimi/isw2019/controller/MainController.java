@@ -23,12 +23,19 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+
+
     @Override
     public void update(PlayerMove playerMove){
            // System.out.println("controller : " + playerMove.getPlayer());
             model.receiveAnswer();
             playerMove.accept(this);
     }
+
+    /**
+     *
+     * @param firstMessage
+     */
 
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
@@ -71,6 +78,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     * send to model which map is choosen by the player
+     * @param chooseMapMove player move that contains the choice of the player
+     */
+
     @Override
     public void chooseMap(ChooseMapMove chooseMapMove) {
 
@@ -86,6 +98,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 //normally impossible!
             }
     }
+
+    /**
+     * send to model which power up is choosen by the player
+     * @param powerUpChoice player move that contains the choice of the player
+     */
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
@@ -108,12 +125,22 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     * send to model which action is choosen by the player
+     * @param chooseActionMove player move that contains the choice of the player
+     */
+
     @Override
     public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
         model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
         model.getCurrentPlayer().setPlayerToAttack(model.returnCoordinatesOfPlayerInGame());
         model.sendActionMessage();
     }
+
+    /**
+     * sendo to model which weapon card is choosen by the player
+     * @param weaponCardChoice player move that contains the choice of the player
+     */
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice){
@@ -134,6 +161,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.sendActionUpdateMessage();
         }
     }
+
+    /**
+     * change state of model and use the effect of weapon card
+     * @param useWeaponCard player move
+     */
 
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
@@ -181,6 +213,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     * set state of player (if is active is true)
+     * @param connectionMove player move
+     */
+
     @Override
     public void connectionPlayer(ConnectionMove connectionMove) {
         if(connectionMove.getConnection() == 0) {
@@ -190,6 +227,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         else if (connectionMove.getConnection() == 1)
             model.getCurrentPlayer().setActive(true);
     }
+
+    /**
+     *
+     * @param reloadMove player move that contains the choice of the player
+     */
 
     @Override
     public void visitReload(ReloadMove reloadMove) {
@@ -216,6 +258,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.reload(reloadMove.getPayment(), reloadMove.getWeaponCard());
         }
     }
+
+    /**
+     *
+     * @param runMove player move that contains the choice of the player
+     */
 
     @Override
     public void visitControllerRun(RunMove runMove){
@@ -256,6 +303,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     *
+     * @param grabMove player move that contains the choice of the player
+     */
+
     @Override
     public void visitControllerGrab(GrabMove grabMove) {
         if(grabMove.getPositionWeaponCard()!= -1){
@@ -282,12 +334,22 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
 
+    /**
+     *
+     * @param usePowerUpCard player move that contains the choice of the player
+     */
+
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
         System.out.println("OKOK");
         model.usePowerUpCard(usePowerUpCard.getPositionPowerUp(),usePowerUpCard.getIdPlayer(),usePowerUpCard.getCoordinates());
 
     }
+
+    /**
+     *
+     * @param terminatorMove player move that contains the choice of the player
+     */
 
     @Override
     public void terminatorAction(TerminatorMove terminatorMove) {
