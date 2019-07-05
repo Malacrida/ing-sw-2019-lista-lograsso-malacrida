@@ -61,7 +61,13 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     }
 
 
-    
+
+    /**
+     * method to notify observer and set player activity
+     * @param nickname player's nickname
+     * @param connection type connection
+     * @throws RemoteException exception
+     */
     public void createConnectionPlayer(String nickname, int connection){
         System.out.println("ricevo una connection di: " +nickname);
         System.out.println("sono in: " +this.nickname);
@@ -73,58 +79,138 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         notifyObservers(disconnectionMove);
     }
 
-
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param numAction type of action
+     * @throws RemoteException exception
+     */
     public void createChooseActionMove (String player, int numAction){
         ChooseActionMove chooseActionMove= new ChooseActionMove(player,numAction);
         notifyObservers(chooseActionMove);
     }
 
+    /**
+     *method to notify observer
+     * @param player player's nickname
+     * @param index map
+     * @param color color player
+     * @param mod game mod
+     * @param terminator active terminator
+     * @throws RemoteException exception
+     */
     public void createChooseMap(String player, int index, int color, int mod, int terminator){
         ChooseMapMove chooseMapMove= new ChooseMapMove(player, index, color, mod,terminator);
         notifyObservers(chooseMapMove);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param movement player's movement
+     * @throws RemoteException exception
+     */
     public void createRun(String player,int[][] movement){
         RunMove runMove = new RunMove(player, movement);
         notifyObservers(runMove);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param positionWeaponCard position of Card
+     * @param paymen payment to take the card
+     * @throws RemoteException exception
+     */
     public void createGrab(String player, int positionWeaponCard, int[] paymen){
         GrabMove grabMove= new GrabMove(player, positionWeaponCard, paymen);
         notifyObservers(grabMove);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param actionHero player's phrase
+     * @throws RemoteException exception
+     */
     public void createRegisterPlayer( String player, String actionHero){
         FirstMessage firstMessage = new FirstMessage(this, player, actionHero);
         notifyObservers(firstMessage);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param weaponCard Card to reload
+     * @param payment payment to reload
+     * @throws RemoteException exception
+     */
     public void createReload(String player, int[] weaponCard, int[][] payment){
         ReloadMove reloadMove = new ReloadMove(player, weaponCard, payment);
         notifyObservers(reloadMove);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param idPowerUp power up selected
+     * @throws RemoteException exception
+     */
     public void createPowerUpChoice(String player, int idPowerUp){
         PowerUpChoice powerUpChoice= new PowerUpChoice(player,idPowerUp);
         notifyObservers(powerUpChoice);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param coordinates coordinates of player inside the arena and the index of each player
+     * @param idPlayer id of the player
+     * @param defend if the power up can be used only to attack or defend
+     * @param positionPowerUp position of powerup inside the deck of the player
+     * @throws RemoteException exception
+     */
     public void createUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp){
         System.out.println("la sto creando");
         UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,coordinates,idPlayer,defend,positionPowerUp);
         notifyObservers(usePowerUpCard);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param indexWeaponCard index of weapon card choice
+     * @param payment payment to take this card
+     * @throws RemoteException exception
+     */
     public void createWeaponCardChoice(String player, int indexWeaponCard, int[] payment){
         WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment);
         notifyObservers(weaponCardChoice);
     }
-    //
+
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param weaponCard weapon card selected
+     * @param effectUsed type of effect
+     * @param handleEffectCoordinates handel effect coordinates
+     * @param peopleToBeShoot people to shoot
+     * @throws RemoteException exception
+     */
     public void createUseWeaponCard (String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot){
         UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard, effectUsed, handleEffectCoordinates, peopleToBeShoot);
         notifyObservers(useWeaponCard);
     }
 
+    /**
+     * method to notify observer
+     * @param player player's nickname
+     * @param coordinates coordinates to move terminator
+     * @param shootPeople people shoot by terminator
+     * @param colorSpawn where terminator spawn
+     * @param idPlayerToShoot player to shoot
+     * @throws RemoteException exception
+     */
     public void createTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn, int[] idPlayerToShoot){
         TerminatorMove terminatorMove = new TerminatorMove(player,coordinates,shootPeople,colorSpawn, idPlayerToShoot);
         notifyObservers(terminatorMove);

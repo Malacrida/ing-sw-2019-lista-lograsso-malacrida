@@ -46,7 +46,7 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     @Override
     public void update(MoveMessage message) {
         System.out.println("---VIRTUALVIEW--- HO FATTO L'UPDATE DI MOVEMESSAGE: " + message);
-        clientSocket.setMoveMessage(message);
+       // clientSocket.setMoveMessage(message);
         //Richiami il metodo per fare l'oput stream sul oggetto
     }
 

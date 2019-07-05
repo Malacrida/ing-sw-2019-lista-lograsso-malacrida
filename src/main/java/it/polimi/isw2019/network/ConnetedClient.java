@@ -4,6 +4,7 @@ import it.polimi.isw2019.network.network_interface.ClientInterface;
 
 public class ConnetedClient {
 
+
     private String nickname;
 
     private ClientInterface clientInterface;

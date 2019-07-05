@@ -29,6 +29,13 @@ public class Lobby implements LobbyInterface {
     private int countDown = configLoader.getTimerLobby();
     boolean lobbyIsRunning = true;
 
+    /**
+     * add client to lobby
+     * @param nickname player's nickname
+     * @param clientInterface interface
+     * @param typeConnection type of connection
+     * @return true if not already registration, false else
+     */
     public boolean addConnectedClient(String nickname, ClientInterface clientInterface, TypeConnection typeConnection){
         if(!alreadyExistNickname(nickname)){
             ConnetedClient connectedClient = new ConnetedClient(nickname, clientInterface, typeConnection, true);
@@ -40,6 +47,11 @@ public class Lobby implements LobbyInterface {
         else return false;
     }
 
+    /**
+     *
+     * @param nickname player's nickname
+     * @return true if already registration, false else
+     */
     public boolean alreadyExistNickname(String nickname){
         for (int i = 0; i < connectedClients.size(); i++){
             if (connectedClients.get(i).getNickname().equals(nickname)){
@@ -50,6 +62,11 @@ public class Lobby implements LobbyInterface {
     }
 
 
+    /**
+     * analyze connection client
+     * @param nickname player's nickname
+     * @param connection state of connection
+     */
     public void analyzeConnectionClient(String nickname, int connection){
         if (alreadyExistNickname(nickname)){
             for (int i=0; i<connectedClients.size(); i++){
@@ -67,15 +84,10 @@ public class Lobby implements LobbyInterface {
         }
     }
 
-    public void riconnectedClient (String nickname){
-        if (alreadyExistNickname(nickname)){
-            for (int i=0; i<connectedClients.size(); i++){
 
-            }
-        }
-    }
-
-
+    /**
+     * start lobby
+     */
     @Override
     public void run() {
 
@@ -148,6 +160,10 @@ public class Lobby implements LobbyInterface {
         return virtualViewRmis;
     }
 
+
+    /**
+     * start game
+     */
     public void startGame(){
         MainController controller = new MainController();
 

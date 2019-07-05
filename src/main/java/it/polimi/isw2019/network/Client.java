@@ -66,10 +66,8 @@ public class Client {
                 serverRmi.registerNewClient(remoteClient, nickname);
 
 
-            } catch (RemoteException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getCause();
             }
             System.out.println("Registration completed!");
 
