@@ -48,8 +48,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void logInFail() throws RemoteException {
-        System.out.println("Nickname already present");
-        System.out.println("Insert new nickname");
+        System.out.println("---ERROR--- Nickname already present");
+        System.out.println("Insert new nickname: ");
         nickname = input.nextLine();
         try {
             server.registerNewClient(remoteClient, nickname);
@@ -61,13 +61,13 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void reconnectionClient() throws RemoteException {
-        System.out.println("reconnection to the server");
+        System.out.println("Reconnection to the server: ");
     }
 
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
         try {
-            System.out.println("invio exit");
+            System.out.println("Send exit");
             server.receiveConnectionMove(connectionMove.getPlayer(), connectionMove.getConnection());
         }
         catch (RemoteException e) {

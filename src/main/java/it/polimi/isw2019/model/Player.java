@@ -245,11 +245,6 @@ public class Player{
         this.firstTurn = firstTurn;
     }
 
-
-    public int getNumActionToBePerformed(){
-        return numActionToBePerformed;
-    }
-
     public Player getTerminatorPlayer() {
         return terminatorPlayer;
     }
