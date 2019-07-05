@@ -469,15 +469,25 @@ public class Arena {
     public void setStatusCardOnBoard(){
         for(int i = 0; i < 3 ; i ++){
             for(int j = 0 ; j < 4 ; j ++){
-                if(!squares[i][j].isCanUseAmmo())
-                    squares[i][j].getAmmoTile().setCheckState(StateCard.ON_BOARD);
-                else if(squares[i][j] instanceof SquareSpawn){
+                if(squares[i][j]== null){
+                    break;
+                }
+                else{
+                    if(!isSpawnSquare(i,j)){
+                        if(!squares[i][j].isCanUseAmmo()) {
+                            // System.out.println("AMMO REP "+ squares[i][j].getAmmoTile().toString());
+                            squares[i][j].getAmmoTile().setCheckState(StateCard.ON_BOARD);
+                        }
+                }
+                else{
                     for(AbstractWeaponCard weaponCards: squares[i][j].getWeaponCards()){
                         if(weaponCards.getStateCard() != StateCard.ON_BOARD){
                             weaponCards.changeState(StateCard.ON_BOARD);
                         }
                     }
                 }
+                }
+
             }
         }
     }
