@@ -15,10 +15,6 @@ public abstract class Square{
     private boolean spawnPoint;
     protected ArrayList<Player> players= new ArrayList<>();
     private String squareRepresentation;
-    private String[] tmpRepresentation;
-    private String[] raw;
-    private String[] center;
-    private String[] bottom;
 
     /**
      *
@@ -144,12 +140,23 @@ public abstract class Square{
     }
 
     public String getSquareRepresentation() {
+        setSquareRepresentation();
         return squareRepresentation;
     }
 
+    public void setSquareRepresentation() {
+        squareRepresentation = " "+returnTypeOfCard() + " " + players.size() + " ";
 
+    }
     public String toString(){
+        setSquareRepresentation();
         return getSquareRepresentation();
+    }
+
+    public char returnTypeOfCard(){
+        if(this.spawnPoint)
+            return 'W';
+        else return 'A';
     }
 
 }
