@@ -78,6 +78,15 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     }
 
+    @Override
+    public void receiveTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn, int[] idPlayerToShoot) throws RemoteException {
+        for (int i = 0; i< virtualViewRmis.size(); i++){
+            if(virtualViewRmis.get(i).getNickname().equals(player)){
+                virtualViewRmis.get(i).createTerminatorMove(player,coordinates,shootPeople,colorSpawn, idPlayerToShoot);
+            }
+        }
+    }
+
     public void setVirtualViewRmis(ArrayList<VirtualViewRmi> virtualViewRmis) {
         this.virtualViewRmis = virtualViewRmis;
     }
@@ -176,6 +185,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
             }
         }
     }
+
+
 
 
     @Override

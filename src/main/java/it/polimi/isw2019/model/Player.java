@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Player{
     private String name;
-    private String actionHeroComment; //frase effetto
+    private String actionHeroComment;
     private int playerID;
     private ColorPlayer color;
     private int indexPlayer;
@@ -97,6 +97,18 @@ public class Player{
         firstTurn = true;
 
         score = 0;
+    }
+
+    public String getActionHeroComment() {
+        return actionHeroComment;
+    }
+
+    public int getNumActionPerformed() {
+        return numActionPerformed;
+    }
+
+    public int getNumActionToBePerformed() {
+        return numActionToBePerformed;
     }
 
     public ArrayList<MoveMessage> getMessageToBeSent() {

@@ -72,5 +72,10 @@ public class NetworkHandlerSocket extends Observable<MoveMessage> implements Obs
     public void sendConnectionClient(ConnectionMove connectionMove) {
     }
 
+    @Override
+    public void sendTerminatorMove(TerminatorMove terminatorMove) {
+
+    }
+
 
 }

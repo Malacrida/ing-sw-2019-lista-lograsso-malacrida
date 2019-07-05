@@ -401,14 +401,7 @@ public class Model extends Observable<MoveMessage> {
                 players.get(i).setCorrectFrenzyActionChooseMessage(true);
             }
 
-            for ( int i = shift ; i < players.indexOf(currentPlayer)
-
-
-
-
-
-
-                    ; i ++ ){
+            for ( int i = shift ; i < players.indexOf(currentPlayer); i ++ ){
                 if (players.get(i).getRealPlayerBoard().damageTokens.isEmpty()) {
                     players.get(i).getRealPlayerBoard().setFrenzy(true);
                 }
@@ -796,10 +789,25 @@ public class Model extends Observable<MoveMessage> {
         }
     }
 
-    public void endScore (){
-        for (int i=0; i<players.size(); i++){
+    public void endGame (){
+        String [] ranking = new String[players.size()];
+        int[] points = new int[players.size()];
+        int pointMax=0;
+        String winner= null;
+        String phrase= null;
 
+        for (int i=0; i<players.size(); i++){
+            ranking [i] = players.get(i).getName();
+            points[i] = players.get(i).getScore();
+            if (points[i]>pointMax){
+                pointMax=points[i];
+                winner=ranking[i];
+                phrase= players.get(i).getActionHeroComment();
+            }
         }
+
+        notifyObservers(new EndGame(ranking,points,pointMax,winner,phrase));
+
     }
 
 

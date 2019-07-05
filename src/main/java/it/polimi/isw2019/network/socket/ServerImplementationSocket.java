@@ -144,7 +144,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
     }
 
     @Override
-    public void receiveUsePowerUpCard(String player/* InterfacePowerUpCard powerUpCardInterface*/) throws RemoteException {
+    public void receiveUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp) throws RemoteException {
 
     }
 
@@ -164,7 +164,10 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
 
     }
 
+    @Override
+    public void receiveTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn, int[] idPlayerToShoot) throws RemoteException {
 
+    }
 
 
 }
