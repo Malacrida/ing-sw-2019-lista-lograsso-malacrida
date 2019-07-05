@@ -49,6 +49,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     }
 
     public void printStatus(){
+        System.out.println("\n--------------------------------------------\n");
         System.out.println("index" + index);
         System.out.println("Position on arena : x " + playerBoard[1] + " , y " + playerBoard[2]);
         if(featuresAvailable!= null) {
@@ -88,7 +89,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         boolean inputOk = false;
         String tmp;
         do {
-
+            System.out.println("\n--------------------------------------------\n");
             System.out.println("Insert the coordinate or -1 to terminate : \n ");
             tmp = input.next();
             for( int i = 0 ; i <= rawOrColum; i ++){
@@ -254,6 +255,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         boolean inputOk = false;
         for(int i = 0 ; i < coordinates.length; i ++){
+            System.out.println("\n--------------------------------------------\n");
             System.out.println("Index player : " + coordinates[i][0]);
             System.out.println("X position : " + coordinates[i][1]);
             System.out.println("Y position : " + coordinates[i][2] );
@@ -290,10 +292,11 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         if(useWeaponCardMessage.getError()!= null)
             System.out.println(useWeaponCardMessage.getError());
         do{
-            System.out.println("choose one of the following weapon card");
+            System.out.println("Choose one of the following weapon card\n");
             for(int i = 0 ; i < weaponCard.length; i ++){
                 if(useWeaponCardMessage.getWeaponCard()[i] == 1){
-                    System.out.println("press " + i + " to use this card");
+                    System.out.println("\n--------------------------------------------\n");
+                    System.out.println("press " + i + " to use this card\n");
                     System.out.println(weaponCard[i]);
                 }
             }
@@ -325,10 +328,11 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         endInsertment = false;
         boolean endChoice ;
         do {
+            System.out.println("\n--------------------------------------------\n");
             endChoice = false;
             do {
 
-                System.out.println("insert the number of the effect you want to use or -1 to exit /n" +
+                System.out.println("Insert the number of the effect you want to use or -1 to exit /n" +
                         "INSERT 1 - 2 - 3:");
                 tmp = input.next();
 
@@ -415,6 +419,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         int mod=-1,terminator=-1;
         int indexMap = -1, indexColor = -1;
         if(firstMessageFirstPlayer.getPossibleMaps()!= null) {
+            System.out.println("\n--------------------------------------------\n");
             System.out.println("Choose one of the following Arena :");
             for (int i = 0; i < firstMessageFirstPlayer.getPossibleMaps().length; i++)
                 System.out.println((i + 1) + " " + firstMessageFirstPlayer.getPossibleMaps()[i]);
@@ -439,6 +444,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             } while (!inputOk);
             inputOk = false;
             mod = -1;
+            System.out.println("\n--------------------------------------------\n");
             System.out.println("Press 1 to choose the game mode with 5 skulls \n" +
                     "press 2 to choose the game mode with 8 skull:");
             do {
@@ -448,7 +454,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     mod = Integer.parseInt(tmpInput);
                     inputOk = true;
                 } else {
-                    System.out.println("try again");
+                    System.out.println("TRY AGAIN");
                 }
             } while (!inputOk);
 
@@ -465,7 +471,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                         terminator = Integer.parseInt(tmpInput);
                         inputOk = true;
                     } else {
-                        System.out.println("try again");
+                        System.out.println("TRY AGAIN");
                     }
                 } while (!inputOk);
             }
@@ -475,6 +481,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         }
 
         inputOk = false;
+        System.out.println("\n--------------------------------------------\n");
         System.out.println("Choose one of the following color :");
         for(int i = 0; i < firstMessageFirstPlayer.getColorAvailable().size(); i++)
             System.out.println(i +" " + firstMessageFirstPlayer.getColorAvailable().get(i));
@@ -490,7 +497,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 }
             }
             if(!inputOk){
-                System.out.println("try again");
+                System.out.println("TRY AGAIN");
             }
         } while(!inputOk);
 
@@ -520,7 +527,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
                 int i = 0;
                 for (String powerUp : choiceCard.getDescriptionPowerUp()) {
-                    System.out.println("press " + i + " to select the following power up to discard, otherwise press -1:");
+                    System.out.println("Press " + i + " to select the following power up to discard, otherwise press -1: ");
                     System.out.println(powerUp);
                     i++;
                 }
@@ -534,17 +541,17 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                         }
                     }
                     if(!inputOk)
-                        System.out.println("try again");
+                        System.out.println("TRY AGAIN");
                     //eventually see if it's correct
 
                 } while (!inputOk);
             } else {
 
 
-                    System.out.println("you should choose if you want to discard on of your powerUpCard or not" + choiceCard.getDescriptionPowerUp());
+                    System.out.println("You should choose if you want to discard on of your powerUpCard or not " + choiceCard.getDescriptionPowerUp());
                     int i = 0;
                     for (String powerUp : powerUpCard) {
-                        System.out.println("press " + i + " to select the following power up to discard from you deck, otherwise press -1:");
+                        System.out.println("Press " + i + " to select the following power up to discard from you deck, otherwise press -1: ");
                         System.out.println(powerUp);
                         i++;
                     }
@@ -567,10 +574,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             notifyObservers(new PowerUpChoice(nicknamePlayer,cardChoosen));
         } else{
             do {
-                System.out.println("you should choose if you want to discard on of your weaponCard or not" + choiceCard.getDescriptionPowerUp());
+                System.out.println("You should choose if you want to discard on of your weaponCard or not " + choiceCard.getDescriptionPowerUp());
                 int i = 0;
                 for (String weaponCards : weaponCard) {
-                    System.out.println("press " + i + " to select the following weapon to discard from you deck, otherwise press -1:");
+                    System.out.println("Press " + i + " to select the following weapon to discard from you deck, otherwise press -1: ");
                     System.out.println(weaponCards);
                     i++;
                 }
@@ -584,7 +591,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                         }
                     }
                     if(!inputOk)
-                        System.out.println("try again");
+                        System.out.println("TRY AGAIN");
                     //eventually see if it's correct
 
                 } while (!inputOk);
@@ -609,19 +616,19 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmpActionChoosen;
 
         boolean okInput = false;
-
-        System.out.println("Nickname " + nicknamePlayer);
+        System.out.println("\n--------------------------------------------\n");
+        System.out.println("Nickname: " + nicknamePlayer);
         do {
             int i = 0;
-            System.out.println("Choose one of the following action to be performed or -1 to end your turn");
+            System.out.println("Choose one of the following action to be performed or -1 to end your turn: ");
 
             for (String action : actionMessage.getActionPlayerCanPerform()) {
                 System.out.println(i + " " + action);
                 i++;
             }
 
-            System.out.println("Choose one of the following action to be performed or -1 to end your turn");
-            System.out.println("press 9 to exit the game");
+            System.out.println("Choose one of the following action to be performed or -1 to end your turn: ");
+            System.out.println("(Press 9 to exit the game)");
 
             tmpActionChoosen = input.nextLine();
 
@@ -655,7 +662,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             }
 
             if(!okInput)
-                System.out.println("Try again");
+                System.out.println("TRY AGAIN");
 
         } while (!okInput);
 
@@ -677,9 +684,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         UsePowerUpCard usePowerUpCard = new UsePowerUpCard(nicknamePlayer);
 
         do{
-            System.out.println("choose one of the following powerUp card");
+            System.out.println("Choose one of the following powerUp card: ");
             for(int i = 0 ; i < powerUpCard.length; i ++){
-                    System.out.println("press " + i + " to use this card");
+                    System.out.println("Press " + i + " to use this card: ");
                     System.out.println(powerUpCard[i]);
             }
             tmpCardChoosen = input.next();
@@ -747,13 +754,13 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         this.nicknamePlayer = endRegistration.getNicknamePlayer();
 
-        System.out.println("waiting for other player to enter the game!");
+        System.out.println("Waiting for other player to enter the game!");
 
     }
 
     @Override
     public void visitUpdateView(UpdateMessage updateMessage) {
-        System.out.println();
+       System.out.println("\n--------------------------------------------\n");
         System.out.println();
         playerBoard = updateMessage.getPlayersDescription()[index];
         featuresAvailable = updateMessage.getFeaturesOfPlayersAvailable()[index];
@@ -762,8 +769,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         gameBoard = updateMessage.getGameBoardDescription();
 
         System.out.println(updateMessage.getGameBoardDescription());
-        System.out.println("x coordinate :" + playerBoard[1]);
-        System.out.println("x coordinate :" + playerBoard[2]);
+        System.out.println("X coordinate :" + playerBoard[1]);
+        System.out.println("X coordinate :" + playerBoard[2]);
 
         printStatus();
         if(weaponCard!= null) {
@@ -775,7 +782,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 System.out.println(powerUpCard[i]);
         }
 
-        System.out.println("END UPDATE");
+        System.out.println("---END UPDATE---");
         System.out.println();
         System.out.println();
     }
@@ -793,7 +800,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitGrab(GrabMessage grabMessage) {
-
+System.out.println("\n--------------------------------------------\n");
         Scanner input = new Scanner(System.in);
         GrabMove grabMove = new GrabMove(nicknamePlayer);
         int choiceCard = -2;
@@ -804,7 +811,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         if(grabMessage.isGrabWeapon()) {
             for(String weaponCard : grabMessage.getWeaponCardAvailable()) {
-                System.out.println("press" + i + "to take the following card");
+                System.out.println("Press" + i + "to take the following card: ");
                 System.out.println(weaponCard);
                 i++;
             }
@@ -838,6 +845,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void visitReload(ReloadMessage reloadMessage) {
 
+System.out.println("\n--------------------------------------------\n");
         Scanner input = new Scanner(System.in);
         for(int i = 0; i < weaponCard.length;i++){
             if(reloadMessage.getWeaponYouCanReload()[i] == 1)
@@ -855,7 +863,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         for (int i = 0; i < reloadMessage.getWeaponYouCanReload().length; i++) {
             if (reloadMessage.getWeaponYouCanReload()[i] == 1) {
                 do {
-                    System.out.println("Insert Y if you want to reload the following weapon card, otherwise insert N");
+                    System.out.println("Insert Y if you want to reload the following weapon card, otherwise insert N: ");
                     System.out.println(weaponCard[i]);
 
                     tmpChoice = input.next();
@@ -876,11 +884,13 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     }
 
     public void reconnectClient (){
+
+System.out.println("\n--------------------------------------------\n");
         Scanner input = new Scanner(System.in);
         int chosen;
 
         do{
-            System.out.println("Insert 1 to reconnect to the server");
+            System.out.println("Insert 1 to reconnect to the server: ");
             chosen = input.nextInt();
             if (chosen == 1){
                 notifyObservers(new ConnectionMove(nicknamePlayer,1));
@@ -901,7 +911,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         int[] idPlayerShoot = null;
         boolean shootPeople = false;
         if(terminatorMessage.getColorSpawn()!= null){
-            System.out.println("Choose the index of the color where the terminator will spawn :");
+            System.out.println("Choose the index of the color where the terminator will spawn: ");
             for(String color : terminatorMessage.getColorSpawn()) {
                 System.out.println("PRESS " + j + " TO CHOOSE THE FOLLOWING COLOR " + color );
                 j++;
@@ -935,7 +945,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     @Override
     public void visitEndGame(EndGame endGame) {
         continueGame=false;
-        System.out.println("END GAME");
+        System.out.println("---END GAME---");
 
         System.out.println("The winner is: " +endGame.getWinner());
         System.out.println("The points is: " + endGame.getPointMax());

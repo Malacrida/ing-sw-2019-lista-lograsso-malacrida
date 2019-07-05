@@ -66,7 +66,14 @@ public class GameBoard{
 
     }
 
-
+    public void cancelKillPlayerFromOverkill(){
+        ArrayList<Player> tmpPlayers = new ArrayList<>();
+        for(Player killPlayer1 : killPlayer) {
+            if (overkillPlayer.contains(killPlayer1))
+                tmpPlayers.add(killPlayer1);
+        }
+        killPlayer.removeAll(tmpPlayers);
+    }
 
     public ArrayList<Player> getPlayersShooted() {
         return playersShooted;
