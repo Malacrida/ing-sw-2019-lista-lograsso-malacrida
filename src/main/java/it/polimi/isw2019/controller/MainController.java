@@ -23,12 +23,19 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+
+
     @Override
     public void update(PlayerMove playerMove){
            // System.out.println("controller : " + playerMove.getPlayer());
             model.receiveAnswer();
             playerMove.accept(this);
     }
+
+    /**
+     *
+     * @param firstMessage
+     */
 
     @Override
     public void visitControllerRegisterPlayer(FirstMessage firstMessage) {
@@ -71,6 +78,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     * send to model which map is choosen by the player
+     * @param chooseMapMove player move that contains the choice of the player
+     */
+
     @Override
     public void chooseMap(ChooseMapMove chooseMapMove) {
 
@@ -86,6 +98,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
                 //normally impossible!
             }
     }
+
+    /**
+     * send to model which power up is choosen by the player
+     * @param powerUpChoice player move that contains the choice of the player
+     */
 
     @Override
     public void powerUpChoice(PowerUpChoice powerUpChoice) {
@@ -108,12 +125,22 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     * send to model which action is choosen by the player
+     * @param chooseActionMove player move that contains the choice of the player
+     */
+
     @Override
     public void visitControllerActionChoose(ChooseActionMove chooseActionMove){
         model.getCurrentPlayer().setMessagesToBeSent(chooseActionMove.getNumAction());
         model.getCurrentPlayer().setPlayerToAttack(model.returnCoordinatesOfPlayerInGame());
         model.sendActionMessage();
     }
+
+    /**
+     * sendo to model which weapon card is choosen by the player
+     * @param weaponCardChoice player move that contains the choice of the player
+     */
 
     @Override
     public void visitWeaponCardChoice(WeaponCardChoice weaponCardChoice){
@@ -134,6 +161,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.sendActionUpdateMessage();
         }
     }
+
+    /**
+     * change state of model and use the effect of weapon card
+     * @param useWeaponCard player move
+     */
 
     @Override
     public void useWeaponCard(UseWeaponCard useWeaponCard) {
@@ -180,6 +212,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         model.useWeaponCard(useWeaponCard.getWeaponCard(), useWeaponCard.getEffectUsed(),useWeaponCard.getPeopleToBeShoot(), useWeaponCard.getHandleEffectCoordinates(), useWeaponCard.getHandleEffectPayment());
 
     }
+
+    /**
+     * change 
+     * @param connectionMove
+     */
 
     @Override
     public void disconnectionPlayer(ConnectionMove connectionMove) {

@@ -138,37 +138,6 @@ public class ModelTest {
     @Test
     public void testSetFrenzyMood(){
 
-        /*
-        model.chooseFirstPlayer(3);
-
-        model.changePlayer();
-        model.changePlayer();
-
-        System.out.println(model.getPlayers().indexOf(model.getCurrentPlayer()));
-
-        model.setFrenzyMood();
-
-        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
-
-        model.chooseFirstPlayer(0);
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.setFrenzyMood();
-
-        assertEquals(1 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(3).getNumActionToBePerformed());
-
-        model.chooseFirstPlayer(0);
-        model.setCurrentPlayer(model.getPlayers().get(0));
-        model.changePlayer();
-
-        model.setFrenzyMood();
-
-        assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
-        assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformed());
-        assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformed());
-        */
-
     }
 
     //riesco a prendere quella playerboard. NON FUNZIONA
