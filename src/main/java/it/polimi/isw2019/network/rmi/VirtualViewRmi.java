@@ -1,6 +1,5 @@
 package it.polimi.isw2019.network.rmi;
 
-import it.polimi.isw2019.controller.MainController;
 import it.polimi.isw2019.message.movemessage.*;
 import it.polimi.isw2019.message.playermove.*;
 import it.polimi.isw2019.network.network_interface.ClientInterface;
@@ -48,7 +47,6 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     public void update(MoveMessage message) {
         System.out.println("ricevo un messagio per: "+message.getNicknamePlayer() +" sono in :"+nickname);
         if (active && (message.getNicknamePlayer().equals(nickname) || message.isNotifyAll())){
-
             message.accept(this);
             System.out.println("procedo con l'update per: " + message.getNicknamePlayer());
             System.out.println("sono in : " +nickname);
@@ -100,8 +98,8 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         notifyObservers(powerUpChoice);
     }
 
-    public void createUsePowerUpCard(String player){
-        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player);
+    public void createUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp){
+        UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,coordinates,idPlayer,defend,positionPowerUp);
         notifyObservers(usePowerUpCard);
     }
 
@@ -113,6 +111,11 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     public void createUseWeaponCard (String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot){
         UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard, effectUsed, handleEffectCoordinates, peopleToBeShoot);
         notifyObservers(useWeaponCard);
+    }
+
+    public void createTerminatorMove(String player, int[] coordinates, boolean shootPeople, int colorSpawn, int[] idPlayerToShoot){
+        TerminatorMove terminatorMove = new TerminatorMove(player,coordinates,shootPeople,colorSpawn, idPlayerToShoot);
+        notifyObservers(terminatorMove);
     }
 
     @Override
@@ -215,6 +218,24 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     public void sendFirstPlayerChooseMap(FirstMessageFirstPlayer firstMessageFirstPlayer) {
         try {
             networkHandler.createFirstPlayerChooseMap(firstMessageFirstPlayer.getNicknamePlayer(), firstMessageFirstPlayer.getIdPlayer(), firstMessageFirstPlayer.getPossibleMaps(), firstMessageFirstPlayer.getColorAvailable());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendEndGame(EndGame endGame) {
+        try {
+            networkHandler.createEndGame(endGame.getRanking(),endGame.getPoints(),endGame.getPointMax(),endGame.getWinner(),endGame.getPhrase());
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendTerminatorMessage(TerminatorMessage terminatorMessage) {
+        try {
+            networkHandler.createTerminatorMessage(terminatorMessage.getNicknamePlayer(),terminatorMessage.isRunOrDamage(), terminatorMessage.getColorSpawn(),terminatorMessage.getMovement(),terminatorMessage.getNumPeopleToKill(),terminatorMessage.getCooPeople(),terminatorMessage.getError());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

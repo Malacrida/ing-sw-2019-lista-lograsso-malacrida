@@ -164,6 +164,16 @@ public class ClientSocket extends Thread implements ClientInterface {
 
     }
 
+    @Override
+    public void createTerminatorMessage(String nicknamePlayer, boolean runOrDamage, ArrayList<String> colorSpawn, int movement, int numPeopleToKill, int[][] cooPeople, String error) throws RemoteException {
+
+    }
+
+    @Override
+    public void createEndGame(String[] ranking, int[] points, int pointMax, String winner, String phrase) throws RemoteException {
+
+    }
+
     public ObjectOutputStream getObjectOutputStream(){
         return this.output;
     }

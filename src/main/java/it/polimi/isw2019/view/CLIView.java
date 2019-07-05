@@ -607,7 +607,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                     okInput = true;
                     break;
                 }
-                else if(tmpActionChoosen.equals(String.valueOf(9))){ actionChoosen = Integer.parseInt(tmpActionChoosen);
+                else if(tmpActionChoosen.equals(String.valueOf(9))){
                     actionChoosen = Integer.parseInt(tmpActionChoosen);
                     break;
                 }
@@ -672,7 +672,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         int cardIndex = index;
         int[] peopleToBeShoot = new int[1];
-        int[] coordinates =  new int[2];
+        int[][] coordinates =  new int[usePowerUpCard.getPositionPowerUp()][2];
 
 
         inputOk = false;
@@ -683,10 +683,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                //peopleToBeShoot = choosePeopleToKill()
                break;
            case 1 :
-               coordinates = insertCoordinatesVector(1);
+               coordinates = insertCoordinates(1);
                break;
            case 2 :
-               coordinates = insertCoordinatesVector(2);
+               coordinates = insertCoordinates(2);
                break;
            case 3:
                //attacchi l'ultimo che ti ha danneggiato
@@ -835,11 +835,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         notifyObservers(new ReloadMove(nicknamePlayer,tmpWeaponCard,payment));
     }
 
-    @Override
-    public void failRegistration(FailRegistration failRegistration) {
-        System.out.println("too many people : OUT");
-    }
-
     public void reconnectClient (){
         Scanner input = new Scanner(System.in);
         int chosen;
@@ -852,5 +847,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 return;
             }
         }while (chosen!=1);
+    }
+
+    @Override
+    public void terminatorAction(TerminatorMessage terminatorMessage) {
+
     }
 }

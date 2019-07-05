@@ -51,7 +51,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             }
         }*/
 
-        model.registerObserver(firstMessage.getCLIView());
+        model.registerObserver(firstMessage.getVirtualViewRmi());
         try{
             model.addPlayer(firstMessage.getPlayer(),firstMessage.getActionHero());
         } catch(IndexOutOfBoundsException e){
@@ -280,13 +280,18 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
-
         model.usePowerUpCard(usePowerUpCard.getPositionPowerUp(),usePowerUpCard.getIdPlayer(),usePowerUpCard.getCoordinates());
 
     }
 
     @Override
     public void terminatorAction(TerminatorMove terminatorMove) {
-       model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+        if(terminatorMove.getColorSpawn()!= -1){
+            model.spawnTerminator(terminatorMove.getColorSpawn());
+
+        }
+        else{
+            model.terminatorAction(terminatorMove.isShootPeople(), terminatorMove.getCoordinates());
+        }
     }
 }
