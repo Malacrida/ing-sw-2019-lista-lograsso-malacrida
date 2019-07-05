@@ -25,8 +25,7 @@ public interface VisitorController {
 
     void useWeaponCard(UseWeaponCard useWeaponCard);
 
-
-    void disconnectionPlayer (ConnectionMove connectionMove);
+    void connectionPlayer(ConnectionMove connectionMove);
 
     void terminatorAction(TerminatorMove terminatorMove);
 

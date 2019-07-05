@@ -10,7 +10,6 @@ import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -832,8 +831,8 @@ public class Model extends Observable<MoveMessage> {
         String [] ranking = new String[players.size()];
         int[] points = new int[players.size()];
         int pointMax=0;
-        String winner= null;
-        String phrase= null;
+        String winner= players.get(0).getName();
+        String phrase= players.get(0).getActionHeroComment();
 
         for (int i=0; i<players.size(); i++){
             ranking [i] = players.get(i).getName();
@@ -844,8 +843,8 @@ public class Model extends Observable<MoveMessage> {
                 phrase= players.get(i).getActionHeroComment();
             }
         }
-
-        notifyObservers(new EndGame(ranking,points,pointMax,winner,phrase));
+        System.out.println("sono in end game");
+        notifyObservers(new EndGame(currentPlayer.getName(),ranking,points,pointMax,winner,phrase,true));
 
     }
 
@@ -877,8 +876,10 @@ public class Model extends Observable<MoveMessage> {
             currentPlayer.setRespawned(true);
 
         sendUpdateMessage();
-
-        notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
+        ArrayList<MoveMessage> moveMessages = new ArrayList<>();
+        moveMessages.add(currentPlayer.setCorrectNormalActionChooseMessages(false));
+        currentPlayer.insertMessagesToBeSend(moveMessages);
+        sendMessage();
         //updateCorrectAction();
 
     }
@@ -1166,25 +1167,22 @@ public class Model extends Observable<MoveMessage> {
             case "Tagback Grenade":
                 if(positionPlayer == -1 && terminator!= null){
                     if(currentPlayer.getNumActionCancelled() == 1){
-                        System.out.println("KO 3");
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
-
                     }
                     updateNotCorrectAction("Cannot mark terminator");
                     return;
                 } else if(!gameBoard.getPlayersShooted().contains(players.get(positionPlayer))){
-                    System.out.println("KO 4");
+                    updateNotCorrectAction("Cannot mark him");
                     if(currentPlayer.getNumActionCancelled() == 1){
                         currentPlayer.getPowerUpCards().remove(powerUpCard);
                         gameBoard.addPowerUpCardDiscarded(powerUpCard);
                     }
-                    updateNotCorrectAction("Cannot mark him");
                     return;
                 }
                 break;
             default:
-            break;
+                break;
         }
 
         try {

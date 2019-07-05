@@ -10,11 +10,9 @@ public class EndGame extends MoveMessage {
     private int pointMax;
     private String winner;
     private String phrase;
-    private boolean notifyAll;
 
-    public EndGame (String[] ranking, int [] points, int pointMax, String winner, String phrase){
-        super(null);
-        notifyAll=true;
+    public EndGame (String nickname, String[] ranking, int [] points, int pointMax, String winner, String phrase, boolean notifyAll){
+        super(nickname,notifyAll);
         this.ranking= ranking;
         this.points=points;
         this.pointMax= pointMax;
@@ -24,11 +22,6 @@ public class EndGame extends MoveMessage {
 
     public String getPhrase() {
         return phrase;
-    }
-
-    @Override
-    public boolean isNotifyAll() {
-        return notifyAll;
     }
 
     public int[] getPoints() {
@@ -49,7 +42,7 @@ public class EndGame extends MoveMessage {
 
     @Override
     public void accept(VisitorView visitorview) {
-
+        visitorview.visitEndGame(this);
     }
 
     @Override

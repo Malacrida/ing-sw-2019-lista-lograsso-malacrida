@@ -182,7 +182,7 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     @Override
-    public void disconnectionPlayer(ConnectionMove connectionMove) {
+    public void connectionPlayer(ConnectionMove connectionMove) {
         if(connectionMove.getConnection() == 0) {
             model.getCurrentPlayer().setActive(false);
             model.changePlayer();

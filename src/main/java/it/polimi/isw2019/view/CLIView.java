@@ -19,6 +19,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     private int[] playerBoard;
     private String gameBoard;
     private int index;
+    private boolean continueGame=true;
 
     public CLIView(String nicknamePlayer){
         this.nicknamePlayer = nicknamePlayer;
@@ -628,22 +629,19 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             tmpActionChoosen = input.nextLine();
 
             for( i = 0 ; i < actionMessage.getActionYouCanPerform().length; i ++){
-                 if(tmpActionChoosen.equals(String.valueOf(9))){
+                if(tmpActionChoosen.equals(String.valueOf(i))){
                     actionChoosen = Integer.parseInt(tmpActionChoosen);
-                     okInput = true;
+                    okInput = true;
+                    break;
+                }
+                else if(tmpActionChoosen.equals(String.valueOf(9))){
+                    actionChoosen = Integer.parseInt(tmpActionChoosen);
                     break;
                 }
                 else if(tmpActionChoosen.equals(String.valueOf(-1))) {
                     actionChoosen = Integer.parseInt(tmpActionChoosen);
-                    okInput = true;
                     break;
                 }
-                else if (tmpActionChoosen.equals(String.valueOf(i))){
-                    actionChoosen = Integer.parseInt(tmpActionChoosen);
-                    okInput = true;
-                    break;
-                }
-
             }
 
             if (actionChoosen == -1) {
@@ -653,9 +651,9 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 return;
             }
             else if (actionChoosen==9){
-                System.out.println("I'M IN");
                 notifyObservers(new ConnectionMove(nicknamePlayer, 0));
-                reconnectClient();
+                if (continueGame)
+                    reconnectClient();
                 return;
             }
 
@@ -893,6 +891,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 return;
             }
         }while (chosen!=1);
+
     }
 
     @Override
@@ -939,6 +938,17 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitEndGame(EndGame endGame) {
-        System.out.println("ENDED GAME");
+        continueGame=false;
+        System.out.println("END GAME");
+
+        System.out.println("The winner is: " +endGame.getWinner());
+        System.out.println("The points is: " + endGame.getPointMax());
+        System.out.println("The winner says: " +endGame.getPhrase());
+
+        System.out.println("All score: ");
+        for (int i=0; i<endGame.getRanking().length; i++){
+            System.out.println(endGame.getRanking()[i] + " : "+endGame.getPoints()[i]);
+        }
+
     }
 }

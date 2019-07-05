@@ -69,6 +69,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
         try {
+            System.out.println("invio exit");
             server.receiveConnectionMove(connectionMove.getPlayer(), connectionMove.getConnection());
         }
         catch (RemoteException e) {
@@ -269,8 +270,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     }
 
     @Override
-    public void createEndGame(String[] ranking, int[] points, int pointMax, String winner, String phrase) throws RemoteException {
-        EndGame endGame = new EndGame(ranking, points,pointMax,winner,phrase);
+    public void createEndGame(String nickname, String[] ranking, int[] points, int pointMax, String winner, String phrase, boolean notifyAll) throws RemoteException {
+        System.out.println("ricevo una end game");
+        EndGame endGame = new EndGame(nickname,ranking, points,pointMax,winner,phrase, notifyAll);
         notifyObservers(endGame);
     }
 

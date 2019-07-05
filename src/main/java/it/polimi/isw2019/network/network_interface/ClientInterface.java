@@ -55,5 +55,5 @@ public interface ClientInterface extends Remote {
 
     public void createTerminatorMessage (String nicknamePlayer, boolean runOrDamage, ArrayList<String> colorSpawn, int movement, int numPeopleToKill, int[][] cooPeople,String error) throws RemoteException;
 
-    public void createEndGame(String[] ranking, int [] points, int pointMax, String winner, String phrase) throws RemoteException;
+    public void createEndGame(String nickname, String[] ranking, int [] points, int pointMax, String winner, String phrase, boolean notifyAll) throws RemoteException;
 }
