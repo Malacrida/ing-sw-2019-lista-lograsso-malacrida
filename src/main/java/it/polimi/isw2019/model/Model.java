@@ -1061,12 +1061,12 @@ public class Model extends Observable<MoveMessage> {
     }
 
 
-    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[] coo){
+    public void usePowerUpCard(int positionPowerUp,int positionPlayer,int[][] coo){
 
         PowerUpCard powerUpCard = currentPlayer.getPowerUpCards().get(positionPowerUp);
 
         try {
-            powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo[0], coo[1]);
+            powerUpCard.effect(gameBoard, currentPlayer, players.get(positionPlayer), coo);
 
         }catch(DamageTrackException e){
             //mettere nei player morti

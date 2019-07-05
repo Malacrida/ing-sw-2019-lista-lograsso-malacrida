@@ -1,11 +1,17 @@
 package it.polimi.isw2019.model.weaponcard;
 
 import it.polimi.isw2019.model.*;
+import it.polimi.isw2019.model.exception.DamageTrackException;
+import it.polimi.isw2019.model.exception.ErrorEffectException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ThorTest {
 
@@ -44,7 +50,7 @@ public class ThorTest {
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
         gameBoard.changePositionPlayer(firstDefender, 0, 1);
-        gameBoard.changePositionPlayer(secondDefender, 0, 3);
+        gameBoard.changePositionPlayer(secondDefender, 0, 0);
         gameBoard.changePositionPlayer(thirdDefender, 0, 1);
         gameBoard.changePositionPlayer(fourDefender, 0, 1);
 
@@ -62,14 +68,36 @@ public class ThorTest {
     }
 
     @Test
-    public void firstEffect() {
+    public void firstEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(2, pb1.numOfDamages());
+        assertTrue(card.firstIsValid);
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(1, pb2.numOfDamages());
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestSecondEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstIsValid = false;
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
     }
 
     @Test
-    public void thirdEffect() {
+    public void thirdEffect() throws ErrorEffectException, DamageTrackException {
+        card.firstEffect(gameBoard, attacker, defenders, coordinates);
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
+        assertEquals(2, pb3.numOfDamages());
+    }
+
+    @Test(expected = ErrorEffectException.class)
+    public void secondTestThirdEffect() throws ErrorEffectException, DamageTrackException {
+        card.secondIsValid = false;
+        card.thirdEffect(gameBoard, attacker, defenders, coordinates);
     }
 }

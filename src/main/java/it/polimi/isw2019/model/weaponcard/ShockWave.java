@@ -75,11 +75,11 @@ public class ShockWave extends AbstractWeaponCard {
                 oneDamageMorePlayers(gameBoard, attacker, firstSquare);
             }
 
-            else if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[2], coordinates[3]) && !secondSquare.isEmpty()){
+            if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[2], coordinates[3]) && !secondSquare.isEmpty()){
                 oneDamageMorePlayers(gameBoard, attacker, secondSquare);
             }
 
-            else if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[4], coordinates[5]) && !thirdSquare.isEmpty()){
+            if (gameBoard.isSquareAvailableOnArena(attacker, coordinates[4], coordinates[5]) && !thirdSquare.isEmpty()){
                 oneDamageMorePlayers(gameBoard, attacker, thirdSquare);
             }
 
