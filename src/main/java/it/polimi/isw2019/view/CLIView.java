@@ -82,7 +82,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     }
 
     public int insertSingleCoordinate(int rawOrColum){
-        int insert ;
+        int insert = -1;
         Scanner input = new Scanner(System.in);
         boolean inputOk = false;
         String tmp;
@@ -90,7 +90,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
             System.out.println("Insert the coordinate or -1 to terminate : \n ");
             tmp = input.next();
-            insert = Integer.parseInt(tmp);
             for( int i = 0 ; i <= rawOrColum; i ++){
                 if(tmp.equals(String.valueOf(i))){
                     insert = Integer.parseInt(tmp);
@@ -246,10 +245,19 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     }
 
     public int[] choosePeopleToKill(int[][] coordinates){
+
+        System.out.println("LENGHT COO" + coordinates.length);
         int[] peopleToKill = new int[coordinates.length];
+
         Scanner input = new Scanner(System.in);
         String tmp;
         boolean inputOk = false;
+        for(int i = 0 ; i < coordinates.length; i ++){
+            System.out.println("Index player : " + coordinates[i][0]);
+            System.out.println("X position : " + coordinates[i][1]);
+            System.out.println("Y position : " + coordinates[i][2] );
+        }
+
         for(int i = 0 ; i < coordinates.length; i++){
             System.out.println("Press 1 to shoot the following player, otherwise press 0");
             tmp = input.next();
@@ -268,6 +276,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 }
             }while (!inputOk);
         }
+
         return peopleToKill;
     }
     @Override
@@ -302,60 +311,76 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         int cardIndex = index;
         int numMaxEffect = useWeaponCardMessage.getFeaturesForEffect()[index][0];
-        int[] peopleToBeShoot = new int[useWeaponCardMessage.getPlayersToAttack().length];
-        int[][] coordinates =  new int[3][useWeaponCardMessage.getFeaturesForEffect()[index][2]];
-        int[][] payment = new int[3][useWeaponCardMessage.getFeaturesAvailable().length];
+        int[][] peopleToBeShoot = new int[numMaxEffect][useWeaponCardMessage.getPlayersToAttack().length];
+        int[][] coordinates =  new int[numMaxEffect][useWeaponCardMessage.getFeaturesForEffect()[index][2]];
+        int[][] payment = new int[numMaxEffect][3];
 
         //first index -> maxEffect
 
-        int[] effectUsed = new int[3];
+        int[] effectUsed = new int[numMaxEffect];
         int i = 0;
-
+        int j = 0;
         endInsertment = false;
         boolean endChoice = false;
         do {
+            endChoice = false;
             do {
+
                 System.out.println("insert the number of the effect you want to use or -1 to exit:");
                 tmp = input.next();
-                for( i = 1 ; i <=numMaxEffect; i ++){
+
+                for( i = 1 ; i <= 3; i ++){
                     if(tmp.equals(String.valueOf(i)) || tmp.equals(String.valueOf(-1))){
-                        index = Integer.parseInt(cardChoosen);
-                        effectUsed[i] = Integer.parseInt(tmp);
+                        effectUsed[j] = Integer.parseInt(tmp);
                         endChoice = true;
                         break;
                     }
                 }
+
                 if(tmp.equals(String.valueOf(-1))){
                     endChoice = true;
                 }
-               if(!endInsertment){
+
+               if(!endChoice){
                     System.out.println("TRY AGAIN");
                 }
 
             }while(!endChoice);
+            //index e' la carta che e' stata scelta
 
-            if(tmp.equals(String.valueOf(-1))){
+            if(effectUsed[j] == -1){
                 peopleToBeShoot = null;
                 coordinates = null;
                 endInsertment = true;
             }
             else {
-                if (useWeaponCardMessage.getFeaturesForEffect()[cardIndex][1] != 0) {
-                    coordinates[index] = insertCoordinatesVector(useWeaponCardMessage.getFeaturesForEffect()[cardIndex][1]);
+
+                if (useWeaponCardMessage.getFeaturesForEffect()[index][1] != 0) {
+                    coordinates[j] = insertCoordinatesVector(useWeaponCardMessage.getFeaturesForEffect()[index][1]);
                 }
 
-                if (useWeaponCardMessage.getFeaturesForEffect()[cardIndex][2] != 0) {
-                    peopleToBeShoot = choosePeopleToKill(useWeaponCardMessage.getPlayersToAttack());
-                    //quindi inviare la posizione del player al ritorno
+                if (useWeaponCardMessage.getFeaturesForEffect()[index][2] != 0) {
+                    peopleToBeShoot[j] = choosePeopleToKill(useWeaponCardMessage.getPlayersToAttack());
                 }
+
+                else{
+                    coordinates[j] = null;
+                    peopleToBeShoot[j] = null;
+                }
+
+                if(j == 0)
+                    payment[j] = featuresAvailable.clone();
+                else
+                    payment[j] = payment[j-1];
+
+                payment[j] = featuresAvailable.clone();
+                insertPayment(payment[j]);
+
+                j++;
             }
 
-            if(i == numMaxEffect)
+            if(j == numMaxEffect)
                 endInsertment = true;
-            payment[index] = featuresAvailable.clone();
-            insertPayment(payment[index]);
-
-            endChoice = false;
 
         }while(!endInsertment);
 
@@ -363,7 +388,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         useWeaponCard.setEffectUsed(effectUsed);
         useWeaponCard.setHandleEffectCoordinates(coordinates);
         useWeaponCard.setHandleEffectPayment(payment);
-        useWeaponCard.setPeopleToBeShoot(useWeaponCard.getPeopleToBeShoot());
+        useWeaponCard.setPeopleToBeShoot(peopleToBeShoot);
         notifyObservers(useWeaponCard);
 
     }
@@ -638,6 +663,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void usePowerUpCard(UsePowerUpCardMessage usePowerUpCardMessage) {
+
         if(usePowerUpCardMessage.getError()!= null)
                 displayErrorMessage(usePowerUpCardMessage.getError());
 
@@ -671,7 +697,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         String tmp;
         int cardIndex = index;
-        int[] peopleToBeShoot = new int[1];
+        int[] peopleToBeShoot = null;
+        if(usePowerUpCard.getCoordinates().length != 0)
+                peopleToBeShoot = new int[usePowerUpCard.getCoordinates().length];
+
         int[][] coordinates =  new int[usePowerUpCard.getPositionPowerUp()][2];
 
 
@@ -680,7 +709,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
        switch (usePowerUpCardMessage.getFeaturesAvailable()[cardChoosen]){
            case 0 :
-               //peopleToBeShoot = choosePeopleToKill()
+               if(usePowerUpCard.getCoordinates().length != 0)
+                    peopleToBeShoot = choosePeopleToKill(usePowerUpCard.getCoordinates());
                break;
            case 1 :
                coordinates = insertCoordinates(1);
@@ -695,7 +725,15 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             default:
 
        }
+       int person = 0 ;
 
+       for(int i = 0 ; i < peopleToBeShoot.length; i ++){
+           if(peopleToBeShoot[i]!= -1) {
+               person = peopleToBeShoot[i];
+               break;
+           }
+       }
+        usePowerUpCard.setIdPlayer(person);
         usePowerUpCard.setPositionPowerUp(cardChoosen);
         usePowerUpCard.setCoordinates(coordinates);
         notifyObservers(usePowerUpCard);
@@ -851,6 +889,48 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void terminatorAction(TerminatorMessage terminatorMessage) {
+        Scanner input = new Scanner(System.in);
+        String tmp;
+        int j=0;
+        int indexColor = -1;
+        boolean inputOk = false;
+        int[] coordinates = null;
+        int[] idPlayerShoot = null;
+        boolean shootPeople = false;
+        if(terminatorMessage.getColorSpawn()!= null){
+            System.out.println("Choose the index of the color where the terminator will spawn :");
+            for(String color : terminatorMessage.getColorSpawn()) {
+                System.out.println("PRESS " + j + " TO CHOOSE THE FOLLOWING COLOR " + color );
+                j++;
+            }
+            do {
+                tmp = input.next();
+
+                for (int i = 0; i <= 2; i++) {
+                    if (tmp.equals(String.valueOf(i))) {
+                        indexColor = Integer.parseInt(tmp);
+                        inputOk = true;
+                    }
+                    if(!inputOk)
+                        System.out.println("TRY AGAIN");
+                }
+            }while(!inputOk);
+
+        }
+        else{
+            if(terminatorMessage.isRunOrDamage()){
+                coordinates = insertCoordinatesVector(terminatorMessage.getMovement());
+            }
+            else{
+                idPlayerShoot = choosePeopleToKill(terminatorMessage.getCooPeople());
+                shootPeople = true;
+            }
+        }
+        notifyObservers(new TerminatorMove(nicknamePlayer,coordinates,shootPeople,indexColor, idPlayerShoot));
+    }
+
+    @Override
+    public void visitEndGame(EndGame endGame) {
 
     }
 }
