@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ClientSocket extends Thread implements ClientInterface {
 
@@ -30,6 +31,8 @@ public class ClientSocket extends Thread implements ClientInterface {
     private InetAddress ip;
     private Lobby lobby;
     private VirtualViewSocket virtualViewSocket;
+    private static final Logger LOGGER = Logger.getLogger(ClientSocket.class.getName());
+
 
     @Override
     public void createUpdateView(String nicknamePlayer, String gameBoardDescription, int[][] playersDescription, int[][] featuresOfPlayersAvailable, String[][] weaponCardDescription, String[][] powerUpCardDescription, boolean notifyAll) throws RemoteException {
@@ -75,7 +78,7 @@ public class ClientSocket extends Thread implements ClientInterface {
         try {
             write(startMessage);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -173,12 +176,12 @@ public class ClientSocket extends Thread implements ClientInterface {
 /*
     public void setMoveMessage(MoveMessage moveMessage){
         this.moveMessage = moveMessage;
-        System.out.println("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
+        LOGGER.info("---CS--- QUESTA È LA MOVE MESSAGE CHE HO RICEVUTO: " + moveMessage);
         try {
             write(moveMessage);
-            System.out.println("---CS--- HO INVIATO LA MOVE MESSAGE");
+            LOGGER.info("---CS--- HO INVIATO LA MOVE MESSAGE");
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 */

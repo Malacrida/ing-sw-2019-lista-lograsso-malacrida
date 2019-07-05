@@ -19,6 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 
 public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<ClientInterface>, Remote, GathererInterface {
@@ -29,6 +30,8 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
     private MainController mainController;
     private int port;
     private Lobby lobby;
+    private static final Logger LOGGER = Logger.getLogger(ServerRmi.class.getName());
+
 
     public ServerRmi(int port) throws RemoteException {
         this.port=port;
@@ -43,17 +46,14 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
 
     @Override
     public void registerNewClient(ClientInterface client, String nickname) throws IOException, RemoteException {
-        System.out.println("richiesta di login: "+ nickname);
-        System.out.println(client.getNickname());
+        LOGGER.info("Login request by: "+ nickname);
         if (containAlreadyClient(nickname, client) && !virtualViewRmis.isEmpty()){
             client.reconnectionClient();
 
         }
         else {
             if (lobby.addConnectedClient(nickname, client, TypeConnection.RMI)) {
-                System.out.println("Ho inserito il player all'interno della lobby");
                 client.logInCorrect();
-                System.out.println("gli ho mandato il messaggio di login corretto");
             }
             else client.logInFail();
         }
@@ -218,7 +218,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
             LocateRegistry.createRegistry(port);
         }
         catch (RemoteException e){
-            e.printStackTrace();
+            e.getCause();
         }
 
         try {
@@ -229,12 +229,12 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
             Naming.rebind("rmi://"+ cl.getHostIp() + ":"+port+"/ServerRmi", this);
         }
         catch (RemoteException e) {
-            System.out.println("Error remote");
-            e.printStackTrace();
+            LOGGER.severe("Error remote");
+            e.getCause();
         }
         catch (MalformedURLException e) {
-            System.out.println("Malfunction url");
-            e.printStackTrace();
+            LOGGER.severe("Malfunction url");
+            e.getCause();
         }
     }
 }

@@ -186,7 +186,6 @@ public class PlayerBoard{
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi gialli");
     }
-
     /**
      * remove yellow cubes
      * @param num of cubes to be removed

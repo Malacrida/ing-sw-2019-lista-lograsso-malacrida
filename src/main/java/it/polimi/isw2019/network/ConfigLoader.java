@@ -77,9 +77,7 @@ public class ConfigLoader {
         }
 
         /**
-         *
-         * Sets the hostIP attribute
-         *
+         * Setter the hostIP
          * @param s IP address of the server
          */
         private void setHostIp(String s){
@@ -87,65 +85,60 @@ public class ConfigLoader {
         }
 
         /**
-         * Sets the rmiPort attribute
-         *
-         * @param s Port used for the RMI connection
+         * Setter of the rmiPort
+         * @param s Port used for the RMI
          */
         private void setRmiPort(String s){
             rmiPort = Integer.parseInt(s);
         }
 
         /**
-         * Sets the timerStart attribute
-         *
-         * @param s Value of the timer for the connection waiting for the various players
+         * Setter the timerLobby
+         * @param s Timer for the connection waiting in lobby
          */
         private void setTimerLobby(String s){
            timerLobby = Integer.parseInt(s);
         }
 
         /**
-         * Sets the timerUser attribute
-         *
-         * @param s Value of the timer for the player's move
+         * Setter of the timerAction
+         * @param s Timer for the player's move
          */
         private void setTimerAction(String s){
             timerAction = Integer.parseInt(s);
         }
 
         /**
-         * Returns the value of rmiPort attribute
-         *
-         * @return Port used for the RMI connection
+         * getter of the value of rmiPort
+         * @return Port used for the RMI
          */
         public int getRmiPort() {
             return rmiPort;
         }
 
         /**
-         * Returns of the value of timerStart attribute
-         *
-         * @return Value of the timer for the connection waiting for the various players
+         * getter of hostIP
+         * @return IP address of the server
+         */
+        public String getHostIp() {
+            return hostIp;
+        }
+
+        /**
+         * getter of the value of timerLobby
+         * @return Timer for the connection waiting for the various players
          */
         public int getTimerLobby() {
             return timerLobby;
         }
 
         /**
-         * Returns the value of timerUser attribute
-         *
-         * @return Value of the timer for the player's move
+         * getter of timerAction
+         * @return Timer for the player's move
          */
         public int getTimerAction() {
             return timerAction;
         }
 
-        /**
-         * Returns the value of hostIP attribute
-         *
-         * @return IP address of the server
-         */
-        public String getHostIp() {
-            return hostIp;
-        }
+
 }

@@ -59,7 +59,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         }catch (IOException e){
             e.getCause();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -70,15 +70,15 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
             try {
                 this.output.writeObject(nickname);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getCause();
             }
             try {
             message = (String) this.input.readObject();
             System.out.println(message);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            e.getCause();
         } catch (IOException e) {
-                e.printStackTrace();
+                e.getCause();
             }
             this.start();
     }
@@ -89,7 +89,7 @@ public class ServerImplementationSocket extends Thread implements ServerInterfac
         try {
             write(playerMove);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 

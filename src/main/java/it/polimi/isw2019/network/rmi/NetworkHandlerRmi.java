@@ -32,12 +32,8 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     public NetworkHandlerRmi (String nickname){
         try {
             server = (ServerInterface) Naming.lookup("rmi://"+ cl.getHostIp()+":" + cl.getRmiPort()+ "/ServerRmi");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            e.getCause();
         }
         this.nickname= nickname;
     }
@@ -54,7 +50,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         try {
             server.registerNewClient(remoteClient, nickname);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getCause();
         }
 
     }
@@ -67,11 +63,11 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendConnectionClient(ConnectionMove connectionMove) {
         try {
-            System.out.println("Send exit");
+            System.out.println("Send exit message");
             server.receiveConnectionMove(connectionMove.getPlayer(), connectionMove.getConnection());
         }
         catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -80,7 +76,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         try {
             server.receiveTerminatorMove(terminatorMove.getPlayer(),terminatorMove.getCoordinates(),terminatorMove.isShootPeople(),terminatorMove.getColorSpawn(),terminatorMove.getIdPlayerToShoot());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -93,12 +89,11 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void logInCorrect() throws RemoteException {
-        System.out.println("registrazione corretta");
+        System.out.println("--MESSAGE FROM SERVER: correct registration--");
     }
 
     @Override
     public void update(PlayerMove message) {
-        System.out.println("vedo la playermove");
         message.accept(this);
     }
 
@@ -108,7 +103,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         try {
             server.receiveChooseMap(chooseMapMove.getPlayer(),chooseMapMove.getIndex(),chooseMapMove.getIndexColor(),chooseMapMove.getMod(), chooseMapMove.getTerminator());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -119,7 +114,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
             server.receiveChooseActionMove(chooseActionMove.getPlayer(), chooseActionMove.getNumAction());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
 
     }
@@ -130,7 +125,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
             server.receiveRun(runMove.getPlayer(), runMove.getMovement());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -147,10 +142,9 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void sendRegisterPlayer(FirstMessage firstMessage) {
         try {
-            System.out.println("invio la registrazione");
             server.receiveRegisterPlayer (firstMessage.getPlayer(), firstMessage.getActionHero());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
 
     }
@@ -161,7 +155,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
             server.receiveReload(reloadMove.getPlayer(), reloadMove.getWeaponCard(), reloadMove.getPayment());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
 
     }
@@ -172,18 +166,17 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
             server.receivePowerUpChoice(powerUpChoice.getPlayer(), powerUpChoice.getIdPowerUpDischarge());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
     @Override
     public void sendUsePowerUpCard(UsePowerUpCard usePowerUpCard) {
         try {
-            System.out.println("invio power up");
             server.receiveUsePowerUpCard(usePowerUpCard.getPlayer(),usePowerUpCard.getCoordinates(), usePowerUpCard.getIdPlayer(), usePowerUpCard.isDefend(), usePowerUpCard.getIdPlayer());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -193,7 +186,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
             server.receiveWeaponCardChoice(weaponCardChoice.getPlayer(),weaponCardChoice.getIndexWeaponCard(),weaponCardChoice.getPayment());
 
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -202,7 +195,7 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
         try {
             server.receiveUseWeaponCard(useWeaponCard.getPlayer(),useWeaponCard.getWeaponCard(), useWeaponCard.getEffectUsed(), useWeaponCard.getHandleEffectCoordinates(),useWeaponCard.getPeopleToBeShoot());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
 
     }
@@ -241,7 +234,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createWaitForStart(String nicknamePlayer) {
-        System.out.println("ricevo una endRegistratio");
         EndRegistration endRegistration = new EndRegistration(nicknamePlayer);
         notifyObservers(endRegistration);
 
@@ -256,7 +248,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createChoiceCard(String nicknamePlayer, String[] descriptionPowerUp, int[] idPowerUp, String error, boolean discardOne, boolean isPowerUp ) throws RemoteException {
-        System.out.println("ricevo la Move message choice PU");
         ChoiceCard choiceCard = new ChoiceCard(nicknamePlayer,descriptionPowerUp,idPowerUp,error,discardOne, isPowerUp);
         notifyObservers(choiceCard);
     }
@@ -269,7 +260,6 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
 
     @Override
     public void createEndGame(String nickname, String[] ranking, int[] points, int pointMax, String winner, String phrase, boolean notifyAll) throws RemoteException {
-        System.out.println("ricevo una end game");
         EndGame endGame = new EndGame(nickname,ranking, points,pointMax,winner,phrase, notifyAll);
         notifyObservers(endGame);
     }
@@ -278,14 +268,12 @@ public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observ
     @Override
     public void createUsePowerUpCard(String nicknamePlayer, int[] featuresAvailable, int stateGame, boolean[] canBeUsed, String error, int[][] cooPlayer) {
         UsePowerUpCardMessage usePowerUpCardMessage = new UsePowerUpCardMessage(nicknamePlayer,featuresAvailable,stateGame,canBeUsed,error, cooPlayer);
-        System.out.println("notifico");
         notifyObservers(usePowerUpCardMessage);
     }
 
     @Override
     public void createFirstPlayerChooseMap(String nicknamePlayer, int idPlayer, String[] possibleMaps, ArrayList<String> colorAvailable) throws RemoteException {
         FirstMessageFirstPlayer firstMessageFirstPlayer= new FirstMessageFirstPlayer(nicknamePlayer,idPlayer,possibleMaps,colorAvailable);
-        System.out.println("ricevo la scelta della mappa per: "+ nicknamePlayer);
         notifyObservers(firstMessageFirstPlayer);
     }
 

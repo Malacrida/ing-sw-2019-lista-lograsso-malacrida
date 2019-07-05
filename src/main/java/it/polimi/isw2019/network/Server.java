@@ -27,11 +27,8 @@ public class Server {
         try {
             gathererRmi = new ServerRmi(configLoader.getRmiPort());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getCause();
         }
-
-
-
         Server server = new Server();
         //server.start(gathererSocket, gathererRmi);
         server.start(gathererRmi);
