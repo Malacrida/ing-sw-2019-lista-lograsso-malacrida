@@ -87,7 +87,7 @@ public class Lobby implements LobbyInterface {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    e.getCause();
                     Thread.currentThread().interrupt();
                 }
             }
@@ -95,7 +95,7 @@ public class Lobby implements LobbyInterface {
 
             LOGGER.severe("---COUNTDOWN STARTS---");
 
-            System.out.println("Countdown started with " + connectedClients.size() + " players!");
+           LOGGER.info("Countdown started with " + connectedClients.size() + " players!");
 
 
             try {
@@ -104,15 +104,15 @@ public class Lobby implements LobbyInterface {
                     if (connectedClients.size() < 3) {//era 3
                         i = countDown + 1;
                         roomStartable = false;
-                        System.out.println("--ATTENTION-- Countdown has been reset, not enough players to start the room.");
+                        LOGGER.info("--ATTENTION-- Countdown has been reset, not enough players to start the room.");
 
                     } else if (connectedClients.size() == 5) { //era 5
                         i = countDown + 1;
                         roomStartable = true;
                     } else if ((countDown - i) % 5 == 0 && (countDown - i) != 0) {
-                        System.out.println("Game will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.\n");
+                        LOGGER.info("Game will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.\n");
                     } else if ((countDown - i) <= 10){
-                        System.out.println("Game will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.\n");
+                        LOGGER.info("Game will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.\n");
                     }
                 }
             } catch (InterruptedException e) {
@@ -126,7 +126,7 @@ public class Lobby implements LobbyInterface {
                 return;
 
             } else {
-                System.out.println("---ATTETION--- Countdown interrupted: not enough players.");
+                LOGGER.info("---ATTETION--- Countdown interrupted: not enough players.");
             }
         }
 

@@ -24,9 +24,7 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
     }
 
     public void receivePlayerMove(PlayerMove playerMove) {
-        System.out.println("evviva");
-        System.out.println("player: " + playerMove.getPlayer());
-        System.out.println(playerMove);
+
         if (playerMove instanceof FirstMessage) {
             firstMessage = (FirstMessage) playerMove;
             newFirstMessage = new FirstMessage(this, firstMessage.getPlayer(), firstMessage.getActionHero());
@@ -45,7 +43,6 @@ public class VirtualViewSocket extends Observable<PlayerMove> implements Observe
 
     @Override
     public void update(MoveMessage message) {
-        System.out.println("---VIRTUALVIEW--- HO FATTO L'UPDATE DI MOVEMESSAGE: " + message);
         clientSocket.setMoveMessage(message);
         //Richiami il metodo per fare l'oput stream sul oggetto
     }

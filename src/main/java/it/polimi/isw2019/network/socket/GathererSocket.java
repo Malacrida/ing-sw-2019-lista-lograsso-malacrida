@@ -48,12 +48,12 @@ public class GathererSocket implements Runnable, GathererInterface {
 
             newConnection = serverSocket.accept();
 
-            System.out.println("Istanzio un nuovo thread");
+            LOGGER.info("Istanzio un nuovo thread");
             /*Istanzio un nuovo Thread*/
             Thread thread = new Thread(this);
             thread.start();
 
-            System.out.println("Provo a inviare la player move");
+            LOGGER.info("Provo a inviare la player move");
             clientHandlerSocket(newConnection);
 
         } catch (IOException e) {
