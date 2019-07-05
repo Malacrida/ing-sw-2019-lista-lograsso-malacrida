@@ -1,6 +1,7 @@
 package it.polimi.isw2019.model;
 
 import it.polimi.isw2019.message.movemessage.*;
+import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -479,5 +481,43 @@ public class PlayerTest {
         }
         assertEquals(1,player1.getRealPlayerBoard().numOfRedCubes());
 
+        assertEquals(2,player1.getRealPlayerBoard().numOfBlueCubes());
+        try {
+            player1.payEffect(0,0,1);
+        } catch (OutOfBoundsException e) {
+            fail();
+        }
+        assertEquals(1,player1.getRealPlayerBoard().numOfBlueCubes());
+
+        assertEquals(2,player1.getRealPlayerBoard().numOfYellowCubes());
+        try {
+            player1.payEffect(0,1,0);
+        } catch (OutOfBoundsException e) {
+            fail();
+        }
+        assertEquals(1,player1.getRealPlayerBoard().numOfYellowCubes());
+
     }
+
+
+  @Test
+    public void testFromIntToColorCube(){
+      Database db = new Database();
+      ArrayList<PowerUpCard> powerUpCards = db.loadPowerUpCards();
+      powerUpCards.get(0).setColor(powerUpCards.get(0).getColor());
+      try {
+          player1.takePowerUpCard(powerUpCards.get(0), null);
+      }catch (TooManyPowerUpCard e){
+          fail();
+      }
+
+      ColorCube colorCube = null;
+      try {
+          colorCube = player1.fromIntToColorCube(powerUpCards.get(0).getId());
+      }catch(NotPossesPowerUp e){
+          fail();
+      }
+
+      assertEquals(powerUpCards.get(0).getColorCard(), colorCube);
+  }
 }

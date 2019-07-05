@@ -152,8 +152,15 @@ public class PlayerBoard{
      */
     public void removeRedCubes (int num) throws OutOfBoundsException {
         if (redCubes.size()-num>=0){
-            for (int i=redCubes.size(); i>0;i--){
-                redCubes.remove(ColorCube.RED);
+            if (redCubes.size()-num>=0){
+                if(num == 1)
+                    redCubes.remove(0);
+                else if(num == 2){
+                    redCubes.remove(0);
+                    redCubes.remove(0);
+                }
+                else
+                    redCubes.clear();
             }
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi rossi");
@@ -166,13 +173,19 @@ public class PlayerBoard{
      */
     public void removeYellowCubes (int num) throws OutOfBoundsException {
         if (yellowCubes.size()-num>=0){
-            for (int i=yellowCubes.size(); i>0;i--){
-                yellowCubes.remove(ColorCube.YELLOW);
+            if (yellowCubes.size()-num>=0){
+                if(num == 1)
+                    yellowCubes.remove(0);
+                else if(num == 2){
+                    yellowCubes.remove(0);
+                    yellowCubes.remove(0);
+                }
+                else
+                    yellowCubes.clear();
             }
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi gialli");
     }
-
     /**
      * remove yellow cubes
      * @param num of cubes to be removed
@@ -180,9 +193,14 @@ public class PlayerBoard{
      */
     public void removeBlueCubes (int num) throws OutOfBoundsException {
         if (blueCubes.size()-num>=0){
-            for (int i=blueCubes.size(); i>0;i--){
-                blueCubes.remove(ColorCube.BLUE);
+            if(num == 1)
+                blueCubes.remove(0);
+            else if(num == 2){
+                blueCubes.remove(0);
+                blueCubes.remove(0);
             }
+            else
+                blueCubes.clear();
         }
         else throw new OutOfBoundsException("Non hai abbastanza cubi blu!");
     }

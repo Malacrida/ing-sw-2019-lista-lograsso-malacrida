@@ -257,6 +257,10 @@ public class Player{
         return numActionToBePerformed;
     }
 
+    public int getNumActionToBePerformedFrenzy(){
+        return numActionToBePerformedFrenzy;
+    }
+
     public Player getTerminatorPlayer() {
         return terminatorPlayer;
     }
@@ -763,7 +767,7 @@ public class Player{
             run = 4;
             actionMessage.setRunAndGrab(3);
             runAndGrab = 3;
-            numActionToBePerformedFrenzy = 1;
+            numActionToBePerformedFrenzy = 2;
         }
 
         else{
@@ -772,7 +776,7 @@ public class Player{
                 actionMessage.setRunReloadAndUseWeaponCard(2);
             }
             runAndGrab = 3;
-            numActionToBePerformedFrenzy = 2;
+            numActionToBePerformedFrenzy = 1;
             actionMessage.setRunAndGrab(3);
         }
 
