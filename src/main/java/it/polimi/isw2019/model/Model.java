@@ -477,6 +477,24 @@ public class Model extends Observable<MoveMessage> {
 
     }
 
+    public void spawnTerminator(int colorSpawn){
+        if(colorSpawn== 0) {
+            //change player positiom red
+           gameBoard.getGameArena().spawnPlayer(ColorRoom.RED,terminator);
+        }
+        if(colorSpawn== 1){
+            //change player position blue
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.BLUE,terminator);
+        }
+        if(colorSpawn== 2){
+            //change player position yellow
+            gameBoard.getGameArena().spawnPlayer(ColorRoom.YELLOW,terminator);
+        }
+        currentPlayer.setCorrectNormalActionChooseMessages(false);
+        //chiedere
+        sendActionMessage();
+
+    }
     /**
      * send update of game state
      */
