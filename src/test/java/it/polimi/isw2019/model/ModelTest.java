@@ -110,9 +110,9 @@ public class ModelTest {
 
 
 
-       // gameBoard = new GameBoard();
+        //gameBoard = new GameBoard();
 
-       // gameBoard.chooseArena(1);
+        //gameBoard.chooseArena(1);
 
         /*for (int i=0; i <26; i++){
             powerUpCards.add(powerUpCard);
@@ -158,16 +158,13 @@ public class ModelTest {
 
     @Test
     public void testChangePlayer(){
-
-
-
-
-/*
-        model.chooseFirstPlayer(3);
+        /*model.chooseFirstPlayer(1);
 
         int oldCurrentPlayer= model.getPlayers().indexOf(model.getCurrentPlayer());
 
         model.changePlayer();
+
+        assertEquals(2, model.getCurrentPlayer());
 
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
             assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
@@ -193,14 +190,14 @@ public class ModelTest {
         if(oldCurrentPlayer == (model.getPlayers().size()-1))
             assertEquals(0,model.getPlayers().indexOf(model.getCurrentPlayer()));
         else
-            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));
-*/
+            assertEquals(oldCurrentPlayer + 1,model.getPlayers().indexOf(model.getCurrentPlayer()));*/
+
     }
 
     @Test
     public void testSetFrenzyMood(){
 
-        /*
+
         model.chooseFirstPlayer(3);
 
         model.changePlayer();
@@ -229,7 +226,7 @@ public class ModelTest {
         assertEquals(2 ,model.getCurrentPlayer().getNumActionToBePerformed());
         assertEquals(2, model.getPlayers().get(3).getNumActionToBePerformed());
         assertEquals(1, model.getPlayers().get(0).getNumActionToBePerformed());
-        */
+
 
     }
 
@@ -553,15 +550,27 @@ public class ModelTest {
     }
 
     @Test
-    public void testSpawnTerminator (){
-
-
-        model.setGame(3,1,1);
-        model.chooseFirstPlayer(1);
-        model.getCurrentPlayer().setSetTerminatorSpawn(true);
-
-        assertNotNull(model.getTerminator());
+    public void getColorAvaiable(){
+        ArrayList<String> colorAvailable = model.getColorAvailable();
+        assertTrue(colorAvailable.isEmpty());
     }
 
+    @Test
+    public void getTmpPowerUp(){
+        ArrayList<PowerUpCard> powerUpCards = model.getTmpPowerUpCard();
+        assertTrue(powerUpCards.isEmpty());
+    }
 
+    @Test (expected = NullPointerException.class)
+    public void getPlayerBoards() {
+        ArrayList<PlayerBoard> playerBoardArrayList = model.getPlayerBoards();
+        assertFalse(playerBoardArrayList.isEmpty());
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void getWeaponCards() {
+        ArrayList<AbstractWeaponCard> weaponCards = model.getWeaponCards();
+        assertTrue(weaponCards.isEmpty());
+
+    }
 }

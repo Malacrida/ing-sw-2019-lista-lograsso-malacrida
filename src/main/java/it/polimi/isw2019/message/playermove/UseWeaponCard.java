@@ -3,6 +3,9 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
+/**
+ * player move send when player decides to use weapon card
+ */
 
 public class UseWeaponCard extends PlayerMove {
 
@@ -33,13 +36,27 @@ public class UseWeaponCard extends PlayerMove {
         return weaponCard;
     }
 
+    /**
+     * getter of effects that player wants to use
+     * @return effects
+     */
+
     public int[] getEffectUsed() {
         return effectUsed;
     }
 
+    /**
+     * setter of effects that player wants to use
+     */
+
     public void setEffectUsed(int[] effectUsed) {
         this.effectUsed = effectUsed;
     }
+
+    /**
+     * setter of id weapon card
+     * @param weaponCard id weapon card
+     */
 
     public void setWeaponCard(int weaponCard) {
         this.weaponCard = weaponCard;
@@ -61,9 +78,19 @@ public class UseWeaponCard extends PlayerMove {
         this.handleEffectPayment = handleEffectPayment;
     }
 
+    /**
+     * getter of players attacked
+     * @return players attacked
+     */
+
     public int[][] getPeopleToBeShoot() {
         return peopleToBeShoot;
     }
+
+    /**
+     * settr of players attacked
+     * @param peopleToBeShoot players attacked
+     */
 
     public void setPeopleToBeShoot(int[][] peopleToBeShoot) {
         this.peopleToBeShoot = peopleToBeShoot;

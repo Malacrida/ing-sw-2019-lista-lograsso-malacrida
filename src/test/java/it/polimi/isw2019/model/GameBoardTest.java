@@ -316,4 +316,14 @@ public class GameBoardTest {
     public void addPowerUpDiscarded(){
 
     }
+
+    @Test
+    public void cancelKillPlayerFromOverKill(){
+        ArrayList<Player> kill = gameBoard.getKillPlayer();
+        ArrayList<Player> overKill = gameBoard.getOverkillPlayer();
+        gameBoard.addKillPlayer(player);
+        gameBoard.addOverKillPlayer(player);
+        gameBoard.cancelKillPlayerFromOverkill();
+        assertEquals(0, kill.size());
+    }
 }

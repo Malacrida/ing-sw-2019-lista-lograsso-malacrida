@@ -164,7 +164,32 @@ public class PlayerTest {
         }
     }
 
+    @Test
+    public void setActive(){
+        player1.setActive(true);
+        assertTrue(player1.isActive());
+    }
 
+    @Test
+    public void setPlayerId(){
+        assertEquals(1, player1.getPlayerID());
+    }
+
+    @Test
+    public void getPlayer(){
+        assertEquals(player1, player1.getPlayer());
+    }
+
+    @Test
+    public void setRespawn(){
+        player1.setRespawned(true);
+        assertTrue(player1.isRespawn());
+    }
+
+    public void getTerminator(){
+        player1.setTerminatorPlayer(player2);
+        assertEquals(player2, player2.getTerminatorPlayer());
+    }
 
     @Test
     public void firstPlayerDoDamage() {

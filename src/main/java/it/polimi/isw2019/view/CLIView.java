@@ -247,7 +247,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     public int[] choosePeopleToKill(int[][] coordinates){
 
-        System.out.println("LENGHT COO" + coordinates.length);
+        //System.out.println("LENGHT COO" + coordinates.length);
         int[] peopleToKill = new int[coordinates.length];
 
         Scanner input = new Scanner(System.in);
@@ -261,9 +261,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         for(int i = 0 ; i < coordinates.length; i++){
             System.out.println("Press 1 to shoot the following player, otherwise press 0");
-            tmp = input.next();
             inputOk  = false;
             do{
+            tmp = input.next();
+
             if(tmp.equals(String.valueOf(1))){
                 peopleToKill[i] = coordinates[i][0];
                 inputOk = true;
@@ -272,7 +273,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 peopleToKill[i] = -2;
                 inputOk = true;
             }
-            else{
+            if(!inputOk){
                 System.out.println("TRY AGAIN");
                 }
             }while (!inputOk);
@@ -310,7 +311,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         }while(!endInsertment);
 
         String tmp;
-        int cardIndex = index;
+
         int numMaxEffect = useWeaponCardMessage.getFeaturesForEffect()[index][0];
         int[][] peopleToBeShoot = new int[numMaxEffect][useWeaponCardMessage.getPlayersToAttack().length];
         int[][] coordinates =  new int[numMaxEffect][useWeaponCardMessage.getFeaturesForEffect()[index][2]];
@@ -319,15 +320,16 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         //first index -> maxEffect
 
         int[] effectUsed = new int[numMaxEffect];
-        int i = 0;
+        int i ;
         int j = 0;
         endInsertment = false;
-        boolean endChoice = false;
+        boolean endChoice ;
         do {
             endChoice = false;
             do {
 
-                System.out.println("insert the number of the effect you want to use or -1 to exit:");
+                System.out.println("insert the number of the effect you want to use or -1 to exit /n" +
+                        "INSERT 1 - 2 - 3:");
                 tmp = input.next();
 
                 for( i = 1 ; i <= 3; i ++){
@@ -337,11 +339,6 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                         break;
                     }
                 }
-
-                if(tmp.equals(String.valueOf(-1))){
-                    endChoice = true;
-                }
-
                if(!endChoice){
                     System.out.println("TRY AGAIN");
                 }
@@ -354,6 +351,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 coordinates = null;
                 endInsertment = true;
             }
+
             else {
 
                 if (useWeaponCardMessage.getFeaturesForEffect()[index][1] != 0) {
@@ -385,7 +383,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
         }while(!endInsertment);
 
-        UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer,cardIndex);
+        UseWeaponCard useWeaponCard = new UseWeaponCard(nicknamePlayer,index);
         useWeaponCard.setEffectUsed(effectUsed);
         useWeaponCard.setHandleEffectCoordinates(coordinates);
         useWeaponCard.setHandleEffectPayment(payment);
@@ -701,11 +699,13 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         int cardIndex = index;
         int[] peopleToBeShoot = null;
+
         if(usePowerUpCardMessage.getCooPlayer().length != 0)
                 peopleToBeShoot = new int[usePowerUpCardMessage.getCooPlayer().length];
 
-        int[][] coordinates = null;
+        int[][] coordinates =  null;
 
+        System.out.println();
 
         inputOk = false;
         boolean endChoice = false;
@@ -726,12 +726,12 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                usePowerUpCard.setDefend(true);
                break;
             default:
-
+                break;
        }
        int person = 0 ;
 
        for(int i = 0 ; i < peopleToBeShoot.length; i ++){
-           if(peopleToBeShoot[i]!= -1) {
+           if(peopleToBeShoot[i]!= -2) {
                person = peopleToBeShoot[i];
                break;
            }
@@ -808,12 +808,11 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
                 System.out.println(weaponCard);
                 i++;
             }
-
             do {
 
                 tmpInput = input.next();
 
-                for(i = 0 ; i < 2 ; i ++){
+                for(i = 0 ; i <=2 ; i ++){
                     if(tmpInput.equals(String.valueOf(i))){
                         inputOk= true;
                         break;
@@ -827,7 +826,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
             positionWeaponCard = Integer.parseInt(tmpInput);
 
-            System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[positionWeaponCard]);
+            //System.out.println("number of cubes needed" + grabMessage.getWeaponCardAvailable()[positionWeaponCard]);
             grabMove.setPositionWeaponCard(positionWeaponCard);
             grabMove.setPayment(insertPayment(grabMessage.getFeaturesAvailable()));
         }

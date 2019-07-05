@@ -3,6 +3,10 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
+/**
+ * player move of terminator
+ */
+
 public class TerminatorMove extends PlayerMove {
 
     private int[] coordinates;
@@ -18,13 +22,28 @@ public class TerminatorMove extends PlayerMove {
         this.idPlayerToShoot = idPlayerToShoot;
     }
 
+    /**
+     * getter of terminator's coordinates
+     * @return coordinates
+     */
+
     public int[] getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * setter of terminator's coordinates
+     * @param coordinates coordinates
+     */
+
     public void setCoordinates(int[] coordinates) {
         this.coordinates = coordinates;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public boolean isShootPeople() {
         return shootPeople;
@@ -34,13 +53,28 @@ public class TerminatorMove extends PlayerMove {
         this.shootPeople = shootPeople;
     }
 
+    /**
+     * getter of room's color for the spawn
+     * @return color
+     */
+
     public int getColorSpawn() {
         return colorSpawn;
     }
 
+    /**
+     *
+     * @param colorSpawn
+     */
+
     public void setColorSpawn(int colorSpawn) {
         this.colorSpawn = colorSpawn;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public int[] getIdPlayerToShoot() {
         return idPlayerToShoot;

@@ -111,13 +111,8 @@ public class Lobby implements LobbyInterface {
                         roomStartable = true;
                     } else if ((countDown - i) % 5 == 0 && (countDown - i) != 0) {
                         System.out.println("Room will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.");
-                        /*currentClientsWaiting.iterator().forEachRemaining(wc -> {
-                            try {
-                                wc.getClientInterface().update(countdownReset);
-                            } catch (RemoteException e) {
-                                e.printStackTrace();
-                            }
-                        });*/
+                    } else if ((countDown - i) <= 10){
+                        System.out.println("Room will start in " + (countDown - i) + "s with " + connectedClients.size() + " players.");
                     }
                 }
             } catch (InterruptedException e) {

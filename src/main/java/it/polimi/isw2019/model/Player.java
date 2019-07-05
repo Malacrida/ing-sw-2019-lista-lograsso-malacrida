@@ -136,7 +136,6 @@ public class Player{
     public void updateMessage(UsePowerUpCardMessage usePowerUpCardMessage){
         usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
         usePowerUpCardMessage.setCooPlayer(playerToAttack);
-        usePowerUpCardMessage.setFeaturesAvailable(statePowerUp());
 
     }
 
@@ -247,7 +246,9 @@ public class Player{
     }
 
 
-
+    public int getNumActionToBePerformed(){
+        return numActionToBePerformed;
+    }
 
     public Player getTerminatorPlayer() {
         return terminatorPlayer;
@@ -321,21 +322,10 @@ public class Player{
         powerUpCards.remove(powerUpCard);
     }
 
-    public boolean isShoot() {
-        return isShoot;
-    }
-
-    public void setShoot(boolean shoot) {
-        isShoot = shoot;
-    }
-
     public void setTmpPowerUpChoice(PowerUpCard powerUpCard){
         tmpPowerUpCard = powerUpCard;
     }
 
-    public void setTmpWeaponCardChoice(AbstractWeaponCard weaponCardChoice){
-        tmpWeaponCard = weaponCardChoice;
-    }
     /**
      * method used to pay cubes to use weapon card's effect
      * @param costRed number of red cubes
@@ -661,14 +651,6 @@ public class Player{
         return false;
     }
 
-    public boolean canAddPowerUpTerminator(){
-        for(PowerUpCard powerUpCard : powerUpCards){
-            if(powerUpCard.isTerminatorTag()){
-                return true;
-            }
-        }
-        return false;
-    }
     /**
      * reloade weapon card
      * @return boolean
@@ -1005,12 +987,8 @@ public class Player{
     public String toString(){
         descriptionPlayer = "Name : " + name ;
         descriptionPlayer += "\n";
-        // descriptionPlayer += "Current position :" + x + " " + y + " " + colorRoom.getColorRoomRepresentation() + "\n";
         descriptionPlayer += "Score : " + score + "\n";
         return descriptionPlayer;
     }
-
-
-
 
 }

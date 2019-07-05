@@ -108,6 +108,7 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
     }
 
     public void createUsePowerUpCard(String player, int[][] coordinates, int idPlayer, boolean defend, int positionPowerUp){
+        System.out.println("la sto creando");
         UsePowerUpCard usePowerUpCard = new UsePowerUpCard(player,coordinates,idPlayer,defend,positionPowerUp);
         notifyObservers(usePowerUpCard);
     }
@@ -116,7 +117,7 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         WeaponCardChoice weaponCardChoice = new WeaponCardChoice(player,indexWeaponCard,payment);
         notifyObservers(weaponCardChoice);
     }
-
+    //
     public void createUseWeaponCard (String player, int weaponCard, int[] effectUsed, int[][] handleEffectCoordinates, int[][] peopleToBeShoot){
         UseWeaponCard useWeaponCard = new UseWeaponCard(player,weaponCard, effectUsed, handleEffectCoordinates, peopleToBeShoot);
         notifyObservers(useWeaponCard);
@@ -190,11 +191,11 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
             e.printStackTrace();
         }
     }
-
+//String nicknamePlayer,int[] weaponCard, int[] featuresAvailable, int[][] playersToAttack, String error
     @Override
     public void sendUseWeaponCard(UseWeaponCardMessage useWeaponCardMessage) {
         try {
-            networkHandler.createUseWeaponCardMessage(useWeaponCardMessage.getNicknamePlayer(),useWeaponCardMessage.getWeaponCard(), useWeaponCardMessage.getFeaturesAvailable(), useWeaponCardMessage.getPlayersToAttack(), useWeaponCardMessage.getError());
+            networkHandler.createUseWeaponCardMessage(useWeaponCardMessage.getNicknamePlayer(),useWeaponCardMessage.getWeaponCard(), useWeaponCardMessage.getFeaturesForEffect(), useWeaponCardMessage.getFeaturesAvailable(), useWeaponCardMessage.getPlayersToAttack(), useWeaponCardMessage.getError());
         }
         catch (RemoteException e) {
             e.printStackTrace();

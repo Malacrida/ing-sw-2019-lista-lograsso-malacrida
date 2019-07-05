@@ -3,6 +3,10 @@ package it.polimi.isw2019.message.playermove;
 import it.polimi.isw2019.controller.VisitorController;
 import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
+/**
+ * player move of connection
+ */
+
 public class ConnectionMove extends PlayerMove {
 
     int connection;
@@ -11,6 +15,11 @@ public class ConnectionMove extends PlayerMove {
         super(nickname);
         this.connection= connection;
     }
+
+    /**
+     * getter of connection
+     * @return connection
+     */
 
     public int getConnection() {
         return connection;

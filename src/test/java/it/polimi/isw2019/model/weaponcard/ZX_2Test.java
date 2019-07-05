@@ -35,7 +35,7 @@ public class ZX_2Test {
         pb3 = new PlayerBoard(ColorPlayer.VIOLET);
         pb4= new PlayerBoard(ColorPlayer.GREY);
         gameBoard = new GameBoard();
-        gameBoard.chooseArena(4);
+        gameBoard.chooseArena(3);
 
         attacker.setPlayerBoardAndColor(pba, ColorPlayer.BLUE);
         firstDefender.setPlayerBoardAndColor(pb1, ColorPlayer.YELLOW);
