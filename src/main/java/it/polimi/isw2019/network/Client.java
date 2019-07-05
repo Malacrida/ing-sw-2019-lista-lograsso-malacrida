@@ -35,100 +35,53 @@ public class Client {
         Scanner input = new Scanner(System.in);
 
         String nickname = null;
-        String typeView;
-        String connectionType = null;
+        //String connectionType = null;
 
         while(!chooseOk){
-            System.out.println("\nInsert your nickname: \n");
+            System.out.println("Insert your nickname: \n");
             nickname = input.nextLine();
 
             chooseOk = true;
         }
-
-        chooseOk = false;
-
-        /*while(!chooseOk){
-            System.out.println("\nInsert 0 to use Console, 1 to use GUI");
-            typeView = input.nextLine();
-
-            if (typeView.equals("0") || typeView.equals("1"))
-
-            chooseOk = true;
-        }*/
-
-        while(!chooseOk){
-
-            System.out.println("\nInsert 0 to use SOCKET, 1 to use RMI");
-            connectionType = input.nextLine();
-
-            if(connectionType.equals("0") || connectionType.equals("1"))
-                chooseOk = true;
+        
+        try {
+            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            e.getCause();
         }
-
-        int typeServer = Integer.parseInt(connectionType);
-
-        ServerInterface serverInterface = null;
-
-        if (typeServer == 0){
-           /* System.out.println("Starting SOCKET");
-
-            try {
-
-                Socket socket = new Socket("localhost", 1111);
-
-                serverInterface = new ServerImplementationSocket(socket, nickname);
-                //ok
-                serverInterface.registerNewClient(socket, nickname);
-                //ok
-
-            } catch (IOException e) {
-                e.getCause();
-            }*/
-        }
-        if (typeServer==1){
-            /*
-            //192.168.43.154
-            try {
-                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://localhost:8080/ServerRmi");
-            } catch (RemoteException | NotBoundException | MalformedURLException e) {
-                e.getCause();
-            }*/
             startView(nickname);
         }
 
 
-    }
+        private static void startView (String nickname) throws RemoteException {
+            ConfigLoader cl = new ConfigLoader();
+            CLIView view = new CLIView(nickname);
+            NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
+
+            //192.168.43.154
+            try {
+                serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://"+cl.getHostIp()+":"+cl.getRmiPort()+"/ServerRmi");
+            } catch (RemoteException | NotBoundException | MalformedURLException e) {
+                e.getCause();
+            }
+
+            try {
+                ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
+                networkHandler.setRemoteClient(remoteClient);
+                serverRmi.registerNewClient(remoteClient, nickname);
 
 
-    private static void startView (String nickname) throws RemoteException {
-        ConfigLoader cl = new ConfigLoader();
-        CLIView view = new CLIView(nickname);
-        NetworkHandlerRmi networkHandler = new NetworkHandlerRmi(nickname);
-
-        //192.168.43.154
-        try {
-            serverRmi = (ServerInterface<ClientInterface>) Naming.lookup("rmi://"+cl.getHostIp()+":"+cl.getRmiPort()+"/ServerRmi");
-        } catch (RemoteException | NotBoundException | MalformedURLException e) {
-            e.getCause();
-        }
-
-        try {
-            ClientInterface remoteClient = (ClientInterface) UnicastRemoteObject.exportObject(networkHandler,0);
-            networkHandler.setRemoteClient(remoteClient);
-            serverRmi.registerNewClient(remoteClient, nickname);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("registrazione completata");
 
 
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("registrazione completata");
-
-
-        view.registerObserver(networkHandler);
-        networkHandler.registerObserver(view);
-        //view.startView();
+            view.registerObserver(networkHandler);
+            networkHandler.registerObserver(view);
+            //view.startView();
     }
 
 }

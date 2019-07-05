@@ -141,16 +141,15 @@ public class PowerUpCard implements PowerUpCardInterface{
         return checkState;
     }
 
-    /**
+     /**
      * implementation of power up card's effect
      * @param gameBoard gameboard
      * @param attacker player who use power up
      * @param defender player who suffer effect of power up
-     * @param x first coordinate
-     * @param y second coordinate
+     * @param coordinates coordinates
+     * @throws DamageTrackException
      */
-    @Override
-    public void effect(GameBoard gameBoard,Player attacker, Player defender, int x, int y) throws DamageTrackException {
+    public void effect(GameBoard gameBoard,Player attacker, Player defender, int [][] coordinates) throws DamageTrackException {
         switch (name) {
             case "Targeting Scope":
 
@@ -165,8 +164,12 @@ public class PowerUpCard implements PowerUpCardInterface{
 
             case "Newton":
 
-                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
-                    gameBoard.getGameArena().teleporterMove(attacker, x, y);
+                if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[0][0], coordinates[0][1])){
+                    gameBoard.changePositionPlayer(attacker, coordinates[0][0], coordinates[0][1]);
+                    if(gameBoard.isSquareAvailableOnArena(attacker, coordinates[1][0], coordinates[1][1])){
+                        gameBoard.changePositionPlayer(attacker, coordinates[0][0], coordinates[0][1]);
+                    }
+
                 }
 
                 break;
@@ -180,11 +183,7 @@ public class PowerUpCard implements PowerUpCardInterface{
                 break;
 
             case "Teleporter":
-                if(gameBoard.isSquareAvailableOnArena(attacker, x, y)){
-                    gameBoard.changePositionPlayer(attacker, x, y);
-                }
-                break;
-
+                gameBoard.changePositionPlayer(attacker, coordinates[0][0], coordinates[0][1]);
             default:
 
         }

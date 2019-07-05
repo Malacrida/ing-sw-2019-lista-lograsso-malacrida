@@ -49,12 +49,12 @@ public class ShockWaveTest {
         gameBoard.insertPlayer(thirdDefender, ColorRoom.BLUE);
         gameBoard.insertPlayer(fourDefender, ColorRoom.BLUE);
 
-        gameBoard.changePositionPlayer(firstDefender, 0, 1);
+        gameBoard.changePositionPlayer(firstDefender, 1, 2);
         gameBoard.changePositionPlayer(secondDefender, 0, 3);
         gameBoard.changePositionPlayer(thirdDefender, 0, 1);
         gameBoard.changePositionPlayer(fourDefender, 0, 1);
 
-        coordinates = new int[]{0, 0, 1, 2, 2, 2};
+        coordinates = new int[]{1, 2, 0, 3, 0, 1};
 
         defenders.add(firstDefender);
         defenders.add(secondDefender);
@@ -90,7 +90,21 @@ public class ShockWaveTest {
     }
 
     @Test
-    public void secondEffect() {
+    public void secondEffect() throws ErrorEffectException, DamageTrackException {
+        ArrayList<Player> firstSquare = gameBoard.playersInOneSquare(coordinates[0], coordinates[1], null);
+        ArrayList<Player> secondSquare = gameBoard.playersInOneSquare(coordinates[2], coordinates[3], null);
+        ArrayList<Player> thirdSquare = gameBoard.playersInOneSquare(coordinates[4], coordinates[5], null);
+
+        card.secondEffect(gameBoard, attacker, defenders, coordinates);
+        assertTrue(firstSquare.contains(firstDefender));
+        assertTrue(secondSquare.contains(secondDefender));
+        assertTrue(thirdSquare.contains(thirdDefender));
+        assertTrue(thirdSquare.contains(fourDefender));
+
+        assertEquals(1, pb1.numOfDamages());
+        assertEquals(1, pb2.numOfDamages());
+        assertEquals(1, pb3.numOfDamages());
+        assertEquals(1, pb4.numOfDamages());
     }
 
     @Test (expected = NoEffectException.class)

@@ -6,6 +6,7 @@ import it.polimi.isw2019.model.ammotile.AmmoTile;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.*;
+import it.polimi.isw2019.network.ConfigLoader;
 import it.polimi.isw2019.utilities.Database;
 import it.polimi.isw2019.utilities.Observable;
 
@@ -99,8 +100,8 @@ public class Model extends Observable<MoveMessage> {
         playerBoardsAvailable.add(new PlayerBoard(ColorPlayer.BLUE));
 
         killShotTrack = new KillShotTrack(5);
-
-        timer = new TimerPlayer(60);
+        ConfigLoader configLoader = new ConfigLoader();
+        timer = new TimerPlayer(configLoader.getTimerAction());
         timer.setModel(this);
     }
 
@@ -1170,7 +1171,7 @@ public class Model extends Observable<MoveMessage> {
 
         }
 
-        try {
+        /*try {
 
             Player tmp;
             if(positionPlayer == -1)
@@ -1181,7 +1182,7 @@ public class Model extends Observable<MoveMessage> {
             powerUpCard.effect(gameBoard, currentPlayer, tmp,1,1);
         }
         catch(DamageTrackException e){
-        }
+        }*/
 
         currentPlayer.getPowerUpCards().remove(powerUpCard);
         gameBoard.addPowerUpCardDiscarded(powerUpCard);

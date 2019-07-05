@@ -98,16 +98,9 @@ public class ArenaTest {
     }
 
 
-    @Test
-    public void testChooseArena() {
-
-        try {
-            arena.chooseArena(6);
-            fail();
-        }
-        catch (OutOfBoundsException e){
-
-        }
+    @Test (expected = OutOfBoundsException.class)
+    public void testChooseArena() throws OutOfBoundsException {
+        arena.chooseArena(6);
     }
 
     @Test

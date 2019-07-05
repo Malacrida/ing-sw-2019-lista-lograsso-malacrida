@@ -1,2 +1,4 @@
 RMI_PORT = 8080
 HOST = localhost
+TIMER_LOBBY = 60
+TIMER_ACTION = 60

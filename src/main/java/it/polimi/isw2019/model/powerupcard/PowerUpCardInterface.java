@@ -17,5 +17,5 @@ public interface PowerUpCardInterface {
 
     public StateCard getCheckState();
 
-    public void effect(GameBoard gameBoard, Player attacker, Player defender, int x, int y) throws DamageTrackException;
+    public void effect(GameBoard gameBoard, Player attacker, Player defender, int [][] coordinates) throws DamageTrackException;
 }
