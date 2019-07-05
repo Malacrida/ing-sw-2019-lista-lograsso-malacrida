@@ -13,7 +13,7 @@ public class KillShotTrack {
 
     KillShotTrack (int mod){
         if (mod==1) numSkull=5;
-        if (mod==2) numSkull=8;
+        else if (mod==2) numSkull=8;
         finalFrenzy=false;
         lengthDamageToken=numSkull;
         damageToken=new ColorPlayer[lengthDamageToken][2];
@@ -46,15 +46,19 @@ public class KillShotTrack {
      */
 
     public void killPlayer (ColorPlayer colorPlayer, int num) {
+
         if (num==11){
             damageToken[lengthDamageToken-numSkull][0]=colorPlayer;
         }
-        if (num==12){
+        else if (num==12){
             damageToken[lengthDamageToken-numSkull][0]=colorPlayer;
             damageToken[lengthDamageToken-numSkull][1]=colorPlayer;
         }
+
         numSkull--;
-        if (numSkull == 0) finalFrenzy=true;
+
+        if (numSkull == 0)
+            finalFrenzy=true;
     }
 
 

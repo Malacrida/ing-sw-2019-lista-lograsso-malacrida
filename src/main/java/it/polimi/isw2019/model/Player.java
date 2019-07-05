@@ -116,6 +116,10 @@ public class Player{
         this.setTerminatorSpawn = setTerminatorSpawn;
     }
 
+    public boolean isEndTurn() {
+        return endTurn;
+    }
+
     public MoveMessage getSingleMessageToBeSent(){
 
         featuresAvailable();

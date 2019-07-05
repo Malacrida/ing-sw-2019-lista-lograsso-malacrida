@@ -280,31 +280,29 @@ public class Model extends Observable<MoveMessage> {
             currentPlayer = players.get(index + 1);
         }
 
-        System.out.println("INDEX " + index);
         if(!currentPlayer.isActive())
              changePlayer();
 
         if(sizeActivePlayer() < 3) {
-            System.out.println("number of player less 3");
-            // end game
+            endGame();
         }
-        else{
 
-            if (!killShotTrack.isFinalFrenzy()) {
+        else{
+            if (!killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
                 if(!currentPlayer.isFirstTurn())
                     updateEndTurn();
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
             }
-
-            if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
+            else if (killShotTrack.isFinalFrenzy() && frenzyPlayer != 0) {
                 frenzyPlayer--;
                 sendUpdateMessage();
                 handleNormalTurn();
                 return;
+
             } else if (killShotTrack.isFinalFrenzy() && frenzyPlayer == 0) {
-                //endgame
+                endGame();
             }
         }
 
@@ -320,18 +318,17 @@ public class Model extends Observable<MoveMessage> {
 
         return numActivePlayer;
     }
-    public void handleNormalTurn(){
-        if(currentPlayer.getRealPlayerBoard() == null){
+    public void handleNormalTurn() {
+        if (currentPlayer.getRealPlayerBoard() == null) {
             firstMessage();
             return;
-        }
-        else {
+        } else {
             if (currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
                 notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(false));
                 return;
             } else if (!currentPlayer.isRespawn() && currentPlayer.isFirstTurn()) {
                 ArrayList<MoveMessage> moveMessages = new ArrayList<>();
-                if(currentPlayer.getSetTerminatorSpawn() && terminator!= null){
+                if (currentPlayer.getSetTerminatorSpawn() && terminator != null) {
                     System.out.println("OK");
                     currentPlayer.setSetTerminatorSpawn(false);
                     TerminatorMessage terminatorMessage = new TerminatorMessage(currentPlayer.getName());
@@ -367,8 +364,11 @@ public class Model extends Observable<MoveMessage> {
                 choiceCard.setPowerUp(true);
                 notifyObservers(choiceCard);
                 return;
+            } else if (currentPlayer.isRespawn() && !(currentPlayer.isFirstTurn())) {
+                //dire a sara per timer
+                notifyObservers(currentPlayer.setCorrectNormalActionChooseMessages(currentPlayer.isEndTurn()));
+                return;
             }
-
         }
     }
 
@@ -1361,12 +1361,13 @@ public class Model extends Observable<MoveMessage> {
         }
     }
     public void updatePlayerDeath(){
+
     if(gameBoard.getKillPlayer().contains(currentPlayer) || gameBoard.getOverkillPlayer().contains(currentPlayer)) {
 
         ArrayList<ColorPlayer> colorPlayerDoKill = currentPlayer.returnKillDamage();
 
-        System.out.println("has died! " + deadPlayer.size());
-            addDamageOnKillShotTrack(colorPlayerDoKill.get(0), colorPlayerDoKill.size());
+        addDamageOnKillShotTrack(colorPlayerDoKill.get(0), currentPlayer.playerDamage());
+
          if (gameBoard.getOverkillPlayer().contains(currentPlayer)){
              for(Player player : players)
                  if(player.getColor().equals(colorPlayerDoKill.get(0))) {
