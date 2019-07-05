@@ -74,6 +74,10 @@ public class Model extends Observable<MoveMessage> {
         return this.gameBoard;
     }
 
+    public Player getTerminator() {
+        return terminator;
+    }
+
     public Player getCurrentPlayer(){
         return currentPlayer;
     }
@@ -159,10 +163,6 @@ public class Model extends Observable<MoveMessage> {
             players.add(new Player(nickName, actionHeroComment));
             notifyObservers(new EndRegistration(nickName));
         }
-    }
-
-    public void addPlayer(Player player) {
-        players.add(player);
     }
 
     public void chooseFirstPlayer(int firstPlayer){
@@ -486,6 +486,8 @@ public class Model extends Observable<MoveMessage> {
 
     public void spawnTerminator(int colorSpawn){
 
+
+
         if(colorSpawn== 0) {
             //change player positiom red
             gameBoard.getGameArena().spawnPlayer(ColorRoom.RED,terminator);
@@ -513,7 +515,7 @@ public class Model extends Observable<MoveMessage> {
         for(Player player : players)
             player.setTerminatorPlayer(terminator);
 
-        System.out.println(currentPlayer.getTerminatorPlayer().getName());
+      //  System.out.println(currentPlayer.getTerminatorPlayer().getName());
 
 
 

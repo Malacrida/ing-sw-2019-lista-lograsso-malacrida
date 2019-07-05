@@ -21,10 +21,10 @@ public class AbstractWeaponCardTest {
     @Before
     public void setUp() throws Exception {
 
-        attacker = new Player("Davide", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sra", "Tanto attaccano sempre Alba", 3);
-        thirdDefender = new Player("Giampierpaolo", "Ma a cosa sto giocando?", 4);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Stavri", "Palestra, palestra, palestra");
+        thirdDefender = new Player("Pipino il breve", "Conquisterò tutto");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

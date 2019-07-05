@@ -22,11 +22,11 @@ public class HellionTest {
 
     @Before
     public void setUp() throws Exception {
-        attacker = new Player("Davide", "Speriamo che sto test vada", 1);
-        firstDefender = new Player("Alba", "Tanto attaccano sempre me", 2);
-        secondDefender = new Player("Sara", "Aiuto", 3);
-        thirdDefender = new Player("Pipino il breve", "Conquisterò tutto", 4);
-        fourDefender = new Player("Leonardo da Vinci", "Gioconda", 5);
+        attacker = new Player("Davide", "Speriamo che sto test vada");
+        firstDefender = new Player("Alba", "Tanto attaccano sempre me");
+        secondDefender = new Player("Superman", "Una S grazie");
+        thirdDefender = new Player("Pinocchio", "Non ho mai mentito");
+        fourDefender = new Player("Napoleone", "VIVA LA FRANCIA");
         pba = new PlayerBoard(ColorPlayer.BLUE);
         pb1 = new PlayerBoard(ColorPlayer.YELLOW);
         pb2 = new PlayerBoard(ColorPlayer.GREEN);

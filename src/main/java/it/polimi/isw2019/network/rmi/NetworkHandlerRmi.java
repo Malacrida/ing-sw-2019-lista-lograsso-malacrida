@@ -20,8 +20,6 @@ import java.util.Scanner;
 
 public class NetworkHandlerRmi extends Observable<MoveMessage> implements Observer<PlayerMove>, ClientInterface, Remote, NetworkHandlerVisitorInterface {
 
-//forse va qui il riferimento al registro
-
     ConfigLoader cl = new ConfigLoader();
 
     ServerInterface server;

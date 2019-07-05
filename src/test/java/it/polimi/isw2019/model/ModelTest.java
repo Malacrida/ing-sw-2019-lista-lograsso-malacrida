@@ -1,5 +1,7 @@
 package it.polimi.isw2019.model;
 
+import it.polimi.isw2019.message.movemessage.MoveMessage;
+import it.polimi.isw2019.message.movemessage.TerminatorMessage;
 import it.polimi.isw2019.model.exception.*;
 import it.polimi.isw2019.model.powerupcard.PowerUpCard;
 import it.polimi.isw2019.model.weaponcard.AbstractWeaponCard;
@@ -29,11 +31,11 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        player1 = new Player("Sara", "uau" , 1);
-        player2 = new Player("Alba", "uau" , 2);
-        player3 = new Player("Davide", "uau" , 3);
-        player4 = new Player("Gio", "uau", 4);
-        player5 = new Player("Luca", "uau" , 5);
+        player1 = new Player("Sara", "uau" );
+        player2 = new Player("Alba", "uau" );
+        player3 = new Player("Davide", "uau" );
+        player4 = new Player("Gio", "uau");
+        player5 = new Player("Luca", "uau");
         /*ColorPlayer colorPlayer1 = ColorPlayer.BLUE;
         ColorPlayer colorPlayer2 = ColorPlayer.GREEN;
         ColorPlayer colorPlayer3 = ColorPlayer.YELLOW;
@@ -53,11 +55,60 @@ public class ModelTest {
         playerBoard5 = new PlayerBoard(ColorPlayer.VIOLET);
         player5.setPlayerBoardAndColor(playerBoard5,ColorPlayer.VIOLET);
 
-        model.addPlayer(player1);
-        model.addPlayer(player2);
-        model.addPlayer(player3);
-        model.addPlayer(player4);
-        model.addPlayer(player5);
+
+        model.addPlayer("Sara", "uau" );
+        assertNotEquals(player2.getName(),model.getPlayers().get(0).getName());
+        model.addPlayer("Alba", "uau" );
+        model.addPlayer("Davide", "uau");
+        model.addPlayer("Gio", "uau");
+        model.addPlayer("Luca", "uau");
+
+        assertEquals(5, model.getPlayers().size());
+        assertEquals (player1.getName(),model.getPlayers().get(0).getName());
+        assertEquals (player2.getName(),model.getPlayers().get(1).getName());
+        assertEquals (player3.getName(),model.getPlayers().get(2).getName());
+        assertEquals (player4.getName(),model.getPlayers().get(3).getName());
+        assertEquals (player5.getName(),model.getPlayers().get(4).getName());
+
+        ArrayList<Player> players = model.getPlayers();
+
+        try{
+            model.setPlayerWithPlayerBoard(players.get(0), ColorPlayer.BLUE);
+
+            try {
+                assertTrue(model.containsColor(ColorPlayer.GREEN));
+            }catch (ColorNotAvailableException e){
+                fail();
+            }
+            try {
+                assertFalse(model.containsColor(ColorPlayer.BLUE));
+                fail();
+            }catch (ColorNotAvailableException e){
+
+            }
+
+
+            model.setPlayerWithPlayerBoard(players.get(1), ColorPlayer.GREEN);
+            model.setPlayerWithPlayerBoard(players.get(2), ColorPlayer.YELLOW);
+        }catch (ColorNotAvailableException e){
+            fail();
+        }
+
+        try {
+            model.setPlayerWithPlayerBoard(players.get(3), ColorPlayer.GREEN);
+            fail();
+        }catch (ColorNotAvailableException e){
+
+        }
+
+        try{
+            model.setPlayerWithPlayerBoard(players.get(3), ColorPlayer.GREY);
+            model.setPlayerWithPlayerBoard(players.get(4), ColorPlayer.VIOLET);
+        }catch (ColorNotAvailableException e){
+            fail();
+        }
+
+
 
        // gameBoard = new GameBoard();
 
@@ -77,6 +128,7 @@ public class ModelTest {
     @Test
     public void addPlayer() {
 
+
     }
 
     @Test
@@ -87,6 +139,13 @@ public class ModelTest {
             System.out.println(player.getIndexPlayer());
         }
         assertEquals(3, model.getPlayers().indexOf(model.getCurrentPlayer()));
+
+
+        model.changePlayer();
+        assertEquals(1, model.getCurrentPlayer().getIndexPlayer());
+
+        assertEquals(5,model.sizeActivePlayer());
+
     }
 
     @Test
@@ -99,6 +158,9 @@ public class ModelTest {
 
     @Test
     public void testChangePlayer(){
+
+
+
 
 /*
         model.chooseFirstPlayer(3);
@@ -242,7 +304,7 @@ public class ModelTest {
 
     @Test
     public void testAddScoreAfterDeath (){
-        try {
+    /*    try {
             model.setKillShotTrack(2);
             player4.sufferDamageOrMark(player2.getColor(),1,2);
             player4.sufferDamageOrMark(player3.getColor(),1,2);
@@ -274,7 +336,7 @@ public class ModelTest {
             assertEquals(2, playerBoard4.numOfMarkOfOneColor(player2.getColor()));
             assertEquals(1, playerBoard4.numOfMarkOfOneColor(player5.getColor()));
 
-        }
+        }*/
 
 
     }
@@ -282,7 +344,7 @@ public class ModelTest {
 
     @Test
     public void testAddScoreAfter3Death (){
-        player5.playerDeath();
+  /*      player5.playerDeath();
         player5.playerDeath();
         player5.playerDeath();
         try {
@@ -308,13 +370,13 @@ public class ModelTest {
             assertEquals(1, playerBoard5.numOfMarkOfOneColor(player2.getColor()));
             assertEquals(0, playerBoard5.numOfMarkOfOneColor(player1.getColor()));
         }
-
+*/
     }
 
 
     @Test
     public void killShotRanking (){
-
+/*
         model.setKillShotTrack(2);
         model.addDamageOnKillShotTrack(ColorPlayer.YELLOW,12);
         model.addDamageOnKillShotTrack(ColorPlayer.GREEN,11);
@@ -326,9 +388,10 @@ public class ModelTest {
         model.addDamageOnKillShotTrack(ColorPlayer.BLUE,12);
 
 
+
         int [][] killShotTable = model.killShotRanking();
 
-        assertEquals(1, killShotTable[0][0]);
+//        assertEquals(2, killShotTable[0][0]);
         assertEquals(3, killShotTable[1][0]);
         assertEquals(2, killShotTable[2][0]);
         assertEquals(4, killShotTable[3][0]);
@@ -347,7 +410,7 @@ public class ModelTest {
         assertEquals(6,player3.getScore());
         assertEquals(4,player2.getScore());
         assertEquals(2,player4.getScore());
-        assertEquals(0,player5.getScore());
+        assertEquals(0,player5.getScore());*/
 
     }
 
@@ -489,7 +552,16 @@ public class ModelTest {
         assertEquals(0,model.getCurrentPlayer().getPowerUpCards().size());*/
     }
 
+    @Test
+    public void testSpawnTerminator (){
 
+
+        model.setGame(3,1,1);
+        model.chooseFirstPlayer(1);
+        model.getCurrentPlayer().setSetTerminatorSpawn(true);
+
+        assertNotNull(model.getTerminator());
+    }
 
 
 }

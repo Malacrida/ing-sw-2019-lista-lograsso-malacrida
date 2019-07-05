@@ -71,21 +71,6 @@ public class Player{
     public Player terminatorPlayer = null;
 
 
-    public Player(String name, String actionHeroComment, int playerID) {
-        this.name = name;
-        this.actionHeroComment=actionHeroComment;
-        this.playerID=playerID;
-        //value out of range of play
-        x=-1;
-        y=-1;
-        colorRoom= null;
-        //it just been created. Must respawn -> false!
-        respawn = false;
-        firstTurn = true;
-
-    }
-
-
     public Player(String name, String actionHeroComment) {
         this.name = name;
         this.actionHeroComment=actionHeroComment;
@@ -102,6 +87,14 @@ public class Player{
 
     public String getActionHeroComment() {
         return actionHeroComment;
+    }
+
+    public int getNumActionPerformed() {
+        return numActionPerformed;
+    }
+
+    public int getNumActionToBePerformed() {
+        return numActionToBePerformed;
     }
 
     public ArrayList<MoveMessage> getMessageToBeSent() {
