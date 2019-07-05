@@ -19,7 +19,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
     private int[] playerBoard;
     private String gameBoard;
     private int index;
-    private boolean endGame=false;
+    private boolean continueGame=true;
 
     public CLIView(String nicknamePlayer){
         this.nicknamePlayer = nicknamePlayer;
@@ -651,7 +651,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
             }
             else if (actionChoosen==9){
                 notifyObservers(new ConnectionMove(nicknamePlayer, 0));
-                reconnectClient();
+                if (continueGame)
+                    reconnectClient();
                 return;
             }
 
@@ -700,10 +701,10 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         String tmp;
         int cardIndex = index;
         int[] peopleToBeShoot = null;
-        if(usePowerUpCard.getCoordinates().length != 0)
-                peopleToBeShoot = new int[usePowerUpCard.getCoordinates().length];
+        if(usePowerUpCardMessage.getCooPlayer().length != 0)
+                peopleToBeShoot = new int[usePowerUpCardMessage.getCooPlayer().length];
 
-        int[][] coordinates =  new int[usePowerUpCard.getPositionPowerUp()][2];
+        int[][] coordinates = null;
 
 
         inputOk = false;
@@ -711,8 +712,8 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
        switch (usePowerUpCardMessage.getFeaturesAvailable()[cardChoosen]){
            case 0 :
-               if(usePowerUpCard.getCoordinates().length != 0)
-                    peopleToBeShoot = choosePeopleToKill(usePowerUpCard.getCoordinates());
+               if(usePowerUpCardMessage.getCooPlayer().length != 0)
+                    peopleToBeShoot = choosePeopleToKill(usePowerUpCardMessage.getCooPlayer());
                break;
            case 1 :
                coordinates = insertCoordinates(1);
@@ -879,16 +880,14 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
         Scanner input = new Scanner(System.in);
         int chosen;
 
-        if (!endGame){
-            do{
-                System.out.println("Insert 1 to reconnect to the server");
-                chosen = input.nextInt();
-                if (chosen == 1){
-                    notifyObservers(new ConnectionMove(nicknamePlayer,1));
-                    return;
-                }
-            }while (chosen!=1);
-        }
+        do{
+            System.out.println("Insert 1 to reconnect to the server");
+            chosen = input.nextInt();
+            if (chosen == 1){
+                notifyObservers(new ConnectionMove(nicknamePlayer,1));
+                return;
+            }
+        }while (chosen!=1);
 
     }
 
@@ -936,7 +935,7 @@ public class CLIView extends Observable<PlayerMove> implements Observer<MoveMess
 
     @Override
     public void visitEndGame(EndGame endGame) {
-        this.endGame=true;
+        continueGame=false;
         System.out.println("END GAME");
 
         System.out.println("The winner is: " +endGame.getWinner());

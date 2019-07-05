@@ -47,6 +47,7 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         System.out.println(client.getNickname());
         if (containAlreadyClient(nickname, client) && !virtualViewRmis.isEmpty()){
             client.reconnectionClient();
+
         }
         else {
             if (lobby.addConnectedClient(nickname, client, TypeConnection.RMI)) {
@@ -63,7 +64,9 @@ public class ServerRmi  extends UnicastRemoteObject implements ServerInterface<C
         for (int i=0; i<virtualViewRmis.size(); i++){
             if (virtualViewRmis.get(i).getNickname().equals(nickname)){
                 virtualViewRmis.get(i).setNetworkHandler(client);
+                virtualViewRmis.get(i).setNickname(nickname);
                 virtualViewRmis.get(i).setActive(true);
+                virtualViewRmis.get(i).createConnectionPlayer(nickname,1);
                 return true;
             }
         }

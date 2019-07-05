@@ -21,6 +21,10 @@ public class VirtualViewRmi extends Observable<PlayerMove> implements Observer<M
         active=true;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }
