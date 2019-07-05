@@ -214,8 +214,8 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
     /**
-     * change 
-     * @param connectionMove
+     * set state of player (if is active is true)
+     * @param connectionMove player move
      */
 
     @Override
@@ -227,6 +227,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
         else if (connectionMove.getConnection() == 1)
             model.getCurrentPlayer().setActive(true);
     }
+
+    /**
+     *
+     * @param reloadMove player move that contains the choice of the player
+     */
 
     @Override
     public void visitReload(ReloadMove reloadMove) {
@@ -253,6 +258,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
             model.reload(reloadMove.getPayment(), reloadMove.getWeaponCard());
         }
     }
+
+    /**
+     *
+     * @param runMove player move that contains the choice of the player
+     */
 
     @Override
     public void visitControllerRun(RunMove runMove){
@@ -293,6 +303,11 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
 
     }
 
+    /**
+     *
+     * @param grabMove player move that contains the choice of the player
+     */
+
     @Override
     public void visitControllerGrab(GrabMove grabMove) {
         if(grabMove.getPositionWeaponCard()!= -1){
@@ -319,11 +334,21 @@ public class MainController implements Observer<PlayerMove>, VisitorController {
     }
 
 
+    /**
+     *
+     * @param usePowerUpCard player move that contains the choice of the player
+     */
+
     @Override
     public void usePowerUpCard(UsePowerUpCard usePowerUpCard) {
         model.usePowerUpCard(usePowerUpCard.getPositionPowerUp(),usePowerUpCard.getIdPlayer(),usePowerUpCard.getCoordinates());
 
     }
+
+    /**
+     *
+     * @param terminatorMove player move that contains the choice of the player
+     */
 
     @Override
     public void terminatorAction(TerminatorMove terminatorMove) {

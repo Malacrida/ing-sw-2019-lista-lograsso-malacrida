@@ -5,6 +5,10 @@ import it.polimi.isw2019.network.rmi.NetworkHandlerVisitorInterface;
 
 import java.util.ArrayList;
 
+/**
+ * player move send when player decide to use one power up card
+ */
+
 public class UsePowerUpCard extends PlayerMove {
 
     private int[][] coordinates;
@@ -35,9 +39,19 @@ public class UsePowerUpCard extends PlayerMove {
         networkHandler.sendUsePowerUpCard(this);
     }
 
+    /**
+     * getter of coordinates
+     * @return coordinates
+     */
+
     public int[][] getCoordinates() {
         return coordinates;
     }
+
+    /**
+     * setter of coordinates
+     * @param coordinates coordinates
+     */
 
     public void setCoordinates(int[][] coordinates) {
         this.coordinates = coordinates;
@@ -59,9 +73,19 @@ public class UsePowerUpCard extends PlayerMove {
         this.idPlayer = idPlayer;
     }
 
+    /**
+     * getter of position of power up
+     * @return position power uup
+     */
+
     public int getPositionPowerUp() {
         return positionPowerUp;
     }
+
+    /**
+     * setter position of power up card
+     * @param positionPowerUp power up card position
+     */
 
     public void setPositionPowerUp(int positionPowerUp) {
         this.positionPowerUp = positionPowerUp;
