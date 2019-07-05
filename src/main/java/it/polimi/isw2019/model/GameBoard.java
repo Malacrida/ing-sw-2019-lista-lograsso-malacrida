@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class GameBoard{
 
     private ArrayList<AbstractWeaponCard> weaponCards= new ArrayList<>();
-    //I colori indicano i punti di spawn
 
     private AbstractWeaponCard[] weaponCardsRed = new AbstractWeaponCard[3];
     private AbstractWeaponCard[] weaponCardsBlue = new AbstractWeaponCard[3];
@@ -180,17 +179,6 @@ public class GameBoard{
 
     }
 
-
-    public AbstractWeaponCard takeWeaponCardFromSpawn(ColorRoom colorSpawn, int index) {
-        if (colorSpawn.equals(ColorRoom.YELLOW)) {
-            return weaponCardsYellow[index];
-        } else if (colorSpawn.equals(ColorRoom.RED)) {
-            return weaponCardsRed[index];
-        } else {
-            return weaponCardsBlue[index];
-        }
-    }
-
     /**
      * take a weapon card from gameboard
      *
@@ -207,7 +195,6 @@ public class GameBoard{
         if (!weaponCards.isEmpty()) {
             placeAnotherWeaponCards(x, y);
         }
-        //else throw new EndWeaponCardException();
         return weaponCard;
     }
 
@@ -284,7 +271,6 @@ public class GameBoard{
                 ammoTiles.remove(0);
             }
         } else {
-            System.out.println(" ko ammo 1 ");
             throw new OutOfBoundsException();
         }
 
@@ -292,20 +278,18 @@ public class GameBoard{
         gameArena.setAmmoTilesOnSquare(ammoTilesOnArena);
     }
 
+    /**
+     * position of ammotile
+     * @param x first coordinate
+     * @param y second coordinate
+     */
     public void placeAmmoTile(int x, int y) {
         gameArena.placeAnotherAmmoTileOnSquare(ammoTiles.get(0), x, y);
         ammoTiles.remove(0);
-        /**
-         * position of ammotile
-         * @param ammoTile card
-         * @param x first coordinate
-         * @param y second coordinate
-         */
+
     }
 
-        public void placeAmmoTile (AmmoTile ammoTile,int x, int y){
-            gameArena.placeAnotherAmmoTileOnSquare(ammoTile, x, y);
-        }
+
 
         /**
          * size ammo tile deck
@@ -332,17 +316,6 @@ public class GameBoard{
             } catch (AmmoTileUseException e) {
                 throw new AmmoTileUseException();
             }
-        }
-
-        /**
-         * getter method for a specific ammo tile
-         * @param x first coordinate
-         * @param y second coordinate
-         * @return ammotile
-         */
-
-        public AmmoTile getAmmoTileOnSquare ( int x, int y){
-            return gameArena.getAmmoTileOnSquare(x, y);
         }
 
         /**
@@ -421,35 +394,6 @@ public class GameBoard{
             return gameArena;
         }
 
-        /**
-         * getter of kill shot track
-         * @return kill shot track
-         */
-
-        public KillShotTrack getKillShotTrack () {
-            return killShotTrack;
-        }
-
-        /**
-         * setter of kill shot track
-         * @param killShotTrack
-         */
-
-    public void setKillShotTrack (KillShotTrack killShotTrack){
-        this.killShotTrack = killShotTrack;
-    }
-
-    public AbstractWeaponCard[] getWeaponCardsRed() {
-    return weaponCardsRed;
-}
-
-    public AbstractWeaponCard[] getWeaponCardsBlue () {
-        return weaponCardsBlue;
-    }
-
-    public AbstractWeaponCard[] getWeaponCardsYellow () {
-        return weaponCardsYellow;
-    }
 
         public String[] getWeaponCardDescription(ColorRoom color) {
         String[] tmpWeaponCards = new String[3];
